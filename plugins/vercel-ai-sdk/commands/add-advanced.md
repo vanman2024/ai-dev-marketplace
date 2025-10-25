@@ -1,0 +1,86 @@
+---
+description: Add advanced features to Vercel AI SDK app including AI agents with workflows, MCP tools, image generation, transcription, and speech synthesis
+argument-hint: [feature-requests]
+allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Add cutting-edge AI capabilities to a Vercel AI SDK application including autonomous agents with workflows, MCP tools integration, image generation, audio transcription, speech synthesis, and multi-step reasoning.
+
+Core Principles:
+- Understand use case complexity before designing agent workflows
+- Ask about tool requirements and MCP server availability
+- Follow Vercel AI SDK documentation patterns
+- Implement safeguards for autonomous agents (loop control, cost limits)
+
+Phase 1: Discovery
+Goal: Understand what advanced features are needed
+
+Actions:
+- Parse $ARGUMENTS to identify requested features
+- If unclear or no arguments provided, use AskUserQuestion to gather:
+  - Which advanced features do you want? (AI agents, MCP tools, image generation, transcription, speech)
+  - What problem should the agent solve?
+  - Do you have MCP servers configured?
+  - What's your expected volume for image/audio generation?
+- Load package.json to understand current setup
+- Example: @package.json
+
+Phase 2: Analysis
+Goal: Understand current project state
+
+Actions:
+- Check for existing AI SDK installation and tools
+- Identify infrastructure needs (storage for images/audio)
+- Review MCP server configuration if applicable
+- Assess security requirements for agent autonomy
+- Example: !{bash ls .mcp.json 2>/dev/null && echo "MCP configured" || echo "No MCP config"}
+
+Phase 3: Implementation
+Goal: Add advanced features using specialized agent
+
+Actions:
+
+Invoke the vercel-ai-advanced-agent to implement the requested advanced features.
+
+The agent should:
+- Fetch relevant Vercel AI SDK documentation for the requested features
+- Design agent architecture and workflow
+- Install required packages (MCP clients, image providers, audio libraries)
+- Implement requested features following SDK best practices:
+  - AI agents with multi-step reasoning and tool calling
+  - Workflow orchestration with loop control
+  - MCP tools integration (if applicable)
+  - Image generation using OpenAI DALL-E or Fal AI
+  - Audio transcription using Whisper
+  - Text-to-speech synthesis
+- Add proper TypeScript types
+- Implement loop controls and cost safeguards
+- Set up storage for generated content
+
+Provide the agent with:
+- Context: Current project structure and infrastructure
+- Target: $ARGUMENTS (requested advanced features)
+- Expected output: Production-ready advanced AI features with safeguards
+
+Phase 4: Verification
+Goal: Ensure features work correctly
+
+Actions:
+- Run TypeScript compilation check
+- Example: !{bash npx tsc --noEmit}
+- Test agent workflows with various scenarios
+- Verify tool calling and MCP integration (if applicable)
+- Test image/audio generation
+- Check loop controls and cost limits
+
+Phase 5: Summary
+Goal: Document advanced features
+
+Actions:
+- List all advanced features implemented
+- Show agent workflows and tool definitions
+- Note API keys and environment variables needed
+- Provide cost estimates for generation operations
+- Suggest next steps (workflow optimization, monitoring, scaling)

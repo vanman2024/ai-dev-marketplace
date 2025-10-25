@@ -1,7 +1,7 @@
 {
   "name": "vercel-ai-sdk",
   "version": "1.0.0",
-  "description": "Modular Vercel AI SDK development plugin with incremental feature addition. Supports TypeScript, JavaScript, and Python.",
+  "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
   "author": "vanman2024",
   "license": "MIT",
   "keywords": [
@@ -30,11 +30,20 @@
     "add-streaming": "commands/add-streaming.md",
     "add-tools": "commands/add-tools.md",
     "add-chat": "commands/add-chat.md",
-    "add-provider": "commands/add-provider.md"
+    "add-provider": "commands/add-provider.md",
+    "add-ui-features": "commands/add-ui-features.md",
+    "add-data-features": "commands/add-data-features.md",
+    "add-production": "commands/add-production.md",
+    "add-advanced": "commands/add-advanced.md",
+    "build-full-stack": "commands/build-full-stack.md"
   },
   "agents": {
     "vercel-ai-verifier-ts": "agents/vercel-ai-verifier-ts.md",
     "vercel-ai-verifier-js": "agents/vercel-ai-verifier-js.md",
-    "vercel-ai-verifier-py": "agents/vercel-ai-verifier-py.md"
+    "vercel-ai-verifier-py": "agents/vercel-ai-verifier-py.md",
+    "vercel-ai-ui-agent": "agents/vercel-ai-ui-agent.md",
+    "vercel-ai-data-agent": "agents/vercel-ai-data-agent.md",
+    "vercel-ai-production-agent": "agents/vercel-ai-production-agent.md",
+    "vercel-ai-advanced-agent": "agents/vercel-ai-advanced-agent.md"
   }
 }
