@@ -1,84 +1,89 @@
 {
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ai-dev-marketplace",
+  "version": "1.0.0",
+  "description": "AI Development Marketplace - Lifecycle plugins for Claude Code development workflows",
   "owner": {
     "name": "Project Automation Team",
     "email": "noreply@ai-dev-marketplace.dev"
   },
-  "metadata": {
-    "description": "AI Development Marketplace - Lifecycle plugins for Claude Code development workflows",
-    "version": "1.0.0",
-    "homepage": "https://github.com/vanman2024/ai-dev-marketplace",
-    "repository": "https://github.com/vanman2024/ai-dev-marketplace.git"
-  },
   "plugins": [
     {
       "name": "01-core",
-      "source": "./plugins/01-core",
       "description": "Foundation & Setup: Initialize projects, detect stack, version control, MCP config",
       "version": "1.0.0",
-      "status": "in-progress",
-      "commands": 8,
-      "skills": 5
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/01-core",
+      "category": "development"
     },
     {
       "name": "02-develop",
-      "source": "./plugins/02-develop",
       "description": "Code Generation & Implementation: Build features, scaffold code, MCP servers",
       "version": "1.0.0",
-      "status": "in-progress",
-      "commands": 7,
-      "agents": 4,
-      "skills": 4
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/02-develop",
+      "category": "development"
     },
     {
       "name": "03-planning",
-      "source": "./plugins/03-planning",
       "description": "Spec → Architecture: Create specs, plans, architecture, documentation",
       "version": "1.0.0",
-      "status": "complete",
-      "commands": 7,
-      "agents": 4,
-      "skills": 3
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/03-planning",
+      "category": "productivity"
     },
     {
       "name": "04-iterate",
-      "source": "./plugins/04-iterate",
       "description": "Refinement & Adjustment: Modify, refactor, enhance during active development",
       "version": "1.0.0",
-      "status": "complete",
-      "commands": 9,
-      "agents": 4,
-      "skills": 4,
-      "scripts": 11
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/04-iterate",
+      "category": "productivity"
     },
     {
       "name": "05-quality",
-      "source": "./plugins/05-quality",
       "description": "Testing & Validation: Test, validate, secure, optimize, ensure compliance",
       "version": "1.0.0",
-      "status": "complete",
-      "commands": 7,
-      "agents": 4,
-      "skills": 3,
-      "scripts": 3
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/05-quality",
+      "category": "security"
     },
     {
       "name": "agent-sdk-dev",
-      "source": "./plugins/agent-sdk-dev",
       "description": "Claude Agent SDK development tools",
       "version": "1.0.0",
-      "status": "standalone",
-      "commands": 1,
-      "agents": 2
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/agent-sdk-dev",
+      "category": "development"
     },
     {
       "name": "domain-plugin-builder",
-      "source": "./plugins/domain-plugin-builder",
       "description": "Universal builder for domain-specific plugins (SDK, Framework, Custom)",
       "version": "1.0.0",
-      "status": "meta-tooling",
-      "commands": 4,
-      "skills": 1
+      "author": {
+        "name": "multiagent-core",
+        "email": "dev@multiagent.dev"
+      },
+      "source": "./plugins/domain-plugin-builder",
+      "category": "development"
     }
   ]
 }
