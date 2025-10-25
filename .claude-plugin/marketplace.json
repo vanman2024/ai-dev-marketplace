@@ -2,66 +2,28 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ai-dev-marketplace",
   "version": "1.0.0",
-  "description": "AI Development Marketplace - Lifecycle plugins for Claude Code development workflows",
+  "description": "AI Development Marketplace - Master repository for tech-specific plugins (SDKs, frameworks, platforms)",
   "owner": {
-    "name": "Project Automation Team",
+    "name": "AI Development Team",
     "email": "noreply@ai-dev-marketplace.dev"
   },
   "plugins": [
     {
-      "name": "01-core",
-      "description": "Foundation & Setup: Initialize projects, detect stack, version control, MCP config",
+      "name": "domain-plugin-builder",
+      "description": "Universal builder for domain-specific plugins (SDK, Framework, Custom)",
       "version": "1.0.0",
       "author": {
         "name": "multiagent-core",
         "email": "dev@multiagent.dev"
       },
-      "source": "./plugins/01-core",
-      "category": "development"
-    },
-    {
-      "name": "02-develop",
-      "description": "Code Generation & Implementation: Build features, scaffold code, MCP servers",
-      "version": "1.0.0",
-      "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
-      },
-      "source": "./plugins/02-develop",
-      "category": "development"
-    },
-    {
-      "name": "03-planning",
-      "description": "Spec → Architecture: Create specs, plans, architecture, documentation",
-      "version": "1.0.0",
-      "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
-      },
-      "source": "./plugins/03-planning",
-      "category": "productivity"
-    },
-    {
-      "name": "04-iterate",
-      "description": "Refinement & Adjustment: Modify, refactor, enhance during active development",
-      "version": "1.0.0",
-      "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
-      },
-      "source": "./plugins/04-iterate",
-      "category": "productivity"
-    },
-    {
-      "name": "05-quality",
-      "description": "Testing & Validation: Test, validate, secure, optimize, ensure compliance",
-      "version": "1.0.0",
-      "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
-      },
-      "source": "./plugins/05-quality",
-      "category": "security"
+      "source": "./plugins/domain-plugin-builder",
+      "category": "development",
+      "keywords": [
+        "plugin-builder",
+        "sdk",
+        "framework",
+        "marketplace"
+      ]
     },
     {
       "name": "agent-sdk-dev",
@@ -72,18 +34,12 @@
         "email": "dev@multiagent.dev"
       },
       "source": "./plugins/agent-sdk-dev",
-      "category": "development"
-    },
-    {
-      "name": "domain-plugin-builder",
-      "description": "Universal builder for domain-specific plugins (SDK, Framework, Custom)",
-      "version": "1.0.0",
-      "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
-      },
-      "source": "./plugins/domain-plugin-builder",
-      "category": "development"
+      "category": "development",
+      "keywords": [
+        "claude",
+        "agents",
+        "sdk"
+      ]
     },
     {
       "name": "vercel-ai-sdk",
@@ -106,6 +62,14 @@
         "openai",
         "anthropic"
       ]
+    }
+  ],
+  "related_marketplaces": [
+    {
+      "name": "dev-lifecycle-marketplace",
+      "description": "Tech-agnostic lifecycle plugins (init, plan, develop, iterate, quality, deploy)",
+      "source": "github:vanman2024/dev-lifecycle-marketplace",
+      "optional": true
     }
   ]
 }
