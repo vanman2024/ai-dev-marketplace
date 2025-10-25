@@ -68,7 +68,7 @@ Skip documentation fetching, rely on user requirements.
 **CRITICAL: ALL plugins get the SAME structure regardless of type!**
 
 Load proper plugin structure reference:
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/03-claude-code-plugins.md
+@plugins/domain-plugin-builder/docs/03-claude-code-plugins.md
 
 **Create directory structure using Bash:**
 Use mkdir -p to create: .claude-plugin/, commands/, agents/, skills/, hooks/, scripts/, docs/

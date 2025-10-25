@@ -24,11 +24,11 @@ AskUserQuestion: Is this a complex agent with multiple competencies or a simple 
 Read appropriate template based on complexity:
 
 **GOLD STANDARD (for complex agents):**
-@/home/gotime2022/Projects/multiagent-marketplace/plugins/multiagent-website-builder/agents/fullstack-web-builder.md
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/example-agent.md
 
 **Templates:**
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-comprehensive.md.template
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-example.md
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-comprehensive.md.template
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-example.md
 
 ## Step 4: Determine Plugin Location
 

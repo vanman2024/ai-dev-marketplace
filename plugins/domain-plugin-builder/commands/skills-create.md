@@ -15,8 +15,8 @@ Extract skill name and description:
 ## Step 2: Load Design Principles
 
 **Implementation Guide:**
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
+@plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
+@plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
 
 **Available for reference (load on-demand):**
 - Chaining Patterns: `07-chaining-patterns.md`
@@ -24,8 +24,8 @@ Extract skill name and description:
 
 ## Step 3: Load Skill Templates
 
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md
+@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template
+@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md
 
 ## Step 4: Determine Plugin Location
 
@@ -41,17 +41,17 @@ List available plugins or specify plugin name.
 
 ## Step 6: Load Script Templates
 
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-script.sh
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-helper.py
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md
+@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-script.sh
+@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-helper.py
+@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md
 
 ## Step 7: Populate Scripts Directory
 
 Copy template scripts to skill's scripts/ directory:
 
-!{bash cp /home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.sh plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
-!{bash cp /home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.py plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
-!{bash cp /home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
+!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.sh plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
+!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.py plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
+!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
 
 Make scripts executable:
 

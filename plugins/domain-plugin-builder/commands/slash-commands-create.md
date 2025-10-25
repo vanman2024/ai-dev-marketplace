@@ -43,20 +43,20 @@ Parse provided arguments:
 
 Load current agent list for context:
 
-!{bash /home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/scripts/list-agents.sh}
+!{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/list-agents.sh}
 
 ## Context Files (Read These First)
 
 **Core References:**
-- Implementation Guide: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
-- Skills vs Commands: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
-- Slash Commands Reference: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/docs/01-claude-code-slash-commands.md
+- Implementation Guide: @plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
+- Skills vs Commands: @plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
+- Slash Commands Reference: @plugins/domain-plugin-builder/docs/01-claude-code-slash-commands.md
 
 **Pattern Examples:**
-- Pattern 1 Example: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern1-simple.md
-- Pattern 2 Example: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern2-single-agent.md
-- Pattern 3 Example: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern3-sequential-with-slashcommands.md
-- Pattern 4 Example: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern4-parallel-agents.md
+- Pattern 1 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern1-simple.md
+- Pattern 2 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern2-single-agent.md
+- Pattern 3 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern3-sequential-with-slashcommands.md
+- Pattern 4 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern4-parallel-agents.md
 
 **Available for reference (load on-demand):**
 - Chaining Patterns: `07-chaining-patterns.md`

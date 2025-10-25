@@ -7,5 +7,9 @@
       "SlashCommand(/domain-plugin-builder:agents-create)",
       "SlashCommand(/domain-plugin-builder:skills-create)"
     ]
-  }
+  },
+  "enabledMcpjsonServers": [
+    "filesystem",
+    "playwright"
+  ]
 }
