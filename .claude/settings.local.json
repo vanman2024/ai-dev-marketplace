@@ -10,6 +10,8 @@
   },
   "enabledMcpjsonServers": [
     "filesystem",
-    "playwright"
-  ]
+    "playwright",
+    "context7"
+  ],
+  "enableAllProjectMcpServers": true
 }

@@ -32,5 +32,8 @@
     "*.{js,ts}": [
       "npm run test:smoke"
     ]
-  }
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
