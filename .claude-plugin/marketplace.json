@@ -62,13 +62,5 @@
         "anthropic"
       ]
     }
-  ],
-  "related_marketplaces": [
-    {
-      "name": "dev-lifecycle-marketplace",
-      "description": "Tech-agnostic lifecycle plugins (init, plan, develop, iterate, quality, deploy)",
-      "source": "github:vanman2024/dev-lifecycle-marketplace",
-      "optional": true
-    }
   ]
 }
