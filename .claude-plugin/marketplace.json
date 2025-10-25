@@ -1,5 +1,4 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ai-dev-marketplace",
   "version": "1.0.0",
   "description": "AI Development Marketplace - Master repository for tech-specific plugins (SDKs, frameworks, platforms)",
@@ -13,8 +12,8 @@
       "description": "Universal builder for domain-specific plugins (SDK, Framework, Custom)",
       "version": "1.0.0",
       "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
       },
       "source": "./plugins/domain-plugin-builder",
       "category": "development",
@@ -30,8 +29,8 @@
       "description": "Claude Agent SDK development tools",
       "version": "1.0.0",
       "author": {
-        "name": "multiagent-core",
-        "email": "dev@multiagent.dev"
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
       },
       "source": "./plugins/agent-sdk-dev",
       "category": "development",
