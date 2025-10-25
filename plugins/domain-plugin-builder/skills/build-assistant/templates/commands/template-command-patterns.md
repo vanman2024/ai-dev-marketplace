@@ -136,25 +136,17 @@ Goal: [Execute with agent]
 
 Actions:
 
-Launch the specialized agent:
+Invoke the [agent-name] agent to [accomplish task].
 
-Task(
-  description="[Brief description]",
-  subagent_type="[agent-type]",
-  prompt="[Detailed prompt for agent]
-
-**Context:**
-- [Context item 1]
-- [Context item 2]
-
-**Requirements:**
+The agent should:
 - [Requirement 1]
 - [Requirement 2]
+- [Requirement 3]
 
-**Deliverables:**
-- [What agent should produce]
-- [Expected output]"
-)
+Provide the agent with:
+- Context: [What context is needed]
+- Target: $ARGUMENTS
+- Expected output: [What should be delivered]
 
 Phase 5: Review
 Goal: [Verify results]
@@ -211,18 +203,14 @@ Phase 2: Exploration
 Goal: [Understand relevant existing code and patterns]
 
 Actions:
-- Launch 2-3 explorer agents in parallel (if beneficial)
-- Each agent focuses on different aspect:
-  - Similar features and their implementation
-  - Architecture and abstractions
-  - Current state of related areas
-- Example:
-
-Task(description="Find similar features", subagent_type="code-explorer", prompt="...")
-Task(description="Map architecture", subagent_type="code-explorer", prompt="...")
-
-- Wait for agents to complete
-- Read key files identified by agents
+- Launch 2-3 explorer agents in parallel to understand different aspects:
+  - Agent 1: Find similar features and trace their implementation
+  - Agent 2: Map the architecture and key abstractions
+  - Agent 3: Analyze current state of related areas
+- Each agent should return list of 5-10 key files to read
+- Wait for all agents to complete
+- Read all files identified by agents to build deep understanding
+- Present comprehensive summary of findings
 - Update todos as each exploration completes
 
 Phase 3: Clarifying Questions
@@ -327,50 +315,29 @@ Actions:
 
 Launch the following agents IN PARALLEL (all at once):
 
-Task(
-  description="[First check]",
-  subagent_type="[agent-type-1]",
-  prompt="[Detailed prompt for first agent]
-
-**Target:** $ARGUMENTS
-
-**Focus:**
+**Agent 1 - [First Check Name]:**
+Invoke the [agent-type-1] agent to [accomplish first task].
+Focus on:
 - [Focus area 1]
 - [Focus area 2]
+Target: $ARGUMENTS
+Deliverable: [Expected output]
 
-**Deliverables:**
-- [Expected output]"
-)
-
-Task(
-  description="[Second check]",
-  subagent_type="[agent-type-2]",
-  prompt="[Detailed prompt for second agent]
-
-**Target:** $ARGUMENTS
-
-**Focus:**
+**Agent 2 - [Second Check Name]:**
+Invoke the [agent-type-2] agent to [accomplish second task].
+Focus on:
 - [Focus area 1]
 - [Focus area 2]
+Target: $ARGUMENTS
+Deliverable: [Expected output]
 
-**Deliverables:**
-- [Expected output]"
-)
-
-Task(
-  description="[Third check]",
-  subagent_type="[agent-type-3]",
-  prompt="[Detailed prompt for third agent]
-
-**Target:** $ARGUMENTS
-
-**Focus:**
+**Agent 3 - [Third Check Name]:**
+Invoke the [agent-type-3] agent to [accomplish third task].
+Focus on:
 - [Focus area 1]
 - [Focus area 2]
-
-**Deliverables:**
-- [Expected output]"
-)
+Target: $ARGUMENTS
+Deliverable: [Expected output]
 
 Wait for ALL agents to complete before proceeding.
 
@@ -431,14 +398,20 @@ Reference shared scripts:
 ```
 
 ### Agent Invocation
-Natural language, not tool syntax in the command content:
+Use natural language to describe agent invocation:
 ```
 Launch the verifier agent to validate the setup
 Invoke the analyzer agent to check code quality
 Run 2-3 explorer agents in parallel
+Launch security-checker, code-scanner, and performance-analyzer agents in parallel
 ```
 
-The actual Task() syntax shown in templates is for illustration - the command executor will handle converting natural language to tool calls.
+Claude Code will convert this natural language to actual Task() tool calls during execution.
+
+**Examples:**
+- Single agent: "Invoke the refactorer agent to improve code quality"
+- Sequential: "First launch the detector agent, then based on findings, invoke the fixer agent"
+- Parallel: "Launch 3 reviewer agents in parallel focusing on: security, performance, and maintainability"
 
 ### TodoWrite Integration
 Track progress throughout:

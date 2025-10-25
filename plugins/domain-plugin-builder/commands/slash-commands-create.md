@@ -78,19 +78,18 @@ Load current agent list for context:
 
 **Pattern 2: Single Agent** - One Task() call with agent or a general-purpose agent.
 
-**Pattern 3: Sequential** - Multiple Task() calls or SlashCommand calls, one after another
+**Pattern 3: Sequential** - Multiple phases with dependencies, one after another
 
-**Pattern 4: Multi-Agent Parallel** - Run multiple agents at the same time
+**Pattern 4: Multi-Agent Parallel** - Run multiple independent agents at the same time
 
 **SlashCommand Usage** - Invoke other slash commands (add SlashCommand(*) to allowed-tools)
 
-Example showing 3 agents running together:
+Example showing 3 agents running together (natural language):
 
-Run the following agents IN PARALLEL (all at once):
-
-Task(description="Scan code", subagent_type="code-scanner", prompt="Scan for $ARGUMENTS")
-Task(description="Run tests", subagent_type="test-runner", prompt="Test $ARGUMENTS")
-Task(description="Security audit", subagent_type="security-checker", prompt="Audit $ARGUMENTS")
+Launch the following agents IN PARALLEL (all at once):
+- Invoke the code-scanner agent to scan for issues in $ARGUMENTS
+- Invoke the test-runner agent to test $ARGUMENTS
+- Invoke the security-checker agent to audit $ARGUMENTS
 
 Wait for ALL agents to complete before proceeding.
 
@@ -167,14 +166,22 @@ Register in: ~/.claude/marketplaces/MARKETPLACE/plugins/PLUGIN_NAME/.claude-plug
 
 ## Workflow (Beginning → Middle → End → Review)
 
-**Phase 1: BEGINNING (Gather Context)**
-1. If arguments missing, use AskUserQuestion to gather info
-2. **Use Pattern Selection Decision Tree above** to determine pattern
-3. Build allowed-tools: Always Task(*), Read(*), Write(*), Edit(*), Bash(*), Grep(*), Glob(*). Add AskUserQuestion(*) for input, mcp__servername for MCP, Bash(git:*) for restrictions
+**Phase 1: BEGINNING (Understand & Select Pattern)**
+1. Read the master template: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
+2. Understand what the command should accomplish from $ARGUMENTS and description
+3. **Auto-detect which pattern to use** based on Pattern Selection guide in master template:
+   - Simple mechanical task? → Pattern 1
+   - One AI capability needed? → Pattern 2
+   - Multi-phase with dependencies? → Pattern 3
+   - Independent parallel checks? → Pattern 4
+4. If arguments missing, use AskUserQuestion to gather info
+5. Build allowed-tools based on pattern needs
 
-**Phase 2: MIDDLE (Create Command)**
-4. Create command file: Global in ~/.claude/commands/ OR Plugin in plugin commands/
-5. Use proper syntax: $ARGUMENTS only, !{command} for bash, !{interpreter script.sh $ARGUMENTS} for scripts, @filename for loading, no backticks
+**Phase 2: MIDDLE (Create Command Using Template)**
+6. Use the appropriate pattern template from template-command-patterns.md
+7. Create command file following the Goal → Actions → Phase structure
+8. Use natural language for agent invocation (not Task() syntax)
+9. Use proper syntax: $ARGUMENTS only, !{bash command} for execution, @filename for loading
 
 **Phase 3: END (Validate)**
 6. Run validation: !{bash skills/build-assistant/scripts/validate-command.sh COMMAND_FILE}
