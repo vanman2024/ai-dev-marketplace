@@ -1,7 +1,7 @@
 {
   "name": "vercel-ai-sdk",
   "version": "1.0.0",
-  "description": "Comprehensive Vercel AI SDK development plugin with support for TypeScript, JavaScript, and Python. Includes project setup, streaming, tool calling, and multi-provider support.",
+  "description": "Modular Vercel AI SDK development plugin with incremental feature addition. Supports TypeScript, JavaScript, and Python.",
   "author": "vanman2024",
   "license": "MIT",
   "keywords": [
@@ -10,8 +10,11 @@
     "sdk",
     "streaming",
     "tool-calling",
+    "chat",
     "openai",
     "anthropic",
+    "google",
+    "xai",
     "typescript",
     "javascript",
     "python"
@@ -21,5 +24,17 @@
     "type": "git",
     "url": "https://github.com/vanman2024/ai-dev-marketplace.git",
     "directory": "plugins/vercel-ai-sdk"
+  },
+  "commands": {
+    "new-app": "commands/new-app.md",
+    "add-streaming": "commands/add-streaming.md",
+    "add-tools": "commands/add-tools.md",
+    "add-chat": "commands/add-chat.md",
+    "add-provider": "commands/add-provider.md"
+  },
+  "agents": {
+    "vercel-ai-verifier-ts": "agents/vercel-ai-verifier-ts.md",
+    "vercel-ai-verifier-js": "agents/vercel-ai-verifier-js.md",
+    "vercel-ai-verifier-py": "agents/vercel-ai-verifier-py.md"
   }
 }
