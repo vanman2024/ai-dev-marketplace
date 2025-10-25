@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "SlashCommand(/domain-plugin-builder:*)",
+      "SlashCommand(/domain-plugin-builder:plugin-create)",
+      "SlashCommand(/domain-plugin-builder:slash-commands-create)",
+      "SlashCommand(/domain-plugin-builder:agents-create)",
+      "SlashCommand(/domain-plugin-builder:skills-create)"
+    ]
+  }
+}

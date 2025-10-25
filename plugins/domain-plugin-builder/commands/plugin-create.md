@@ -102,45 +102,41 @@ This verifies directory structure and required files exist.
 
 ## Step 7: Create Commands
 
-**Two command patterns to choose from:**
+**CRITICAL: Use the SlashCommand tool to invoke the command builder!**
 
-**Pattern 1: Interactive Setup (SDK/Framework plugins)**
-- Reference: @/home/gotime2022/Projects/ai-dev-marketplace/plugins/agent-sdk-dev/commands/new-sdk-app.md
-- Structure: WebFetch docs → Ask questions → Initialize → Invoke verifier agent
-- Agent invocation: "Invoke the {sdk}-verifier-ts agent to validate the setup"
-- File: new-$ARGUMENTS-app.md
+Use SlashCommand tool to invoke: `/domain-plugin-builder:slash-commands-create <plugin-name> <command-name> "<description>"`
 
-**Pattern 2: Goal/Action with Subagents (Feature/Workflow plugins)**
-- Reference: @https://github.com/anthropics/claude-code/blob/main/plugins/feature-dev/commands/feature-dev.md
-- Structure: 7-phase workflow with natural language agent invocation
-- Agent invocation examples:
-  - "Launch 2-3 parallel explorer agents to map the codebase"
-  - "Launch 2-3 parallel architect agents with different approaches"
-  - "Launch 3 parallel reviewer agents focusing on different aspects"
-- File: $ARGUMENTS-feature.md or main workflow command
+**For SDK/Framework plugins:**
+- Create main command like: `new-$ARGUMENTS-app`
+- Description should explain it creates and sets up projects with the SDK/Framework
 
-**CRITICAL:** Use natural language to invoke agents, NOT Task() tool calls. Examples:
-- "Invoke the verifier agent"
-- "Launch 2 parallel analyzer agents"
-- "Run the formatter agent on all files"
+**For Custom plugins:**
+- Create workflow command like: `$ARGUMENTS-workflow` or main feature command
 
-Use Write tool to create command file(s) with proper agent invocation wording.
+**Example invocations:**
+- `/domain-plugin-builder:slash-commands-create vercel-ai-sdk new-ai-app "Create and setup a new Vercel AI SDK application"`
+- `/domain-plugin-builder:slash-commands-create nextjs-dev new-next-app "Create and setup a new Next.js application"`
+
+The slash-commands-create command will handle pattern selection, templates, and proper structure automatically.
 
 ## Step 8: Create Agents
 
+**CRITICAL: Use the SlashCommand tool to invoke the agent builder!**
+
+Use SlashCommand tool to invoke: `/domain-plugin-builder:agents-create <agent-name> "<description>" "<tools>"`
+
 **For SDK/Framework plugins:**
 Create verifier agents for each supported language:
-- agent-sdk-verifier-ts.md
-- agent-sdk-verifier-py.md
-- etc.
 
-Reference pattern:
-@/home/gotime2022/Projects/ai-dev-marketplace/plugins/agent-sdk-dev/agents/agent-sdk-verifier-ts.md
-
-Use Write tool to create agent files with proper frontmatter and SDK-specific validation logic.
+**Example invocations:**
+- `/domain-plugin-builder:agents-create vercel-ai-verifier-ts "Verifier agent for TypeScript Vercel AI SDK applications" "Bash, Read, Write, WebFetch"`
+- `/domain-plugin-builder:agents-create vercel-ai-verifier-js "Verifier agent for JavaScript Vercel AI SDK applications" "Bash, Read, Write, WebFetch"`
+- `/domain-plugin-builder:agents-create vercel-ai-verifier-py "Verifier agent for Python Vercel AI SDK applications" "Bash, Read, Write, WebFetch"`
 
 **For Custom plugins:**
-Ask what agents are needed, create using Write tool.
+Ask what agents are needed, then invoke agents-create for each one.
+
+The agents-create command will handle proper frontmatter, tool configuration, and agent structure automatically.
 
 ## Step 9: Create Skills
 
