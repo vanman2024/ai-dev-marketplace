@@ -47,20 +47,18 @@ Load current agent list for context:
 
 ## Context Files (Read These First)
 
-**Core References:**
-- Implementation Guide: @plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
+**CRITICAL - Master Template (Read This First):**
+@plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
+
+This master template contains EVERYTHING:
+- Pattern selection guide (when to use each of the 4 patterns)
+- Complete templates for all 4 patterns with Goal/Actions/Phase structure
+- Natural language agent invocation examples
+- Syntax reference ($ARGUMENTS, @files, !{bash}, etc.)
+- Best practices and decision criteria
+
+**Additional References (load only if needed):**
 - Skills vs Commands: @plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
-- Slash Commands Reference: @plugins/domain-plugin-builder/docs/01-claude-code-slash-commands.md
-
-**Pattern Examples:**
-- Pattern 1 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern1-simple.md
-- Pattern 2 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern2-single-agent.md
-- Pattern 3 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern3-sequential-with-slashcommands.md
-- Pattern 4 Example: @plugins/domain-plugin-builder/skills/build-assistant/templates/commands/example-pattern4-parallel-agents.md
-
-**Available for reference (load on-demand):**
-- Chaining Patterns: `07-chaining-patterns.md`
-- Workflow Examples: `08-workflow-examples.md`
 
 ## CRITICAL: Project-Agnostic Design
 
