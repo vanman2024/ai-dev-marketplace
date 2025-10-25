@@ -84,6 +84,28 @@
       },
       "source": "./plugins/domain-plugin-builder",
       "category": "development"
+    },
+    {
+      "name": "vercel-ai-sdk",
+      "description": "Modular Vercel AI SDK development with feature bundles and specialized agents",
+      "version": "1.0.0",
+      "author": {
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/vercel-ai-sdk",
+      "category": "development",
+      "keywords": [
+        "vercel",
+        "ai-sdk",
+        "chatbot",
+        "streaming",
+        "rag",
+        "embeddings",
+        "agents",
+        "openai",
+        "anthropic"
+      ]
     }
   ]
 }
