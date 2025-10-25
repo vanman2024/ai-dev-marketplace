@@ -61,11 +61,11 @@ else
     echo "⚠️  WARNING: No \$ARGUMENTS found"
 fi
 
-# Check for Task() invocation pattern
-if grep -q "Task(" "$COMMAND_FILE"; then
-    echo "✅ Uses Task() for agent delegation"
+# Check for agent invocation pattern (natural language)
+if grep -qiE "(Invoke the|Launch.*agent|Run.*agent)" "$COMMAND_FILE"; then
+    echo "✅ Uses agent invocation (natural language)"
 else
-    echo "⚠️  WARNING: No Task() found - might be Pattern 1 (simple command)"
+    echo "⚠️  WARNING: No agent invocation found - might be Pattern 1 (simple command)"
 fi
 
 # Check for backticks in examples (causes parsing issues)

@@ -1,0 +1,25 @@
+{
+  "name": "vercel-ai-sdk",
+  "version": "1.0.0",
+  "description": "Comprehensive Vercel AI SDK development plugin with support for TypeScript, JavaScript, and Python. Includes project setup, streaming, tool calling, and multi-provider support.",
+  "author": "vanman2024",
+  "license": "MIT",
+  "keywords": [
+    "vercel",
+    "ai",
+    "sdk",
+    "streaming",
+    "tool-calling",
+    "openai",
+    "anthropic",
+    "typescript",
+    "javascript",
+    "python"
+  ],
+  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/vercel-ai-sdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vanman2024/ai-dev-marketplace.git",
+    "directory": "plugins/vercel-ai-sdk"
+  }
+}
