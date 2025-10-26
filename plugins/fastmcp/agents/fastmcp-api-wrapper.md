@@ -315,8 +315,26 @@ if __name__ == "__main__":
     # Load toolsets
     load_toolsets(requested)
 
-    # Start server
-    mcp.run(transport="http")
+    # Determine transport mode
+    transport = os.getenv('{API_NAME}_TRANSPORT', 'stdio').lower()
+
+    print("\nStarting {API_NAME} MCP Server...")
+    print(f"Transport: {transport.upper()}")
+
+    if transport == 'stdio':
+        # STDIO transport for Claude Desktop, Claude Code, Cursor
+        # Configured via .mcp.json or IDE config files
+        mcp.run()
+    elif transport == 'http':
+        # HTTP transport for remote services, web applications
+        port = int(os.getenv('{API_NAME}_PORT', '8000'))
+        host = os.getenv('{API_NAME}_HOST', '0.0.0.0')
+        print(f"HTTP Server: http://{host}:{port}/mcp")
+        mcp.run(transport="http", host=host, port=port)
+    else:
+        print(f"Error: Invalid transport '{transport}'. Use 'stdio' or 'http'")
+        print("Set {API_NAME}_TRANSPORT environment variable to 'stdio' or 'http'")
+        exit(1)
 ```
 
 #### Standard Tool Implementation Pattern:
@@ -474,8 +492,34 @@ Actions:
 - Add README section with:
   - API endpoint to MCP tool mapping table
   - Authentication setup instructions
+  - **Transport modes documentation** (STDIO vs HTTP)
+  - **.mcp.json configuration example** for Claude Desktop/Code
+  - HTTP deployment examples (Docker, cloud)
+  - Environment variables reference
   - Example usage in Claude Desktop
   - Rate limiting considerations
+
+**Transport Documentation Template:**
+
+Create a `DEPLOYMENT.md` or README section covering:
+
+1. **STDIO Mode (Default)** - For local IDE integration:
+   - How to configure in `.mcp.json`
+   - Locations for Claude Desktop, Claude Code, Cursor
+   - Example configuration with all env vars
+
+2. **HTTP Mode** - For remote services:
+   - How to run as HTTP server
+   - Docker/docker-compose examples
+   - Cloud deployment (Railway, Render, Fly.io)
+   - Port and host configuration
+
+3. **Environment Variables**:
+   - `{API_NAME}_TRANSPORT` - `stdio` (default) or `http`
+   - `{API_NAME}_PORT` - HTTP port (default 8000)
+   - `{API_NAME}_HOST` - HTTP host (default 0.0.0.0)
+   - `{API_NAME}_API_KEY` - API authentication
+   - `{API_NAME}_TOOLSETS` - Toolset selection (if applicable)
 
 ### Step 7: Verify Implementation
 

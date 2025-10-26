@@ -193,6 +193,11 @@ Goal: Guide user on using the API wrapper
 Actions:
 - Show generated tool list with signatures
 - Explain how to configure API credentials
+- **Document transport configuration**:
+  - STDIO mode (default) for Claude Desktop/Code integration via `.mcp.json`
+  - HTTP mode for remote services/cloud deployment
+  - Show `.mcp.json` example with all environment variables
+  - Provide HTTP deployment examples (Docker, cloud platforms)
 - Show example of calling tools from Claude Desktop
 - Provide FastMCP testing guidance
 - Suggest enhancements: rate limiting, caching, batch operations, webhooks
