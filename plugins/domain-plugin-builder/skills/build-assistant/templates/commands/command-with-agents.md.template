@@ -1,0 +1,87 @@
+---
+description: {{COMMAND_DESCRIPTION}}
+argument-hint: {{ARGUMENT_HINT}}
+allowed-tools: Read(*), Write(*), Edit(*), Bash(*), Task(*), AskUserQuestion(*)
+---
+
+You are tasked with {{COMMAND_GOAL}}. Follow these steps in order:
+
+## Step 1: Gather Requirements
+
+Ask the user for necessary information (skip any provided via $ARGUMENTS):
+
+1. **{{REQUIREMENT_1}}**: "{{REQUIREMENT_1_QUESTION}}"
+   - Wait for response before continuing
+
+2. **{{REQUIREMENT_2}}**: "{{REQUIREMENT_2_QUESTION}}"
+   - Wait for response before continuing
+
+3. **{{REQUIREMENT_3}}**: "{{REQUIREMENT_3_QUESTION}}"
+   - Wait for response before continuing
+
+After all questions are answered, proceed to the setup plan.
+
+## Step 2: Create Setup Plan
+
+Based on the user's answers, create a plan that includes:
+
+1. **{{PLAN_ITEM_1}}**:
+   - {{PLAN_ITEM_1_DETAIL_1}}
+   - {{PLAN_ITEM_1_DETAIL_2}}
+
+2. **{{PLAN_ITEM_2}}**:
+   - {{PLAN_ITEM_2_DETAIL_1}}
+   - {{PLAN_ITEM_2_DETAIL_2}}
+
+3. **{{PLAN_ITEM_3}}**:
+   - {{PLAN_ITEM_3_DETAIL_1}}
+   - {{PLAN_ITEM_3_DETAIL_2}}
+
+Present the plan to the user and get confirmation before proceeding.
+
+## Step 3: Implementation
+
+Invoke the {{PRIMARY_AGENT}} agent to handle the implementation:
+
+The agent will:
+- Fetch relevant documentation progressively
+- Create necessary files and configuration
+- Install dependencies
+- Set up the project structure
+- Verify the implementation works correctly
+
+Wait for the agent to complete before proceeding.
+
+## Step 4: Verification
+
+After implementation is complete, invoke the appropriate verifier agent:
+
+1. **For TypeScript projects**: Invoke the {{VERIFIER_AGENT_TS}} agent to validate the setup
+2. **For Python projects**: Invoke the {{VERIFIER_AGENT_PY}} agent to validate the setup
+3. Review the verification report and address any issues
+
+## Step 5: Next Steps Guide
+
+Once setup is complete and verified, provide the user with:
+
+1. **How to run**:
+   - {{RUN_INSTRUCTION_1}}
+   - {{RUN_INSTRUCTION_2}}
+
+2. **Useful resources**:
+   - {{RESOURCE_1}}: {{RESOURCE_1_URL}}
+   - {{RESOURCE_2}}: {{RESOURCE_2_URL}}
+   - {{RESOURCE_3}}: {{RESOURCE_3_URL}}
+
+3. **Common next steps**:
+   - {{NEXT_STEP_1}}
+   - {{NEXT_STEP_2}}
+   - {{NEXT_STEP_3}}
+
+## Important Notes
+
+- Ask questions one at a time, waiting for responses
+- Always check if directories/files already exist before creating them
+- Use the user's preferred tools and package managers
+- Ensure all code examples are functional
+- Verify the code works before finishing
