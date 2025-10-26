@@ -18,7 +18,7 @@ Transform REST API endpoints into well-designed MCP tools that:
 
 ## Implementation Process
 
-### Step 1: Understand the API Structure
+### Step 1: Understand the API Structure & Determine Architecture
 
 **Primary Strategy: Postman/Newman**
 
@@ -33,9 +33,66 @@ You will receive from the command:
 
 Actions:
 - Read the collection analysis
+- **Count total endpoints** (CRITICAL for architecture decision)
 - Identify API patterns (RESTful conventions, pagination, etc.)
-- Group related endpoints
+- Group related endpoints by resource/domain
 - Determine authentication strategy
+
+**Architecture Decision Logic:**
+
+Based on endpoint count, choose the appropriate server architecture:
+
+1. **Small API (<30 endpoints):** Single server, all tools
+   - Example: 20 endpoints = 20 tools in one file (~400-600 lines)
+   - No toolsets needed, straightforward implementation
+
+2. **Medium API (30-80 endpoints):** Toolsets pattern OR Hybrid
+   - Example: 50 endpoints = 5-8 toolsets with default subset
+   - Recommended: Toolsets for flexibility
+   - Alternative: Hybrid (20 common tools + generic request tool)
+
+3. **Large API (80-150 endpoints):** Toolsets pattern (REQUIRED)
+   - Example: GitHub (103 tools), CATS (162 tools)
+   - 10-20 toolsets organized by resource type
+   - Default: 5 core toolsets (~30-40% of tools)
+   - Optional: 10-15 additional toolsets
+   - CLI flags: `--toolsets <comma-separated-list>`
+   - Environment: `{API_NAME}_TOOLSETS="core,extended"`
+
+4. **Very Large API (150+ endpoints):** Multiple domain servers
+   - Split into 3-5 specialized servers by domain/use-case
+   - Each server: 30-50 tools max
+   - Better permission isolation
+
+**Toolset Organization Pattern (for Large APIs):**
+
+```python
+# Identify natural groupings from Postman folders
+# Example from CATS API (162 endpoints):
+
+DEFAULT_TOOLSETS = [
+    'candidates',      # 28 tools - core recruiting
+    'jobs',           # 40 tools - job management
+    'pipelines',      # 13 tools - workflow
+    'context',        # 3 tools - auth/site info
+    'tasks',          # 5 tools - task management
+]  # Total: ~89 tools (55% of API)
+
+OPTIONAL_TOOLSETS = [
+    'companies',      # 18 tools
+    'contacts',       # 18 tools
+    'activities',     # 6 tools
+    'portals',        # 8 tools
+    'attachments',    # 4 tools
+    'webhooks',       # 4 tools
+    'tags',           # 2 tools
+    'users',          # 2 tools
+    'events',         # 5 tools
+    'backups',        # 3 tools
+    'triggers',       # 2 tools
+    'work_history',   # 3 tools
+]  # Total: 73 tools (45% of API)
+```
 
 **Fallback Strategy: WebFetch/Playwright** (if Postman/Newman unavailable)
 
@@ -110,6 +167,159 @@ For each API endpoint, design the MCP tool:
 - TypeScript: Use interfaces or types
 
 ### Step 4: Generate Tool Implementation
+
+**For Small/Medium APIs (<80 endpoints):**
+Generate tools directly in the main server file following the patterns below.
+
+**For Large APIs (80+ endpoints):**
+Generate tools organized by toolsets with CLI/environment configuration.
+
+#### Toolset-Based Server Structure (Large APIs):
+
+```python
+"""
+{API_NAME} MCP Server - FastMCP server for {API_NAME} API
+
+Generated with FastMCP plugin - supports toolset-based tool loading
+"""
+
+import os
+import argparse
+from typing import Any, Optional, Set
+import httpx
+from dotenv import load_dotenv
+from fastmcp import FastMCP
+
+load_dotenv()
+
+mcp = FastMCP("{API_NAME} API")
+
+# Configuration
+BASE_URL = os.getenv("{API_NAME}_BASE_URL", "https://api.example.com/v1")
+API_KEY = os.getenv("{API_NAME}_API_KEY", "")
+
+# Toolset definitions
+DEFAULT_TOOLSETS = ['resource1', 'resource2', 'core']
+ALL_TOOLSETS = DEFAULT_TOOLSETS + ['resource3', 'resource4', 'admin']
+
+class APIError(Exception):
+    """API error"""
+    pass
+
+async def make_request(method: str, endpoint: str, params: dict = None, json_data: dict = None) -> dict:
+    """Make authenticated request to API"""
+    if not API_KEY:
+        raise APIError("{API_NAME}_API_KEY not configured")
+
+    url = f"{BASE_URL.rstrip('/')}/{endpoint.lstrip('/')}"
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            response = await client.request(method, url, headers=headers, params=params, json=json_data)
+            response.raise_for_status()
+            return response.json()
+        except httpx.HTTPError as e:
+            raise APIError(f"API error: {e}")
+
+# ============================================================================
+# TOOLSET REGISTRATION FUNCTIONS
+# ============================================================================
+
+def register_resource1_tools():
+    """Register Resource1 toolset (28 tools)"""
+
+    @mcp.tool()
+    async def list_resource1(per_page: int = 25, page: int = 1) -> dict:
+        """List all resource1 items. GET /resource1"""
+        return await make_request("GET", "/resource1", params={"per_page": per_page, "page": page})
+
+    @mcp.tool()
+    async def get_resource1(id: int) -> dict:
+        """Get resource1 details. GET /resource1/{id}"""
+        return await make_request("GET", f"/resource1/{id}")
+
+    # ... more tools for this resource
+
+def register_resource2_tools():
+    """Register Resource2 toolset (15 tools)"""
+
+    @mcp.tool()
+    async def list_resource2(per_page: int = 25, page: int = 1) -> dict:
+        """List all resource2 items. GET /resource2"""
+        return await make_request("GET", "/resource2", params={"per_page": per_page, "page": page})
+
+    # ... more tools
+
+# ... more toolset registration functions
+
+# ============================================================================
+# TOOLSET LOADING
+# ============================================================================
+
+def load_toolsets(toolsets: Set[str]):
+    """Load specified toolsets"""
+    print(f"Loading toolsets: {', '.join(sorted(toolsets))}")
+
+    if 'resource1' in toolsets or 'all' in toolsets:
+        register_resource1_tools()
+        print("  ✓ resource1 (28 tools)")
+
+    if 'resource2' in toolsets or 'all' in toolsets:
+        register_resource2_tools()
+        print("  ✓ resource2 (15 tools)")
+
+    # ... more toolsets
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="{API_NAME} MCP Server")
+    parser.add_argument(
+        "--toolsets",
+        type=str,
+        default=None,
+        help="Comma-separated list of toolsets to load (default: core set)"
+    )
+    parser.add_argument(
+        "--list-toolsets",
+        action="store_true",
+        help="List available toolsets and exit"
+    )
+
+    args = parser.parse_args()
+
+    if args.list_toolsets:
+        print("Available toolsets:")
+        print("\nDefault toolsets (loaded by default):")
+        for ts in DEFAULT_TOOLSETS:
+            print(f"  - {ts}")
+        print("\nOptional toolsets (use --toolsets to enable):")
+        for ts in [t for t in ALL_TOOLSETS if t not in DEFAULT_TOOLSETS]:
+            print(f"  - {ts}")
+        print("\nUse 'all' to load everything")
+        exit(0)
+
+    # Determine which toolsets to load
+    if args.toolsets:
+        requested = {t.strip() for t in args.toolsets.split(',')}
+    else:
+        # Try environment variable
+        env_toolsets = os.getenv('{API_NAME}_TOOLSETS', '')
+        if env_toolsets:
+            requested = {t.strip() for t in env_toolsets.split(',')}
+        else:
+            requested = set(DEFAULT_TOOLSETS)
+
+    # Load toolsets
+    load_toolsets(requested)
+
+    # Start server
+    mcp.run(transport="http")
+```
+
+#### Standard Tool Implementation Pattern:
 
 For **each endpoint**, generate code following this pattern:
 

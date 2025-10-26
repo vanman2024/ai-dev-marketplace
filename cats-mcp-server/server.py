@@ -1,11 +1,13 @@
 """
 CATS MCP Server - FastMCP server for CATS API v3
 
-Real CATS API endpoints from https://api.catsone.com/v3
+Supports toolset-based loading for 162 endpoints across 17 toolsets.
+Use --toolsets flag or CATS_TOOLSETS env var to control which tools load.
 """
 
 import os
-from typing import Any, Optional
+import argparse
+from typing import Any, Optional, Set
 import httpx
 from dotenv import load_dotenv
 from fastmcp import FastMCP
@@ -18,13 +20,25 @@ mcp = FastMCP("CATS API v3")
 CATS_API_BASE_URL = os.getenv("CATS_API_BASE_URL", "https://api.catsone.com/v3")
 CATS_API_KEY = os.getenv("CATS_API_KEY", "")
 
+# Toolset definitions
+DEFAULT_TOOLSETS = ['candidates', 'jobs', 'pipelines', 'context', 'tasks']
+ALL_TOOLSETS = DEFAULT_TOOLSETS + [
+    'companies', 'contacts', 'activities', 'portals', 'work_history',
+    'tags', 'webhooks', 'users', 'triggers', 'attachments', 'backups', 'events'
+]
+
 
 class CATSAPIError(Exception):
     """CATS API error"""
     pass
 
 
-async def make_request(method: str, endpoint: str, params: dict = None, json_data: dict = None) -> dict:
+async def make_request(
+    method: str,
+    endpoint: str,
+    params: dict = None,
+    json_data: dict = None
+) -> dict:
     """Make authenticated request to CATS API"""
     if not CATS_API_KEY:
         raise CATSAPIError("CATS_API_KEY not configured")
@@ -37,119 +51,192 @@ async def make_request(method: str, endpoint: str, params: dict = None, json_dat
 
     async with httpx.AsyncClient(timeout=30.0) as client:
         try:
-            response = await client.request(method, url, headers=headers, params=params, json=json_data)
+            response = await client.request(
+                method,
+                url,
+                headers=headers,
+                params=params,
+                json=json_data
+            )
             response.raise_for_status()
             return response.json()
         except httpx.HTTPError as e:
             raise CATSAPIError(f"API error: {e}")
 
 
-# CANDIDATES
-@mcp.tool()
-async def list_candidates(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List candidates. GET /candidates"""
-    return await make_request("GET", "/candidates", params={"per_page": per_page, "page": page})
+def load_toolsets(toolsets: Set[str]):
+    """Load specified toolsets"""
+    from toolsets_default import (
+        register_candidates_tools,
+        register_jobs_tools,
+        register_pipelines_tools,
+        register_context_tools,
+        register_tasks_tools
+    )
+    from toolsets_recruiting import (
+        register_companies_tools,
+        register_contacts_tools,
+        register_activities_tools,
+        register_portals_tools,
+        register_work_history_tools
+    )
+    from toolsets_data import (
+        register_tags_tools,
+        register_webhooks_tools,
+        register_users_tools,
+        register_triggers_tools,
+        register_attachments_tools,
+        register_backups_tools,
+        register_events_tools
+    )
 
+    print(f"Loading toolsets: {', '.join(sorted(toolsets))}")
 
-@mcp.tool()
-async def get_candidate(candidate_id: int) -> dict[str, Any]:
-    """Get candidate details. GET /candidates/{id}"""
-    return await make_request("GET", f"/candidates/{candidate_id}")
+    # DEFAULT TOOLSETS (89 tools)
+    if 'candidates' in toolsets or 'all' in toolsets:
+        register_candidates_tools()
+        print("  ✓ candidates (28 tools)")
 
+    if 'jobs' in toolsets or 'all' in toolsets:
+        register_jobs_tools()
+        print("  ✓ jobs (40 tools)")
 
-@mcp.tool()
-async def search_candidates(query: str, per_page: int = 25) -> dict[str, Any]:
-    """Search candidates. GET /candidates/search"""
-    return await make_request("GET", "/candidates/search", params={"q": query, "per_page": per_page})
+    if 'pipelines' in toolsets or 'all' in toolsets:
+        register_pipelines_tools()
+        print("  ✓ pipelines (13 tools)")
 
+    if 'context' in toolsets or 'all' in toolsets:
+        register_context_tools()
+        print("  ✓ context (3 tools)")
 
-# JOBS
-@mcp.tool()
-async def list_jobs(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List jobs. GET /jobs"""
-    return await make_request("GET", "/jobs", params={"per_page": per_page, "page": page})
+    if 'tasks' in toolsets or 'all' in toolsets:
+        register_tasks_tools()
+        print("  ✓ tasks (5 tools)")
 
+    # RECRUITING TOOLSETS (52 tools)
+    if 'companies' in toolsets or 'all' in toolsets:
+        register_companies_tools()
+        print("  ✓ companies (18 tools)")
 
-@mcp.tool()
-async def get_job(job_id: int) -> dict[str, Any]:
-    """Get job details. GET /jobs/{id}"""
-    return await make_request("GET", f"/jobs/{job_id}")
+    if 'contacts' in toolsets or 'all' in toolsets:
+        register_contacts_tools()
+        print("  ✓ contacts (18 tools)")
 
+    if 'activities' in toolsets or 'all' in toolsets:
+        register_activities_tools()
+        print("  ✓ activities (6 tools)")
 
-@mcp.tool()
-async def search_jobs(query: str, per_page: int = 25) -> dict[str, Any]:
-    """Search jobs. GET /jobs/search"""
-    return await make_request("GET", "/jobs/search", params={"q": query, "per_page": per_page})
+    if 'portals' in toolsets or 'all' in toolsets:
+        register_portals_tools()
+        print("  ✓ portals (8 tools)")
 
+    if 'work_history' in toolsets or 'all' in toolsets:
+        register_work_history_tools()
+        print("  ✓ work_history (3 tools)")
 
-# COMPANIES
-@mcp.tool()
-async def list_companies(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List companies. GET /companies"""
-    return await make_request("GET", "/companies", params={"per_page": per_page, "page": page})
+    # DATA & CONFIG TOOLSETS (21 tools)
+    if 'tags' in toolsets or 'all' in toolsets:
+        register_tags_tools()
+        print("  ✓ tags (2 tools)")
 
+    if 'webhooks' in toolsets or 'all' in toolsets:
+        register_webhooks_tools()
+        print("  ✓ webhooks (4 tools)")
 
-@mcp.tool()
-async def get_company(company_id: int) -> dict[str, Any]:
-    """Get company details. GET /companies/{id}"""
-    return await make_request("GET", f"/companies/{company_id}")
+    if 'users' in toolsets or 'all' in toolsets:
+        register_users_tools()
+        print("  ✓ users (2 tools)")
 
+    if 'triggers' in toolsets or 'all' in toolsets:
+        register_triggers_tools()
+        print("  ✓ triggers (2 tools)")
 
-# PIPELINES
-@mcp.tool()
-async def list_pipelines(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List pipelines. GET /pipelines"""
-    return await make_request("GET", "/pipelines", params={"per_page": per_page, "page": page})
+    if 'attachments' in toolsets or 'all' in toolsets:
+        register_attachments_tools()
+        print("  ✓ attachments (4 tools)")
 
+    if 'backups' in toolsets or 'all' in toolsets:
+        register_backups_tools()
+        print("  ✓ backups (3 tools)")
 
-@mcp.tool()
-async def get_pipeline(pipeline_id: int) -> dict[str, Any]:
-    """Get pipeline details. GET /pipelines/{id}"""
-    return await make_request("GET", f"/pipelines/{pipeline_id}")
+    if 'events' in toolsets or 'all' in toolsets:
+        register_events_tools()
+        print("  ✓ events (5 tools)")
 
-
-@mcp.tool()
-async def update_pipeline_status(pipeline_id: int, status_id: int) -> dict[str, Any]:
-    """Update pipeline status. PUT /pipelines/{id}/status"""
-    return await make_request("PUT", f"/pipelines/{pipeline_id}/status", json_data={"status_id": status_id})
-
-
-# ACTIVITIES
-@mcp.tool()
-async def list_activities(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List activities. GET /activities"""
-    return await make_request("GET", "/activities", params={"per_page": per_page, "page": page})
-
-
-@mcp.tool()
-async def get_activity(activity_id: int) -> dict[str, Any]:
-    """Get activity details. GET /activities/{id}"""
-    return await make_request("GET", f"/activities/{activity_id}")
-
-
-# TASKS
-@mcp.tool()
-async def list_tasks(per_page: int = 25, page: int = 1) -> dict[str, Any]:
-    """List tasks. GET /tasks"""
-    return await make_request("GET", "/tasks", params={"per_page": per_page, "page": page})
-
-
-@mcp.tool()
-async def get_task(task_id: int) -> dict[str, Any]:
-    """Get task details. GET /tasks/{id}"""
-    return await make_request("GET", f"/tasks/{task_id}")
-
-
-@mcp.tool()
-async def create_task(title: str, due_date: Optional[str] = None, candidate_id: Optional[int] = None) -> dict[str, Any]:
-    """Create task. POST /tasks"""
-    payload = {"title": title}
-    if due_date:
-        payload["due_date"] = due_date
-    if candidate_id:
-        payload["candidate_id"] = candidate_id
-    return await make_request("POST", "/tasks", json_data=payload)
+    # Calculate and display total
+    loaded_count = len(toolsets) if 'all' not in toolsets else len(ALL_TOOLSETS)
+    print(f"\nTotal toolsets loaded: {loaded_count}")
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="CATS API v3 MCP Server")
+    parser.add_argument(
+        "--toolsets",
+        type=str,
+        default=None,
+        help="Comma-separated list of toolsets to load (default: core set)"
+    )
+    parser.add_argument(
+        "--list-toolsets",
+        action="store_true",
+        help="List available toolsets and exit"
+    )
+
+    args = parser.parse_args()
+
+    if args.list_toolsets:
+        print("CATS API v3 MCP Server - Available Toolsets\n")
+        print("DEFAULT toolsets (loaded by default, 89 tools):")
+        print("  - candidates (28 tools) - Core recruiting")
+        print("  - jobs (40 tools) - Job management")
+        print("  - pipelines (13 tools) - Workflow management")
+        print("  - context (3 tools) - Site/user info")
+        print("  - tasks (5 tools) - Task management")
+        print("\nRECRUITING toolsets (52 tools):")
+        print("  - companies (18 tools)")
+        print("  - contacts (18 tools)")
+        print("  - activities (6 tools)")
+        print("  - portals (8 tools)")
+        print("  - work_history (3 tools)")
+        print("\nDATA & CONFIG toolsets (21 tools):")
+        print("  - tags (2 tools)")
+        print("  - webhooks (4 tools)")
+        print("  - users (2 tools)")
+        print("  - triggers (2 tools)")
+        print("  - attachments (4 tools)")
+        print("  - backups (3 tools)")
+        print("  - events (5 tools)")
+        print("\nUsage:")
+        print("  python server.py                                    # Default toolsets")
+        print("  python server.py --toolsets candidates,jobs          # Specific toolsets")
+        print("  python server.py --toolsets all                      # All 162 tools")
+        print("  export CATS_TOOLSETS='candidates,companies' && python server.py")
+        exit(0)
+
+    # Determine which toolsets to load
+    if args.toolsets:
+        requested = {t.strip() for t in args.toolsets.split(',')}
+    else:
+        env_toolsets = os.getenv('CATS_TOOLSETS', '')
+        if env_toolsets:
+            requested = {t.strip() for t in env_toolsets.split(',')}
+        else:
+            requested = set(DEFAULT_TOOLSETS)
+
+    # Validate toolsets
+    if 'all' not in requested:
+        invalid_toolsets = requested - set(ALL_TOOLSETS)
+        if invalid_toolsets:
+            print(f"Error: Invalid toolsets specified: {', '.join(invalid_toolsets)}")
+            print(f"Valid toolsets: {', '.join(ALL_TOOLSETS)}")
+            print("Use --list-toolsets to see all available toolsets")
+            exit(1)
+
+    # Load toolsets
+    load_toolsets(requested)
+
+    # Start server
+    print("\nStarting CATS MCP Server...")
+    print(f"API Base URL: {CATS_API_BASE_URL}")
+    print(f"API Key configured: {'Yes' if CATS_API_KEY else 'No'}")
     mcp.run(transport="http")
