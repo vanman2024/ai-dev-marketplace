@@ -1,108 +1,63 @@
 ---
-allowed-tools: Read(*), Write(*), Bash(*), AskUserQuestion(*)
+allowed-tools: Read(*), Write(*), Bash(*)
 description: Create new agent using templates - references fullstack-web-builder as gold standard
 argument-hint: <agent-name> "<description>" "<tools>"
 ---
 
 **Arguments**: $ARGUMENTS
 
-## Step 1: Parse Arguments
+Goal: Create a properly structured agent file following framework templates, ensuring it includes phased WebFetch for documentation and stays concise (under 300 lines).
 
-Parse the arguments to extract:
-- Agent name (first argument)
-- Description (second argument in quotes)
-- Tools (third argument in quotes)
+Core Principles:
+- Study templates before generating
+- Keep agents concise using WebFetch (not embedding docs)
+- Match complexity to task (simple vs complex)
+- Validate line count and structure
 
-## Step 2: Determine Agent Complexity
+Phase 1: Parse Arguments
+Goal: Extract agent specifications
 
-Analyze description to determine if this is a complex or simple agent:
-- Complex: Multi-step process, multiple competencies, needs phases (e.g., "build complete plugins", "full-stack", "end-to-end")
-- Simple: Single focused task, straightforward process (e.g., "validate", "format", "analyze")
+Actions:
+- Parse $ARGUMENTS to extract agent name, description, tools
+- Determine complexity: complex (multi-step) vs simple (focused task)
 
-For this agent, determine complexity from description and proceed.
+Phase 2: Load Templates
+Goal: Study framework patterns
 
-## Step 3: Load Templates
+Actions:
+- Load agent template:
+  - @plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
+- Load gold standard:
+  - @plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
+- Study structure, WebFetch patterns, how to stay under 300 lines
 
-Use the Read tool to load the agent template with phased WebFetch pattern:
-- Read: plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
+Phase 3: Determine Location
+Goal: Identify where to create file
 
-Then use the Read tool to load a gold standard example:
-- Read: plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
+Actions:
+- Detect plugin from context (invocation path, arguments, or default to domain-plugin-builder)
+- Store as PLUGIN_NAME
 
-Study both to understand:
-- Proper agent structure
-- Phased WebFetch pattern
-- How to keep agents concise (under 200 lines)
+Phase 4: Create Agent
+Goal: Generate agent file
 
-**CRITICAL - ALL Agents MUST Include Phased WebFetch:**
+Actions:
+- Create: plugins/PLUGIN_NAME/agents/AGENT_NAME.md
+- **Frontmatter**: name, description ("Use this agent to..."), model: inherit, color: yellow, tools (optional)
+- **Body for complex**: Role, Core Competencies (3-5), Implementation Process (5-6 phases with WebFetch URLs), Decision Framework, Communication, Output Standards, Verification
+- **Body for simple**: Role, Process steps (3-5), Success criteria
+- **CRITICAL**: Include progressive WebFetch for docs
 
-Every agent you create must include a progressive documentation fetching strategy:
+Phase 5: Validate
+Goal: Ensure framework compliance
 
-```markdown
-## Implementation Process
+Actions:
+- Check exists: !{bash test -f "plugins/PLUGIN_NAME/agents/AGENT_NAME.md" && echo "✅ Created" || echo "❌ Failed"}
+- Validate: !{bash bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-agent.sh plugins/PLUGIN_NAME/agents/AGENT_NAME.md}
+- Check lines: !{bash wc -l plugins/PLUGIN_NAME/agents/AGENT_NAME.md}
 
-1. **Fetch Documentation**:
-   - WebFetch: https://example.com/overview
-   - Review core concepts and architecture
+Phase 6: Summary
+Goal: Report results
 
-2. **Analyze Feature Usage**:
-   - If feature X found: WebFetch https://example.com/feature-x
-   - If feature Y found: WebFetch https://example.com/feature-y
-
-3. **Fetch Advanced Patterns**:
-   - WebFetch: https://example.com/advanced
-   - Compare implementation against best practices
-```
-
-This ensures agents have access to up-to-date, official documentation at execution time.
-
-## Step 4: Determine Plugin Location
-
-Parse plugin name from context:
-- If invoked from /PLUGIN:command, use that plugin
-- If PLUGIN_NAME appears in arguments, use that
-- Otherwise, use current directory plugin
-- Default: domain-plugin-builder
-
-Store plugin name as PLUGIN_NAME for Step 5.
-
-## Step 5: Create Agent File
-
-Based on template and user inputs, create agent file:
-
-Location: plugins/PLUGIN_NAME/agents/AGENT_NAME.md
-
-**Frontmatter requirements:**
-- name: agent-name
-- description: Use pattern from fullstack-web-builder (trigger context + examples)
-- model: inherit
-- color: yellow
-
-**Body requirements (for complex agents):**
-- Role description and primary responsibility
-- Core Competencies sections (3-5 areas)
-- Project Approach with numbered phases (5-6 phases)
-- Decision-Making Framework
-- Communication Style
-- Output Standards
-- Self-Verification Checklist
-- Collaboration guidelines
-
-**Body requirements (for simple agents):**
-- Clear role description
-- Numbered process steps
-- Success criteria
-
-## Step 6: Validate Created File
-
-Use Bash tool to check that file was created successfully and validate it:
-- Check file exists: `test -f "plugins/PLUGIN_NAME/agents/AGENT_NAME.md"`
-- Run validation script: `bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-agent.sh plugins/PLUGIN_NAME/agents/AGENT_NAME.md`
-- Check line count: `wc -l plugins/PLUGIN_NAME/agents/AGENT_NAME.md` (should be under 300 lines)
-
-## Step 7: Display Summary
-
-**Agent Created:** AGENT_NAME
-**Location:** plugins/PLUGIN_NAME/agents/AGENT_NAME.md
-**Template Used:** comprehensive | simple
-**Pattern:** Based on fullstack-web-builder.md
+Actions:
+- Display agent name, location, line count, validation status, template type
