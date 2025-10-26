@@ -11,12 +11,6 @@ BACKUP_FILE=".claude/settings.local.json.backup"
 
 echo "[INFO] Syncing plugin commands to settings.local.json"
 
-# Create backup
-if [[ -f "$SETTINGS_FILE" ]]; then
-    cp "$SETTINGS_FILE" "$BACKUP_FILE"
-    echo "[INFO] Created backup: $BACKUP_FILE"
-fi
-
 # Find all plugins
 PLUGINS=$(find plugins -mindepth 1 -maxdepth 1 -type d | sort)
 

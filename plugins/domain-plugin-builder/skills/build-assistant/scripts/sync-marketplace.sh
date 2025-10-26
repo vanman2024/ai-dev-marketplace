@@ -11,12 +11,6 @@ BACKUP_FILE=".claude-plugin/marketplace.json.backup"
 
 echo "[INFO] Syncing plugins to marketplace.json"
 
-# Create backup
-if [[ -f "$MARKETPLACE_FILE" ]]; then
-    cp "$MARKETPLACE_FILE" "$BACKUP_FILE"
-    echo "[INFO] Created backup: $BACKUP_FILE"
-fi
-
 # Find all plugins with plugin.json
 PLUGINS=()
 PLUGIN_JSON_FILES=$(find plugins -path "*/.claude-plugin/plugin.json" -type f | sort)
