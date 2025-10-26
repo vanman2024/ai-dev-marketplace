@@ -10,7 +10,7 @@ This plugin provides comprehensive tooling for building AI agents using the Clau
 
 ### Project Initialization
 
-#### `/agent-sdk-dev:new-app [project-name]`
+#### `/claude-agent-sdk:new-app [project-name]`
 Create and setup a new Claude Agent SDK application with TypeScript or Python.
 
 **Features:**
@@ -20,7 +20,7 @@ Create and setup a new Claude Agent SDK application with TypeScript or Python.
 - Automatic project validation
 - Security defaults (.env.example, .gitignore)
 
-#### `/agent-sdk-dev:build-full-app [project-name]`
+#### `/claude-agent-sdk:build-full-app [project-name]`
 Build a complete production-ready Claude Agent SDK application by chaining all feature commands together.
 
 **Features:**
@@ -32,7 +32,7 @@ Build a complete production-ready Claude Agent SDK application by chaining all f
 
 ### Feature Addition Commands
 
-#### `/agent-sdk-dev:add-streaming [project-path]`
+#### `/claude-agent-sdk:add-streaming [project-path]`
 Add streaming capabilities to handle real-time token generation.
 
 **Adds:**
@@ -40,7 +40,7 @@ Add streaming capabilities to handle real-time token generation.
 - Stream error handling
 - Streaming vs single-mode configuration
 
-#### `/agent-sdk-dev:add-sessions [project-path]`
+#### `/claude-agent-sdk:add-sessions [project-path]`
 Add session management for multi-turn conversations.
 
 **Adds:**
@@ -48,7 +48,7 @@ Add session management for multi-turn conversations.
 - Session persistence
 - Session configuration options
 
-#### `/agent-sdk-dev:add-mcp [project-path]`
+#### `/claude-agent-sdk:add-mcp [project-path]`
 Add Model Context Protocol (MCP) integration for external tools.
 
 **Adds:**
@@ -57,7 +57,7 @@ Add Model Context Protocol (MCP) integration for external tools.
 - Custom MCP server creation
 - MCP error handling
 
-#### `/agent-sdk-dev:add-custom-tools [project-path]`
+#### `/claude-agent-sdk:add-custom-tools [project-path]`
 Add custom tool definitions for agent capabilities.
 
 **Adds:**
@@ -66,7 +66,7 @@ Add custom tool definitions for agent capabilities.
 - Tool permissions configuration
 - Tool execution error handling
 
-#### `/agent-sdk-dev:add-subagents [project-path]`
+#### `/claude-agent-sdk:add-subagents [project-path]`
 Add subagent definitions for specialized tasks.
 
 **Adds:**
@@ -75,7 +75,7 @@ Add subagent definitions for specialized tasks.
 - Subagent tool permissions
 - Subagent invocation handling
 
-#### `/agent-sdk-dev:add-permissions [project-path]`
+#### `/claude-agent-sdk:add-permissions [project-path]`
 Add permission handling for tool access control.
 
 **Adds:**
@@ -84,7 +84,7 @@ Add permission handling for tool access control.
 - Permission callbacks
 - Permission error handling
 
-#### `/agent-sdk-dev:add-hosting [project-path]`
+#### `/claude-agent-sdk:add-hosting [project-path]`
 Add hosting and deployment configuration.
 
 **Adds:**
@@ -93,7 +93,7 @@ Add hosting and deployment configuration.
 - Environment variable handling
 - CORS and security configurations
 
-#### `/agent-sdk-dev:add-system-prompts [project-path]`
+#### `/claude-agent-sdk:add-system-prompts [project-path]`
 Add system prompts for agent behavior customization.
 
 **Adds:**
@@ -102,7 +102,7 @@ Add system prompts for agent behavior customization.
 - Prompt templating
 - Context injection
 
-#### `/agent-sdk-dev:add-slash-commands [project-path]`
+#### `/claude-agent-sdk:add-slash-commands [project-path]`
 Add slash command definitions for agent interactions.
 
 **Adds:**
@@ -111,7 +111,7 @@ Add slash command definitions for agent interactions.
 - Command registration
 - Command error handling
 
-#### `/agent-sdk-dev:add-skills [project-path]`
+#### `/claude-agent-sdk:add-skills [project-path]`
 Add skill definitions for reusable agent capabilities.
 
 **Adds:**
@@ -120,7 +120,7 @@ Add skill definitions for reusable agent capabilities.
 - Skill registration
 - Skill error handling
 
-#### `/agent-sdk-dev:add-plugins [project-path]`
+#### `/claude-agent-sdk:add-plugins [project-path]`
 Add plugin system for extensibility.
 
 **Adds:**
@@ -129,7 +129,7 @@ Add plugin system for extensibility.
 - Plugin registration
 - Plugin error handling
 
-#### `/agent-sdk-dev:add-cost-tracking [project-path]`
+#### `/claude-agent-sdk:add-cost-tracking [project-path]`
 Add cost and usage monitoring.
 
 **Adds:**
@@ -138,7 +138,7 @@ Add cost and usage monitoring.
 - Usage data storage
 - Reporting and analytics
 
-#### `/agent-sdk-dev:add-todo-tracking [project-path]`
+#### `/claude-agent-sdk:add-todo-tracking [project-path]`
 Add todo list and task management.
 
 **Adds:**
@@ -196,22 +196,22 @@ Validates Python Claude Agent SDK applications for correctness, SDK compliance, 
 
 ```bash
 # Create a new agent project
-/agent-sdk-dev:new-app my-chatbot
+/claude-agent-sdk:new-app my-chatbot
 
 # Add streaming support
-/agent-sdk-dev:add-streaming my-chatbot
+/claude-agent-sdk:add-streaming my-chatbot
 
 # Add MCP integration
-/agent-sdk-dev:add-mcp my-chatbot
+/claude-agent-sdk:add-mcp my-chatbot
 
 # Add custom tools
-/agent-sdk-dev:add-custom-tools my-chatbot
+/claude-agent-sdk:add-custom-tools my-chatbot
 
 # Add subagents for specialized tasks
-/agent-sdk-dev:add-subagents my-chatbot
+/claude-agent-sdk:add-subagents my-chatbot
 
 # Add cost tracking
-/agent-sdk-dev:add-cost-tracking my-chatbot
+/claude-agent-sdk:add-cost-tracking my-chatbot
 ```
 
 ## Installation
