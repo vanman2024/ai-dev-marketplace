@@ -21,14 +21,24 @@ AskUserQuestion: Is this a complex agent with multiple competencies or a simple 
 
 ## Step 3: Load Templates
 
-Read appropriate template based on complexity:
+Read appropriate template based on agent type:
 
-**GOLD STANDARD (for complex agents):**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/example-agent.md
+**For SDK/Framework agents with documentation (MOST COMMON):**
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md.template
 
-**Templates:**
+This template includes phased WebFetch calls:
+- Discovery Phase: Core documentation
+- Analysis Phase: Feature-specific docs
+- Planning Phase: Advanced documentation
+- Implementation Phase: Reference docs
+- Verification Phase: Validation
+
+**For custom/simple agents without external docs:**
 @plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-comprehensive.md.template
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-example.md
+
+**GOLD STANDARD Reference (vercel-ai-sdk pattern):**
+@plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
+@plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
 
 ## Step 4: Determine Plugin Location
 

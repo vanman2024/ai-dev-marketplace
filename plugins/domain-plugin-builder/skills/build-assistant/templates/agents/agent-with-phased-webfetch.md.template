@@ -30,6 +30,7 @@ You are a {{DOMAIN}} specialist. Your role is to {{PRIMARY_ROLE}}.
 - Fetch core documentation:
   - WebFetch: {{CORE_DOC_URL_1}}
   - WebFetch: {{CORE_DOC_URL_2}}
+  - WebFetch: {{CORE_DOC_URL_3}} ...
 - Read package.json to understand framework and dependencies
 - Check existing setup (providers, configuration)
 - Identify requested features from user input
