@@ -8,9 +8,10 @@ argument-hint: <agent-name> "<description>" "<tools>"
 
 ## Step 1: Parse Arguments
 
-Extract components from arguments:
-
-!{bash echo "$ARGUMENTS" | awk '{print "Name:", $1}'}
+Parse the arguments to extract:
+- Agent name (first argument)
+- Description (second argument in quotes)
+- Tools (third argument in quotes)
 
 ## Step 2: Determine Agent Complexity
 
@@ -22,13 +23,16 @@ For this agent, determine complexity from description and proceed.
 
 ## Step 3: Load Templates
 
-Use Read tool to load the agent template with phased WebFetch pattern:
+Use the Read tool to load the agent template with phased WebFetch pattern:
+- Read: plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
 
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md}
+Then use the Read tool to load a gold standard example:
+- Read: plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
 
-Then use Read tool to load a gold standard example:
-
-!{read plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md}
+Study both to understand:
+- Proper agent structure
+- Phased WebFetch pattern
+- How to keep agents concise (under 200 lines)
 
 **CRITICAL - ALL Agents MUST Include Phased WebFetch:**
 
@@ -91,9 +95,10 @@ Location: plugins/PLUGIN_NAME/agents/AGENT_NAME.md
 
 ## Step 6: Validate Created File
 
-Check that file was created successfully:
-
-!{bash test -f "plugins/PLUGIN_NAME/agents/AGENT_NAME.md" && echo "✅ Agent created" || echo "❌ Agent creation failed"}
+Use Bash tool to check that file was created successfully and validate it:
+- Check file exists: `test -f "plugins/PLUGIN_NAME/agents/AGENT_NAME.md"`
+- Run validation script: `bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-agent.sh plugins/PLUGIN_NAME/agents/AGENT_NAME.md`
+- Check line count: `wc -l plugins/PLUGIN_NAME/agents/AGENT_NAME.md` (should be under 300 lines)
 
 ## Step 7: Display Summary
 

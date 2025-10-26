@@ -1,148 +1,95 @@
 ---
-allowed-tools: Read(*), Write(*), Bash(*), AskUserQuestion(*)
 description: Create new skill using templates - no sub-agents needed
 argument-hint: <skill-name> "<description>"
+allowed-tools: Read(*), Write(*), Bash(*), AskUserQuestion(*)
 ---
 
 **Arguments**: $ARGUMENTS
 
 ## Step 1: Parse Arguments
 
-Extract skill name and description:
-
-!{bash echo "$ARGUMENTS" | awk '{print "Skill:", $1}'}
+Parse arguments to extract:
+- Skill name (first argument)
+- Description (second argument in quotes)
 
 ## Step 2: Load Design Principles
 
-Use Read tool to load lifecycle plugin guide:
+Use the Read tool to load lifecycle plugin guide:
+- Read: plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template
 
-!{read plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md}
+Then load a working example:
+- Read: plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md
 
-Then use Read tool to load skills vs commands guide:
+Study the templates to understand:
+- SKILL.md frontmatter structure
+- "Use when" trigger context pattern
+- Instructions format
+- Script organization
 
-!{read plugins/domain-plugin-builder/docs/05-skills-vs-commands.md}
+## Step 3: Determine Plugin Location
 
-**Available for reference (load on-demand):**
-- Chaining Patterns: `07-chaining-patterns.md`
-- Workflow Examples: `08-workflow-examples.md`
+Use AskUserQuestion to determine which plugin this skill belongs to, or detect from current context.
 
-## Step 3: Load Skill Templates
+## Step 4: Create Skill Directory Structure
 
-Use Read tool to load skill template:
-
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template}
-
-Then use Read tool to load skill example:
-
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md}
-
-## Step 4: Determine Plugin Location
-
-AskUserQuestion: Which plugin should this skill belong to?
-
-List available plugins or specify plugin name.
-
-## Step 5: Create Skill Directory Structure
-
-!{bash mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME}
-!{bash mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME/templates}
-!{bash mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts}
-
-## Step 6: Load Script Templates
-
-Use Read tool to load bash script template:
-
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-script.sh}
-
-Then use Read tool to load python helper template:
-
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-helper.py}
-
-Then use Read tool to load scripts README:
-
-!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md}
-
-## Step 7: Populate Scripts Directory
-
-Copy template scripts to skill's scripts/ directory:
-
-!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.sh plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
-!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.py plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
-!{bash cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true}
-
-Make scripts executable:
-
-!{bash chmod +x plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/*.sh 2>/dev/null || true}
-!{bash chmod +x plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/*.py 2>/dev/null || true}
-
-## Step 8: Create SKILL.md
-
-Based on template, create skill file:
-
-Location: plugins/PLUGIN_NAME/skills/SKILL_NAME/SKILL.md
-
-**CRITICAL: Description Field Controls Auto-Invocation**
-
-The description must have explicit trigger keywords so Claude knows when to load this skill.
-
-**Description Format:**
-```yaml
-description: [What it does]. Use when [action verbs] [specific things], [related tasks], or when user mentions [keywords], [terms], [phrases].
+Use Bash tool to create directories:
+```bash
+mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME
+mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME/templates
+mkdir -p plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts
 ```
 
-**Frontmatter requirements:**
-- name: skill-name (capability, not "agent" or "skill that does X")
-- description: **MUST include "Use when..." with specific trigger keywords**
-- allowed-tools: List of tools skill can use (Read, Bash, Write, etc.)
+## Step 5: Create SKILL.md
 
-**Body requirements:**
-- Clear examples of good/bad descriptions (auto-loaded from template)
-- Step-by-step instructions for how skill provides resources
-- List of available scripts with their purposes
-- Documentation of templates and their usage
+Create the skill manifest following template structure:
+
+Location: `plugins/PLUGIN_NAME/skills/SKILL_NAME/SKILL.md`
+
+**Frontmatter:**
+```yaml
+---
+name: skill-name
+description: Clear description with "Use when" context
+allowed-tools: Tool1, Tool2, Tool3
+---
+```
+
+**Body Structure:**
+- Brief introduction
+- "Use when" trigger contexts with examples
+- Step-by-step instructions
+- Required files/templates
 - Success criteria
 
-**Example Good Descriptions:**
-- "Validate MCP servers with auto-fix. Use when building MCP servers, validating FastMCP code, or when user mentions MCP validation, server structure."
-- "Generate React components with TypeScript. Use when creating components, building UI, scaffolding React, or when user mentions React, components, TypeScript."
-- "Detect project framework and structure. Use when initializing projects, analyzing codebases, or when user mentions framework detection, stack analysis."
+Keep it concise - under 150 lines.
 
-**Example Bad Descriptions (won't trigger):**
-- "Helps with development" ❌ Too vague
-- "Skill for files" ❌ No triggers
-- "Use when needed" ❌ Not specific
+## Step 6: Copy Template Scripts (if needed)
 
-## Step 9: Verify Structure
+If skill needs helper scripts, use Bash tool to copy templates:
+```bash
+cp plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/*.sh plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/ 2>/dev/null || true
+chmod +x plugins/PLUGIN_NAME/skills/SKILL_NAME/scripts/*.sh 2>/dev/null || true
+```
 
-!{bash tree plugins/PLUGIN_NAME/skills/SKILL_NAME}
+## Step 7: Validate
 
-## Step 10: Display Summary
+Use Bash tool to validate:
+```bash
+bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-skill.sh plugins/PLUGIN_NAME/skills/SKILL_NAME
+```
 
-**Skill Created:** SKILL_NAME
-**Location:** plugins/PLUGIN_NAME/skills/SKILL_NAME
-**Plugin:** PLUGIN_NAME
+## Step 8: Display Summary
 
-**Structure:**
-- SKILL.md ✅ (auto-invocation instructions)
-- templates/ ✅ (ready for custom templates)
-- scripts/ ✅ (helper scripts)
-  - template-script.sh (bash helper template)
-  - template-helper.py (python helper template)
-  - README.md (script guidelines)
+Show:
+- **Skill Created:** SKILL_NAME
+- **Location:** plugins/PLUGIN_NAME/skills/SKILL_NAME/
+- **Files:** SKILL.md, scripts/, templates/
+- **Usage:** Document how to invoke the skill
 
-**What's Included:**
-- Skill is self-contained (templates + scripts + docs)
-- Scripts are mechanical helpers (rename and customize)
-- Templates ready for code/config patterns
-- SKILL.md needs description with trigger keywords
+## Success Criteria
 
-**Next Steps:**
-1. Update SKILL.md description with "Use when..." trigger keywords
-2. Customize script templates (rename template-script.sh → detect-something.sh)
-3. Add templates to templates/ directory (code patterns, configs)
-4. Validate: /multiagent-build-system:skills-validate SKILL_NAME
-
-**Skill Naming Guide:**
-- Name describes CAPABILITY (not "agent" or "skill that does X")
-- Examples: "MCP Development", "Code Generation", "Project Detection"
-- NOT: "MCP Development Agent", "Code Generator Skill"
+- ✅ SKILL.md has proper frontmatter
+- ✅ "Use when" context is clear
+- ✅ Instructions are step-by-step
+- ✅ Validation passes
+- ✅ Scripts are executable

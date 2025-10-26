@@ -41,9 +41,8 @@ Parse provided arguments:
 
 ## Available Agents
 
-Load current agent list for context:
-
-!{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/list-agents.sh}
+Use Bash tool to load current agent list for context:
+- Run: `bash plugins/domain-plugin-builder/skills/build-assistant/scripts/list-agents.sh`
 
 ## Context Files (MUST Read Before Building)
 
@@ -201,7 +200,7 @@ Register in: ~/.claude/marketplaces/MARKETPLACE/plugins/PLUGIN_NAME/.claude-plug
 9. Use proper syntax: $ARGUMENTS only, !{bash command} for execution, @filename for loading
 
 **Phase 3: END (Validate)**
-6. Run validation: !{bash skills/build-assistant/scripts/validate-command.sh COMMAND_FILE}
+6. Use Bash tool to run validation: `bash skills/build-assistant/scripts/validate-command.sh COMMAND_FILE`
 7. If validation fails, fix errors and re-validate until passing
 
 **Phase 4: REVIEW (Finalize)**
