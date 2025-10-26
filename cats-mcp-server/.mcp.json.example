@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "cats": {
+      "command": "python",
+      "args": [
+        "/absolute/path/to/cats-mcp-server/server.py"
+      ],
+      "env": {
+        "CATS_API_KEY": "your_cats_api_key_here",
+        "CATS_API_BASE_URL": "https://api.catsone.com/v3",
+        "CATS_TOOLSETS": "candidates,jobs,pipelines",
+        "CATS_TRANSPORT": "stdio"
+      }
+    }
+  }
+}

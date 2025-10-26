@@ -235,8 +235,25 @@ if __name__ == "__main__":
     # Load toolsets
     load_toolsets(requested)
 
-    # Start server
+    # Determine transport mode
+    transport = os.getenv('CATS_TRANSPORT', 'stdio').lower()
+
     print("\nStarting CATS MCP Server...")
+    print(f"Transport: {transport.upper()}")
     print(f"API Base URL: {CATS_API_BASE_URL}")
     print(f"API Key configured: {'Yes' if CATS_API_KEY else 'No'}")
-    mcp.run(transport="http")
+
+    if transport == 'stdio':
+        # STDIO transport for Claude Desktop, Claude Code, Cursor
+        # Configured via .mcp.json or IDE config files
+        mcp.run()
+    elif transport == 'http':
+        # HTTP transport for remote services, web applications
+        port = int(os.getenv('CATS_PORT', '8000'))
+        host = os.getenv('CATS_HOST', '0.0.0.0')
+        print(f"HTTP Server: http://{host}:{port}/mcp")
+        mcp.run(transport="http", host=host, port=port)
+    else:
+        print(f"Error: Invalid transport '{transport}'. Use 'stdio' or 'http'")
+        print("Set CATS_TRANSPORT environment variable to 'stdio' or 'http'")
+        exit(1)
