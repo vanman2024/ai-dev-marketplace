@@ -1,31 +1,51 @@
 ---
-description: Generate MCP tools from Postman collections to wrap existing APIs. Uses Postman MCP server and Newman to analyze API structure and create FastMCP tool wrappers.
+description: Generate MCP tools from Postman collections to wrap existing APIs. Falls back to WebFetch/Playwright if Postman unavailable. Uses Postman MCP server and Newman to analyze API structure and create FastMCP tool wrappers.
 argument-hint: <collection-name-or-id> [--server-path=path]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), mcp__postman(*)
+allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), WebFetch(*), WebSearch(*), mcp__postman(*)
 mcp-servers: postman
 ---
 
 **Arguments**: $ARGUMENTS
 
-Goal: Automatically generate FastMCP tools that wrap existing REST APIs from Postman collections. This command uses the Postman MCP server to access collections and Newman to understand API structure, then generates proper MCP tool decorators with type hints, documentation, and error handling.
+Goal: Automatically generate FastMCP tools that wrap existing REST APIs. Uses Postman collections as primary source, but falls back to WebFetch/Playwright if Postman MCP is unavailable or collection doesn't exist.
 
-Phase 1: Discovery & Collection Analysis
-Goal: Find and analyze the Postman collection
+Phase 1: Discovery & API Source Determination
+Goal: Find API structure from best available source
+
+**Primary Strategy: Postman/Newman**
 
 Actions:
 - Parse $ARGUMENTS for collection name/ID and server path
-- Verify Postman MCP server available and Newman installed
-- Use mcp__postman tools to list collections and get collection details
-- Interactive conversation:
-  - "Which Postman collection contains the API you want to wrap?"
-  - "Do you want to wrap ALL endpoints or select specific ones?"
-  - Show collection structure (folders, requests)
-  - Explain what MCP tools will be generated
+- Check if Postman MCP server is available
+- If available:
+  - Use mcp__postman tools to list collections and get collection details
+  - Interactive conversation:
+    - "Which Postman collection contains the API you want to wrap?"
+    - "Do you want to wrap ALL endpoints or select specific ones?"
+    - Show collection structure (folders, requests)
+    - Explain what MCP tools will be generated
+
+**Fallback Strategy: WebFetch/Playwright**
+
+If Postman MCP not available OR collection doesn't exist:
+- Use WebSearch to find "{API_NAME} API documentation"
+- Use WebFetch to retrieve:
+  - Official API documentation pages
+  - OpenAPI/Swagger specifications
+  - API reference guides
+  - Developer portal endpoints
+- Check common documentation paths:
+  - `/api/docs`
+  - `/swagger`
+  - `/api-docs`
+  - `/docs/api`
+- If interactive discovery needed, document that Playwright could be used
+- If NO documentation found, use generic REST patterns with clear warnings
 
 Phase 2: API Structure Analysis
-Goal: Use Newman to understand the API endpoints
+Goal: Extract endpoint information from chosen source
 
-Actions:
+**If using Postman/Newman:**
 - Export collection to temporary JSON file
 - Run Newman to validate collection and extract:
   - Endpoint paths and HTTP methods
@@ -34,6 +54,17 @@ Actions:
   - Authentication requirements
   - Error responses
 - Analyze API patterns: RESTful conventions, pagination, error handling, authentication flow
+
+**If using WebFetch/Playwright:**
+- Parse documentation to extract:
+  - Endpoint paths and HTTP methods
+  - Required and optional parameters
+  - Authentication methods (Bearer token, API key, OAuth, etc.)
+  - Response formats and schemas
+  - Rate limiting information
+  - Error response codes
+- Look for OpenAPI/Swagger specs that contain structured endpoint data
+- Document any assumptions made due to incomplete documentation
 
 Phase 3: Planning & User Confirmation
 Goal: Design the MCP tool wrappers and confirm approach
