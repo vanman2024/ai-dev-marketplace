@@ -34,55 +34,89 @@ Phase 2: Create Base Server
 Goal: Initialize server project
 
 Actions:
-- SlashCommand: /fastmcp:new-server $ARGUMENTS
+- Use SlashCommand tool to invoke: /fastmcp:new-server $ARGUMENTS
+- The /fastmcp:new-server command will:
+  - Load FastMCP documentation
+  - Ask language preference (Python or TypeScript)
+  - Invoke fastmcp-setup or fastmcp-setup-ts agent
+  - Create complete project structure
 - Wait for server creation to complete
-- Verify server directory exists
-- Update todos
+- Verify server directory exists using Bash
+- Update todos with TodoWrite
 
 Phase 3: Add MCP Components
 Goal: Add tools, resources, prompts, and/or middleware
 
 Actions:
 - If any components requested (tools, resources, prompts, middleware):
-  - SlashCommand: /fastmcp:add-components
-  - Wait for completion (command handles multiple component types)
-- Update todos
+  - Use SlashCommand tool to invoke: /fastmcp:add-components [component-types]
+  - The /fastmcp:add-components command will:
+    - Load relevant FastMCP documentation for each component type
+    - Read the existing server code
+    - Add requested tools, resources, prompts, or middleware
+    - Follow FastMCP SDK patterns and best practices
+  - Wait for completion
+- Update todos with TodoWrite
 
 Phase 4: Add Authentication
 Goal: Configure authentication if requested
 
 Actions:
 - If authentication requested:
-  - SlashCommand: /fastmcp:add-auth
-  - Wait for completion (command handles all auth types: OAuth providers, JWT, Bearer)
-- Update todos
+  - Use SlashCommand tool to invoke: /fastmcp:add-auth [auth-type]
+  - The /fastmcp:add-auth command will:
+    - Load FastMCP authentication documentation
+    - Read the existing server code
+    - Add authentication provider (OAuth, JWT, Bearer)
+    - Update environment configuration
+    - Add security best practices
+  - Wait for completion
+- Update todos with TodoWrite
 
 Phase 5: Configure Deployment
 Goal: Set up deployment transport
 
 Actions:
-- SlashCommand: /fastmcp:add-deployment
-- Wait for completion (command handles HTTP, STDIO, and Cloud)
-- Update todos
+- Use SlashCommand tool to invoke: /fastmcp:add-deployment [deployment-type]
+- The /fastmcp:add-deployment command will:
+  - Load FastMCP deployment documentation
+  - Configure transport (HTTP, STDIO, Cloud)
+  - Set up server startup code
+  - Add deployment configuration files
+  - Update README with deployment instructions
+- Wait for completion
+- Update todos with TodoWrite
 
 Phase 6: Add Integrations
 Goal: Configure integrations if requested
 
 Actions:
 - If integrations requested:
-  - SlashCommand: /fastmcp:add-integration
-  - Wait for completion (command handles FastAPI, OpenAPI, LLM platforms, IDEs, authorization)
-- Update todos
+  - Use SlashCommand tool to invoke: /fastmcp:add-integration [integration-type]
+  - The /fastmcp:add-integration command will:
+    - Load integration-specific documentation
+    - Configure FastAPI/OpenAPI/LLM platform integration
+    - Add necessary middleware or routes
+    - Update configuration files
+  - Wait for completion
+- Update todos with TodoWrite
 
 Phase 7: Final Verification
 Goal: Verify complete server works
 
 Actions:
-- Run Python syntax check on server
-- Verify all dependencies installed
-- Test server starts without errors
-- Run basic functionality tests
-- Update todos
+- Invoke the appropriate verifier agent:
+  - Python: Task tool with fastmcp:fastmcp-verifier-py
+  - TypeScript: Task tool with fastmcp:fastmcp-verifier-ts
+- The verifier agent will:
+  - Check Python/TypeScript syntax
+  - Verify all dependencies are installed
+  - Test server starts without errors
+  - Validate all tools/resources/prompts are accessible
+  - Run basic functionality tests
+  - Verify authentication is configured correctly
+  - Test deployment configuration
+- Update todos based on verification results
 
 Phase 8: Summary
 Goal: Present complete build results
