@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "cats-api": {
+      "url": "http://localhost:8000/sse",
+      "transport": {
+        "type": "sse"
+      }
+    }
+  }
+}
