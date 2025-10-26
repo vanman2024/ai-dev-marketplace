@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "marketing-automation": {
+      "command": "python",
+      "args": [
+        "/ABSOLUTE/PATH/TO/marketing-automation/server.py"
+      ],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "your-project-id",
+        "GOOGLE_CLOUD_LOCATION": "us-central1",
+        "GOOGLE_APPLICATION_CREDENTIALS": "/absolute/path/to/service-account-key.json",
+        "ANTHROPIC_API_KEY": "sk-ant-api03-your-key-here",
+        "GOOGLE_API_KEY": "your-google-ai-api-key",
+        "MCP_SERVER_NAME": "Marketing Automation"
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "entrypoint": "server.py",
+  "environment": {
+    "dependencies": [
+      "google-cloud-aiplatform",
+      "anthropic",
+      "google-generativeai"
+    ]
+  },
+  "name": "Marketing Automation",
+  "version": "0.1.0",
+  "description": "AI-powered marketing automation with Google Imagen/Veo and Claude/Gemini"
+}
