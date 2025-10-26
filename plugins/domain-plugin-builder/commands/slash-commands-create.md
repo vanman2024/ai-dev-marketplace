@@ -57,6 +57,28 @@ This master template is REQUIRED reading and contains:
 - Syntax reference ($ARGUMENTS, @files, !{bash}, etc.)
 - When to use agents vs inline code
 
+**SDK Documentation Loading (for SDK plugin commands):**
+
+If building a command for an SDK plugin (detected from --plugin flag or plugin name):
+
+1. Check if SDK documentation exists:
+   - Path: plugins/domain-plugin-builder/docs/sdks/<sdk-name>-documentation.md
+2. If exists: Use Read tool to load it
+   - This provides SDK features, WebFetch URLs, and context
+3. In the command you create, add Phase 1 action to load this documentation:
+   ```markdown
+   Phase 1: Discovery
+   Actions:
+   - Load SDK documentation:
+     @plugins/domain-plugin-builder/docs/sdks/<sdk-name>-documentation.md
+   ```
+4. Extract WebFetch URLs from docs for use in agents (Phase 4)
+
+Example:
+- Building: /claude-agent-sdk:add-streaming
+- Loads: @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+- Provides agent WebFetch URL: https://docs.claude.com/en/api/agent-sdk/streaming
+
 ## CRITICAL: Project-Agnostic Design
 
 **All commands MUST follow these principles:**

@@ -14,9 +14,13 @@ Extract skill name and description:
 
 ## Step 2: Load Design Principles
 
-**Implementation Guide:**
-@plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md
-@plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
+Use Read tool to load lifecycle plugin guide:
+
+!{read plugins/domain-plugin-builder/docs/09-lifecycle-plugin-guide.md}
+
+Then use Read tool to load skills vs commands guide:
+
+!{read plugins/domain-plugin-builder/docs/05-skills-vs-commands.md}
 
 **Available for reference (load on-demand):**
 - Chaining Patterns: `07-chaining-patterns.md`
@@ -24,8 +28,13 @@ Extract skill name and description:
 
 ## Step 3: Load Skill Templates
 
-@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template
-@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md
+Use Read tool to load skill template:
+
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template}
+
+Then use Read tool to load skill example:
+
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md}
 
 ## Step 4: Determine Plugin Location
 
@@ -41,9 +50,17 @@ List available plugins or specify plugin name.
 
 ## Step 6: Load Script Templates
 
-@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-script.sh
-@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-helper.py
-@plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md
+Use Read tool to load bash script template:
+
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-script.sh}
+
+Then use Read tool to load python helper template:
+
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/template-helper.py}
+
+Then use Read tool to load scripts README:
+
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/skills/scripts/README.md}
 
 ## Step 7: Populate Scripts Directory
 

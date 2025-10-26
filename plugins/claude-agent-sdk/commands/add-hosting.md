@@ -1,0 +1,82 @@
+---
+description: Add hosting and deployment setup to Claude Agent SDK application
+argument-hint: [project-path]
+allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Add hosting and deployment configuration to an existing Claude Agent SDK application
+
+Core Principles:
+- Understand existing code before modifying
+- Load SDK documentation for hosting patterns
+- Follow official SDK examples
+
+Phase 1: Discovery
+Goal: Gather context about the project
+
+Actions:
+- Load SDK hosting documentation:
+  @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+- Check if project path provided in $ARGUMENTS
+- Read package.json or requirements.txt to confirm SDK is installed
+- Identify main application files
+- Ask user about hosting target (local, cloud, serverless)
+
+Phase 2: Analysis
+Goal: Understand current implementation
+
+Actions:
+- Read main application files
+- Check if hosting configuration already exists
+- Identify server setup or entry points
+- Determine language (TypeScript or Python)
+
+Phase 3: Planning
+Goal: Design hosting implementation
+
+Actions:
+- Determine hosting platform (Express, FastAPI, serverless, etc.)
+- Plan server configuration strategy
+- Identify files to modify or create
+- Present plan to user for confirmation
+
+Phase 4: Implementation
+Goal: Add hosting with agent
+
+Actions:
+
+Invoke the claude-agent-features agent to add hosting.
+
+The agent should:
+- Fetch hosting documentation: https://docs.claude.com/en/api/agent-sdk/hosting
+- Set up server framework if needed
+- Configure endpoint routing
+- Add environment variable handling
+- Implement proper error handling for hosting
+- Add CORS and security configurations
+
+Provide the agent with:
+- Context: Project language, structure, and hosting target
+- Target: $ARGUMENTS (project path)
+- Expected output: Updated files with hosting setup
+
+Phase 5: Review
+Goal: Verify hosting works correctly
+
+Actions:
+- Invoke appropriate verifier agent:
+  - TypeScript: claude-agent-verifier-ts
+  - Python: claude-agent-verifier-py
+- Check that hosting patterns match SDK documentation
+- Verify server can start and handle requests
+
+Phase 6: Summary
+Goal: Document what was added
+
+Actions:
+- Summarize hosting capabilities added
+- Show example deployment commands
+- Link to SDK hosting documentation
+- Suggest testing with local server startup

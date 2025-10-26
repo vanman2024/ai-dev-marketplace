@@ -14,32 +14,53 @@ Extract components from arguments:
 
 ## Step 2: Determine Agent Complexity
 
-AskUserQuestion: Is this a complex agent with multiple competencies or a simple agent?
+Analyze description to determine if this is a complex or simple agent:
+- Complex: Multi-step process, multiple competencies, needs phases (e.g., "build complete plugins", "full-stack", "end-to-end")
+- Simple: Single focused task, straightforward process (e.g., "validate", "format", "analyze")
 
-- Complex: Use comprehensive template (like fullstack-web-builder)
-- Simple: Use basic agent pattern
+For this agent, determine complexity from description and proceed.
 
-## Step 3: Load Templates (CRITICAL - Read These Files)
+## Step 3: Load Templates
 
-**REQUIRED - Use Read tool to load the master agent template:**
-Path: plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
+Use Read tool to load the agent template with phased WebFetch pattern:
 
-This template includes phased WebFetch calls structure:
-- Discovery Phase: Core documentation
-- Analysis Phase: Feature-specific docs
-- Planning Phase: Advanced documentation
-- Implementation Phase: Reference docs
-- Verification Phase: Validation
+!{read plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md}
 
-**GOLD STANDARD Reference (study this pattern using Read tool):**
-Path: plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
-Path: plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
+Then use Read tool to load a gold standard example:
+
+!{read plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md}
+
+**CRITICAL - ALL Agents MUST Include Phased WebFetch:**
+
+Every agent you create must include a progressive documentation fetching strategy:
+
+```markdown
+## Implementation Process
+
+1. **Fetch Documentation**:
+   - WebFetch: https://example.com/overview
+   - Review core concepts and architecture
+
+2. **Analyze Feature Usage**:
+   - If feature X found: WebFetch https://example.com/feature-x
+   - If feature Y found: WebFetch https://example.com/feature-y
+
+3. **Fetch Advanced Patterns**:
+   - WebFetch: https://example.com/advanced
+   - Compare implementation against best practices
+```
+
+This ensures agents have access to up-to-date, official documentation at execution time.
 
 ## Step 4: Determine Plugin Location
 
-AskUserQuestion: Which plugin should this agent belong to?
+Parse plugin name from context:
+- If invoked from /PLUGIN:command, use that plugin
+- If PLUGIN_NAME appears in arguments, use that
+- Otherwise, use current directory plugin
+- Default: domain-plugin-builder
 
-List available plugins or specify new plugin name.
+Store plugin name as PLUGIN_NAME for Step 5.
 
 ## Step 5: Create Agent File
 

@@ -8,6 +8,7 @@
 set -euo pipefail
 
 PLUGIN_DIR="${1:?Usage: $0 <plugin-directory>}"
+SETTINGS_FILE=".claude/settings.local.json"
 
 echo "[INFO] Validating plugin directory: $PLUGIN_DIR"
 
@@ -50,6 +51,24 @@ if [[ -d "$PLUGIN_DIR/.claude-plugin/commands" ]] || \
    [[ -d "$PLUGIN_DIR/.claude-plugin/hooks" ]]; then
     echo "❌ ERROR: Component directories must be at plugin root, not inside .claude-plugin/"
     exit 1
+fi
+
+# NEW: Check if plugin commands are registered in settings.local.json
+PLUGIN_NAME=$(basename "$PLUGIN_DIR")
+
+if [[ -f "$SETTINGS_FILE" ]]; then
+    if [[ -d "$PLUGIN_DIR/commands" ]]; then
+        # Check for wildcard permission
+        if ! grep -q "SlashCommand(/$PLUGIN_NAME:\\*)" "$SETTINGS_FILE"; then
+            echo "⚠️  WARNING: Plugin commands not registered in settings.local.json"
+            echo "[INFO] Run: bash plugins/domain-plugin-builder/skills/build-assistant/scripts/sync-settings-permissions.sh"
+        else
+            echo "✅ Plugin commands registered in settings.local.json"
+        fi
+    fi
+else
+    echo "⚠️  WARNING: No settings.local.json found"
+    echo "[INFO] Run: bash plugins/domain-plugin-builder/skills/build-assistant/scripts/sync-settings-permissions.sh"
 fi
 
 echo "✅ Plugin validation passed"

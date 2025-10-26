@@ -1,0 +1,82 @@
+---
+description: Add subagents to Claude Agent SDK application
+argument-hint: [project-path]
+allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Add subagent definitions to an existing Claude Agent SDK application
+
+Core Principles:
+- Understand existing code before modifying
+- Load SDK documentation for subagent patterns
+- Follow official SDK examples
+
+Phase 1: Discovery
+Goal: Gather context about the project
+
+Actions:
+- Load SDK subagents documentation:
+  @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+- Check if project path provided in $ARGUMENTS
+- Read package.json or requirements.txt to confirm SDK is installed
+- Identify main application files
+- Ask user what subagents to add
+
+Phase 2: Analysis
+Goal: Understand current implementation
+
+Actions:
+- Read main application files
+- Check if subagents are already defined
+- Identify query() function configuration
+- Determine language (TypeScript or Python)
+
+Phase 3: Planning
+Goal: Design subagents
+
+Actions:
+- Define subagent roles and responsibilities
+- Plan subagent system prompts
+- Determine subagent tool permissions
+- Identify files to modify
+- Present plan to user for confirmation
+
+Phase 4: Implementation
+Goal: Add subagents with agent
+
+Actions:
+
+Invoke the claude-agent-features agent to add subagents.
+
+The agent should:
+- Fetch subagents documentation: https://docs.claude.com/en/api/agent-sdk/subagents
+- Create subagent definitions with names and descriptions
+- Configure subagent system prompts
+- Set subagent tool permissions
+- Add subagent invocation handling
+
+Provide the agent with:
+- Context: Project language, structure, and desired subagents
+- Target: $ARGUMENTS (project path)
+- Expected output: Updated files with subagent definitions
+
+Phase 5: Review
+Goal: Verify subagents work correctly
+
+Actions:
+- Invoke appropriate verifier agent:
+  - TypeScript: claude-agent-verifier-ts
+  - Python: claude-agent-verifier-py
+- Check that subagent definitions are valid
+- Verify subagents can be invoked properly
+
+Phase 6: Summary
+Goal: Document what was added
+
+Actions:
+- Summarize subagents added
+- Show example subagent usage
+- Link to SDK subagents documentation
+- Suggest testing with subagent delegation

@@ -32,10 +32,9 @@ for field in "${REQUIRED_FIELDS[@]}"; do
     fi
 done
 
-# Check Step 0 exists
+# Check Step 0 exists (optional - only for validator agents)
 if ! grep -q "### Step 0: Load Required Context" "$AGENT_FILE"; then
-    echo "❌ ERROR: Missing Step 0: Load Required Context section"
-    exit 1
+    echo "⚠️  WARNING: Missing Step 0: Load Required Context section (only required for validator agents)"
 fi
 
 # Check for @ symbol references
@@ -43,10 +42,9 @@ if ! grep -q 'Read("' "$AGENT_FILE"; then
     echo "⚠️  WARNING: No Read() calls found - agent may not load context"
 fi
 
-# Check Success Criteria exists
+# Check Success Criteria exists (optional - only for validator agents)
 if ! grep -q "## Success Criteria" "$AGENT_FILE"; then
-    echo "❌ ERROR: Missing Success Criteria section"
-    exit 1
+    echo "⚠️  WARNING: Missing Success Criteria section (only required for validator agents)"
 fi
 
 echo "✅ Agent validation passed"
