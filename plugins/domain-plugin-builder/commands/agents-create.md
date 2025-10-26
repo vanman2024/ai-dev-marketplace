@@ -19,24 +19,19 @@ AskUserQuestion: Is this a complex agent with multiple competencies or a simple 
 - Complex: Use comprehensive template (like fullstack-web-builder)
 - Simple: Use basic agent pattern
 
-## Step 3: Load Templates
+## Step 3: Load Templates (CRITICAL - Read These Files)
 
-Read appropriate template based on agent type:
+**REQUIRED - Load the master agent template:**
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
 
-**For SDK/Framework agents with documentation (MOST COMMON):**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md.template
-
-This template includes phased WebFetch calls:
+This template includes phased WebFetch calls structure:
 - Discovery Phase: Core documentation
 - Analysis Phase: Feature-specific docs
 - Planning Phase: Advanced documentation
 - Implementation Phase: Reference docs
 - Verification Phase: Validation
 
-**For custom/simple agents without external docs:**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-comprehensive.md.template
-
-**GOLD STANDARD Reference (vercel-ai-sdk pattern):**
+**GOLD STANDARD Reference (study this pattern):**
 @plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
 @plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
 

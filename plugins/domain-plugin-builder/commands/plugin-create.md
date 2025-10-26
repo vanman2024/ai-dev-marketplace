@@ -67,8 +67,15 @@ Skip documentation fetching, rely on user requirements.
 
 **CRITICAL: ALL plugins get the SAME structure regardless of type!**
 
-Load proper plugin structure reference:
+**REQUIRED - Load these templates before building:**
+@plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
+@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
 @plugins/domain-plugin-builder/docs/03-claude-code-plugins.md
+
+These templates define:
+- Command structure (Goal/Actions/Phase pattern)
+- Agent structure (Phased WebFetch calls)
+- Plugin structure (directories, files, manifest)
 
 **Create directory structure using Bash:**
 Use mkdir -p to create: .claude-plugin/, commands/, agents/, skills/, hooks/, scripts/, docs/
