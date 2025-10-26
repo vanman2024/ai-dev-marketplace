@@ -1,14 +1,17 @@
 # Changelog
 
-All notable changes to the claude-agent-sdk plugin will be documented in this file.
+All notable changes to the Claude Agent SDK plugin will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [1.0.0] - 2025-10-25
 
 ### Added
-- Initial release of claude-agent-sdk plugin
-- Core commands: new-app, add-streaming, add-tools, add-sessions, add-mcp
-- Feature bundle commands: add-agent-features, add-plugin-system, add-production, add-migration
-- Full stack command: build-complete
-- Specialized agents: verifier-ts, verifier-py, features-agent, plugin-agent, production-agent, migration-agent
-- Context7 integration for latest SDK documentation
-- Support for TypeScript and Python projects
+- Initial release of Claude Agent SDK plugin
+- `/claude-agent-sdk:new-app` command for project initialization
+- `claude-agent-verifier-ts` agent for TypeScript validation
+- `claude-agent-verifier-py` agent for Python validation
+- Support for TypeScript and Python workflows
+- Interactive project setup with language selection
+- Automatic SDK version detection and installation

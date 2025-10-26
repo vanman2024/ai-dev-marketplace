@@ -21,8 +21,8 @@ AskUserQuestion: Is this a complex agent with multiple competencies or a simple 
 
 ## Step 3: Load Templates (CRITICAL - Read These Files)
 
-**REQUIRED - Load the master agent template:**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
+**REQUIRED - Use Read tool to load the master agent template:**
+Path: plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
 
 This template includes phased WebFetch calls structure:
 - Discovery Phase: Core documentation
@@ -31,9 +31,9 @@ This template includes phased WebFetch calls structure:
 - Implementation Phase: Reference docs
 - Verification Phase: Validation
 
-**GOLD STANDARD Reference (study this pattern):**
-@plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
-@plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
+**GOLD STANDARD Reference (study this pattern using Read tool):**
+Path: plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
+Path: plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
 
 ## Step 4: Determine Plugin Location
 

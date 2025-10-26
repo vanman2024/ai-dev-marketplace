@@ -4,8 +4,10 @@ node_modules/
 .DS_Store
 dist/
 build/
-__pycache__/
 *.pyc
-.pytest_cache/
+__pycache__/
 .venv/
 venv/
+.pytest_cache/
+.coverage
+htmlcov/

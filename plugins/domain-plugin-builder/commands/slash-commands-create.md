@@ -47,8 +47,8 @@ Load current agent list for context:
 
 ## Context Files (MUST Read Before Building)
 
-**CRITICAL - Load this master template FIRST:**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
+**CRITICAL - Read the master template file FIRST using Read tool:**
+Path: plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
 
 This master template is REQUIRED reading and contains:
 - Pattern selection guide (4 patterns: Simple, Single Agent, Sequential, Parallel)
@@ -56,9 +56,6 @@ This master template is REQUIRED reading and contains:
 - Natural language agent invocation (NOT Task() syntax)
 - Syntax reference ($ARGUMENTS, @files, !{bash}, etc.)
 - When to use agents vs inline code
-
-**Additional References (optional):**
-@plugins/domain-plugin-builder/docs/05-skills-vs-commands.md
 
 ## CRITICAL: Project-Agnostic Design
 

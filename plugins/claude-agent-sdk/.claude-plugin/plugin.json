@@ -1,27 +1,27 @@
 {
   "name": "claude-agent-sdk",
   "version": "1.0.0",
-  "description": "Modular Claude Agent SDK development plugin with feature bundles and specialized agents. Build AI agents incrementally or all-at-once. Supports TypeScript and Python.",
+  "description": "Complete Claude Agent SDK plugin for building AI agents",
   "author": {
-    "name": "vanman2024",
-    "email": "noreply@ai-dev-marketplace.dev"
+    "name": "AI Dev Marketplace",
+    "email": "dev@example.com"
   },
-  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/claude-agent-sdk",
-  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
+  "homepage": "https://docs.claude.com/en/api/agent-sdk/overview",
+  "repository": "https://github.com/anthropics/ai-dev-marketplace",
   "license": "MIT",
   "keywords": [
     "claude",
     "agent",
     "sdk",
+    "ai",
+    "typescript",
+    "python",
     "agents",
     "subagents",
     "tools",
     "mcp",
     "sessions",
-    "plugins",
     "skills",
-    "streaming",
-    "typescript",
-    "python"
+    "plugins"
   ]
 }

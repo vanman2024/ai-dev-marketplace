@@ -67,10 +67,10 @@ Skip documentation fetching, rely on user requirements.
 
 **CRITICAL: ALL plugins get the SAME structure regardless of type!**
 
-**REQUIRED - Load these templates before building:**
-@plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
-@plugins/domain-plugin-builder/docs/03-claude-code-plugins.md
+**REQUIRED - Use Read tool to load these templates before building:**
+- plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
+- plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
+- plugins/domain-plugin-builder/docs/frameworks/03-claude-code-plugins.md
 
 These templates define:
 - Command structure (Goal/Actions/Phase pattern)
