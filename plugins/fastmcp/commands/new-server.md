@@ -84,42 +84,44 @@ Actions:
 
 **If Python was chosen in Phase 1:**
 
-Invoke the fastmcp-setup agent to create the FastMCP server application.
+Launch the fastmcp-setup agent to create the FastMCP server application.
 
-The agent should:
-- Create Python project structure with proper package layout
-- Set up pyproject.toml with FastMCP dependencies
-- Generate starter server code with FastMCP decorators
-- Include examples for requested features (tools, resources, prompts)
-- Set up authentication if requested
-- Create README with setup and usage instructions
-- Add .gitignore for Python projects
-- Create .env.example for environment variables
-
-Provide the agent with:
-- Context: Project requirements and features from Phase 1
-- Target: $ARGUMENTS (project name)
-- Expected output: Complete working FastMCP server application
+Provide the agent with a detailed prompt including:
+- Project name from $ARGUMENTS
+- Server purpose and functionality
+- Number and types of MCP components (tools, resources, prompts)
+- Authentication requirements (if any)
+- Deployment targets (STDIO, HTTP, Cloud)
+- Any specification file contents or API documentation
+- Expected output: Complete working FastMCP server application with:
+  - Python project structure with proper package layout
+  - pyproject.toml with FastMCP dependencies
+  - Starter server code with FastMCP decorators
+  - Example tools, resources, or prompts
+  - README with setup and usage instructions
+  - .gitignore for Python projects
+  - .env.example for environment variables
 
 **If TypeScript was chosen in Phase 1:**
 
-Invoke the fastmcp-setup-ts agent to create the FastMCP server application.
+Launch the fastmcp-setup-ts agent to create the FastMCP server application.
 
-The agent should:
-- Create Node.js/TypeScript project structure with proper layout
-- Set up package.json with FastMCP TypeScript dependencies
-- Create tsconfig.json with ES modules support
-- Generate starter server code with TypeScript types
-- Include examples for requested features (tools, resources, prompts)
-- Set up authentication if requested
-- Create README with setup and TypeScript build instructions
-- Add .gitignore for Node.js/TypeScript projects
-- Create .env.example for environment variables
-
-Provide the agent with:
-- Context: Project requirements and features from Phase 1
-- Target: $ARGUMENTS (project name)
-- Expected output: Complete working FastMCP server application with TypeScript
+Provide the agent with a detailed prompt including:
+- Project name from $ARGUMENTS
+- Server purpose and functionality
+- Number and types of MCP components (tools, resources, prompts)
+- Authentication requirements (if any)
+- Deployment targets (STDIO, HTTP, Cloud)
+- Any specification file contents or API documentation
+- Expected output: Complete working FastMCP server application with TypeScript:
+  - Node.js/TypeScript project structure with proper layout
+  - package.json with FastMCP TypeScript dependencies
+  - tsconfig.json with ES modules support
+  - Starter server code with TypeScript types
+  - Example tools, resources, or prompts
+  - README with setup and TypeScript build instructions
+  - .gitignore for Node.js/TypeScript projects
+  - .env.example for environment variables
 
 Phase 5: Post-Setup
 Goal: Initialize Python environment and verify setup
