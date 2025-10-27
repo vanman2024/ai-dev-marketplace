@@ -87,6 +87,31 @@
             ]
         },
         {
+            "name": "mem0",
+            "description": "AI memory management with Platform (hosted) and Open Source (self-hosted with Supabase) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
+            "version": "1.0.0",
+            "author": {
+                "name": "vanman2024",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/mem0",
+            "category": "development",
+            "keywords": [
+                "mem0",
+                "memory",
+                "ai-memory",
+                "conversation-memory",
+                "user-memory",
+                "graph-memory",
+                "supabase",
+                "platform",
+                "open-source",
+                "python",
+                "javascript",
+                "typescript"
+            ]
+        },
+        {
             "name": "supabase",
             "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
             "version": "1.0.0",
