@@ -8,19 +8,23 @@ allowed-tools: Task(*)
 
 Goal: Create properly structured skill(s) by launching the skills-builder agent
 
-Phase 1: Discovery & Architecture
-Goal: Load Claude Code architecture to understand when to use skills vs agents vs commands vs hooks vs MCP
+Phase 1: Discovery & Architecture Decision Framework
+Goal: Load comprehensive component decision framework to understand WHEN to use skills vs commands vs agents vs hooks vs MCP
 
 Actions:
-- Load Claude Code plugin architecture documentation:
-  @plugins/domain-plugin-builder/docs/frameworks/plugins/claude-code-plugin-structure.md
-- This provides comprehensive understanding of:
-  - What are: Agents, Commands, Skills, Hooks, MCP servers
-  - When to use each component
-  - How components interact in the plugin system
-  - Plugin structure and organization
-  - When functionality belongs in a skill vs agent vs command
-- This architectural context will be passed to the skills-builder agent
+- Load the complete component decision framework:
+  @plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+- This provides critical understanding of:
+  - 🚨 START WITH COMMANDS FIRST (not skills!)
+  - Commands are the primitive (closest to prompts)
+  - Skills are for MANAGING multiple related commands
+  - The "One-Off vs Management" test
+  - When NOT to create a skill
+  - Real composition hierarchy (skills use commands, not vice versa)
+  - Complete decision tree with real examples
+  - Anti-patterns to avoid
+- This architectural decision-making context will be passed to the skills-builder agent
+- Agent will understand when the requested functionality should be a COMMAND instead of a skill
 
 Phase 2: Parse Arguments & Determine Mode
 
