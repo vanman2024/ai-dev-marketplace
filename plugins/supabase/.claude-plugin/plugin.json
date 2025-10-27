@@ -9,25 +9,6 @@
   "homepage": "https://github.com/ai-dev-marketplace/supabase",
   "repository": "https://github.com/ai-dev-marketplace/supabase",
   "license": "MIT",
-  "type": "framework",
-  "framework": "supabase",
-  "languages": ["typescript", "python", "javascript"],
-  "mcp": {
-    "server": "supabase",
-    "url": "https://mcp.supabase.com/mcp",
-    "type": "http",
-    "required": true
-  },
-  "features": [
-    "ai-vectors",
-    "authentication",
-    "row-level-security",
-    "realtime",
-    "storage",
-    "edge-functions",
-    "testing",
-    "validation"
-  ],
   "keywords": [
     "supabase",
     "postgres",
@@ -43,7 +24,8 @@
     "edge-functions",
     "typescript",
     "python",
-    "javascript"
-  ],
-  "documentation": "https://supabase.com/docs"
+    "javascript",
+    "framework",
+    "mcp"
+  ]
 }

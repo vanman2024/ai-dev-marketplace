@@ -111,7 +111,9 @@
                 "edge-functions",
                 "typescript",
                 "python",
-                "javascript"
+                "javascript",
+                "framework",
+                "mcp"
             ]
         },
         {
