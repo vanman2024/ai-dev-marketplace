@@ -1,0 +1,355 @@
+{
+  "scenarios": [
+    {
+      "name": "User Isolation - Basic CRUD",
+      "description": "Test that users can only access their own data",
+      "table": "conversations",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "user1",
+          "target": "user1_data",
+          "expected": "success",
+          "description": "User can read their own data"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "user2",
+          "target": "user1_data",
+          "expected": "empty_result",
+          "description": "User cannot read other user's data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "user1",
+          "data": { "user_id": "user1" },
+          "expected": "success",
+          "description": "User can create their own records"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "user2",
+          "data": { "user_id": "user1" },
+          "expected": "error",
+          "description": "User cannot create records for another user"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "user2",
+          "target": "user1_data",
+          "expected": "error",
+          "description": "User cannot update other user's data"
+        },
+        {
+          "operation": "DELETE",
+          "actor": "user2",
+          "target": "user1_data",
+          "expected": "error",
+          "description": "User cannot delete other user's data"
+        }
+      ]
+    },
+    {
+      "name": "Multi-Tenant Isolation",
+      "description": "Test organization-level data isolation",
+      "table": "projects",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "org1_user",
+          "target": "org1_data",
+          "expected": "success",
+          "description": "Org member can read org data"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "org2_user",
+          "target": "org1_data",
+          "expected": "empty_result",
+          "description": "Other org members cannot read org data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "org1_user",
+          "data": { "organization_id": "org1" },
+          "expected": "success",
+          "description": "Org member can create org data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "org2_user",
+          "data": { "organization_id": "org1" },
+          "expected": "error",
+          "description": "User cannot create data for another org"
+        }
+      ]
+    },
+    {
+      "name": "Anonymous Access Restrictions",
+      "description": "Test anonymous user restrictions",
+      "table": "conversations",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "anonymous",
+          "target": "any_data",
+          "expected": "empty_result",
+          "description": "Anonymous users cannot read protected data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "anonymous",
+          "data": {},
+          "expected": "error",
+          "description": "Anonymous users cannot insert data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "anonymous",
+          "target": "any_data",
+          "expected": "error",
+          "description": "Anonymous users cannot update data"
+        },
+        {
+          "operation": "DELETE",
+          "actor": "anonymous",
+          "target": "any_data",
+          "expected": "error",
+          "description": "Anonymous users cannot delete data"
+        }
+      ]
+    },
+    {
+      "name": "Role-Based Access Control",
+      "description": "Test role hierarchy and permissions",
+      "table": "admin_settings",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "admin",
+          "expected": "success",
+          "description": "Admin can read all data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "admin",
+          "expected": "success",
+          "description": "Admin can insert data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "admin",
+          "expected": "success",
+          "description": "Admin can update data"
+        },
+        {
+          "operation": "DELETE",
+          "actor": "admin",
+          "expected": "success",
+          "description": "Admin can delete data"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "editor",
+          "expected": "success",
+          "description": "Editor can read data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "editor",
+          "expected": "success",
+          "description": "Editor can update data"
+        },
+        {
+          "operation": "DELETE",
+          "actor": "editor",
+          "expected": "error",
+          "description": "Editor cannot delete data"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "viewer",
+          "expected": "success",
+          "description": "Viewer can read data"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "viewer",
+          "expected": "error",
+          "description": "Viewer cannot insert data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "viewer",
+          "expected": "error",
+          "description": "Viewer cannot update data"
+        }
+      ]
+    },
+    {
+      "name": "Member Access Revocation",
+      "description": "Test that removed members lose access immediately",
+      "table": "documents",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "org_member",
+          "target": "org_data",
+          "expected": "success",
+          "description": "Member can read org data"
+        },
+        {
+          "operation": "REMOVE_MEMBER",
+          "actor": "admin",
+          "target": "org_member",
+          "expected": "success",
+          "description": "Remove member from org"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "ex_org_member",
+          "target": "org_data",
+          "expected": "empty_result",
+          "description": "Removed member cannot read org data"
+        }
+      ]
+    },
+    {
+      "name": "Null UID Handling",
+      "description": "Test auth.uid() null value handling",
+      "table": "profiles",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "anonymous",
+          "sql_context": "auth.uid() = NULL",
+          "expected": "empty_result",
+          "description": "Null UID does not match any records"
+        },
+        {
+          "operation": "INSERT",
+          "actor": "authenticated",
+          "data": { "user_id": null },
+          "expected": "error",
+          "description": "Cannot insert with null user_id"
+        }
+      ]
+    },
+    {
+      "name": "Shared Resource Access",
+      "description": "Test access to shared/public resources",
+      "table": "public_templates",
+      "tests": [
+        {
+          "operation": "SELECT",
+          "actor": "authenticated",
+          "target": "public_data",
+          "expected": "success",
+          "description": "Authenticated users can read public data"
+        },
+        {
+          "operation": "SELECT",
+          "actor": "anonymous",
+          "target": "public_data",
+          "expected": "success",
+          "description": "Anonymous users can read designated public data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "owner",
+          "target": "own_public_data",
+          "expected": "success",
+          "description": "Owner can update their public data"
+        },
+        {
+          "operation": "UPDATE",
+          "actor": "other_user",
+          "target": "others_public_data",
+          "expected": "error",
+          "description": "Users cannot modify others' public data"
+        }
+      ]
+    }
+  ],
+  "common_vulnerabilities": [
+    {
+      "name": "Missing RLS",
+      "description": "Table exists in public schema without RLS enabled",
+      "severity": "critical",
+      "test": "Check relrowsecurity on all public tables",
+      "fix": "ALTER TABLE table_name ENABLE ROW LEVEL SECURITY;"
+    },
+    {
+      "name": "Missing WITH CHECK",
+      "description": "INSERT/UPDATE policies without WITH CHECK clause",
+      "severity": "high",
+      "test": "Check pg_policies for policies without with_check",
+      "fix": "Add WITH CHECK clause to prevent policy bypass"
+    },
+    {
+      "name": "Improper NULL handling",
+      "description": "Policies don't handle auth.uid() returning null",
+      "severity": "high",
+      "test": "Test anonymous access, check for NULL comparisons",
+      "fix": "Use: auth.uid() IS NOT NULL AND auth.uid() = user_id"
+    },
+    {
+      "name": "Missing role checks",
+      "description": "Policies don't verify user role from app_metadata",
+      "severity": "medium",
+      "test": "Attempt privilege escalation via user_metadata",
+      "fix": "Use app_metadata (not user_metadata) for authorization"
+    },
+    {
+      "name": "Unindexed policy columns",
+      "description": "Columns used in policies lack indexes",
+      "severity": "medium",
+      "test": "Check for indexes on user_id, organization_id columns",
+      "fix": "CREATE INDEX idx_table_user_id ON table(user_id);"
+    },
+    {
+      "name": "Cross-tenant joins",
+      "description": "Policies allow joining data across tenants",
+      "severity": "critical",
+      "test": "Test org isolation with joined queries",
+      "fix": "Ensure all joined tables enforce org_id checks"
+    },
+    {
+      "name": "Service key exposure",
+      "description": "Service key used in client-side code",
+      "severity": "critical",
+      "test": "Code review for hardcoded service keys",
+      "fix": "Never expose service key to clients, use RLS"
+    }
+  ],
+  "test_data": {
+    "users": [
+      {
+        "id": "11111111-1111-1111-1111-111111111111",
+        "email": "user1@test.com",
+        "role": "authenticated"
+      },
+      {
+        "id": "22222222-2222-2222-2222-222222222222",
+        "email": "user2@test.com",
+        "role": "authenticated"
+      },
+      {
+        "id": "33333333-3333-3333-3333-333333333333",
+        "email": "admin@test.com",
+        "role": "authenticated",
+        "app_metadata": { "role": "admin" }
+      }
+    ],
+    "organizations": [
+      {
+        "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+        "name": "Test Org 1"
+      },
+      {
+        "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb",
+        "name": "Test Org 2"
+      }
+    ]
+  }
+}

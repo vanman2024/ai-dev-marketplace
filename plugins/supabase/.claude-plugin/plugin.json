@@ -1,0 +1,27 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
+  "author": "AI Dev Marketplace",
+  "license": "MIT",
+  "type": "framework",
+  "framework": "supabase",
+  "languages": ["typescript", "python", "javascript"],
+  "mcp": {
+    "server": "supabase",
+    "url": "https://mcp.supabase.com/mcp",
+    "type": "http",
+    "required": true
+  },
+  "features": [
+    "ai-vectors",
+    "authentication",
+    "row-level-security",
+    "realtime",
+    "storage",
+    "edge-functions",
+    "testing",
+    "validation"
+  ],
+  "documentation": "https://supabase.com/docs"
+}

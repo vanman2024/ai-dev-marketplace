@@ -139,23 +139,37 @@ Actions:
 - Review test results for any failures
 - Update todos with TodoWrite
 
-Phase 9: Live Integration Testing
-Goal: Test server with real API keys and connections (if applicable)
+Phase 9: Environment Configuration & Live Testing
+Goal: Configure API keys and test server with live integrations
 
 Actions:
-- Ask user if live testing with API keys is needed:
-  - Use AskUserQuestion: "Do you have API keys to test live integrations?"
-- If yes:
-  - Request necessary API keys/credentials (stored in .env)
-  - Start server in test mode
-  - Run live integration tests:
-    - Test authentication flows with real credentials
-    - Test API tool calls to external services
-    - Test resource fetching from live data sources
-    - Verify rate limiting and error handling
+- Create fastmcp.json with environment configuration:
+  - Check which API keys are needed (based on tools added)
+  - Create deployment.env section with placeholder syntax
+  - **CRITICAL - Use ${VAR_NAME} placeholder format:**
+    ```json
+    {
+      "deployment": {
+        "env": {
+          "CATS_API_KEY": "${CATS_API_KEY}",
+          "CATS_MCP_API_KEY": "${CATS_MCP_API_KEY}"
+        }
+      }
+    }
+    ```
+  - **NEVER hardcode actual key values in fastmcp.json**
+  - Keys will be loaded from system environment (bashrc) at runtime
+- Verify server code uses os.getenv() for all API keys
+- Ensure .gitignore includes fastmcp.json if it contains sensitive config
+- Run live integration tests:
+  - Start server (FastMCP will interpolate ${VAR} from environment)
+  - Test authentication flows with real credentials from bashrc
+  - Test API tool calls to external services
+  - Test resource fetching from live data sources
+  - Verify rate limiting and error handling
   - Monitor for errors or failures
   - Stop server after testing
-- Document test results
+- Document test results (passed/failed/errors)
 - Update todos with TodoWrite
 
 Phase 10: Summary

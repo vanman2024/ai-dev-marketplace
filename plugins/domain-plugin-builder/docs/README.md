@@ -27,7 +27,7 @@ AI/ML SDK integration documentation with curated links.
 - **[mem0-documentation.md](sdks/mem0-documentation.md)** - Mem0 memory management reference
 
 ### 📖 Reference
-Comprehensive documentation link collections.
+Comprehensive documentation link collections and API references.
 
 - **[ai-development-documentation-links.md](reference/ai-development-documentation-links.md)** - Master collection of AI development resources
   - Vercel AI SDK
@@ -36,6 +36,31 @@ Comprehensive documentation link collections.
   - LangChain
   - Vector databases
   - And more...
+
+- **[ai-marketing-automation-system.md](reference/ai-marketing-automation-system.md)** - Complete marketing automation system architecture
+
+- **[google-imagen-veo-documentation.md](reference/google-imagen-veo-documentation.md)** - Google Imagen & Veo API documentation
+  - Image generation (Imagen 3/4)
+  - Video generation (Veo 2/3)
+  - Pricing and integration guides
+
+- **[ayrshare-documentation.md](reference/ayrshare-documentation.md)** - Ayrshare Social Media API reference
+  - 13 platform unified API
+  - Post scheduling and automation
+  - Analytics and engagement metrics
+  - Pricing: $0.20-0.50 per post
+
+- **[AYRSHARE-INTEGRATION-SUMMARY.md](reference/AYRSHARE-INTEGRATION-SUMMARY.md)** - Ayrshare integration guide
+  - Implementation strategies
+  - Cost analysis
+  - Integration checklist
+
+- **[cats-api-documentation.md](reference/cats-api-documentation.md)** - CATS ATS API v3 complete endpoint reference
+  - 150+ endpoints across 17 categories
+  - Candidate/job/company management
+  - Pipeline workflows
+  - Webhook integrations
+  - Rate limits: 500 requests/hour
 
 ---
 
@@ -190,5 +215,5 @@ When adding documentation:
 
 ---
 
-**Last Updated:** 2025-10-25
+**Last Updated:** 2025-10-26
 **Maintained by:** domain-plugin-builder team

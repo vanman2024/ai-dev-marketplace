@@ -1,0 +1,149 @@
+{
+  "naming": {
+    "tables": {
+      "case": "snake_case",
+      "plural": true,
+      "max_length": 63,
+      "reserved_keywords": [
+        "user", "group", "order", "table", "index", "view", "role", "grant"
+      ],
+      "forbidden_prefixes": ["tbl_", "table_"],
+      "forbidden_suffixes": []
+    },
+    "columns": {
+      "case": "snake_case",
+      "singular": true,
+      "max_length": 63,
+      "id_suffix_requires_fk": true
+    },
+    "constraints": {
+      "primary_key": {
+        "prefix": "pk_",
+        "required": true
+      },
+      "foreign_key": {
+        "prefix": "fk_",
+        "required": true,
+        "naming_pattern": "fk_{table}_{referenced_table}"
+      },
+      "unique": {
+        "prefix": "uq_",
+        "required": true,
+        "naming_pattern": "uq_{table}_{column}"
+      },
+      "check": {
+        "prefix": "ck_",
+        "required": true,
+        "naming_pattern": "ck_{table}_{description}"
+      }
+    },
+    "indexes": {
+      "standard": {
+        "prefix": "idx_",
+        "required": true,
+        "naming_pattern": "idx_{table}_{columns}"
+      },
+      "unique": {
+        "prefix": "uidx_",
+        "required": true,
+        "naming_pattern": "uidx_{table}_{columns}"
+      }
+    }
+  },
+  "constraints": {
+    "primary_key": {
+      "required_on_all_tables": true,
+      "prefer_uuid_over_serial": true
+    },
+    "foreign_key": {
+      "require_on_delete_action": true,
+      "require_on_update_action": false,
+      "require_index": true
+    },
+    "unique": {
+      "common_unique_columns": [
+        "email", "username", "slug", "code"
+      ]
+    },
+    "check": {
+      "enforce_positive_amounts": true,
+      "enforce_string_length": false
+    },
+    "not_null": {
+      "require_on_pk": true,
+      "require_on_fk": true,
+      "common_required_columns": [
+        "id", "created_at", "updated_at"
+      ]
+    }
+  },
+  "indexes": {
+    "require_on_fk": true,
+    "require_on_rls_columns": true,
+    "suggest_on_search_columns": [
+      "email", "username", "name", "slug", "code", "status"
+    ],
+    "suggest_on_sort_columns": [
+      "created_at", "updated_at", "published_at", "position", "order"
+    ],
+    "index_types": {
+      "jsonb": "GIN",
+      "tsvector": "GIN",
+      "array": "GIN"
+    }
+  },
+  "rls": {
+    "require_on_public_tables": true,
+    "require_policies_for_operations": ["SELECT"],
+    "suggest_policies_for_operations": ["INSERT", "UPDATE", "DELETE"],
+    "require_role_specification": true,
+    "allowed_roles": [
+      "authenticated", "anon", "service_role"
+    ],
+    "require_indexes_on_policy_columns": true,
+    "warn_on_complex_joins": true,
+    "max_joins_in_policy": 1
+  },
+  "data_types": {
+    "prefer_identity_over_serial": true,
+    "warn_on_money_type": true,
+    "require_varchar_length": false,
+    "uuid_requires_default": true,
+    "timestamp_should_use_timestamptz": true
+  },
+  "best_practices": {
+    "require_created_at": true,
+    "require_updated_at": true,
+    "soft_delete_pattern": {
+      "enabled": true,
+      "column_name": "deleted_at",
+      "require_partial_index": true
+    },
+    "audit_columns": {
+      "created_by": false,
+      "updated_by": false
+    }
+  },
+  "severity_levels": {
+    "ERROR": [
+      "missing_primary_key",
+      "invalid_syntax",
+      "uppercase_identifiers",
+      "rls_not_enabled_on_public_table",
+      "rls_enabled_without_policies"
+    ],
+    "WARNING": [
+      "unnamed_constraint",
+      "reserved_keyword_usage",
+      "foreign_key_missing_index",
+      "rls_policy_missing_role",
+      "missing_on_delete_action"
+    ],
+    "INFO": [
+      "singular_table_name",
+      "serial_instead_of_identity",
+      "missing_audit_columns",
+      "potential_index_opportunity"
+    ]
+  }
+}

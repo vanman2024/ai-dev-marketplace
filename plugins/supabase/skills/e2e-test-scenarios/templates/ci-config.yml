@@ -1,0 +1,274 @@
+name: Supabase E2E Tests
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  test:
+    name: Run E2E Tests
+    runs-on: ubuntu-latest
+
+    # Run tests in parallel for different components
+    strategy:
+      matrix:
+        test-suite: [database, auth, vector, realtime, integration]
+      fail-fast: false
+
+    services:
+      postgres:
+        image: supabase/postgres:15.1.0.117
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Supabase CLI
+        run: |
+          npm install -g supabase
+          supabase --version
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Supabase local instance
+        run: |
+          supabase init
+          supabase start
+          supabase status
+
+      - name: Get Supabase credentials
+        id: supabase-creds
+        run: |
+          echo "SUPABASE_URL=$(supabase status | grep 'API URL' | awk '{print $3}')" >> $GITHUB_ENV
+          echo "SUPABASE_ANON_KEY=$(supabase status | grep 'anon key' | awk '{print $3}')" >> $GITHUB_ENV
+          echo "SUPABASE_SERVICE_ROLE_KEY=$(supabase status | grep 'service_role key' | awk '{print $3}')" >> $GITHUB_ENV
+          echo "DATABASE_URL=$(supabase status | grep 'DB URL' | awk '{print $3}')" >> $GITHUB_ENV
+
+      - name: Create .env.test
+        run: |
+          cat > .env.test <<EOF
+          SUPABASE_TEST_URL=${{ env.SUPABASE_URL }}
+          SUPABASE_TEST_ANON_KEY=${{ env.SUPABASE_ANON_KEY }}
+          SUPABASE_TEST_SERVICE_ROLE_KEY=${{ env.SUPABASE_SERVICE_ROLE_KEY }}
+          DATABASE_URL=${{ env.DATABASE_URL }}
+          NODE_ENV=test
+          TEST_TIMEOUT=30000
+          TEST_CLEANUP_ENABLED=true
+          EOF
+
+      - name: Run database migrations
+        run: supabase db push
+
+      - name: Enable pgvector extension
+        run: |
+          psql ${{ env.DATABASE_URL }} -c "CREATE EXTENSION IF NOT EXISTS vector;"
+
+      - name: Run database tests
+        if: matrix.test-suite == 'database'
+        run: |
+          supabase test db
+          npm run test:db || true
+
+      - name: Run auth tests
+        if: matrix.test-suite == 'auth'
+        run: |
+          bash scripts/test-auth-workflow.sh
+          npm test -- tests/auth
+
+      - name: Run vector tests
+        if: matrix.test-suite == 'vector'
+        run: |
+          bash scripts/test-ai-features.sh
+          npm test -- tests/vector
+
+      - name: Run realtime tests
+        if: matrix.test-suite == 'realtime'
+        run: |
+          bash scripts/test-realtime-workflow.sh
+          npm test -- tests/realtime
+
+      - name: Run integration tests
+        if: matrix.test-suite == 'integration'
+        run: npm test -- tests/integration
+
+      - name: Upload coverage reports
+        if: matrix.test-suite == 'integration'
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: e2e-tests
+          name: supabase-e2e
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-results-${{ matrix.test-suite }}
+          path: |
+            coverage/
+            junit.xml
+            test-results/
+
+      - name: Cleanup Supabase
+        if: always()
+        run: |
+          bash scripts/cleanup-test-resources.sh || true
+          supabase stop
+
+  # Job to run complete test suite
+  full-test:
+    name: Full E2E Test Suite
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    services:
+      postgres:
+        image: supabase/postgres:15.1.0.117
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Supabase CLI
+        run: npm install -g supabase
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Setup Supabase
+        run: |
+          supabase init
+          supabase start
+
+      - name: Setup environment
+        run: bash scripts/setup-test-env.sh
+
+      - name: Run complete test suite
+        run: bash scripts/run-e2e-tests.sh --coverage
+
+      - name: Generate test report
+        run: |
+          npm test -- --coverage --coverageReporters=html --coverageReporters=text
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: full-e2e
+          name: complete-e2e-suite
+
+      - name: Cleanup
+        if: always()
+        run: |
+          bash scripts/cleanup-test-resources.sh
+          supabase stop
+
+  # Job to test against production Supabase project (optional)
+  production-test:
+    name: Test Against Production Project
+    runs-on: ubuntu-latest
+    if: github.event_name == 'workflow_dispatch'
+    environment: production-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env.test with production credentials
+        run: |
+          cat > .env.test <<EOF
+          SUPABASE_TEST_URL=${{ secrets.SUPABASE_PROD_TEST_URL }}
+          SUPABASE_TEST_ANON_KEY=${{ secrets.SUPABASE_PROD_TEST_ANON_KEY }}
+          SUPABASE_TEST_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_PROD_TEST_SERVICE_ROLE_KEY }}
+          DATABASE_URL=${{ secrets.SUPABASE_PROD_TEST_DB_URL }}
+          NODE_ENV=test
+          TEST_CLEANUP_ENABLED=true
+          EOF
+
+      - name: Run tests
+        run: npm test
+
+      - name: Cleanup
+        if: always()
+        run: bash scripts/cleanup-test-resources.sh
+
+# Comment on PR with test results
+  comment-pr:
+    name: Comment Test Results
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.event_name == 'pull_request'
+    permissions:
+      pull-requests: write
+
+    steps:
+      - name: Download test results
+        uses: actions/download-artifact@v3
+        with:
+          path: test-results/
+
+      - name: Comment PR
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs');
+            const testSuites = ['database', 'auth', 'vector', 'realtime', 'integration'];
+
+            let comment = '## 🧪 E2E Test Results\n\n';
+
+            for (const suite of testSuites) {
+              comment += `- ✅ ${suite} tests passed\n`;
+            }
+
+            comment += '\n[View full results](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})';
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });

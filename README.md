@@ -318,6 +318,75 @@ claude marketplace add dev-lifecycle-marketplace \
 
 ---
 
+## MCP Servers
+
+This repository includes production-ready **Model Context Protocol (MCP) servers** that provide tools for Claude Desktop and other MCP-compatible clients:
+
+### Available Servers
+
+#### 1. CATS MCP Server (`mcp-servers/cats-mcp-server/`)
+**Complete CATS API v3 integration** with 162 endpoints across 17 toolsets.
+
+- **Purpose:** Applicant Tracking System automation
+- **Endpoints:** Activities, Attachments, Candidates, Companies, Contacts, Events, Jobs, Pipelines, Portals, Tasks, Users, Webhooks, Work History
+- **Rate Limit:** 500 requests/hour
+- **Use Cases:** Recruitment automation, candidate management, job posting workflows
+
+**Quick Start:**
+```bash
+cd mcp-servers/cats-mcp-server
+./start.sh
+```
+
+**Documentation:** See `mcp-servers/cats-mcp-server/README.md`
+
+#### 2. Marketing Automation Server (`mcp-servers/marketing-automation/`)
+**AI-powered content generation** combining Google Imagen/Veo with Claude/Gemini.
+
+- **Purpose:** Multi-platform marketing automation
+- **Features:** Image generation (Imagen), video generation (Veo), content writing (Claude/Gemini), social media posting (Ayrshare)
+- **Platforms:** 13 social platforms via Ayrshare API
+- **Cost:** $0.20-0.50 per social media post
+
+**Quick Start:**
+```bash
+cd mcp-servers/marketing-automation
+python server.py
+```
+
+**Documentation:** See `mcp-servers/marketing-automation/README.md`
+
+### Integration with Claude Desktop
+
+Add to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "cats-api": {
+      "command": "python",
+      "args": ["mcp-servers/cats-mcp-server/server.py"],
+      "env": {
+        "CATS_API_TOKEN": "your_token_here"
+      }
+    },
+    "marketing-automation": {
+      "command": "python",
+      "args": ["mcp-servers/marketing-automation/server.py"],
+      "env": {
+        "GOOGLE_API_KEY": "your_key_here",
+        "ANTHROPIC_API_KEY": "your_key_here",
+        "AYRSHARE_API_KEY": "your_key_here"
+      }
+    }
+  }
+}
+```
+
+**Complete Setup Guide:** See `mcp-servers/README.md`
+
+---
+
 ## Installation
 
 ### Install Entire Marketplace

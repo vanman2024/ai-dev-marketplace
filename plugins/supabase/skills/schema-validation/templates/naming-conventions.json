@@ -1,0 +1,251 @@
+{
+  "description": "PostgreSQL/Supabase naming convention patterns",
+  "version": "1.0.0",
+  "conventions": {
+    "general": {
+      "case": "snake_case",
+      "separator": "_",
+      "max_identifier_length": 63,
+      "avoid_reserved_keywords": true
+    },
+    "schemas": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "examples": [
+        "public",
+        "auth",
+        "storage",
+        "extensions",
+        "private"
+      ],
+      "best_practices": [
+        "Use public for API-exposed tables",
+        "Use private for internal tables",
+        "Use domain-specific schemas for large applications"
+      ]
+    },
+    "tables": {
+      "pattern": "^[a-z][a-z0-9_]*s?$",
+      "case": "snake_case",
+      "plurality": "plural",
+      "examples": [
+        "users",
+        "blog_posts",
+        "order_items",
+        "categories"
+      ],
+      "anti_patterns": [
+        "tbl_users (avoid tbl_ prefix)",
+        "User (avoid PascalCase)",
+        "user-posts (avoid hyphens)",
+        "USERS (avoid uppercase)"
+      ]
+    },
+    "columns": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "case": "snake_case",
+      "plurality": "singular",
+      "examples": [
+        "id",
+        "user_id",
+        "created_at",
+        "first_name",
+        "is_active",
+        "total_amount"
+      ],
+      "special_suffixes": {
+        "_id": "Foreign key reference",
+        "_at": "Timestamp column",
+        "_on": "Date column",
+        "is_": "Boolean column",
+        "has_": "Boolean column"
+      },
+      "anti_patterns": [
+        "userId (camelCase)",
+        "FirstName (PascalCase)",
+        "user-name (hyphens)"
+      ]
+    },
+    "constraints": {
+      "primary_key": {
+        "pattern": "^pk_[a-z][a-z0-9_]*$",
+        "template": "pk_{table_name}",
+        "examples": [
+          "pk_users",
+          "pk_blog_posts",
+          "pk_order_items"
+        ]
+      },
+      "foreign_key": {
+        "pattern": "^fk_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+        "template": "fk_{table}_{referenced_table}",
+        "examples": [
+          "fk_posts_users",
+          "fk_order_items_orders",
+          "fk_comments_posts"
+        ],
+        "alternative_template": "fk_{table}_{column}",
+        "alternative_examples": [
+          "fk_posts_author_id",
+          "fk_order_items_product_id"
+        ]
+      },
+      "unique": {
+        "pattern": "^uq_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+        "template": "uq_{table}_{column}",
+        "examples": [
+          "uq_users_email",
+          "uq_products_sku",
+          "uq_posts_slug"
+        ],
+        "composite_template": "uq_{table}_{column1}_{column2}",
+        "composite_examples": [
+          "uq_user_roles_user_id_role_id",
+          "uq_products_category_id_name"
+        ]
+      },
+      "check": {
+        "pattern": "^ck_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+        "template": "ck_{table}_{description}",
+        "examples": [
+          "ck_products_positive_price",
+          "ck_users_valid_email",
+          "ck_orders_valid_status"
+        ]
+      }
+    },
+    "indexes": {
+      "standard": {
+        "pattern": "^idx_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+        "template": "idx_{table}_{column}",
+        "examples": [
+          "idx_users_email",
+          "idx_posts_created_at",
+          "idx_orders_user_id"
+        ],
+        "composite_template": "idx_{table}_{column1}_{column2}",
+        "composite_examples": [
+          "idx_posts_user_id_created_at",
+          "idx_orders_status_created_at"
+        ]
+      },
+      "unique": {
+        "pattern": "^uidx_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+        "template": "uidx_{table}_{column}",
+        "examples": [
+          "uidx_users_email",
+          "uidx_products_sku",
+          "uidx_posts_slug"
+        ]
+      },
+      "partial": {
+        "pattern": "^idx_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*_partial$",
+        "template": "idx_{table}_{column}_partial",
+        "examples": [
+          "idx_users_email_partial",
+          "idx_posts_deleted_at_partial"
+        ]
+      },
+      "special_types": {
+        "gin": "idx_{table}_{column}_gin",
+        "gist": "idx_{table}_{column}_gist",
+        "brin": "idx_{table}_{column}_brin"
+      }
+    },
+    "triggers": {
+      "pattern": "^tr_[a-z][a-z0-9_]*_(before|after)_(insert|update|delete)$",
+      "template": "tr_{table}_{timing}_{event}",
+      "examples": [
+        "tr_users_before_insert",
+        "tr_posts_after_update",
+        "tr_orders_after_delete"
+      ]
+    },
+    "functions": {
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "examples": [
+        "get_user_posts",
+        "calculate_order_total",
+        "update_updated_at_column"
+      ],
+      "common_prefixes": {
+        "get_": "Retrieval function",
+        "set_": "Update function",
+        "create_": "Insert function",
+        "delete_": "Delete function",
+        "calculate_": "Calculation function",
+        "validate_": "Validation function"
+      }
+    },
+    "rls_policies": {
+      "pattern": "^[a-z][a-z0-9_]*_(select|insert|update|delete)$",
+      "template": "{description}_{operation}",
+      "examples": [
+        "users_select_own",
+        "posts_insert_authenticated",
+        "comments_update_owner",
+        "orders_delete_admin"
+      ],
+      "alternative_pattern": "^(enable|allow|restrict)_[a-z][a-z0-9_]*$",
+      "alternative_examples": [
+        "enable_read_own_data",
+        "allow_public_read",
+        "restrict_admin_only"
+      ]
+    },
+    "types": {
+      "enum": {
+        "pattern": "^[a-z][a-z0-9_]*_type$",
+        "template": "{context}_type",
+        "examples": [
+          "user_role_type",
+          "order_status_type",
+          "payment_method_type"
+        ]
+      },
+      "composite": {
+        "pattern": "^[a-z][a-z0-9_]*$",
+        "examples": [
+          "address",
+          "money",
+          "coordinate"
+        ]
+      }
+    },
+    "views": {
+      "pattern": "^vw_[a-z][a-z0-9_]*$",
+      "template": "vw_{description}",
+      "examples": [
+        "vw_user_posts_count",
+        "vw_active_orders",
+        "vw_monthly_revenue"
+      ]
+    },
+    "materialized_views": {
+      "pattern": "^mvw_[a-z][a-z0-9_]*$",
+      "template": "mvw_{description}",
+      "examples": [
+        "mvw_user_statistics",
+        "mvw_product_sales",
+        "mvw_daily_metrics"
+      ]
+    }
+  },
+  "reserved_keywords": [
+    "user", "group", "order", "table", "select", "insert", "update", "delete",
+    "create", "drop", "alter", "grant", "revoke", "index", "view", "trigger",
+    "function", "procedure", "schema", "database", "role", "constraint",
+    "primary", "foreign", "unique", "check", "default", "references"
+  ],
+  "best_practices": [
+    "Use lowercase with underscores (snake_case) for all identifiers",
+    "Use plural names for tables (users, not user)",
+    "Use singular names for columns (user_id, not users_id)",
+    "Always name constraints explicitly (don't rely on auto-generated names)",
+    "Prefix constraint names by type (pk_, fk_, uq_, ck_)",
+    "Prefix index names with idx_ or uidx_ for unique indexes",
+    "Include table and column names in index names for clarity",
+    "Avoid reserved keywords or quote them when necessary",
+    "Keep names descriptive but concise (max 63 characters)",
+    "Use consistent naming patterns across your schema"
+  ]
+}

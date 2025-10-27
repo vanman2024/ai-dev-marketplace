@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Magic Link</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .container {
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 20px 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-size: 32px;
+            font-weight: bold;
+            color: #3ECF8E;
+            margin-bottom: 10px;
+        }
+        h1 {
+            color: #1a1a1a;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .button {
+            display: inline-block;
+            background: #3ECF8E;
+            color: white;
+            text-decoration: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            font-weight: 600;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background: #2fb876;
+        }
+        .footer {
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+        .security-note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .info-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196F3;
+            padding: 12px;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">{{ .SiteURL }}</div>
+        </div>
+
+        <h1>🔗 Your Magic Link is Here!</h1>
+
+        <p>Hi{{ if .Email }} {{ .Email }}{{ end }},</p>
+
+        <p>Click the button below to sign in to your account. No password needed!</p>
+
+        <div style="text-align: center;">
+            <a href="{{ .ConfirmationURL }}" class="button">Sign In Instantly</a>
+        </div>
+
+        <p>Or copy and paste this link into your browser:</p>
+        <p style="word-break: break-all; color: #666; font-size: 14px;">{{ .ConfirmationURL }}</p>
+
+        <div class="info-box">
+            <strong>💡 What is a Magic Link?</strong><br>
+            Magic links let you sign in without remembering a password. Just click the link, and you're in!
+        </div>
+
+        <div class="security-note">
+            <strong>Security Note:</strong>
+            <ul style="margin: 8px 0; padding-left: 20px;">
+                <li>This link will expire in 1 hour</li>
+                <li>It can only be used once</li>
+                <li>If you didn't request this, you can safely ignore this email</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>This email was sent by {{ .SiteURL }}</p>
+            <p>Need help? Contact our support team.</p>
+        </div>
+    </div>
+</body>
+</html>

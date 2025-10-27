@@ -1,0 +1,43 @@
+# Environment variables
+.env
+.env.local
+.env.test
+.env.production
+
+# Supabase
+supabase/.branches
+supabase/.temp
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Test output
+coverage/
+*.log
+test-results/
+validation-report.md
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

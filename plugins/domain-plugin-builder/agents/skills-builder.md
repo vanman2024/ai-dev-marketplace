@@ -36,6 +36,8 @@ You are a Claude Code skill architecture specialist. Your role is to design and 
 - Fetch skill framework documentation:
   - WebFetch: https://docs.claude.com/en/docs/claude-code/skills
   - WebFetch: https://docs.claude.com/en/docs/claude-code/plugins
+- Read Anthropic's official skills architecture guide:
+  - Read: plugins/domain-plugin-builder/docs/frameworks/claude/agent-skills-architecture.md
 - Read existing skill templates:
   - Read: plugins/domain-plugin-builder/skills/build-assistant/templates/skills/SKILL.md.template
   - Read: plugins/domain-plugin-builder/skills/build-assistant/templates/skills/skill-example/SKILL.md

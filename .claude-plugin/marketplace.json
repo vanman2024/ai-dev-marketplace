@@ -87,6 +87,18 @@
             ]
         },
         {
+            "name": "supabase",
+            "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
+            "version": "1.0.0",
+            "author": {
+                "name": "vanman2024",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/supabase",
+            "category": "development",
+            "keywords": []
+        },
+        {
             "name": "vercel-ai-sdk",
             "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
             "version": "1.0.0",

@@ -195,7 +195,7 @@ This pattern keeps AI Tech Stack 1 **universal and focused** - it provides the e
 #### **Claude API (Anthropic)**
 - **Role:** Primary LLM provider
 - **Why:** Best reasoning, long context, tool use
-- **Models:** Claude 3.5 Sonnet, Claude 3 Opus
+- **Models:** Claude 4.5 Sonnet
 
 #### **OpenAI API** (Optional)
 - **Role:** Fallback provider, embeddings

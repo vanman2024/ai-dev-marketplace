@@ -1,0 +1,15 @@
+---
+description: Add Row Level Security policies - generates and applies RLS policies for tables
+argument-hint: <table1,table2,...> [--pattern=user-isolation|multi-tenant|role-based]
+allowed-tools: Task(supabase-security-specialist), Skill(rls-templates)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Apply RLS policies using security-specialist agent
+
+Actions:
+- Invoke supabase-security-specialist with table list and pattern
+- Agent uses rls-templates skill to generate policies
+- Apply policies via database-executor
+- Display applied policies
