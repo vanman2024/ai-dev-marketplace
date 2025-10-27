@@ -2,7 +2,12 @@
   "name": "supabase",
   "version": "1.0.0",
   "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
-  "author": "AI Dev Marketplace",
+  "author": {
+    "name": "vanman2024",
+    "email": "noreply@ai-dev-marketplace.dev"
+  },
+  "homepage": "https://github.com/ai-dev-marketplace/supabase",
+  "repository": "https://github.com/ai-dev-marketplace/supabase",
   "license": "MIT",
   "type": "framework",
   "framework": "supabase",
@@ -22,6 +27,23 @@
     "edge-functions",
     "testing",
     "validation"
+  ],
+  "keywords": [
+    "supabase",
+    "postgres",
+    "database",
+    "auth",
+    "authentication",
+    "storage",
+    "realtime",
+    "pgvector",
+    "ai",
+    "vector-search",
+    "rls",
+    "edge-functions",
+    "typescript",
+    "python",
+    "javascript"
   ],
   "documentation": "https://supabase.com/docs"
 }

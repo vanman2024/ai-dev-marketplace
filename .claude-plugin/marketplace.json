@@ -96,7 +96,23 @@
             },
             "source": "./plugins/supabase",
             "category": "development",
-            "keywords": []
+            "keywords": [
+                "supabase",
+                "postgres",
+                "database",
+                "auth",
+                "authentication",
+                "storage",
+                "realtime",
+                "pgvector",
+                "ai",
+                "vector-search",
+                "rls",
+                "edge-functions",
+                "typescript",
+                "python",
+                "javascript"
+            ]
         },
         {
             "name": "vercel-ai-sdk",
