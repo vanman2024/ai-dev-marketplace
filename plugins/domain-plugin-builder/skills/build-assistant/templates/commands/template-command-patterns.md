@@ -136,16 +136,15 @@ Goal: [Execute with agent]
 
 Actions:
 
-Invoke the [agent-name] agent to [accomplish task].
+Launch the [agent-name] agent to [accomplish task].
 
-The agent should:
-- [Requirement 1]
-- [Requirement 2]
-- [Requirement 3]
-
-Provide the agent with:
+Provide the agent with a detailed prompt including:
 - Context: [What context is needed]
 - Target: $ARGUMENTS
+- Requirements:
+  - [Requirement 1]
+  - [Requirement 2]
+  - [Requirement 3]
 - Expected output: [What should be delivered]
 
 Phase 5: Review
@@ -316,28 +315,25 @@ Actions:
 Launch the following agents IN PARALLEL (all at once):
 
 **Agent 1 - [First Check Name]:**
-Invoke the [agent-type-1] agent to [accomplish first task].
-Focus on:
-- [Focus area 1]
-- [Focus area 2]
-Target: $ARGUMENTS
-Deliverable: [Expected output]
+Launch the [agent-type-1] agent to [accomplish first task].
+Provide the agent with:
+- Focus: [Focus area 1], [Focus area 2]
+- Target: $ARGUMENTS
+- Deliverable: [Expected output]
 
 **Agent 2 - [Second Check Name]:**
-Invoke the [agent-type-2] agent to [accomplish second task].
-Focus on:
-- [Focus area 1]
-- [Focus area 2]
-Target: $ARGUMENTS
-Deliverable: [Expected output]
+Launch the [agent-type-2] agent to [accomplish second task].
+Provide the agent with:
+- Focus: [Focus area 1], [Focus area 2]
+- Target: $ARGUMENTS
+- Deliverable: [Expected output]
 
 **Agent 3 - [Third Check Name]:**
-Invoke the [agent-type-3] agent to [accomplish third task].
-Focus on:
-- [Focus area 1]
-- [Focus area 2]
-Target: $ARGUMENTS
-Deliverable: [Expected output]
+Launch the [agent-type-3] agent to [accomplish third task].
+Provide the agent with:
+- Focus: [Focus area 1], [Focus area 2]
+- Target: $ARGUMENTS
+- Deliverable: [Expected output]
 
 Wait for ALL agents to complete before proceeding.
 

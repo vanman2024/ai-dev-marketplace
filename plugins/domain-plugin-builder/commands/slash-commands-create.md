@@ -103,9 +103,9 @@ Example:
 Example showing 3 agents running together (natural language):
 
 Launch the following agents IN PARALLEL (all at once):
-- Invoke the code-scanner agent to scan for issues in $ARGUMENTS
-- Invoke the test-runner agent to test $ARGUMENTS
-- Invoke the security-checker agent to audit $ARGUMENTS
+- Launch the code-scanner agent to scan for issues in $ARGUMENTS
+- Launch the test-runner agent to test $ARGUMENTS
+- Launch the security-checker agent to audit $ARGUMENTS
 
 Wait for ALL agents to complete before proceeding.
 
