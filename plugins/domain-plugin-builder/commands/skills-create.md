@@ -8,18 +8,19 @@ allowed-tools: Task(*)
 
 Goal: Create properly structured skill(s) by launching the skills-builder agent
 
-Phase 1: Discovery & Documentation
-Goal: Load framework documentation about what Agent Skills are
+Phase 1: Discovery & Architecture
+Goal: Load Claude Code architecture to understand when to use skills vs agents vs commands vs hooks vs MCP
 
 Actions:
-- Load local skills architecture documentation:
-  @plugins/domain-plugin-builder/docs/frameworks/claude/agent-skills-architecture.md
+- Load Claude Code plugin architecture documentation:
+  @plugins/domain-plugin-builder/docs/frameworks/plugins/claude-code-plugin-structure.md
 - This provides comprehensive understanding of:
-  - What Agent Skills are and how they work
-  - Progressive disclosure pattern
-  - Skill structure and directory layout
-  - When to use skills vs agents
-  - Best practices and examples
+  - What are: Agents, Commands, Skills, Hooks, MCP servers
+  - When to use each component
+  - How components interact in the plugin system
+  - Plugin structure and organization
+  - When functionality belongs in a skill vs agent vs command
+- This architectural context will be passed to the skills-builder agent
 
 Phase 2: Parse Arguments & Determine Mode
 
@@ -39,14 +40,17 @@ Launch the skills-builder agent to create the skill.
 
 Provide the agent with:
 - Full arguments: $ARGUMENTS
-- The agent will handle all template loading, analysis, and creation
-- Agent will fetch additional documentation from these sources:
-  - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
-  - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
-  - https://docs.claude.com/en/docs/claude-code/skills
-  - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
-  - https://github.com/anthropics/claude-cookbooks/tree/main/skills
-  - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+- Architectural context from Phase 1 (what agents/commands/skills/hooks/MCP are and when to use them)
+- The agent will:
+  1. Read detailed skills implementation documentation (WebFetch):
+     - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
+     - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+     - https://docs.claude.com/en/docs/claude-code/skills
+     - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
+     - https://github.com/anthropics/claude-cookbooks/tree/main/skills
+     - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+  2. Load local templates and examples
+  3. Create skill following best practices
 
 **For Multiple Skills (3 or more skills):**
 Launch multiple skills-builder agents IN PARALLEL (all at once):
@@ -54,7 +58,8 @@ Launch multiple skills-builder agents IN PARALLEL (all at once):
 - Launch skills-builder agent for skill 2 with: <skill-2> "<desc-2>"
 - Launch skills-builder agent for skill 3 with: <skill-3> "<desc-3>"
 - (Continue for all requested skills)
-- Each agent will fetch the same documentation sources listed above
+- Each agent receives the architectural context from Phase 1
+- Each agent will independently fetch detailed skills documentation (listed above)
 
 Wait for ALL agents to complete before proceeding.
 
