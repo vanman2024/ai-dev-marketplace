@@ -36,14 +36,58 @@ if ! python3 -m json.tool "$PLUGIN_DIR/.claude-plugin/plugin.json" > /dev/null 2
     exit 1
 fi
 
+# Validate plugin.json schema (only allowed fields)
+ALLOWED_FIELDS=("name" "version" "description" "author" "homepage" "repository" "license" "keywords" "category" "tags" "strict" "commands" "agents" "hooks" "mcpServers")
+INVALID_FIELDS=$(python3 -c "
+import json, sys
+with open('$PLUGIN_DIR/.claude-plugin/plugin.json') as f:
+    data = json.load(f)
+allowed = set($( printf "'%s', " "${ALLOWED_FIELDS[@]}" | sed 's/, $//' ))
+invalid = [k for k in data.keys() if k not in allowed]
+if invalid:
+    print(' '.join(invalid))
+" 2>/dev/null)
+
+if [[ -n "$INVALID_FIELDS" ]]; then
+    echo "❌ ERROR: Invalid fields in plugin.json: $INVALID_FIELDS"
+    echo "[INFO] Allowed fields: ${ALLOWED_FIELDS[*]}"
+    echo "[INFO] Move custom metadata to keywords array for discoverability"
+    exit 1
+fi
+
 # Check required fields in plugin.json
-REQUIRED_FIELDS=("name")
+REQUIRED_FIELDS=("name" "version" "description")
 for field in "${REQUIRED_FIELDS[@]}"; do
     if ! grep -q "\"$field\":" "$PLUGIN_DIR/.claude-plugin/plugin.json"; then
         echo "❌ ERROR: Missing required field: $field"
         exit 1
     fi
 done
+
+# Validate author field structure if present
+if grep -q "\"author\":" "$PLUGIN_DIR/.claude-plugin/plugin.json"; then
+    AUTHOR_VALID=$(python3 -c "
+import json
+with open('$PLUGIN_DIR/.claude-plugin/plugin.json') as f:
+    data = json.load(f)
+author = data.get('author')
+if isinstance(author, dict):
+    if 'name' in author:
+        print('valid')
+    else:
+        print('missing_name')
+elif isinstance(author, str):
+    print('string')
+" 2>/dev/null)
+
+    if [[ "$AUTHOR_VALID" == "string" ]]; then
+        echo "❌ ERROR: author field must be an object with 'name' and 'email' fields, not a string"
+        exit 1
+    elif [[ "$AUTHOR_VALID" == "missing_name" ]]; then
+        echo "❌ ERROR: author object must include 'name' field"
+        exit 1
+    fi
+fi
 
 # Check component directories are at root (not inside .claude-plugin)
 if [[ -d "$PLUGIN_DIR/.claude-plugin/commands" ]] || \

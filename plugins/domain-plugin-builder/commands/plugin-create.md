@@ -85,9 +85,12 @@ After agent completes, show summary:
 **Total Validation:** ALL PASSED (N/N) ✅
 
 **Next Steps:**
-1. Review the plugin: `cat plugins/{plugin-name}/README.md`
-2. Test a command: `/{plugin-name}:new-app my-test-project`
-3. Commit to git: `git add plugins/{plugin-name} && git commit -m "feat: Add {plugin-name} plugin"`
+1. Install plugin locally for testing:
+   !{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/install-plugin-locally.sh plugins/{plugin-name}}
+2. Install via command: `/plugin install {plugin-name}@ai-dev-marketplace`
+3. Test a command: `/{plugin-name}:init` (or first command from plugin)
+4. Commit to git: `git add plugins/{plugin-name} && git commit -m "feat: Add {plugin-name} plugin"`
+5. Push to GitHub: `git push origin master`
 
 ## Success Criteria
 
