@@ -8,7 +8,20 @@ allowed-tools: Task(*)
 
 Goal: Create properly structured skill(s) by launching the skills-builder agent
 
-Phase 1: Parse Arguments & Determine Mode
+Phase 1: Discovery & Documentation
+Goal: Load framework documentation about what Agent Skills are
+
+Actions:
+- Load local skills architecture documentation:
+  @plugins/domain-plugin-builder/docs/frameworks/claude/agent-skills-architecture.md
+- This provides comprehensive understanding of:
+  - What Agent Skills are and how they work
+  - Progressive disclosure pattern
+  - Skill structure and directory layout
+  - When to use skills vs agents
+  - Best practices and examples
+
+Phase 2: Parse Arguments & Determine Mode
 
 Actions:
 - Check if $ARGUMENTS starts with --analyze:
@@ -17,7 +30,7 @@ Actions:
     - Single skill: <skill-name> "<description>"
     - Multiple skills: <skill-1> "<desc-1>" <skill-2> "<desc-2>" ... (creates in parallel)
 
-Phase 2: Launch Skills Builder Agent(s)
+Phase 3: Launch Skills Builder Agent(s)
 
 Actions:
 
@@ -27,6 +40,13 @@ Launch the skills-builder agent to create the skill.
 Provide the agent with:
 - Full arguments: $ARGUMENTS
 - The agent will handle all template loading, analysis, and creation
+- Agent will fetch additional documentation from these sources:
+  - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
+  - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+  - https://docs.claude.com/en/docs/claude-code/skills
+  - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
+  - https://github.com/anthropics/claude-cookbooks/tree/main/skills
+  - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
 
 **For Multiple Skills (3 or more skills):**
 Launch multiple skills-builder agents IN PARALLEL (all at once):
@@ -34,10 +54,11 @@ Launch multiple skills-builder agents IN PARALLEL (all at once):
 - Launch skills-builder agent for skill 2 with: <skill-2> "<desc-2>"
 - Launch skills-builder agent for skill 3 with: <skill-3> "<desc-3>"
 - (Continue for all requested skills)
+- Each agent will fetch the same documentation sources listed above
 
 Wait for ALL agents to complete before proceeding.
 
-Phase 3: Summary
+Phase 4: Summary
 
 Actions:
 - Display results from all agents (skill names, locations, validation status)
