@@ -68,12 +68,13 @@ Phase 2: Create Base Server
 Goal: Initialize server project
 
 Actions:
-- Use SlashCommand tool to invoke: /fastmcp:new-server $ARGUMENTS
+- **Use language choice from Phase 1** (stored as: python or typescript)
+- Use SlashCommand tool to invoke: `/fastmcp:new-server $ARGUMENTS --language=[python|typescript] --skip-questions`
 - The /fastmcp:new-server command will:
-  - Load FastMCP documentation
-  - Ask language preference (Python or TypeScript)
-  - Invoke fastmcp-setup or fastmcp-setup-ts agent
-  - Create complete project structure
+  - Detect --skip-questions flag and skip Phase 1 entirely
+  - Use --language parameter to select Python or TypeScript
+  - Invoke fastmcp-setup or fastmcp-setup-ts agent directly
+  - Create complete project structure without asking questions
 - **CRITICAL: Wait for server creation to complete**
 - **Immediately after completion, Read the created server file to understand its structure:**
   - Use Bash to find server path: `find . -name "server.py" -o -name "server.ts" -o -name "main.py"`

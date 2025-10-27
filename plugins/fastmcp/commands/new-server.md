@@ -1,7 +1,7 @@
 ---
 description: Create and setup a new FastMCP server project with Python or TypeScript. Use add-* commands to add features.
-argument-hint: <server-name>
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+argument-hint: <server-name> [--language=python|typescript] [--purpose="description"] [--skip-questions]
+allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*)
 ---
 
 **Arguments**: $ARGUMENTS
@@ -9,42 +9,44 @@ allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQue
 Goal: Create a production-ready FastMCP server project foundation with proper structure, FastMCP dependencies, and minimal starter code. Supports both Python and TypeScript. Additional features (tools, auth, deployment) can be added with add-* commands.
 
 Core Principles:
-- Ask language preference first (Python or TypeScript)
+- Accept parameters from parent commands (like build-full-server)
+- Ask questions only if parameters not provided
 - Route to correct setup agent based on language
 - Follow FastMCP SDK documentation patterns
 - Create functional starter code, not placeholders
 
-Phase 1: Discovery & Education
+**Parameter Detection:**
+- Check if $ARGUMENTS contains `--language=python` or `--language=typescript`
+- Check if $ARGUMENTS contains `--purpose="..."`
+- Check if $ARGUMENTS contains `--skip-questions`
+- If ALL parameters provided OR `--skip-questions` flag present: Skip Phase 1, go directly to Phase 2
+- If parameters missing: Run Phase 1 to gather them
+
+Phase 1: Discovery & Education (SKIP if --skip-questions or all params provided)
 Goal: Understand what the user wants to build through interactive conversation
 
 Actions:
-- Parse $ARGUMENTS for project name
+- Parse $ARGUMENTS for project name and optional parameters
 - Load FastMCP documentation for reference:
   @plugins/domain-plugin-builder/docs/sdks/fastmcp-documentation.md
-- Have an interactive conversation to understand the server:
+- **ONLY if language not provided**: Ask language preference
+
+  **Language Selection:**
+  - Ask: "Which language do you prefer: Python or TypeScript?"
+  - Explain differences: Python for simplicity, TypeScript for type safety
+  - Store choice for Phase 4
+
+- **ONLY if purpose not provided**: Ask about server purpose
 
   **Start with Purpose:**
-  - "What will this MCP server do? (e.g., 'access my database', 'process documents', 'integrate with APIs')"
+  - Ask: "What will this MCP server do? (e.g., 'access my database', 'process documents', 'integrate with APIs')"
   - Based on their answer, suggest relevant MCP components:
     - If they mention data/database → Suggest Resources with URI templates
     - If they mention actions/operations → Suggest Tools with functions
     - If they mention LLM interactions → Suggest Prompts with templates
 
-  **Explain MCP Components with Examples:**
-  - Show them what Tools, Resources, and Prompts are with concrete examples
-  - Reference FastMCP docs: https://gofastmcp.com/servers/tools, /servers/resources, /servers/prompts
-  - Ask which components they'll need
-
-  **Language Selection:**
-  - Use AskUserQuestion for language (Python or TypeScript)
-  - Explain differences: Python for simplicity, TypeScript for type safety
-
-  **Architecture Decisions:**
-  - Will this server need authentication? Explain OAuth vs JWT vs Bearer
-  - Where will it run? Explain STDIO (Claude Desktop) vs HTTP (web) vs Cloud
-  - Guide them based on their use case
-
 - Store all choices for Phase 4
+- If called from build-full-server: Skip all questions, use provided requirements
 
 Phase 2: Validation
 Goal: Verify project doesn't exist and environment is ready
