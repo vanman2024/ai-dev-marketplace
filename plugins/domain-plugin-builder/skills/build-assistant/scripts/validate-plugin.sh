@@ -72,4 +72,22 @@ else
 fi
 
 echo "✅ Plugin validation passed"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "📦 NEXT STEP: Install Plugin to Test"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+echo "To make the plugin available for use:"
+echo ""
+echo "  1. Update marketplace in ~/.claude:"
+echo "     cp -r $PLUGIN_DIR ~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/"
+echo "     cp .claude-plugin/marketplace.json ~/.claude/plugins/marketplaces/ai-dev-marketplace/.claude-plugin/"
+echo ""
+echo "  2. Install the plugin:"
+echo "     /plugin install $PLUGIN_NAME@ai-dev-marketplace"
+echo ""
+echo "  3. Verify installation:"
+echo "     /$PLUGIN_NAME:init  (or any command from the plugin)"
+echo ""
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 exit 0
