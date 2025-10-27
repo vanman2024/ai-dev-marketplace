@@ -26,23 +26,15 @@ if [[ ! -d "$MARKETPLACE_DIR" ]]; then
     exit 1
 fi
 
-# Check if marketplace is a symlink to development directory
+# Check if we're in the development directory
 DEV_MARKETPLACE="/home/vanman2025/Projects/ai-dev-marketplace"
-if [[ -L "$MARKETPLACE_DIR" ]]; then
-    SYMLINK_TARGET=$(readlink -f "$MARKETPLACE_DIR")
-    if [[ "$SYMLINK_TARGET" == "$DEV_MARKETPLACE" ]]; then
-        echo "✅ Marketplace is symlinked to development directory"
-        echo "[INFO] Plugin is already available (no copy needed)"
-        echo ""
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo "📦 INSTALL PLUGIN"
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        echo ""
-        echo "  /plugin install $PLUGIN_NAME@ai-dev-marketplace"
-        echo ""
-        echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-        exit 0
-    fi
+CURRENT_DIR=$(pwd)
+if [[ "$CURRENT_DIR" == "$DEV_MARKETPLACE" ]]; then
+    echo "[INFO] Running from development directory"
+else
+    echo "⚠️  WARNING: Not in development directory"
+    echo "[INFO] Expected: $DEV_MARKETPLACE"
+    echo "[INFO] Current:  $CURRENT_DIR"
 fi
 
 # Copy plugin to marketplace
