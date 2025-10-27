@@ -1,0 +1,11 @@
+# Core FastMCP dependency
+fastmcp>=2.0.0
+
+# Environment variable management
+python-dotenv>=1.0.0
+
+# Development dependencies (optional)
+pytest>=7.4.0
+pytest-asyncio>=0.21.0
+black>=23.0.0
+ruff>=0.1.0

@@ -1,7 +1,7 @@
 ---
 description: Build a complete production-ready FastMCP server by orchestrating all feature commands based on requirements
 argument-hint: <server-name>
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), SlashCommand(*), TodoWrite(*)
+allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), SlashCommand(*), TodoWrite(*)
 ---
 
 **Arguments**: $ARGUMENTS
@@ -20,20 +20,48 @@ Goal: Understand complete server requirements and ingest all relevant documentat
 Actions:
 - Create todo list with all phases using TodoWrite
 - Parse $ARGUMENTS for server name
-- **FIRST: Ask user if they have specification or documentation files to provide**
-  - Use AskUserQuestion: "Do you have a specification file, API documentation, or requirements document for this server?"
-  - If yes, ask for file path(s) and Read each file completely
-  - Store specification details for use in all subsequent phases
 - Load FastMCP documentation:
   @plugins/domain-plugin-builder/docs/sdks/fastmcp-documentation.md
-- **Based on specification OR via questions**, gather requirements:
-  - Server name and purpose (from spec if provided)
-  - MCP components needed (tools count, resources, prompts - extract from spec)
-  - Authentication method (OAuth/JWT/Bearer/none)
-  - Deployment target (STDIO/HTTP/Cloud)
-  - Integrations needed (FastAPI/Claude Desktop/Supabase MCP/etc.)
-  - Special architecture patterns (if mentioned in spec)
-- Present complete build plan to user for confirmation
+- **Ask step-by-step questions to gather requirements:**
+
+**Step 1: Documentation**
+Ask: "Do you have a specification file, API documentation, or requirements document for this server?"
+- If user provides file path(s): Read each file completely and extract requirements
+- If user wants web documentation: Use WebSearch or WebFetch to gather API docs
+- If no documentation: Proceed to gather requirements via questions
+
+**Step 2: Server Purpose**
+Ask: "What is the primary purpose of the $ARGUMENTS server? What should it do?"
+- Extract: Main functionality, use cases, target platforms
+
+**Step 3: MCP Components**
+Ask: "How many MCP tools/resources/prompts do you expect? What operations should they perform?"
+- Extract: Component count, tool descriptions, resource types, prompt templates
+- Determine complexity tier:
+  - Small (1-10 components): Direct implementation
+  - Medium (11-50 components): Use /fastmcp:add-components
+  - Large (51-180 components): Use general-purpose agent
+  - API Wrapper (180+ or Postman collection): Use /fastmcp:add-api-wrapper
+
+**Step 4: Authentication**
+Ask: "What authentication method should the server use?"
+Options: Bearer Token, OAuth 2.1, JWT, None (development only)
+- Extract: Auth type, provider details if applicable
+
+**Step 5: Deployment**
+Ask: "What deployment target do you need?"
+Options: STDIO (Claude Desktop), HTTP server, Both, FastMCP Cloud
+- Extract: Transport type, hosting preferences
+
+**Step 6: Integrations**
+Ask: "Do you need any special integrations? (FastAPI, OpenAPI, Supabase MCP, etc.)"
+- Extract: Integration requirements, special patterns
+
+**Step 7: Language Preference**
+Ask: "Do you prefer Python or TypeScript?"
+- Extract: Language choice for server implementation
+
+- **Present complete build plan to user for confirmation**
 - **Store all requirements in memory for autonomous execution of phases 2-10**
 
 Phase 2: Create Base Server

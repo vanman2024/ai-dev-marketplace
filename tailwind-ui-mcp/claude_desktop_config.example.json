@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "tailwind-ui": {
+      "command": "python",
+      "args": ["/home/vanman2025/Projects/ai-dev-marketplace/tailwind-ui-mcp/server.py"],
+      "env": {
+        "SUPABASE_PROJECT_ID": "wsmhiiharnhqupdniwgw"
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server",
+        "--project-id",
+        "wsmhiiharnhqupdniwgw"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "your-supabase-access-token-here"
+      }
+    }
+  }
+}
