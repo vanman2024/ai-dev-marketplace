@@ -9,7 +9,7 @@ argument-hint: <plugin-name>
 Goal: Build a complete, production-ready domain-specific plugin with ALL components: commands, agents, skills (with scripts/templates/examples), and full validation.
 
 Core Principles:
-- Build EVERYTHING at once using plugin-builder agent
+- Build EVERYTHING by orchestrating slash commands sequentially
 - Create functional scripts, not placeholders
 - Validate all components
 - Ensure production readiness
@@ -47,24 +47,25 @@ Store all answers for Phase 3.
 
 ## Phase 3: Build Complete Plugin
 
-Invoke the plugin-builder agent to create the entire plugin from start to finish.
+Orchestrate slash commands to create the entire plugin from start to finish:
 
-The agent should:
+Actions:
 - Create complete directory structure
-- Build ALL commands using SlashCommand tool
-- Build ALL agents using SlashCommand tool
-- Build ALL skills with:
-  - Functional scripts (NOT placeholders!)
-  - scripts/README.md
-  - templates/ with actual template files
-  - examples/ with working examples
+- Build ALL commands: `/domain-plugin-builder:slash-commands-create` for each command
+- Build ALL agents: `/domain-plugin-builder:agents-create` for each agent
+- Build ALL skills: `/domain-plugin-builder:skills-create` for each skill
+  - Skills-builder agent handles complexity of:
+    - Functional scripts (NOT placeholders!)
+    - scripts/README.md
+    - templates/ with actual template files
+    - examples/ with working examples
 - Generate comprehensive README.md
 - Run validation on all components
 - Fix any validation errors
 - Provide final report with validation results
 
-Provide the agent with:
-- Context: Plugin type, description, requirements from Phase 2
+Context needed:
+- Plugin type, description, requirements from Phase 2
 - Plugin name: $ARGUMENTS
 - Expected output: Complete validated plugin ready for production use
 

@@ -70,7 +70,7 @@ Goal: Add authentication
 
 Actions:
 
-Invoke the fastmcp-features agent to add authentication.
+Implement directly or use Task with general-purpose agent for complex cases to add authentication.
 
 The agent should:
 - WebFetch relevant authentication documentation:

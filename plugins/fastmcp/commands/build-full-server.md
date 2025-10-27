@@ -48,14 +48,18 @@ Phase 3: Add MCP Components
 Goal: Add tools, resources, prompts, and/or middleware
 
 Actions:
-- If any components requested (tools, resources, prompts, middleware):
+- Determine component complexity:
+  - Count total components to add (tools + resources + prompts)
+  - If 50 or fewer: Use SlashCommand: /fastmcp:add-components [component-types]
+  - If 51-180 components: Use Task with general-purpose agent for batch implementation
+  - If 180+ components OR API wrapper: Use SlashCommand: /fastmcp:add-api-wrapper
+- For standard components:
   - Use SlashCommand tool to invoke: /fastmcp:add-components [component-types]
-  - The /fastmcp:add-components command will:
-    - Load relevant FastMCP documentation for each component type
-    - Read the existing server code
-    - Add requested tools, resources, prompts, or middleware
-    - Follow FastMCP SDK patterns and best practices
-  - Wait for completion
+  - The command will handle directly (≤10) or spawn agent (>50)
+- For API wrappers (large tool sets from Postman):
+  - Use SlashCommand tool to invoke: /fastmcp:add-api-wrapper [collection-name]
+  - Generates tools from REST API endpoints
+- Wait for completion
 - Update todos with TodoWrite
 
 Phase 4: Add Authentication
@@ -101,8 +105,8 @@ Actions:
   - Wait for completion
 - Update todos with TodoWrite
 
-Phase 7: Final Verification
-Goal: Verify complete server works
+Phase 7: Static Verification
+Goal: Verify server structure and syntax
 
 Actions:
 - Invoke the appropriate verifier agent:
@@ -111,24 +115,67 @@ Actions:
 - The verifier agent will:
   - Check Python/TypeScript syntax
   - Verify all dependencies are installed
-  - Test server starts without errors
-  - Validate all tools/resources/prompts are accessible
-  - Run basic functionality tests
-  - Verify authentication is configured correctly
-  - Test deployment configuration
+  - Validate server structure follows FastMCP patterns
+  - Check all imports and decorators are correct
+- If validation fails: Fix issues before proceeding
 - Update todos based on verification results
 
-Phase 8: Summary
+Phase 8: Generate Test Suite
+Goal: Create comprehensive tests for the server
+
+Actions:
+- Use SlashCommand tool to invoke: /fastmcp:test --server-path=. --run --coverage
+- The /fastmcp:test command will:
+  - Analyze server structure (tools, resources, prompts)
+  - Invoke fastmcp-tester agent to generate pytest-based tests
+  - Generate tests/conftest.py with mcp_client fixture
+  - Generate test files for each toolset/module
+  - Include parametrized tests for edge cases
+  - Add error handling tests
+  - Create pytest.ini configuration
+  - Run tests if --run flag provided
+  - Generate coverage report if --coverage flag provided
+- Wait for test generation and execution
+- Review test results for any failures
+- Update todos with TodoWrite
+
+Phase 9: Live Integration Testing
+Goal: Test server with real API keys and connections (if applicable)
+
+Actions:
+- Ask user if live testing with API keys is needed:
+  - Use AskUserQuestion: "Do you have API keys to test live integrations?"
+- If yes:
+  - Request necessary API keys/credentials (stored in .env)
+  - Start server in test mode
+  - Run live integration tests:
+    - Test authentication flows with real credentials
+    - Test API tool calls to external services
+    - Test resource fetching from live data sources
+    - Verify rate limiting and error handling
+  - Monitor for errors or failures
+  - Stop server after testing
+- Document test results
+- Update todos with TodoWrite
+
+Phase 10: Summary
 Goal: Present complete build results
 
 Actions:
 - Mark all todos complete
 - Display comprehensive summary:
   - Server location and structure
-  - Components added (tools, resources, prompts)
-  - Authentication configured
-  - Deployment method
+  - Components added (count of tools, resources, prompts)
+  - Authentication configured (type and provider)
+  - Deployment method (STDIO, HTTP, Cloud)
   - Integrations enabled
-  - Commands to run server
-  - Testing instructions
-  - Next steps for development
+  - Test results (passed/failed/coverage %)
+  - Live integration test results (if applicable)
+  - Commands to run server:
+    - Development: `python server.py` or `npm run dev`
+    - Production: Deployment-specific instructions
+  - Next steps:
+    - Add more tools/resources as needed
+    - Configure additional integrations
+    - Deploy to production environment
+    - Monitor and iterate based on usage

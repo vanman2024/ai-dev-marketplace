@@ -32,7 +32,7 @@ Phase 3: Implementation
 
 Actions:
 
-Invoke the fastmcp-features agent for each integration.
+Implement directly or use Task with general-purpose agent for complex cases for each integration.
 
 Agent should WebFetch based on integration type:
 

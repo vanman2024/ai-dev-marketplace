@@ -57,12 +57,14 @@ Goal: Add selected components
 
 Actions:
 
-For EACH selected component type:
+Determine complexity:
+- Count total components to add
+- If adding 10 or fewer components: Implement directly (no agent needed)
+- If adding 11-50 components: Optionally use Task with general-purpose agent
+- If adding 50+ components OR wrapping API endpoints: Use Task with general-purpose agent
 
-Invoke the fastmcp-features agent to add the component.
-
-The agent should:
-- WebFetch relevant documentation URLs based on component:
+For simple cases (<=10 components), implement directly:
+- WebFetch relevant documentation based on component type:
   - Tools: https://gofastmcp.com/servers/tools
   - Resources: https://gofastmcp.com/servers/resources
   - Prompts: https://gofastmcp.com/servers/prompts
@@ -70,14 +72,16 @@ The agent should:
   - Context: https://gofastmcp.com/servers/context
   - Dependencies: https://gofastmcp.com/servers/dependencies
   - Elicitation: https://gofastmcp.com/servers/elicitation
-- Add proper imports based on language (Python or TypeScript)
-- Implement component following SDK patterns
-- Add proper type hints/annotations
+- Read existing server code
+- Add component following fetched documentation patterns
+- Use Edit tool to add imports and component code
+- Add proper type hints/annotations (Python) or TypeScript types
 - Include comprehensive docstrings/comments
 - Add error handling
 - Follow existing code style
 
-Provide the agent with:
+For complex cases (>50 components), use Task agent:
+- Launch general-purpose agent with context about:
 - Context: Component specifications from Phase 1
 - Target: Server file path
 - Language: Python or TypeScript

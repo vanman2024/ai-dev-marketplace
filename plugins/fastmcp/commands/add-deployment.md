@@ -30,7 +30,7 @@ Phase 3: Implementation
 
 Actions:
 
-Invoke the fastmcp-features agent for each deployment target.
+Implement directly or use Task with general-purpose agent for complex cases for each deployment target.
 
 Agent should WebFetch:
 - Running Servers: https://gofastmcp.com/deployment/running-server
