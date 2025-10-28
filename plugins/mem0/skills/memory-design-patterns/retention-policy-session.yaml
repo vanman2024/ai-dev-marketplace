@@ -1,0 +1,60 @@
+# Mem0 Retention Policy - session Memory
+# Generated: 2025-10-27T23:24:54Z
+
+memory_type: session
+
+retention:
+  active_days: 1
+  archival_days: 0
+  cleanup_strategy: automatic_immediate
+
+  # Cleanup triggers
+  triggers:
+    age_based: true
+    score_based: false
+    access_based: false
+    session_end: true
+
+cleanup_rules:
+  # Age-based cleanup
+  age_threshold_days: 1
+
+  # Score-based cleanup (for agent memories)
+  min_relevance_score: 0.3
+
+  # Access-based cleanup (for user memories)
+  inactive_days_threshold: 0
+
+  # Archival rules
+  archive_after_days: 0
+  archive_compression: true
+
+  # Batch processing
+  batch_size: 100
+  check_interval_hours: 24
+
+# Security and compliance
+compliance:
+  gdpr_deletion: false
+  audit_logging: true
+  encryption_at_rest: true
+
+# Performance settings
+performance:
+  async_cleanup: true
+  cleanup_window_start: "02:00"  # 2 AM UTC
+  cleanup_window_end: "04:00"    # 4 AM UTC
+  max_cleanup_duration_minutes: 60
+
+# Notifications
+notifications:
+  cleanup_summary: true
+  error_alerts: true
+  threshold_warnings: true
+
+# Metrics
+metrics:
+  track_cleanup_count: true
+  track_storage_savings: true
+  track_cleanup_duration: true
+

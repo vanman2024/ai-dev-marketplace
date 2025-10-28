@@ -340,21 +340,21 @@ cd mcp-servers/cats-mcp-server
 
 **Documentation:** See `mcp-servers/cats-mcp-server/README.md`
 
-#### 2. Marketing Automation Server (`mcp-servers/marketing-automation/`)
-**AI-powered content generation** combining Google Imagen/Veo with Claude/Gemini.
+#### 2. Content & Image Generation Server (`mcp-servers/content-image-generation-mcp/`)
+**AI-powered content and image generation** combining Google Imagen/Veo with Claude/Gemini.
 
-- **Purpose:** Multi-platform marketing automation
-- **Features:** Image generation (Imagen), video generation (Veo), content writing (Claude/Gemini), social media posting (Ayrshare)
-- **Platforms:** 13 social platforms via Ayrshare API
-- **Cost:** $0.20-0.50 per social media post
+- **Purpose:** Multi-modal content and media generation
+- **Features:** Image generation (Imagen), video generation (Veo), content writing (Claude/Gemini)
+- **Outputs:** Marketing images, product videos, social media copy, blog content
+- **Cost:** $0.20-0.50 per generation
 
 **Quick Start:**
 ```bash
-cd mcp-servers/marketing-automation
+cd mcp-servers/content-image-generation-mcp
 python server.py
 ```
 
-**Documentation:** See `mcp-servers/marketing-automation/README.md`
+**Documentation:** See `mcp-servers/content-image-generation-mcp/README.md`
 
 ### Integration with Claude Desktop
 
@@ -370,13 +370,12 @@ Add to your `claude_desktop_config.json`:
         "CATS_API_TOKEN": "your_token_here"
       }
     },
-    "marketing-automation": {
+    "content-image-generation": {
       "command": "python",
-      "args": ["mcp-servers/marketing-automation/server.py"],
+      "args": ["mcp-servers/content-image-generation-mcp/server.py"],
       "env": {
         "GOOGLE_API_KEY": "your_key_here",
-        "ANTHROPIC_API_KEY": "your_key_here",
-        "AYRSHARE_API_KEY": "your_key_here"
+        "ANTHROPIC_API_KEY": "your_key_here"
       }
     }
   }

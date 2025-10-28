@@ -1,0 +1,97 @@
+---
+description: Test Mem0 functionality end-to-end (setup, operations, performance, security)
+argument-hint: none
+allowed-tools: Task(*), Read(*), Bash(*), Glob(*), Grep(*)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Comprehensively test Mem0 installation, operations, performance, and security.
+
+Core Principles:
+- Test all memory operations
+- Validate performance benchmarks
+- Check security configuration
+- Provide actionable recommendations
+
+Phase 1: Setup Validation
+Goal: Verify Mem0 is properly initialized
+
+Actions:
+- Check Mem0 packages are installed
+- Verify configuration files exist
+- Check environment variables are set (MEM0_API_KEY in ~/.bashrc)
+- Validate deployment mode (Platform, OSS, or MCP)
+- If MCP: Verify OpenMemory server is running at http://localhost:8765
+- If Platform: Verify MEM0_API_KEY is loaded from ~/.bashrc
+- If OSS: Verify Supabase connection and pgvector extension
+
+Phase 2: Operations Testing
+Goal: Test all memory operations work
+
+Actions:
+
+Launch the mem0-verifier agent to test Mem0 operations.
+
+Provide the agent with:
+- Test scope: Comprehensive
+- Requirements:
+  - Test add memory (single and batch)
+  - Test search memory (various queries)
+  - Test update memory
+  - Test delete memory
+  - Test get memory by ID
+  - If graph memory: Test relationships
+  - If webhooks: Test delivery
+  - Verify error handling
+  - Check response formats
+- Expected output: Test report with pass/fail status
+
+Phase 3: Performance Benchmarking
+Goal: Measure memory operation performance
+
+Actions:
+- Measure latency for each operation:
+  - Add memory (target: < 500ms)
+  - Search memory (target: < 200ms)
+  - Update memory (target: < 300ms)
+- Test concurrent operations
+- Check database performance (if OSS with Supabase)
+- Identify bottlenecks
+
+Phase 4: Security Audit
+Goal: Validate security configuration
+
+Actions:
+- Check for exposed API keys in code
+- Verify environment variables not hardcoded
+- If OSS: Test RLS policies (user isolation)
+- Check data encryption
+- Validate access controls
+- Test GDPR compliance features (delete user data)
+
+Phase 5: Summary
+Goal: Present comprehensive test report
+
+Actions:
+- Display test results:
+  - Setup validation: ✅ Pass / ❌ Fail
+  - Memory operations: [X/Y passed]
+  - Performance benchmarks: [Latency results]
+  - Security audit: [Findings]
+- Show issues found:
+  - Critical issues (fix immediately)
+  - Warnings (should address)
+  - Recommendations (nice to have)
+- Provide fixes for failures:
+  - Exact steps to resolve
+  - Code changes needed
+  - Configuration adjustments
+- Provide next steps:
+  - Fix critical issues
+  - Optimize performance bottlenecks
+  - Address security findings
+  - Re-run test after fixes
+- Provide documentation:
+  - Platform FAQs: https://docs.mem0.ai/platform/faqs
+  - OSS troubleshooting: https://docs.mem0.ai/open-source/overview

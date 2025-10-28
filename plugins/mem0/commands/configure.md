@@ -1,0 +1,97 @@
+---
+description: Configure Mem0 settings (memory types, retention, embeddings, rerankers, webhooks)
+argument-hint: [setting-name]
+allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), AskUserQuestion(*)
+---
+
+**Arguments**: $ARGUMENTS
+
+Goal: Configure Mem0 settings for memory types, retention policies, embedding models, rerankers, webhooks, and custom categories.
+
+Core Principles:
+- Interactive configuration
+- Explain options and tradeoffs
+- Validate settings before applying
+- Document configuration choices
+
+Phase 1: Configuration Discovery
+Goal: Determine what to configure
+
+Actions:
+- If $ARGUMENTS specifies setting, focus on that
+- Otherwise, show configuration menu with options:
+  - Memory types (user/agent/session)
+  - Retention policies (expiration, archival)
+  - Embedding models (OpenAI, HuggingFace, etc.)
+  - Rerankers (for better retrieval)
+  - Webhooks (memory events)
+  - Custom categories
+  - Graph memory settings
+- Load current configuration
+- Check deployment mode (Platform or OSS)
+
+Phase 2: Configuration Planning
+Goal: Gather configuration preferences
+
+Actions:
+- Use AskUserQuestion to ask about configuration:
+  - "Which setting do you want to configure?" (if not specified)
+  - Based on selection, ask specific questions:
+    - Retention: "How long should memories persist?"
+    - Embeddings: "Which embedding model do you want?"
+    - Rerankers: "Enable reranker for better search?"
+    - Webhooks: "Configure webhooks for memory events?"
+- Explain tradeoffs for each option
+- Recommend defaults for common use cases
+
+Phase 3: Implementation
+Goal: Apply configuration changes
+
+Actions:
+
+Launch the mem0-integrator agent to apply configuration.
+
+Provide the agent with:
+- Configuration target: [Selected setting]
+- New values: [From Phase 2]
+- Deployment mode: [Platform or OSS]
+- Requirements:
+  - Update configuration files
+  - Modify environment variables if needed
+  - Add necessary imports/dependencies
+  - Update memory client initialization
+  - Add validation for new settings
+  - Document configuration in comments
+- Expected output: Updated configuration with settings applied
+
+Phase 4: Verification
+Goal: Validate configuration works
+
+Actions:
+- Test new configuration loads correctly
+- If embeddings changed: Test embedding generation
+- If reranker enabled: Test search quality improvement
+- If webhooks: Test webhook delivery
+- Verify no breaking changes
+
+Phase 5: Summary
+Goal: Document what was configured
+
+Actions:
+- Display configuration changes:
+  - Setting: [Name]
+  - Old value: [Previous]
+  - New value: [Current]
+  - Files modified: [List]
+- Show impact of changes
+- Provide recommendations:
+  - When to adjust settings
+  - How to monitor performance
+  - Related configuration options
+- Provide next steps:
+  - Run /mem0:test to validate
+  - Monitor memory operations
+  - Adjust based on usage patterns
+- Provide documentation:
+  - Platform features: https://docs.mem0.ai/platform/features/platform-overview
+  - OSS configuration: https://docs.mem0.ai/open-source/configuration

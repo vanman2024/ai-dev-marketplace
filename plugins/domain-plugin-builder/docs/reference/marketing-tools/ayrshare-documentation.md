@@ -11,17 +11,24 @@
 1. [Overview](#overview)
 2. [Core Features](#core-features)
 3. [Supported Platforms](#supported-platforms)
-4. [API Architecture](#api-architecture)
-5. [Authentication](#authentication)
-6. [Post API](#post-api)
-7. [Analytics API](#analytics-api)
-8. [Messages API](#messages-api)
-9. [Ads API](#ads-api)
-10. [MCP Server](#mcp-server)
-11. [Pricing & Plans](#pricing--plans)
-12. [Integration Patterns](#integration-patterns)
-13. [Use Cases for Marketing Automation](#use-cases-for-marketing-automation)
-14. [Important Links](#important-links)
+4. [Complete API Endpoint Reference](#complete-api-endpoint-reference)
+5. [API Architecture](#api-architecture)
+6. [Authentication](#authentication)
+7. [Post API](#post-api)
+8. [Ads API](#ads-api)
+9. [Analytics API](#analytics-api)
+10. [Messages API](#messages-api)
+11. [Comments API](#comments-api)
+12. [History API](#history-api)
+13. [Media API](#media-api)
+14. [Profiles API](#profiles-api)
+15. [Webhooks API](#webhooks-api)
+16. [Other APIs](#other-apis)
+17. [MCP Server](#mcp-server)
+18. [Pricing & Plans](#pricing--plans)
+19. [Integration Patterns](#integration-patterns)
+20. [Use Cases for Marketing Automation](#use-cases-for-marketing-automation)
+21. [Important Links](#important-links)
 
 ---
 
@@ -645,65 +652,574 @@ Ayrshare uses standard HTTP status codes:
 
 ### Overview
 
-Get comprehensive analytics for posts, accounts, and engagement metrics.
+Get comprehensive analytics for posts, accounts, and engagement metrics across all social platforms.
 
-**Endpoints**:
-- `/analytics/post` - Post analytics by Ayrshare ID
-- `/analytics/social` - Post analytics by social network ID
-- `/analytics/profile` - Account metrics (followers, demographics)
+**Base Endpoint**: `/api/analytics`
 
-### Example Request
+### Endpoints
 
+#### 1. POST /analytics/post
+
+Get analytics for a post by Ayrshare ID.
+
+**Example Request**:
 ```json
 POST /analytics/post
 {
   "id": "eIT96IYEodNuzU4oMmwG",
-  "platforms": ["facebook", "twitter"]
+  "platforms": ["facebook", "twitter", "instagram"]
 }
 ```
 
-### Analytics Data Includes
-
+**Response Includes**:
 - **Engagement**: Likes, shares, comments, reactions
 - **Reach**: Impressions, views, clicks
-- **Audience**: Follower count, demographics
-- **Performance**: Best posting times, top content
+- **Performance**: Click-through rates, engagement rates
+- **Demographics**: Age, gender, location of audience
+
+#### 2. POST /analytics/social
+
+Get analytics by social network post ID.
+
+**Use Case**: Retrieve data for posts published outside Ayrshare
+
+**Example Request**:
+```json
+POST /analytics/social
+{
+  "id": "123456789_987654321",
+  "platform": "facebook"
+}
+```
+
+#### 3. POST /analytics/profile
+
+Get account-level metrics.
+
+**Example Request**:
+```json
+POST /analytics/profile
+{
+  "platforms": ["facebook", "instagram", "linkedin"]
+}
+```
+
+**Response Includes**:
+- Follower count
+- Follower growth
+- Demographics
+- Top performing posts
+- Best posting times
+
+### Available Metrics
+
+| Metric Category | Data Points |
+|----------------|-------------|
+| **Engagement** | Likes, shares, comments, reactions, saves |
+| **Reach** | Impressions, reach, unique views |
+| **Click Activity** | Clicks, link clicks, profile clicks |
+| **Video Metrics** | Views, watch time, completion rate |
+| **Audience** | Followers, demographics, geographic data |
+| **Performance** | CTR, engagement rate, virality |
+
+### Best Practices
+
+- Poll analytics regularly to track trends
+- Compare performance across platforms
+- Identify best-performing content types
+- Optimize posting times based on engagement data
+- Track follower growth and demographics
 
 ---
 
-## Messages API
+## Comments API
 
 ### Overview
 
-Unified messaging API for Facebook, Instagram, and X (Twitter):
+Manage comments and replies across all social platforms with a unified API.
 
-**Capabilities**:
-- Send text, image, and video messages
-- Retrieve complete conversation histories
-- Set up automated message responses
-- Real-time updates via webhooks
+**Base Endpoint**: `/api/comments`
 
-**Supported Platforms**: Facebook, Instagram, X (Twitter)
+### Endpoints
 
-**Requires**: Business Plan
+#### GET /comments
 
-### Example
+Get comments on a post.
 
+**Example Request**:
+```bash
+GET /comments?id=eIT96IYEodNuzU4oMmwG&platform=facebook
+```
+
+#### POST /comments
+
+Add a comment to a post.
+
+**Example Request**:
 ```json
-POST /messages/send
+POST /comments
 {
+  "id": "eIT96IYEodNuzU4oMmwG",
+  "comment": "Thank you for your feedback!",
   "platform": "facebook",
-  "recipientId": "123456789",
-  "message": "Hello! Thanks for your interest.",
   "mediaUrls": ["https://example.com/image.jpg"]
 }
 ```
 
-### Webhook Actions
+**Note**: Media support varies by platform (Facebook, LinkedIn, X/Twitter support media in comments)
 
-- Message received
-- Message reactions
-- Read receipts
+#### DELETE /comments
+
+Delete a comment.
+
+**Example Request**:
+```json
+DELETE /comments
+{
+  "id": "comment_id",
+  "platform": "facebook"
+}
+```
+
+#### POST /comments/reply
+
+Reply to a comment.
+
+**Example Request**:
+```json
+POST /comments/reply
+{
+  "commentId": "comment_id",
+  "reply": "We appreciate your support!",
+  "platform": "instagram"
+}
+```
+
+### Platform Support
+
+| Platform | View Comments | Add Comments | Delete Comments | Replies |
+|----------|---------------|--------------|-----------------|---------|
+| Facebook | ✅ | ✅ | ✅ | ✅ |
+| Instagram | ✅ | ✅ | ✅ | ✅ |
+| LinkedIn | ✅ | ✅ | ✅ | ✅ |
+| TikTok | ✅ | ✅ | ✅ | ✅ |
+| X (Twitter) | ✅ | ✅ | ✅ | ✅ |
+| YouTube | ✅ | ✅ | ✅ | ✅ |
+| Others | Varies | Varies | Varies | Varies |
+
+---
+
+## History API
+
+### Overview
+
+Track all posts and activities across your social media accounts.
+
+**Base Endpoint**: `/api/history`
+
+### Endpoints
+
+#### GET /history
+
+Get post history with filtering options.
+
+**Query Parameters**:
+- `platforms`: Filter by platform(s)
+- `lastRecords`: Number of records to return
+- `lastDays`: Posts from last N days
+- `status`: Filter by status (success, error, scheduled)
+- `autoRepostId`: Filter by auto-repost series
+
+**Example Request**:
+```bash
+GET /history?platforms=facebook,twitter&lastDays=7&status=success
+```
+
+#### GET /history/scheduled
+
+Get all scheduled posts.
+
+**Use Cases**:
+- View upcoming content calendar
+- Manage scheduled campaigns
+- Audit pending posts
+
+#### GET /history/auto-repost
+
+Get auto-repost series by autoRepostId.
+
+**Example Request**:
+```bash
+GET /history/auto-repost?autoRepostId=F5wdoaOAAGtDQVciExSxL
+```
+
+### Response Data
+
+Each history record includes:
+- Post ID (Ayrshare and social network IDs)
+- Post content and media
+- Publishing status
+- Scheduled/published datetime
+- Platform(s) published to
+- Analytics summary
+- Error information (if failed)
+
+### Use Cases
+
+- **Content Audits**: Review all published content
+- **Performance Tracking**: Identify top-performing posts
+- **Compliance**: Maintain records of social media activity
+- **Campaign Management**: Track campaign post series
+- **Troubleshooting**: Identify and resolve failed posts
+
+---
+
+## Media API
+
+### Overview
+
+Upload, manage, and verify media files for use in social media posts.
+
+**Base Endpoint**: `/api/media`
+
+### Endpoints
+
+#### POST /media/upload
+
+Upload media to Ayrshare's media library.
+
+**Example Request**:
+```json
+POST /media/upload
+{
+  "file": "base64_encoded_file_data",
+  "fileName": "product-image.jpg",
+  "contentType": "image/jpeg"
+}
+```
+
+**Supported Formats**:
+- **Images**: JPG, PNG, GIF, WEBP
+- **Videos**: MP4, MOV, AVI, WEBM
+
+**Size Limits**: Vary by platform (typically 5MB images, 100MB videos)
+
+#### GET /media
+
+List all uploaded media.
+
+**Response Includes**:
+- Media ID
+- File name
+- URL
+- Content type
+- Upload date
+- File size
+
+#### DELETE /media/{id}
+
+Delete media from library.
+
+#### POST /media/verify
+
+Verify that a media URL is accessible and valid.
+
+**Example Request**:
+```json
+POST /media/verify
+{
+  "url": "https://example.com/image.jpg"
+}
+```
+
+**Verification Checks**:
+- URL accessibility (HEAD request)
+- Content type validation
+- File size check
+- Download speed test
+
+### Media Guidelines
+
+- Use direct download URLs (not web app URLs)
+- Avoid spaces and special characters in file names
+- Test URLs with HEAD request before posting
+- Ensure hosting has fast download speeds (B rating minimum)
+- For signed URLs (S3), set expiration to 7+ days
+
+---
+
+## Profiles API
+
+### Overview
+
+Manage multiple user profiles for SaaS applications. Enable your users to link their own social accounts and post on their behalf.
+
+**Base Endpoint**: `/api/profiles`
+
+**Requires**: Business or Enterprise Plan
+
+### Endpoints
+
+#### POST /profiles/create
+
+Create a new user profile.
+
+**Example Request**:
+```json
+POST /profiles/create
+{
+  "title": "Client ABC - Marketing Team"
+}
+```
+
+**Response**:
+```json
+{
+  "status": "success",
+  "profileKey": "AX1XGG-9jK3M5LS-GR5RX5G-LLCK8EA",
+  "refId": "client-abc-001"
+}
+```
+
+#### GET /profiles
+
+List all user profiles.
+
+**Response Includes**:
+- Profile Key
+- Title
+- Creation date
+- Connected social accounts
+- Activity status
+
+#### GET /profiles/{key}
+
+Get specific profile details.
+
+#### DELETE /profiles/{key}
+
+Delete a user profile.
+
+**Warning**: This action:
+- Removes all connected social accounts
+- Deletes all post history for the profile
+- Cannot be undone
+
+#### POST /profiles/regenerate-key
+
+Regenerate a profile's API key (for security).
+
+### Using Profile Keys
+
+When making API calls on behalf of a user, include both:
+1. Your primary API Key (Authorization header)
+2. The user's Profile Key (Profile-Key header)
+
+**Example**:
+```bash
+curl -H "Authorization: Bearer YOUR_API_KEY" \
+     -H "Profile-Key: USER_PROFILE_KEY" \
+     -X POST https://api.ayrshare.com/api/post \
+     -d '{"post": "Hello from user!", "platforms": ["facebook"]}'
+```
+
+### OAuth Integration
+
+Enable users to link their social accounts via OAuth:
+1. Direct users to Ayrshare OAuth URL
+2. User authenticates with social networks
+3. Social accounts automatically linked to their Profile Key
+4. You can now post on their behalf using their Profile Key
+
+---
+
+## Webhooks API
+
+### Overview
+
+Receive real-time notifications when events occur on your social media accounts.
+
+**Base Endpoint**: `/api/webhooks`
+
+**Requires**: Business Plan
+
+### Endpoints
+
+#### POST /webhooks/register
+
+Register a webhook endpoint.
+
+**Example Request**:
+```json
+POST /webhooks/register
+{
+  "url": "https://yourapp.com/webhooks/ayrshare",
+  "events": ["post.published", "post.failed", "comment.received"]
+}
+```
+
+#### GET /webhooks
+
+List registered webhooks.
+
+#### DELETE /webhooks/{id}
+
+Delete a webhook.
+
+#### POST /webhooks/test
+
+Test webhook delivery.
+
+### Webhook Events
+
+| Event | Trigger | Payload Includes |
+|-------|---------|------------------|
+| `post.published` | Post successfully published | Post ID, platforms, status |
+| `post.failed` | Post failed to publish | Post ID, error details |
+| `post.scheduled` | Scheduled post executed | Post ID, scheduled time, status |
+| `comment.received` | New comment on post | Comment ID, text, author |
+| `message.received` | New direct message | Message ID, text, sender |
+| `approval.required` | Post awaiting approval | Post ID, content preview |
+
+### Webhook Security
+
+Ayrshare signs webhook payloads with HMAC-SHA256:
+1. Check `X-Ayrshare-Signature` header
+2. Compute HMAC using your webhook secret
+3. Compare signatures to verify authenticity
+
+### Example Webhook Payload
+
+```json
+{
+  "event": "post.published",
+  "timestamp": "2025-01-15T10:30:00Z",
+  "data": {
+    "id": "eIT96IYEodNuzU4oMmwG",
+    "status": "success",
+    "platforms": ["facebook", "twitter"],
+    "postIds": {
+      "facebook": "123456789_987654321",
+      "twitter": "1234567890123456789"
+    }
+  }
+}
+```
+
+---
+
+## Other APIs
+
+### Auto Schedule API
+
+Automate posting based on optimal engagement times.
+
+**Base**: `/api/auto-schedule`
+
+**Features**:
+- AI-powered optimal posting times
+- Recurring schedule setup
+- Platform-specific timing
+- Timezone management
+
+### Brand API
+
+Manage brand assets and templates.
+
+**Base**: `/api/brand`
+
+**Features**:
+- Brand profile creation
+- Asset library
+- Template management
+- Style guidelines
+
+### Feed API
+
+Retrieve social media feeds.
+
+**Base**: `/api/feed`
+
+**Supported**: Facebook, Instagram, LinkedIn, X
+
+**Use Cases**:
+- Display user's social feed in your app
+- Content curation
+- Engagement tracking
+
+### Generate API
+
+AI-powered content generation.
+
+**Base**: `/api/generate`
+
+**Requires**: Max Pack add-on
+
+**Features**:
+- Post text generation
+- Hashtag suggestions
+- Image caption generation
+- Content optimization
+
+### Hashtags API
+
+Discover and manage hashtags.
+
+**Base**: `/api/hashtags`
+
+**Features**:
+- Hashtag suggestions
+- Trending hashtags
+- Performance analysis
+- Competition tracking
+
+### Reviews API
+
+Manage business reviews (Google Business Profile).
+
+**Base**: `/api/reviews`
+
+**Features**:
+- View all reviews
+- Reply to reviews
+- Delete replies
+- Rating analytics
+
+### User API
+
+Manage user account settings.
+
+**Base**: `/api/user`
+
+**Features**:
+- Account information
+- Usage limits
+- Billing details
+- Preferences
+
+### Utils API
+
+Utility functions and helpers.
+
+**Base**: `/api/utils`
+
+**Features**:
+- Media URL verification
+- Timezone conversion
+- Character count validation
+- URL sanitization
+
+### Validate API
+
+Pre-publishing validation.
+
+**Base**: `/api/validate`
+
+**Features**:
+- Post content validation
+- Media requirements check
+- Platform-specific rules
+- Schedule time verification
 
 ---
 
@@ -711,25 +1227,211 @@ POST /messages/send
 
 ### Overview
 
-Create Facebook ads from existing posts.
+The Ayrshare Ads API provides programmatic access to create, manage, and analyze social media ads. Currently supporting **Facebook**, the Facebook Ads API (also known as the Facebook Marketing API) allows you to transform existing posts into paid advertisements.
 
-**Features**:
-- Boost posts to reach more people
-- Manage ads and track performance
-- Analyze ad spend and optimize campaigns
+**Key Features**:
+- Boost posts (transform posts into ads)
+- Manage ads programmatically
+- Track performance and analyze ad spend
+- Target specific audiences by demographics, interests, and location
+- Control budgets and durations
+- Monitor ad metrics in real-time
 
-**Requires**: Business Plan
+**Requirements**: 
+- Premium, Business, or Enterprise plan
+- Ads add-on enabled (can be enabled in Account page of web dashboard)
+- User must have linked a payment method at Facebook (Meta)
+- User Profiles linked with Facebook Page prior to April 1, 2025 should be re-linked to enable ads
 
-### Example
+### Facebook Ads API Endpoints
 
+#### 1. GET /ads/facebook/accounts
+
+Get available Facebook ad accounts associated with the authenticated profile.
+
+**Endpoint**: `GET /ads/facebook/accounts`
+
+**Response includes**:
+- Account ID, name, status
+- Budget and spend information
+- Business details
+- Funding source information
+- Comprehensive metrics (spend, impressions, reach, clicks, CTR, CPM, etc.)
+
+**Query Parameters**:
+- `limit` (number, default: 100): Limit the number of ad accounts returned
+
+**Caching**: Results cached for 10 minutes
+
+**Account Status Values**: `active`, `disabled`, `unsettled`, `pending review`, `closed`
+
+**Example Response**:
 ```json
-POST /ads/create
 {
-  "postId": "eIT96IYEodNuzU4oMmwG",
-  "budget": 100,
-  "duration": 7
+  "status": "success",
+  "adAccounts": [
+    {
+      "accountId": "274948345",
+      "name": "John Smith",
+      "status": "Active",
+      "currency": "USD",
+      "balance": 7.84,
+      "amountSpent": 191.33,
+      "metrics": {
+        "spend": 191.33,
+        "impressions": 24994,
+        "reach": 20410,
+        "clicks": 622,
+        "ctr": 2.488597,
+        "cpm": 7.655037
+      }
+    }
+  ],
+  "count": 1
 }
 ```
+
+#### 2. POST /ads/facebook/boost
+
+Boost a post by transforming it into a Facebook ad.
+
+**Endpoint**: `POST /ads/facebook/boost`
+
+**Request Body**:
+```json
+{
+  "postId": "eIT96IYEodNuzU4oMmwG",
+  "adAccountId": "274948345",
+  "budget": 100,
+  "duration": 7,
+  "goal": "REACH",
+  "audience": {
+    "ageMin": 18,
+    "ageMax": 65,
+    "genders": [1, 2],
+    "locations": ["United States"],
+    "interests": ["marketing", "social media"]
+  }
+}
+```
+
+**Parameters**:
+- `postId` (required): Ayrshare post ID to boost
+- `adAccountId` (required): Facebook ad account ID
+- `budget` (required): Total budget for the ad
+- `duration` (required): Number of days to run (minimum ~30 hours between start/end)
+- `goal` (optional): Ad objective (e.g., `REACH`, `ENGAGEMENT`, `TRAFFIC`)
+- `audience` (optional): Targeting parameters
+
+#### 3. GET /ads/facebook/boosted-ads
+
+Get list of all boosted ads.
+
+**Endpoint**: `GET /ads/facebook/boosted-ads`
+
+Returns comprehensive list of all ads created through boosting.
+
+#### 4. GET /ads/facebook/history
+
+Get ad spend and analytics for Facebook ads.
+
+**Endpoint**: `GET /ads/facebook/history`
+
+**Response includes**:
+- Spend tracking
+- Performance metrics
+- Engagement data
+- ROI analytics
+
+#### 5. GET /ads/facebook/interests
+
+Get available targeting interests for Facebook ads.
+
+**Endpoint**: `GET /ads/facebook/interests`
+
+**Query Parameters**:
+- `query` (string): Search term for interests (e.g., "marketing", "fitness")
+
+**Returns**: List of targetable interests with IDs for use in ad targeting
+
+**Best Practice**: Choose 2-5 relevant interests for optimal targeting precision
+
+#### 6. GET /ads/facebook/regions
+
+Get available geographic regions for ad targeting.
+
+**Endpoint**: `GET /ads/facebook/regions`
+
+**Query Parameters**:
+- `country` (string): Country code (e.g., "US", "GB", "CA")
+
+**Returns**: List of regions/states within the specified country
+
+#### 7. GET /ads/facebook/cities
+
+Get available cities for ad targeting.
+
+**Endpoint**: `GET /ads/facebook/cities`
+
+**Query Parameters**:
+- `region` (string): Region/state code
+- `country` (string): Country code
+
+**Returns**: List of targetable cities within the specified region
+
+#### 8. GET /ads/facebook/dsa-recommendations
+
+Get Digital Services Act (DSA) recommendations for ads.
+
+**Endpoint**: `GET /ads/facebook/dsa-recommendations`
+
+Returns compliance recommendations for ads served in EU regions.
+
+#### 9. PUT /ads/facebook/update
+
+Update an existing Facebook ad.
+
+**Endpoint**: `PUT /ads/facebook/update`
+
+**Request Body**:
+```json
+{
+  "adId": "ad_123456",
+  "budget": 150,
+  "duration": 10,
+  "status": "ACTIVE"
+}
+```
+
+**Updatable Fields**:
+- Budget
+- Duration
+- Status (ACTIVE, PAUSED)
+- Audience targeting
+
+### Facebook Ads Workflow
+
+1. **Choose Ad Account**: User selects Facebook ad account with billing configured (`GET /ads/facebook/accounts`)
+2. **Select Post**: Choose a post from Facebook page (posts with good organic engagement perform better)
+3. **Set Parameters**: Configure goal, audience, budget, and duration
+4. **Boost Post**: Submit to Facebook's ad platform (`POST /ads/facebook/boost`)
+5. **Review & Launch**: Facebook reviews ad (few minutes to hours), then launches
+6. **Track Performance**: Monitor reach, engagement, clicks, spend, and budget remaining (`GET /ads/facebook/history`)
+
+### Best Practices
+
+- **Budget Management**: Start with small test budgets ($5-10/day) to optimize before scaling
+- **Ad Duration**: Minimum ~30 hours between start and end times required by Facebook
+- **Interest Targeting**: Choose 2-5 relevant interests for optimal precision
+- **Creative Guidelines**: Use high-quality images and concise messaging for better engagement
+- **Performance Monitoring**: Regularly check ad performance and adjust targeting/creative as needed
+
+### Important Notes
+
+- Ads created via Ayrshare can be found in Facebook Ads Manager
+- Ayrshare handles all settings at ad, ad set, and campaign levels
+- Never need to manually edit settings in Facebook Ads Manager
+- All ads go through Facebook's review process before going live
 
 ---
 
@@ -812,6 +1514,358 @@ npx mint-mcp add ayrshare
 | **Enterprise** | Unlimited | Unlimited | Custom | Custom features, support |
 
 **Note**: Visit [Ayrshare Pricing](https://www.ayrshare.com/pricing/) for current pricing.
+
+---
+
+## Complete API Endpoint Reference
+
+Ayrshare provides **19 comprehensive API categories** covering all aspects of social media management. Here's the complete list of available APIs:
+
+### 1. 📝 Post API
+**Base**: `/api/post`
+
+The most commonly used API for publishing content across all 13 social networks.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/post` | Publish a post to one or more platforms |
+| GET | `/post` | Get details of a specific post |
+| DELETE | `/post` | Delete a post from social networks |
+| PATCH | `/post` | Update a scheduled or awaiting approval post |
+| PUT | `/post/retry` | Retry a failed post |
+| POST | `/post/copy` | Copy an existing post |
+| PUT | `/post/bulk` | Publish multiple posts in bulk |
+
+**Key Features**: Scheduling, auto-hashtags, auto-repost, multi-platform customization, rich media support, approval workflow
+
+---
+
+### 2. 📊 Analytics API
+**Base**: `/api/analytics`
+
+Retrieve comprehensive engagement metrics and performance data.
+
+| Endpoint | Description |
+|----------|-------------|
+| `/analytics/post` | Get analytics for a post by Ayrshare ID |
+| `/analytics/social` | Get analytics by social network post ID |
+| `/analytics/profile` | Get account-level metrics (followers, demographics) |
+
+**Metrics Provided**: Likes, shares, comments, reactions, impressions, views, clicks, reach, engagement rates
+
+---
+
+### 3. 📱 Ads API
+**Base**: `/api/ads`
+
+Create, manage, and track social media advertising campaigns (currently Facebook).
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/ads/facebook/accounts` | Get available Facebook ad accounts |
+| POST | `/ads/facebook/boost` | Boost a post into a Facebook ad |
+| GET | `/ads/facebook/boosted-ads` | List all boosted ads |
+| GET | `/ads/facebook/history` | Get ad spend and analytics |
+| GET | `/ads/facebook/interests` | Get targeting interests |
+| GET | `/ads/facebook/regions` | Get geographic regions for targeting |
+| GET | `/ads/facebook/cities` | Get cities for targeting |
+| GET | `/ads/facebook/dsa-recommendations` | Get DSA compliance recommendations |
+| PUT | `/ads/facebook/update` | Update ad budget, duration, or status |
+
+**Requires**: Premium/Business/Enterprise plan + Ads add-on
+
+---
+
+### 4. 💬 Comments API
+**Base**: `/api/comments`
+
+Manage comments across all social platforms.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/comments` | Get comments on a post |
+| POST | `/comments` | Add a comment to a post |
+| DELETE | `/comments` | Delete a comment |
+| POST | `/comments/reply` | Reply to a comment |
+
+**Supported Platforms**: All 13 networks (varies by platform capabilities)
+
+---
+
+### 5. 📧 Messages API
+**Base**: `/api/messages`
+
+Unified messaging for direct communication.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/messages` | Get message conversations |
+| POST | `/messages/send` | Send a direct message |
+| GET | `/messages/history` | Get conversation history |
+| POST | `/messages/auto-response` | Set up auto-responses |
+
+**Supported Platforms**: Facebook, Instagram, X (Twitter)  
+**Requires**: Business Plan
+
+---
+
+### 6. 📜 History API
+**Base**: `/api/history`
+
+Track all posts and activities across your accounts.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/history` | Get post history |
+| GET | `/history/{id}` | Get specific post details |
+| GET | `/history/scheduled` | Get scheduled posts |
+| GET | `/history/auto-repost` | Get auto-repost series |
+
+**Use Cases**: Content audits, performance tracking, compliance records
+
+---
+
+### 7. 🖼️ Media API
+**Base**: `/api/media`
+
+Manage and store media files.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/media/upload` | Upload media to Ayrshare library |
+| GET | `/media` | List uploaded media |
+| DELETE | `/media/{id}` | Delete media |
+| POST | `/media/verify` | Verify media URL accessibility |
+
+**Supported Formats**: Images (JPG, PNG, GIF, WEBP), Videos (MP4, MOV, AVI)
+
+---
+
+### 8. 🔗 Links API
+**Base**: `/api/links`
+
+Shorten and track URLs in posts.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/links/shorten` | Create shortened link |
+| GET | `/links` | Get all shortened links |
+| GET | `/links/{id}` | Get link analytics |
+| DELETE | `/links/{id}` | Delete shortened link |
+
+**Requires**: Max Pack add-on
+
+---
+
+### 9. 👥 Profiles API
+**Base**: `/api/profiles`
+
+Manage multiple user profiles (Business/Enterprise).
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/profiles/create` | Create new user profile |
+| GET | `/profiles` | List all user profiles |
+| GET | `/profiles/{key}` | Get specific profile details |
+| DELETE | `/profiles/{key}` | Delete user profile |
+| POST | `/profiles/regenerate-key` | Regenerate profile API key |
+
+**Requires**: Business or Enterprise Plan
+
+---
+
+### 10. ⏰ Auto Schedule API
+**Base**: `/api/auto-schedule`
+
+Automate posting times based on optimal engagement.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auto-schedule/set` | Set auto-posting schedule |
+| GET | `/auto-schedule` | Get current schedule |
+| PUT | `/auto-schedule/update` | Update schedule |
+| DELETE | `/auto-schedule` | Remove auto-schedule |
+
+**Feature**: AI-powered optimal posting times
+
+---
+
+### 11. 🎨 Brand API
+**Base**: `/api/brand`
+
+Manage brand assets and templates.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/brand/create` | Create brand profile |
+| GET | `/brand` | Get brand assets |
+| PUT | `/brand/update` | Update brand settings |
+
+**Use Cases**: Consistent branding, templates, style guidelines
+
+---
+
+### 12. 📰 Feed API
+**Base**: `/api/feed`
+
+Retrieve social media feeds.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/feed` | Get social media feed |
+| GET | `/feed/{platform}` | Get platform-specific feed |
+
+**Supported Platforms**: Facebook, Instagram, LinkedIn, X
+
+---
+
+### 13. ✨ Generate API
+**Base**: `/api/generate`
+
+AI-powered content generation.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/generate/text` | Generate post text |
+| POST | `/generate/hashtags` | Generate relevant hashtags |
+| POST | `/generate/caption` | Generate image captions |
+
+**Requires**: Max Pack add-on
+
+---
+
+### 14. #️⃣ Hashtags API
+**Base**: `/api/hashtags`
+
+Discover and manage hashtags.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/hashtags/suggest` | Get hashtag suggestions |
+| GET | `/hashtags/trending` | Get trending hashtags |
+| POST | `/hashtags/analyze` | Analyze hashtag performance |
+
+---
+
+### 15. ⭐ Reviews API
+**Base**: `/api/reviews`
+
+Manage reviews (Google Business Profile).
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/reviews` | Get business reviews |
+| POST | `/reviews/reply` | Reply to a review |
+| DELETE | `/reviews/reply/{id}` | Delete review reply |
+
+**Supported**: Google Business Profile
+
+---
+
+### 16. 👤 User API
+**Base**: `/api/user`
+
+Manage user account settings.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/user` | Get user information |
+| PUT | `/user/update` | Update user settings |
+| GET | `/user/limits` | Get API usage limits |
+
+---
+
+### 17. 🔧 Utils API
+**Base**: `/api/utils`
+
+Utility functions and helpers.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/utils/verify-media` | Verify media URL |
+| GET | `/utils/timezones` | Get available timezones |
+| POST | `/utils/convert-time` | Convert between timezones |
+
+---
+
+### 18. ✅ Validate API
+**Base**: `/api/validate`
+
+Validate post content before publishing.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/validate/post` | Validate post parameters |
+| POST | `/validate/media` | Validate media requirements |
+| POST | `/validate/schedule` | Validate schedule time |
+
+**Use Cases**: Pre-flight checks, error prevention
+
+---
+
+### 19. 🔔 Webhooks API
+**Base**: `/api/webhooks`
+
+Real-time notifications for events.
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/webhooks/register` | Register webhook endpoint |
+| GET | `/webhooks` | List registered webhooks |
+| DELETE | `/webhooks/{id}` | Delete webhook |
+| POST | `/webhooks/test` | Test webhook delivery |
+
+**Events**: Post published, post failed, comment received, message received, scheduled post completed
+
+**Requires**: Business Plan
+
+---
+
+### API Endpoint Summary
+
+| Category | Endpoints | Primary Use Case |
+|----------|-----------|------------------|
+| **Post** | 7 | Content publishing and management |
+| **Analytics** | 3 | Performance tracking |
+| **Ads** | 9 | Paid advertising |
+| **Comments** | 4 | Community engagement |
+| **Messages** | 4 | Direct communication |
+| **History** | 4 | Activity tracking |
+| **Media** | 4 | Asset management |
+| **Links** | 4 | URL shortening |
+| **Profiles** | 5 | Multi-user management |
+| **Auto Schedule** | 4 | Automation |
+| **Brand** | 3 | Brand consistency |
+| **Feed** | 2 | Content retrieval |
+| **Generate** | 3 | AI content creation |
+| **Hashtags** | 3 | Hashtag optimization |
+| **Reviews** | 3 | Reputation management |
+| **User** | 3 | Account management |
+| **Utils** | 3 | Helper functions |
+| **Validate** | 3 | Pre-publishing checks |
+| **Webhooks** | 4 | Real-time notifications |
+
+**Total**: 70+ API endpoints across 19 categories
+
+---
+
+## Feature Availability by Plan
+
+| Feature | Free | Basic | Premium | Business | Enterprise |
+|---------|------|-------|---------|----------|------------|
+| **Post API** | Limited | ✅ | ✅ | ✅ | ✅ |
+| **Analytics** | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Scheduling** | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Ads API** | ❌ | ❌ | ✅ + addon | ✅ + addon | ✅ + addon |
+| **Messages** | ❌ | ❌ | ❌ | ✅ | ✅ |
+| **Webhooks** | ❌ | ❌ | ❌ | ✅ | ✅ |
+| **Profiles (Multi-user)** | ❌ | ❌ | ❌ | ✅ | ✅ |
+| **Auto Hashtags** | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Auto Repost** | ❌ | ✅ | ✅ | ✅ | ✅ |
+| **Link Shortening** | ❌ | ❌ | Max Pack | Max Pack | Max Pack |
+| **AI Generate** | ❌ | ❌ | Max Pack | Max Pack | Max Pack |
+
+---
 
 ### Feature Requirements
 
@@ -1098,15 +2152,50 @@ async function autoReplyToComments(postId, replyTemplate) {
    - POST Copy: https://www.ayrshare.com/docs/apis/post/copy-post
    - PUT Bulk: https://www.ayrshare.com/docs/apis/post/bulk-post
 
-2. **Analytics API**: https://www.ayrshare.com/docs/apis/analytics/overview
-3. **Messages API**: https://www.ayrshare.com/docs/apis/messages/overview
-4. **Ads API**: https://www.ayrshare.com/docs/apis/ads/overview
-5. **Comments API**: https://www.ayrshare.com/docs/apis/comments/overview
-6. **Profiles API**: https://www.ayrshare.com/docs/apis/profiles/overview
-7. **History API**: https://www.ayrshare.com/docs/apis/history/overview
-8. **Media API**: https://www.ayrshare.com/docs/apis/media/overview
-9. **Links API**: https://www.ayrshare.com/docs/apis/links/overview
-10. **Webhooks API**: https://www.ayrshare.com/docs/apis/webhooks/overview
+2. **Ads API**: https://www.ayrshare.com/docs/apis/ads/overview
+   - GET Ad Accounts: https://www.ayrshare.com/docs/apis/ads/facebook/get-ad-accounts
+   - POST Boost Post: https://www.ayrshare.com/docs/apis/ads/facebook/boost-post
+   - GET Boosted Ads: https://www.ayrshare.com/docs/apis/ads/facebook/get-boosted-ads
+   - GET Ad History: https://www.ayrshare.com/docs/apis/ads/facebook/get-ad-history
+   - GET Interests: https://www.ayrshare.com/docs/apis/ads/facebook/get-ad-interests
+   - GET Regions: https://www.ayrshare.com/docs/apis/ads/facebook/get-ad-regions
+   - GET Cities: https://www.ayrshare.com/docs/apis/ads/facebook/get-ad-cities
+   - GET DSA: https://www.ayrshare.com/docs/apis/ads/facebook/get-dsa-recommendations
+   - PUT Update Ad: https://www.ayrshare.com/docs/apis/ads/facebook/put-ad-update
+
+3. **Analytics API**: https://www.ayrshare.com/docs/apis/analytics/overview
+
+4. **Auto Schedule API**: https://www.ayrshare.com/docs/apis/auto-schedule/overview
+
+5. **Brand API**: https://www.ayrshare.com/docs/apis/brand/overview
+
+6. **Comments API**: https://www.ayrshare.com/docs/apis/comments/overview
+
+7. **Feed API**: https://www.ayrshare.com/docs/apis/feed/overview
+
+8. **Generate API**: https://www.ayrshare.com/docs/apis/generate/overview
+
+9. **Hashtags API**: https://www.ayrshare.com/docs/apis/hashtags/overview
+
+10. **History API**: https://www.ayrshare.com/docs/apis/history/overview
+
+11. **Links API**: https://www.ayrshare.com/docs/apis/links/overview
+
+12. **Media API**: https://www.ayrshare.com/docs/apis/media/overview
+
+13. **Messages API**: https://www.ayrshare.com/docs/apis/messages/overview
+
+14. **Profiles API**: https://www.ayrshare.com/docs/apis/profiles/overview
+
+15. **Reviews API**: https://www.ayrshare.com/docs/apis/reviews/overview
+
+16. **User API**: https://www.ayrshare.com/docs/apis/user/overview
+
+17. **Utils API**: https://www.ayrshare.com/docs/apis/utils/overview
+
+18. **Validate API**: https://www.ayrshare.com/docs/apis/validate/overview
+
+19. **Webhooks API**: https://www.ayrshare.com/docs/apis/webhooks/overview
 
 ### Business Features
 

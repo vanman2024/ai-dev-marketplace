@@ -1,0 +1,140 @@
+{
+  "name": "supabase-integration",
+  "version": "1.0.0",
+  "plugin": "mem0",
+  "description": "Complete Supabase setup for Mem0 OSS including PostgreSQL schema with pgvector, RLS policies, performance optimization, and production-ready configurations",
+  "created": "2025-10-27",
+  "updated": "2025-10-27",
+  "author": "Claude Code Skills Builder",
+  "category": "database-integration",
+  "tags": [
+    "mem0",
+    "supabase",
+    "postgresql",
+    "pgvector",
+    "vector-database",
+    "rls",
+    "security",
+    "performance",
+    "migration",
+    "backup"
+  ],
+  "structure": {
+    "scripts": 6,
+    "templates": 5,
+    "examples": 3,
+    "total_files": 16
+  },
+  "capabilities": [
+    "PostgreSQL schema setup with pgvector",
+    "Memory table creation with vector embeddings",
+    "Graph memory support (relationships)",
+    "Row Level Security (RLS) policies",
+    "Performance indexes (HNSW/IVFFlat)",
+    "Connection pooling configuration",
+    "Backup and restore procedures",
+    "Platform to OSS migration",
+    "User isolation patterns",
+    "Multi-tenant organization support",
+    "Security auditing",
+    "Performance validation"
+  ],
+  "scripts": [
+    {
+      "name": "verify-supabase-setup.sh",
+      "description": "Check Supabase initialization and prerequisites",
+      "lines": 101
+    },
+    {
+      "name": "setup-mem0-pgvector.sh",
+      "description": "Enable pgvector extension for vector storage",
+      "lines": 63
+    },
+    {
+      "name": "apply-mem0-schema.sh",
+      "description": "Create memory tables with vector support",
+      "lines": 184
+    },
+    {
+      "name": "create-mem0-indexes.sh",
+      "description": "Create optimized indexes for performance",
+      "lines": 167
+    },
+    {
+      "name": "apply-mem0-rls.sh",
+      "description": "Apply Row Level Security policies",
+      "lines": 221
+    },
+    {
+      "name": "validate-mem0-setup.sh",
+      "description": "Complete setup validation and testing",
+      "lines": 262
+    }
+  ],
+  "templates": [
+    {
+      "name": "mem0-schema.sql",
+      "description": "Base PostgreSQL schema with pgvector"
+    },
+    {
+      "name": "mem0-schema-graph.sql",
+      "description": "Complete schema with graph support"
+    },
+    {
+      "name": "mem0-basic-config.py",
+      "description": "Basic Python configuration for Mem0 OSS"
+    },
+    {
+      "name": "mem0-graph-config.py",
+      "description": "Full-featured config with graph memory"
+    },
+    {
+      "name": "mem0-enterprise-config.py",
+      "description": "Enterprise multi-tenant configuration"
+    }
+  ],
+  "examples": [
+    {
+      "name": "user-isolation-pattern.md",
+      "description": "User-specific memory isolation implementation"
+    },
+    {
+      "name": "multi-tenant-pattern.md",
+      "description": "Organization-based multi-tenancy"
+    },
+    {
+      "name": "platform-to-oss-migration-guide.md",
+      "description": "Complete migration from Mem0 Platform to OSS"
+    }
+  ],
+  "prerequisites": [
+    "Supabase project initialized",
+    "PostgreSQL 12 or higher",
+    "psql command-line tool",
+    "Environment variables configured (SUPABASE_URL, SUPABASE_DB_URL, etc.)"
+  ],
+  "quick_start": [
+    "bash scripts/verify-supabase-setup.sh",
+    "bash scripts/setup-mem0-pgvector.sh",
+    "bash scripts/apply-mem0-schema.sh",
+    "bash scripts/create-mem0-indexes.sh",
+    "bash scripts/apply-mem0-rls.sh",
+    "bash scripts/validate-mem0-setup.sh"
+  ],
+  "validation": {
+    "skill_length_lines": 660,
+    "skill_length_status": "within_limit",
+    "script_count": 6,
+    "template_count": 5,
+    "example_count": 3,
+    "all_scripts_executable": true,
+    "frontmatter_valid": true,
+    "progressive_disclosure": true
+  },
+  "compliance": {
+    "framework_version": "1.0.0",
+    "follows_conventions": true,
+    "security_best_practices": true,
+    "production_ready": true
+  }
+}

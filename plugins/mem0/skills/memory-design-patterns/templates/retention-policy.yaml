@@ -1,0 +1,303 @@
+# Mem0 Memory Retention Policy Template
+# ========================================
+# This template provides a comprehensive retention policy framework
+# for managing memory lifecycle across different memory types.
+
+# Policy Metadata
+policy:
+  name: "default_retention_policy"
+  version: "1.0.0"
+  created_date: "2025-01-27"
+  last_updated: "2025-01-27"
+  owner: "platform_team"
+  description: "Standard retention policy for user, agent, and session memories"
+
+# User Memory Retention
+user_memory:
+  # Persistence strategy
+  retention_strategy: "indefinite_with_user_control"
+
+  # Active retention period (days memories remain in active storage)
+  active_retention_days: -1  # -1 means indefinite
+
+  # Archival period (days before moving to cold storage)
+  archival_threshold_days: 365
+
+  # Cleanup rules
+  cleanup:
+    enabled: false  # User memories only deleted by user request
+    user_initiated_only: true
+
+    # Inactivity-based cleanup (optional)
+    inactivity_cleanup:
+      enabled: false
+      inactive_threshold_days: 730  # 2 years
+      require_explicit_consent: true
+
+  # Access patterns
+  access_rules:
+    # Re-activate archived memories on access
+    reactivate_on_access: true
+
+    # Update last_accessed timestamp
+    track_access: true
+
+  # GDPR/Privacy compliance
+  compliance:
+    gdpr_enabled: true
+    right_to_deletion: true
+    right_to_export: true
+    data_portability: true
+
+    # Auto-delete on account deletion
+    cascade_on_user_delete: true
+
+  # Quality management
+  quality_rules:
+    # Remove low-quality memories
+    min_quality_score: 0.3
+    remove_duplicates: true
+    deduplication_threshold: 0.95  # 95% similarity
+
+# Agent Memory Retention
+agent_memory:
+  # Persistence strategy
+  retention_strategy: "time_based_with_score_filtering"
+
+  # Active retention period
+  active_retention_days: 90
+
+  # Archival period
+  archival_threshold_days: 180
+
+  # Cleanup rules
+  cleanup:
+    enabled: true
+    automatic: true
+
+    # Time-based cleanup
+    time_based:
+      enabled: true
+      delete_after_days: 180
+
+    # Score-based cleanup
+    score_based:
+      enabled: true
+      min_relevance_score: 0.4
+      check_frequency_days: 7
+
+    # Access-based cleanup
+    access_based:
+      enabled: true
+      never_accessed_threshold_days: 90
+
+  # Versioning (for agent updates)
+  versioning:
+    enabled: true
+    keep_previous_versions: 2
+    version_retention_days: 30
+
+  # Agent lifecycle
+  lifecycle:
+    # Cleanup on agent deprecation
+    cleanup_on_deprecation: true
+    deprecation_grace_period_days: 30
+
+# Session Memory Retention
+session_memory:
+  # Persistence strategy
+  retention_strategy: "session_scoped_ephemeral"
+
+  # Active retention period (hours)
+  active_retention_hours: 24
+
+  # No archival for session memories
+  archival_threshold_days: 0
+
+  # Cleanup rules
+  cleanup:
+    enabled: true
+    automatic: true
+
+    # Immediate cleanup after session end
+    cleanup_on_session_end: true
+
+    # Time-based cleanup (fallback)
+    time_based:
+      enabled: true
+      delete_after_hours: 24
+
+    # Size-based cleanup
+    size_based:
+      enabled: true
+      max_memories_per_session: 50
+
+  # Memory promotion
+  promotion:
+    # Promote important session memories to user memory
+    enabled: true
+    promotion_criteria:
+      min_importance_score: 0.8
+      user_confirmation_required: true
+
+# Global Settings
+global:
+  # Batch processing
+  batch_processing:
+    enabled: true
+    batch_size: 1000
+    max_concurrent_batches: 5
+
+  # Cleanup schedule
+  cleanup_schedule:
+    # Run cleanup during off-peak hours
+    enabled: true
+    cron_expression: "0 2 * * *"  # 2 AM daily
+    timezone: "UTC"
+    max_duration_minutes: 120
+
+  # Storage optimization
+  storage:
+    # Compression settings
+    compression:
+      enabled: true
+      compression_algorithm: "zstd"
+      compression_level: 3
+
+    # Cold storage
+    cold_storage:
+      enabled: true
+      provider: "s3"
+      cost_reduction_target: 90  # 90% cheaper than active
+
+  # Monitoring and alerts
+  monitoring:
+    enabled: true
+
+    # Metrics to track
+    metrics:
+      - memory_count_by_type
+      - storage_size_by_type
+      - cleanup_count_daily
+      - archival_count_daily
+      - cost_per_memory_type
+
+    # Alerts
+    alerts:
+      # Memory growth alerts
+      - name: "high_memory_growth"
+        condition: "daily_growth > 20%"
+        severity: "warning"
+
+      # Cost alerts
+      - name: "cost_threshold_exceeded"
+        condition: "monthly_cost > budget"
+        severity: "critical"
+
+      # Cleanup failure alerts
+      - name: "cleanup_failed"
+        condition: "cleanup_errors > 10"
+        severity: "error"
+
+  # Audit logging
+  audit:
+    enabled: true
+    log_retention_days: 90
+
+    # Events to log
+    log_events:
+      - memory_created
+      - memory_deleted
+      - memory_archived
+      - memory_promoted
+      - policy_changed
+
+# Cost Optimization
+cost_optimization:
+  # Target monthly cost
+  target_monthly_cost_usd: 50
+
+  # Optimization strategies
+  strategies:
+    # Deduplication
+    deduplication:
+      enabled: true
+      run_frequency_days: 7
+
+    # Archival
+    archival:
+      enabled: true
+      aggressive_archival: false
+
+    # Embedding size reduction
+    embedding_optimization:
+      enabled: false  # Requires model change
+      use_smaller_model: false
+
+# Notifications
+notifications:
+  # Cleanup summaries
+  cleanup_summary:
+    enabled: true
+    frequency: "daily"
+    recipients:
+      - "platform-team@example.com"
+
+  # Policy violations
+  policy_violations:
+    enabled: true
+    severity_threshold: "warning"
+
+  # Cost alerts
+  cost_alerts:
+    enabled: true
+    threshold_percentage: 80  # Alert at 80% of budget
+
+# Compliance and Legal
+compliance:
+  # GDPR settings
+  gdpr:
+    enabled: true
+    data_subject_rights: true
+    breach_notification: true
+
+  # HIPAA settings (if applicable)
+  hipaa:
+    enabled: false
+    minimum_retention_days: 2555  # 7 years
+
+  # SOC 2 settings
+  soc2:
+    enabled: false
+    audit_trail_required: true
+
+# Testing and Validation
+testing:
+  # Dry run mode
+  dry_run:
+    enabled: false  # Set to true to test without actual deletion
+
+  # Validation
+  validate_before_delete: true
+  require_manual_approval: false
+
+  # Rollback
+  rollback:
+    enabled: true
+    retention_for_rollback_days: 7
+
+# Custom Rules (Optional)
+custom_rules:
+  # Example: VIP user extended retention
+  - name: "vip_user_retention"
+    condition: "user.tier == 'vip'"
+    action:
+      user_memory_retention_days: -1  # Indefinite
+      priority: "high"
+
+  # Example: Critical agent memories
+  - name: "critical_agent_memories"
+    condition: "metadata.critical == true"
+    action:
+      agent_memory_retention_days: 365  # 1 year
+      prevent_automatic_cleanup: true

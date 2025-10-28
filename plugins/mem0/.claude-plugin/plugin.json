@@ -1,0 +1,40 @@
+{
+  "name": "mem0",
+  "version": "1.1.0",
+  "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
+  "author": {
+    "name": "vanman2024",
+    "email": "noreply@ai-dev-marketplace.dev"
+  },
+  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/mem0",
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "mem0",
+    "memory",
+    "ai-memory",
+    "conversation-memory",
+    "user-memory",
+    "graph-memory",
+    "supabase",
+    "platform",
+    "open-source",
+    "mcp",
+    "openmemory",
+    "model-context-protocol",
+    "python",
+    "javascript",
+    "typescript"
+  ],
+  "mcpServers": {
+    "mem0": {
+      "url": "http://localhost:8765/mcp/claude-code/sse/default",
+      "description": "Official OpenMemory MCP server for local-first AI memory",
+      "setupCommand": "curl -sL https://raw.githubusercontent.com/mem0ai/mem0/main/openmemory/run.sh | bash",
+      "env": {
+        "MEM0_API_KEY": "required"
+      },
+      "documentation": "https://docs.mem0.ai/openmemory"
+    }
+  }
+}

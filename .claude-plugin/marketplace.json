@@ -88,8 +88,8 @@
         },
         {
             "name": "mem0",
-            "description": "AI memory management with Platform (hosted) and Open Source (self-hosted with Supabase) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
-            "version": "1.0.0",
+            "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
+            "version": "1.1.0",
             "author": {
                 "name": "vanman2024",
                 "email": "noreply@ai-dev-marketplace.dev"
@@ -106,6 +106,9 @@
                 "supabase",
                 "platform",
                 "open-source",
+                "mcp",
+                "openmemory",
+                "model-context-protocol",
                 "python",
                 "javascript",
                 "typescript"
