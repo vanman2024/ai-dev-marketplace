@@ -61,9 +61,49 @@ else
     echo "⚠️  WARNING: No \$ARGUMENTS found"
 fi
 
-# Check for agent invocation pattern (natural language)
+# Check for agent invocation patterns
+USES_NATURAL_LANGUAGE=false
+USES_EXPLICIT_TASK=false
+USES_PARALLEL_PATTERN=false
+
+# Check for natural language agent invocation
 if grep -qiE "(Invoke the|Launch.*agent|Run.*agent)" "$COMMAND_FILE"; then
-    echo "✅ Uses agent invocation (natural language)"
+    USES_NATURAL_LANGUAGE=true
+fi
+
+# Check for explicit Task tool with subagent_type
+if grep -q "subagent_type=" "$COMMAND_FILE"; then
+    USES_EXPLICIT_TASK=true
+fi
+
+# Check for parallel execution pattern
+if grep -qiE "(in parallel|IN PARALLEL|simultaneously|all at once)" "$COMMAND_FILE"; then
+    USES_PARALLEL_PATTERN=true
+fi
+
+# Validate invocation patterns
+if $USES_NATURAL_LANGUAGE || $USES_EXPLICIT_TASK; then
+    if $USES_NATURAL_LANGUAGE; then
+        echo "✅ Uses agent invocation (natural language)"
+    fi
+    if $USES_EXPLICIT_TASK; then
+        echo "✅ Uses explicit Task tool with subagent_type"
+    fi
+
+    # If parallel pattern detected, check for proper implementation
+    if $USES_PARALLEL_PATTERN; then
+        echo "✅ Uses parallel execution pattern"
+
+        # Check if it properly explains Task tool usage for parallel
+        if grep -q "Task tool" "$COMMAND_FILE" && grep -q "SAME.*message\|single.*message\|ONE message" "$COMMAND_FILE"; then
+            echo "✅ Properly explains parallel Task tool execution (multiple calls in ONE message)"
+        elif $USES_EXPLICIT_TASK; then
+            echo "✅ Uses explicit Task tool (parallel execution implied)"
+        else
+            echo "⚠️  WARNING: Parallel pattern found but no Task tool explanation"
+            echo "    Consider adding explicit Task tool syntax for clarity"
+        fi
+    fi
 else
     echo "⚠️  WARNING: No agent invocation found - might be Pattern 1 (simple command)"
 fi

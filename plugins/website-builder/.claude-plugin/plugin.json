@@ -1,0 +1,27 @@
+{
+  "name": "website-builder",
+  "version": "1.0.0",
+  "description": "AI-powered website builder with Astro, MDX, content-image-generation MCP, Supabase CMS, and component integration for marketing sites, blogs, and documentation",
+  "author": {
+    "name": "AI Dev Marketplace",
+    "email": "dev@example.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "astro",
+    "website-builder",
+    "marketing-sites",
+    "blog",
+    "documentation",
+    "ai-content-generation",
+    "imagen",
+    "supabase-cms",
+    "mdx",
+    "static-site-generator",
+    "react-components",
+    "shadcn",
+    "tailwind-ui",
+    "content-image-generation-mcp",
+    "seo"
+  ]
+}

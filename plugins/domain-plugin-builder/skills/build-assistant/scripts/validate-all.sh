@@ -89,7 +89,7 @@ echo "Agents: $PASSED_AGENTS/$TOTAL_AGENTS passed"
 echo ""
 
 # Validate all skills
-echo "[4/4] Validating skills..."
+echo "[4/5] Validating skills..."
 if [ -d "$PLUGIN_DIR/skills" ]; then
     for skill_dir in "$PLUGIN_DIR/skills"/*/; do
         if [ -d "$skill_dir" ]; then
@@ -115,6 +115,16 @@ fi
 echo ""
 if [ $TOTAL_SKILLS -gt 0 ]; then
     echo "Skills: $PASSED_SKILLS/$TOTAL_SKILLS passed"
+fi
+echo ""
+
+# Validate plugin completeness (templates, examples, scripts)
+echo "[5/5] Validating plugin completeness..."
+if bash "$SCRIPT_DIR/validate-plugin-completeness.sh" "$PLUGIN_DIR"; then
+    echo -e "${GREEN}✅ Plugin completeness check passed${NC}"
+else
+    echo -e "${RED}❌ Plugin completeness check failed${NC}"
+    echo "Some skills may be missing templates, examples, or scripts."
 fi
 echo ""
 

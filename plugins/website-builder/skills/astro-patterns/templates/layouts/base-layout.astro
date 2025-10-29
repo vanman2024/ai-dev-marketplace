@@ -1,0 +1,71 @@
+---
+// Base layout for all pages
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'My Astro Site' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/blog">Blog</a>
+        <a href="/about">About</a>
+      </nav>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer>
+      <p>&copy; {new Date().getFullYear()} My Site. All rights reserved.</p>
+    </footer>
+  </body>
+</html>
+
+<style is:global>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+  }
+
+  header {
+    padding: 1rem;
+    background: #f0f0f0;
+  }
+
+  nav {
+    display: flex;
+    gap: 1rem;
+  }
+
+  main {
+    padding: 2rem;
+    min-height: 70vh;
+  }
+
+  footer {
+    padding: 1rem;
+    text-align: center;
+    background: #f0f0f0;
+  }
+</style>

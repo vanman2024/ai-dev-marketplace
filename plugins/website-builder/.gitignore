@@ -1,0 +1,38 @@
+# Environment variables - NEVER commit these!
+.env
+.env.local
+.env.*.local
+
+# MCP configuration with secrets
+.mcp.json
+
+# API keys and secrets
+**/secrets/
+**/*-secrets.json
+**/credentials.json
+
+# Node modules
+node_modules/
+
+# Build outputs
+dist/
+.astro/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Temporary files
+tmp/
+temp/
+*.tmp

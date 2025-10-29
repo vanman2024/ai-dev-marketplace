@@ -1,0 +1,36 @@
+---
+// Dynamic route example: [slug].astro
+// Handles URLs like /blog/my-post, /products/item-123, etc.
+
+import { getCollection, getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  // Fetch all entries from content collection
+  const posts = await getCollection('blog');
+
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+// Get the post from props
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<html lang="en">
+  <head>
+    <title>{post.data.title}</title>
+    <meta name="description" content={post.data.description} />
+  </head>
+  <body>
+    <article>
+      <h1>{post.data.title}</h1>
+      <time datetime={post.data.pubDate.toISOString()}>
+        {post.data.pubDate.toLocaleDateString()}
+      </time>
+      <Content />
+    </article>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+  "mcpServers": {
+    "content-image-generation": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "../../mcp-servers/content-image-generation-mcp",
+        "run",
+        "content-image-generation"
+      ],
+      "env": {
+        "GOOGLE_CLOUD_PROJECT": "your-google-cloud-project-id",
+        "ANTHROPIC_API_KEY": "your-anthropic-api-key",
+        "GOOGLE_AI_API_KEY": "your-google-ai-api-key"
+      }
+    }
+  }
+}

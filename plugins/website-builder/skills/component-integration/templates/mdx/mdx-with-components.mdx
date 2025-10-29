@@ -1,0 +1,38 @@
+---
+title: "MDX with Custom Components"
+description: "Advanced MDX with imported React components"
+---
+
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import { Alert } from '@/components/ui/alert';
+
+# Using Components in MDX
+
+You can import and use React components directly in MDX files.
+
+<Alert>
+  This is an alert component rendered in MDX!
+</Alert>
+
+## Card Example
+
+<Card>
+  <CardHeader>
+    <CardTitle>Card in MDX</CardTitle>
+  </CardHeader>
+  <CardContent>
+    This card component is rendered directly in the MDX file.
+  </CardContent>
+</Card>
+
+## Custom Components
+
+export const CustomBox = ({ children }) => (
+  <div style={{ padding: '20px', background: '#f0f0f0', borderRadius: '8px' }}>
+    {children}
+  </div>
+);
+
+<CustomBox>
+  You can also define components inline in MDX!
+</CustomBox>
