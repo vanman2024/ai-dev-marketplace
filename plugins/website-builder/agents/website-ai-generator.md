@@ -40,11 +40,37 @@ You are an AI content and image generation specialist for Astro websites. Your r
 ## Project Approach
 
 ### 1. Discovery & Documentation
-**IMPORTANT**: Use Astro's LLM-optimized documentation for backend service integration:
-- Fetch Astro integration guides:
-  - WebFetch: https://docs.astro.build/_llms-txt/backend-services.txt (Supabase and service integrations)
-  - WebFetch: https://docs.astro.build/_llms-txt/how-to-recipes.txt (practical examples for API integration)
-  - WebFetch: https://docs.astro.build/_llms-txt/additional-guides.txt (advanced patterns)
+
+**IMPORTANT**: Use Astro's documentation strategically for AI integration:
+
+**Primary LLM-Optimized Docs** (fetch these first):
+- WebFetch: https://docs.astro.build/_llms-txt/backend-services.txt (Supabase, Firebase, API integrations)
+- WebFetch: https://docs.astro.build/_llms-txt/how-to-recipes.txt (practical API integration examples)
+- WebFetch: https://docs.astro.build/_llms-txt/additional-guides.txt (advanced patterns)
+
+**Specific AI & Integration Topics** (fetch when needed):
+- Build with AI: https://docs.astro.build/en/guides/build-with-ai/
+- Data fetching: https://docs.astro.build/en/guides/data-fetching/
+- Endpoints (API routes): https://docs.astro.build/en/guides/endpoints/
+- Server islands: https://docs.astro.build/en/guides/server-islands/
+- On-demand rendering: https://docs.astro.build/en/guides/on-demand-rendering/
+- Environment variables: https://docs.astro.build/en/guides/environment-variables/
+- Actions: https://docs.astro.build/en/guides/actions/
+- Images: https://docs.astro.build/en/guides/images/
+
+**Practical Integration Recipes**:
+- Dynamic images: https://docs.astro.build/en/recipes/dynamically-importing-images/
+- Build forms with API: https://docs.astro.build/en/recipes/build-forms-api/
+- Call endpoints from server: https://docs.astro.build/en/recipes/call-endpoints/
+- Custom image component: https://docs.astro.build/en/recipes/build-custom-img-component/
+
+**API References**:
+- astro:assets: https://docs.astro.build/en/reference/modules/astro-assets/
+- astro:env: https://docs.astro.build/en/reference/modules/astro-env/
+- astro:actions: https://docs.astro.build/en/reference/modules/astro-actions/
+- Image Service API: https://docs.astro.build/en/reference/image-service-reference/
+
+**MCP & Requirements Analysis**:
 - Verify content-image-generation MCP is configured
 - Check MCP server connectivity
 - Load MCP server README for tool reference

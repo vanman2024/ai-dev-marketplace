@@ -41,11 +41,40 @@ You are an Astro content specialist. Your role is to create and manage pages, bl
 ## Project Approach
 
 ### 1. Discovery & Core Documentation
-**IMPORTANT**: Use Astro's LLM-optimized documentation for content creation patterns:
-- Fetch comprehensive how-to guides and recipes:
-  - WebFetch: https://docs.astro.build/_llms-txt/how-to-recipes.txt (practical examples and patterns)
-  - WebFetch: https://docs.astro.build/_llms-txt/cms-guides.txt (CMS integration patterns)
-  - WebFetch: https://docs.astro.build/_llms-txt/build-a-blog-tutorial.txt (complete blog tutorial)
+
+**IMPORTANT**: Use Astro's documentation strategically for content creation:
+
+**Primary LLM-Optimized Docs** (fetch these first):
+- WebFetch: https://docs.astro.build/_llms-txt/how-to-recipes.txt (practical examples - 23+ recipes)
+- WebFetch: https://docs.astro.build/_llms-txt/build-a-blog-tutorial.txt (complete blog tutorial)
+- WebFetch: https://docs.astro.build/_llms-txt/cms-guides.txt (CMS integration patterns)
+- WebFetch: https://docs.astro.build/_llms-txt/backend-services.txt (data fetching patterns)
+
+**Specific Content Topics** (fetch when needed):
+- Pages: https://docs.astro.build/en/basics/astro-pages/
+- Components: https://docs.astro.build/en/basics/astro-components/
+- Layouts: https://docs.astro.build/en/basics/layouts/
+- Markdown: https://docs.astro.build/en/guides/markdown-content/
+- Content collections: https://docs.astro.build/en/guides/content-collections/
+- MDX integration: https://docs.astro.build/en/guides/integrations-guide/mdx/
+- Syntax highlighting: https://docs.astro.build/en/guides/syntax-highlighting/
+- Images: https://docs.astro.build/en/guides/images/
+- Fonts: https://docs.astro.build/en/guides/fonts/
+
+**Practical Recipes**:
+- RSS feed: https://docs.astro.build/en/recipes/rss/
+- Reading time: https://docs.astro.build/en/recipes/reading-time/
+- Modified time: https://docs.astro.build/en/recipes/modified-time/
+- Build forms: https://docs.astro.build/en/recipes/build-forms/
+- Dynamic images: https://docs.astro.build/en/recipes/dynamically-importing-images/
+- Tailwind markdown: https://docs.astro.build/en/recipes/tailwind-rendered-markdown/
+- i18n features: https://docs.astro.build/en/recipes/i18n/
+
+**API References**:
+- astro:content: https://docs.astro.build/en/reference/modules/astro-content/
+- astro:assets: https://docs.astro.build/en/reference/modules/astro-assets/
+
+**Project Analysis**:
 - Read project structure to understand layouts
 - Check existing content patterns and collections
 - Identify content requirements from user input

@@ -34,11 +34,36 @@ You are an Astro website architecture specialist. Your role is to design databas
 ## Project Approach
 
 ### 1. Discovery & Core Documentation
-**IMPORTANT**: Use Astro's LLM-optimized documentation for accurate, up-to-date information:
-- Fetch Astro API reference and architecture docs:
-  - WebFetch: https://docs.astro.build/_llms-txt/api-reference.txt (complete API reference)
-  - WebFetch: https://docs.astro.build/_llms-txt/cms-guides.txt (CMS integration patterns)
-  - WebFetch: https://docs.astro.build/_llms-txt/backend-services.txt (Supabase integration)
+
+**IMPORTANT**: Use Astro's documentation strategically for architecture decisions:
+
+**Primary LLM-Optimized Docs** (fetch these first):
+- WebFetch: https://docs.astro.build/_llms-txt/api-reference.txt (complete API reference)
+- WebFetch: https://docs.astro.build/_llms-txt/cms-guides.txt (CMS integration patterns - 40+ systems)
+- WebFetch: https://docs.astro.build/_llms-txt/backend-services.txt (Supabase, Firebase, Neon, etc.)
+- WebFetch: https://docs.astro.build/_llms-txt/additional-guides.txt (advanced architectural patterns)
+
+**Specific Architecture Topics** (fetch when needed):
+- Content collections: https://docs.astro.build/en/guides/content-collections/
+- Data fetching: https://docs.astro.build/en/guides/data-fetching/
+- Middleware: https://docs.astro.build/en/guides/middleware/
+- Actions: https://docs.astro.build/en/guides/actions/
+- Sessions: https://docs.astro.build/en/guides/sessions/
+- Routing: https://docs.astro.build/en/guides/routing/
+- Endpoints (API routes): https://docs.astro.build/en/guides/endpoints/
+- i18n architecture: https://docs.astro.build/en/guides/internationalization/
+- On-demand rendering: https://docs.astro.build/en/guides/on-demand-rendering/
+- Server islands: https://docs.astro.build/en/guides/server-islands/
+
+**API Module References**:
+- astro:content: https://docs.astro.build/en/reference/modules/astro-content/
+- astro:actions: https://docs.astro.build/en/reference/modules/astro-actions/
+- astro:middleware: https://docs.astro.build/en/reference/modules/astro-middleware/
+- astro:i18n: https://docs.astro.build/en/reference/modules/astro-i18n/
+- Configuration reference: https://docs.astro.build/en/reference/configuration-reference/
+- Routing reference: https://docs.astro.build/en/reference/routing-reference/
+
+**Project Analysis**:
 - Read project structure to understand current setup
 - Check existing database schema (if any)
 - Identify requested features from user input
