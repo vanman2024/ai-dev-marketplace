@@ -1,126 +1,165 @@
 ---
-description: Deploy complete AI application stack by orchestrating plugin commands with progressive context management
+description: Deploy complete AI application stack by orchestrating 3-phase deployment with progressive context management
 argument-hint: [app-name]
-allowed-tools: SlashCommand(*), AskUserQuestion(*), TodoWrite(*), Read(*), Write(*), Bash(*)
+allowed-tools: SlashCommand(*), TodoWrite(*), Read(*), Write(*), Bash(*)
 ---
 
 **Arguments**: $ARGUMENTS
 
-Goal: Deploy production-ready AI application by orchestrating existing plugin commands with progressive context management to prevent infinite scrolling.
+Goal: Deploy COMPLETE production-ready AI application stack by orchestrating 3 sequential phases with progressive context management.
+
+## Complete AI Tech Stack 1
+
+**Frontend:**
+- Next.js 15 (App Router, TypeScript, Tailwind)
+- Vercel AI SDK (streaming, multi-model)
+- shadcn/Tailwind UI components
+- Mem0 memory client
+
+**Backend:**
+- FastAPI (REST API, WebSockets)
+- AI providers (Claude, OpenAI, Google)
+- Claude Agent SDK (orchestration, custom tools)
+- Mem0 memory operations
+- Supabase client
+
+**Database:**
+- Supabase (PostgreSQL, Auth, Storage)
+- pgvector (embeddings, RAG)
+- RLS policies (security)
+- Memory tables (Mem0)
+
+**MCP Servers:**
+- supabase (database operations)
+- memory (user/agent/session memory)
+- filesystem (file operations)
+
+**Deployment:**
+- Vercel (frontend)
+- Fly.io (backend)
+- Supabase Cloud (database)
 
 Core Principles:
-- Orchestrate existing plugin commands (don't recreate functionality)
-- Progressive context: 3 agents early → 2 mid → 1 late
-- Sequential execution with explicit waits
-- Save state for resumption if context grows too large
+- Orchestrate 3 phases sequentially
+- Progressive context management (prevents infinite scrolling)
+- Save state between phases
+- Comprehensive validation
 
-Phase 1: Discovery
-Goal: Gather all requirements upfront
+Phase 1: Execute Foundation
+Goal: Deploy Next.js + FastAPI + Supabase (Phase 1)
 
-Actions:
-- Create todo list with TodoWrite for all phases
-- Parse $ARGUMENTS for app name (default: "my-ai-app")
-- Use AskUserQuestion to gather:
-  1. App type (Red AI / Chatbot / RAG / Multi-Agent)
-  2. Features needed (streaming / multi-model / cost tracking / memory / vector search / MCP tools / realtime)
-  3. Auth (email / OAuth / magic link / MFA)
-  4. Deployment (Vercel / Fly.io / Supabase Cloud / Self-hosted)
-- Write answers to .deployment-config.json
-- Mark Phase 1 complete
-
-Phase 2: Frontend (10 min)
-Goal: Initialize Next.js 15 frontend
-
-CONTEXT: Early - up to 3 agents OK
+CONTEXT: Fresh start - can use 3 agents
 
 Actions:
-- Update .deployment-config.json phase to 2
-- SlashCommand: /nextjs-frontend:init $ARGUMENTS
-- Wait for completion before proceeding
-- Verify: !{bash test -f "$ARGUMENTS/package.json" && echo "✅" || echo "❌"}
-- Mark Phase 2 complete
+- Create master todo list with all 3 phases
+- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-1 $ARGUMENTS
+- Wait for Phase 1 to complete before proceeding
+- This creates:
+  - Next.js 15 frontend
+  - FastAPI backend (ALWAYS)
+  - Supabase database
+  - Backend connected to database
+- Verify: !{bash test -f .ai-stack-config.json && jq -e '.phase1Complete == true' .ai-stack-config.json && echo "✅ Phase 1 complete" || echo "❌ Phase 1 failed"}
+- If failed: STOP, display error, ask to retry
+- If success: Mark Phase 1 complete
+- Time: ~20 minutes
 
-Phase 3: Database (10 min)
-Goal: Setup Supabase with auth
+Phase 2: Execute AI Features
+Goal: Deploy Vercel AI SDK + Mem0 + Agent SDK + MCP (Phase 2)
 
-CONTEXT: Early - up to 3 agents OK
-
-Actions:
-- Update .deployment-config.json phase to 3
-- SlashCommand: /supabase:init-ai-app
-- Wait for completion before proceeding
-- Verify: !{bash test -f "$ARGUMENTS/.env.local" && echo "✅" || echo "❌"}
-- Mark Phase 3 complete
-
-Phase 4: AI Features (15 min)
-Goal: Integrate Vercel AI SDK
-
-CONTEXT: Mid - limit to 2 agents
+CONTEXT: Mid-conversation - limit to 2 agents max
 
 Actions:
-- Update .deployment-config.json phase to 4
-- SlashCommand: /vercel-ai-sdk:add-streaming
-- Wait for completion before proceeding
-- If multi-model: SlashCommand: /vercel-ai-sdk:add-provider openai
-- Wait for completion
-- Verify: !{bash test -f "$ARGUMENTS/app/api/chat/route.ts" && echo "✅" || echo "❌"}
-- Mark Phase 4 complete
+- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-2
+- Wait for Phase 2 to complete before proceeding
+- This adds:
+  - Vercel AI SDK (frontend + backend)
+  - Mem0 memory persistence
+  - Claude Agent SDK orchestration
+  - MCP server configuration
+- Verify: !{bash jq -e '.phase2Complete == true' .ai-stack-config.json && echo "✅ Phase 2 complete" || echo "❌ Phase 2 failed"}
+- If failed: STOP, display error, ask to retry
+- If success: Mark Phase 2 complete
+- Time: ~25 minutes
 
-Phase 5: Memory (10 min)
-Goal: Configure Mem0
+Phase 3: Execute Integration
+Goal: Wire services + UI + Deploy (Phase 3)
 
-CONTEXT: Mid - limit to 2 agents
-
-Actions:
-- Update .deployment-config.json phase to 5
-- SlashCommand: /mem0:init-oss
-- Wait for completion before proceeding
-- Verify: !{bash grep -q "mem0" "$ARGUMENTS/package.json" && echo "✅" || echo "❌"}
-- Mark Phase 5 complete
-
-Phase 6: MCP Tools (10 min, optional)
-Goal: Add FastMCP if needed
-
-CONTEXT: Late - 1 agent only
+CONTEXT: Late conversation - 1 agent max or NO agents
 
 Actions:
-- If MCP selected: SlashCommand: /fastmcp:new-server $ARGUMENTS-tools
-- Wait for completion before proceeding
-- Verify: !{bash test -f "$ARGUMENTS-tools/src/index.ts" && echo "✅" || echo "❌"}
-- Mark Phase 6 complete
+- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-3
+- Wait for Phase 3 to complete before proceeding
+- This adds:
+  - Frontend ↔ Backend connection
+  - shadcn/Tailwind UI components
+  - Vercel deployment config
+  - Fly.io deployment config
+  - Complete validation
+- Verify: !{bash jq -e '.phase3Complete == true && .allPhasesComplete == true' .ai-stack-config.json && echo "✅ Phase 3 complete" || echo "❌ Phase 3 failed"}
+- If failed: STOP, display error, ask to retry
+- If success: Mark Phase 3 complete
+- Time: ~25 minutes
 
-Phase 7: Validation (5 min)
-Goal: Verify stack works
-
-CONTEXT: Very late - NO agents
-
-Actions:
-- Update .deployment-config.json phase to 7
-- Run: !{bash npm run --prefix "$ARGUMENTS" build}
-- Run: !{bash npm run --prefix "$ARGUMENTS" typecheck}
-- If validation fails: STOP, write error-log.txt, ask to retry
-- If passes: Mark Phase 7 complete
-
-Phase 8: Summary
-Goal: Document deployment
+Phase 4: Final Summary
+Goal: Display complete deployment summary
 
 Actions:
 - Mark all todos complete
-- Update .deployment-config.json with status: complete
-- Write DEPLOYMENT-SUMMARY.md with:
-  - App name and type
-  - Features installed
-  - Environment variables needed
-  - Next steps
-- Display summary: @DEPLOYMENT-SUMMARY.md
+- Display final summary: @DEPLOYMENT-COMPLETE.md
+- Show next steps:
+  - Local development commands
+  - Production deployment commands
+  - Environment variable checklist
+- Total time: ~70 minutes
 
-## Context Management
+## Progressive Context Management
 
-Early (1-3): 3 agents max
-Mid (4-5): 2 agents max
-Late (6): 1 agent only
-Very Late (7-8): No agents
+**Early (Phase 1):**
+- Up to 3 agents allowed
+- Context is small
+- Can handle parallel operations
 
-If context becomes too large, state saved in .deployment-config.json for resumption with /ai-tech-stack-1:resume
+**Mid (Phase 2):**
+- Limit to 2 agents maximum
+- Context growing
+- Reduce parallelism
 
-Total time: 60-90 minutes (slow but reliable)
+**Late (Phase 3):**
+- 1 agent max or NO agents
+- Context large
+- Sequential only to prevent hang
+
+## Resumption Pattern
+
+If context becomes too large at any phase:
+- State saved in .ai-stack-config.json
+- Run: /ai-tech-stack-1:resume
+- Continues from last completed phase
+- Fresh context prevents infinite scrolling
+
+## Complete Stack Components
+
+This builds the FULL AI Tech Stack 1:
+✅ Next.js 15 frontend
+✅ FastAPI backend (ALWAYS)
+✅ Vercel AI SDK (streaming, multi-model)
+✅ Supabase (database, auth, storage)
+✅ Mem0 (memory persistence)
+✅ Claude Agent SDK (orchestration)
+✅ MCP servers (pre-configured)
+✅ shadcn/Tailwind UI components
+✅ Deployment configs (Vercel + Fly.io)
+
+## Usage
+
+Deploy complete Red AI stack:
+/ai-tech-stack-1:build-full-stack red-ai
+
+The orchestrator will:
+1. Run Phase 1 (Foundation) - 20 min
+2. Run Phase 2 (AI Features) - 25 min
+3. Run Phase 3 (Integration) - 25 min
+4. Display complete summary
+
+Total: ~70 minutes (slow but reliable, prevents hang)

@@ -1,220 +1,382 @@
 # AI Tech Stack 1 Plugin
 
-**AI application stack orchestrator** - Deploys complete Next.js + Vercel AI SDK + Supabase + Mem0 + FastMCP applications with progressive context management.
+**Complete AI application stack orchestrator** - Deploys production-ready Next.js + FastAPI + Vercel AI SDK + Supabase + Mem0 + Claude Agent SDK + MCP servers with progressive context management.
 
 ## Overview
 
-ai-tech-stack-1 is a lightweight orchestrator that coordinates existing plugins to deploy production-ready AI applications. It doesn't recreate functionality - it just calls the right commands in the right order with progressive context management to prevent infinite scrolling.
+ai-tech-stack-1 orchestrates existing plugins to deploy the COMPLETE AI Tech Stack 1:
 
-## What It Does
+✅ **Next.js 15** - Frontend with App Router, TypeScript, Tailwind
+✅ **FastAPI** - Backend API (ALWAYS included)
+✅ **Vercel AI SDK** - Streaming AI, multi-model support
+✅ **Supabase** - Database, auth, storage, pgvector
+✅ **Mem0** - Memory persistence (user/agent/session)
+✅ **Claude Agent SDK** - Agent orchestration, custom tools
+✅ **MCP Servers** - Pre-configured (supabase, memory, filesystem)
+✅ **shadcn/Tailwind UI** - Production UI components
+✅ **Deployment** - Vercel (frontend) + Fly.io (backend)
 
-- **Orchestrates existing plugins** (nextjs-frontend, vercel-ai-sdk, supabase, mem0, fastmcp)
-- **Progressive context management** (3 agents early → 2 mid → 1 late)
-- **Sequential execution** with explicit waits between phases
-- **Checkpoint state** for resumption if context grows too large
-- **Comprehensive validation** at the end
+## Complete Stack Architecture
+
+```
+Frontend (Next.js 15)              Backend (FastAPI)
+├─ Vercel AI SDK                   ├─ AI Providers
+│  ├─ Streaming chat                │  ├─ Anthropic (Claude)
+│  ├─ Multi-model                   │  ├─ OpenAI (GPT)
+│  └─ Tool calling                  │  └─ Google (Gemini)
+├─ Mem0 Client                      ├─ Claude Agent SDK
+│  ├─ User memory                   │  ├─ Custom tools
+│  ├─ Agent memory                  │  ├─ Subagents
+│  └─ Session memory                │  └─ Orchestration
+├─ shadcn/Tailwind UI               ├─ Mem0 Operations
+│  ├─ Chat components               │  ├─ Memory CRUD
+│  ├─ Forms                         │  └─ Search
+│  └─ Layouts                       ├─ Supabase Client
+└─ API Client → Backend             │  ├─ Database ops
+                                    │  ├─ Auth
+                                    │  └─ Storage
+Database (Supabase)                 └─ MCP Servers
+├─ PostgreSQL + pgvector               ├─ supabase
+├─ Auth tables                         ├─ memory
+├─ RLS policies                        └─ filesystem
+├─ Memory tables (Mem0)
+└─ Vector embeddings (RAG)
+
+Deploy: Vercel + Fly.io + Supabase Cloud
+```
 
 ## Installation
 
 ```bash
-# Via Claude Code plugin system
-/plugin install ai-tech-stack-1@ai-dev-marketplace
-
-# Or add to ~/.claude/settings.json
-{
-  "enabledPlugins": {
-    "ai-tech-stack-1@ai-dev-marketplace": true
-  },
-  "permissions": {
-    "allow": [
-      "SlashCommand(/ai-tech-stack-1:*)"
-    ]
-  }
-}
+# Already installed if you're reading this
+# Commands are registered in ~/.claude/settings.json
 ```
 
 ## Commands
 
 ### `/ai-tech-stack-1:build-full-stack [app-name]`
 
-Deploy complete AI application stack.
+**Master orchestrator** - Deploys complete stack in 3 sequential phases.
 
-**What it does:**
-1. Asks questions upfront (app type, features, auth, deployment)
-2. Creates Next.js 15 frontend
-3. Sets up Supabase database and auth
-4. Integrates Vercel AI SDK for streaming
-5. Configures Mem0 memory persistence
-6. Optionally sets up FastMCP custom tools
-7. Validates complete stack
-8. Generates deployment summary
+**What it deploys:**
+1. **Phase 1: Foundation** (20 min)
+   - Next.js 15 frontend
+   - FastAPI backend (ALWAYS)
+   - Supabase database + auth
+   - Backend ↔ Database connection
+
+2. **Phase 2: AI Features** (25 min)
+   - Vercel AI SDK (frontend + backend)
+   - Mem0 memory persistence
+   - Claude Agent SDK integration
+   - MCP server configuration
+
+3. **Phase 3: Integration** (25 min)
+   - Frontend ↔ Backend connection
+   - shadcn/Tailwind UI components
+   - Vercel deployment config
+   - Fly.io deployment config
+   - Complete validation
 
 **Progressive Context Management:**
-- Early phases (1-3): Up to 3 agents
-- Mid phases (4-5): Limit to 2 agents
-- Late phases (6-7): 1 agent only
-- Very late (8): No agents
+- Phase 1: Up to 3 agents (context small)
+- Phase 2: Limit to 2 agents (context growing)
+- Phase 3: 1 agent max or none (context large)
 
 **Usage:**
 ```bash
-/ai-tech-stack-1:build-full-stack my-ai-app
+/ai-tech-stack-1:build-full-stack red-ai
 ```
 
-**Time:** 60-90 minutes (slow but reliable)
+**Time:** ~70 minutes total (slow but reliable, prevents hang)
+
+### Phase Commands (Can Run Individually)
+
+#### `/ai-tech-stack-1:build-full-stack-phase-1 [app-name]`
+
+Deploy foundation layer only.
+
+**Creates:**
+- Next.js 15 frontend (`app-name/`)
+- FastAPI backend (`app-name-backend/`)
+- Supabase database
+- Backend connected to Supabase
+
+**Time:** ~20 minutes
+
+#### `/ai-tech-stack-1:build-full-stack-phase-2`
+
+Add AI features (requires Phase 1 complete).
+
+**Adds:**
+- Vercel AI SDK streaming
+- Multi-model support (Claude, OpenAI, Google)
+- Mem0 memory (frontend + backend)
+- Claude Agent SDK
+- MCP server configs
+
+**Time:** ~25 minutes
+
+#### `/ai-tech-stack-1:build-full-stack-phase-3`
+
+Wire services and deploy (requires Phase 2 complete).
+
+**Adds:**
+- Frontend ↔ Backend API connection
+- shadcn/Tailwind UI components (button, input, card, avatar, chat)
+- CORS configuration
+- Vercel deployment config
+- Fly.io deployment config
+- Environment documentation
+
+**Time:** ~25 minutes
 
 ### `/ai-tech-stack-1:resume`
 
-Resume deployment from saved state when context becomes too large.
-
-**What it does:**
-- Reads .deployment-config.json
-- Continues from last completed phase
-- Fresh context prevents infinite scrolling
+Resume from saved state when context becomes too large.
 
 **Usage:**
 ```bash
-# If context becomes too large during build-full-stack
+# If context grows too large during any phase
 /ai-tech-stack-1:resume
 ```
 
 ### `/ai-tech-stack-1:validate [app-directory]`
 
-Validate complete AI Tech Stack 1 deployment.
-
-**What it does:**
-- Checks file structure
-- Verifies dependencies
-- Runs build and type checks
-- Generates validation report
+Validate complete stack deployment.
 
 **Usage:**
 ```bash
 /ai-tech-stack-1:validate
-/ai-tech-stack-1:validate my-ai-app
+/ai-tech-stack-1:validate my-app
 ```
-
-## Technology Stack
-
-**Required Plugins:**
-- nextjs-frontend - Next.js 15 setup
-- vercel-ai-sdk - AI streaming and multi-model
-- supabase - Database, auth, realtime
-- mem0 - Memory persistence
-- fastmcp - Custom MCP tools (optional)
-- claude-agent-sdk - Agent orchestration (optional)
-
-**Stack Components:**
-- Next.js 15 (App Router, Server Components, TypeScript)
-- Vercel AI SDK (streaming, multi-model, tools)
-- Supabase (PostgreSQL, RLS, Auth, Realtime, pgvector)
-- Mem0 (user/agent/session memory)
-- FastMCP (custom tools, resources, prompts)
 
 ## Use Cases
 
-- **Red AI** - Multi-pillar AI platform with cost tracking
-- **AI Chatbots** - Conversational AI with streaming
-- **RAG Systems** - Vector search with Supabase pgvector
-- **Multi-Agent Systems** - Complex agent orchestration
-
-## Context Management
-
-The key innovation of ai-tech-stack-1 is **progressive context management**:
-
-**Problem:** Late in conversations with lots of context, launching 4-5 agents causes infinite scrolling and hangs.
-
-**Solution:** Progressively limit parallel agents as context grows:
-- **Early (Phases 1-3):** 3 agents max - context is small
-- **Mid (Phases 4-5):** 2 agents max - context growing
-- **Late (Phase 6):** 1 agent only - context large
-- **Very Late (Phases 7-8):** No agents - just validation
-
-**Resumption:** If context becomes too large, state saved in .deployment-config.json for resumption with /ai-tech-stack-1:resume
-
-## Architecture
-
-ai-tech-stack-1 is a **pure orchestrator** - it doesn't create agents or skills, it just coordinates existing plugin commands:
-
-```
-/ai-tech-stack-1:build-full-stack
-├─ Phase 1: Discovery (gather requirements)
-├─ Phase 2: /nextjs-frontend:init
-├─ Phase 3: /supabase:init-ai-app
-├─ Phase 4: /vercel-ai-sdk:add-streaming
-├─ Phase 5: /mem0:init-oss
-├─ Phase 6: /fastmcp:new-server (optional)
-├─ Phase 7: Validation (build, typecheck)
-└─ Phase 8: Summary
-```
-
-Each phase waits for completion before proceeding. State saved between phases for resumption.
-
-## Files Created
-
-During deployment, the following files are created:
-
-- `.deployment-config.json` - Deployment state for resumption
-- `DEPLOYMENT-SUMMARY.md` - Comprehensive deployment summary
-- `VALIDATION-REPORT.md` - Validation results
-- `validation-errors.txt` - Errors if validation fails (only if failed)
-- `error-log.txt` - Errors if any phase fails (only if failed)
-
-## Deployment Targets
-
-Supports multiple deployment options:
-- **Vercel** - Frontend + serverless functions
-- **Fly.io** - Backend services
-- **Supabase Cloud** - Managed database
-- **Self-Hosted** - Docker-based deployment
-
-## Example: Red AI Deployment
+### Red AI Deployment
+Multi-pillar AI platform with cost tracking, multi-model orchestration, prompt management.
 
 ```bash
-# Start deployment
 /ai-tech-stack-1:build-full-stack red-ai
-
 # Answer questions:
-# - App type: Red AI (multi-pillar platform with cost tracking)
+# - App type: Red AI
 # - Features: streaming, multi-model, cost tracking, memory, vector search
 # - Auth: email, OAuth (Google, GitHub)
 # - Deployment: Vercel, Fly.io, Supabase Cloud
-
-# Wait 60-90 minutes (can walk away)
-
-# Result: Complete Red AI foundation ready for customization
 ```
 
-## Development
+### AI Chatbot
+Conversational AI with streaming and memory.
+
+### RAG System
+Vector search with Supabase pgvector and embeddings.
+
+### Multi-Agent Platform
+Complex agent orchestration with Claude Agent SDK.
+
+## What Gets Created
+
+### Directory Structure
+```
+your-app/                           # Next.js frontend
+├── app/
+│   ├── api/chat/route.ts          # AI streaming endpoint
+│   ├── page.tsx                    # Main page
+│   └── layout.tsx                  # Root layout
+├── components/
+│   └── ui/                         # shadcn components
+├── lib/
+│   ├── api-client.ts               # Backend API client
+│   ├── supabase.ts                 # Supabase client
+│   └── mem0/                       # Memory operations
+├── package.json
+├── .env.local                      # Environment variables
+├── vercel.json                     # Vercel deployment
+└── .mcp.json                       # MCP servers
+
+your-app-backend/                   # FastAPI backend
+├── main.py                         # FastAPI app
+├── routers/
+│   ├── ai.py                       # AI endpoints
+│   └── api.py                      # REST endpoints
+├── models/                         # Pydantic models
+├── lib/
+│   ├── supabase.py                 # Supabase client
+│   └── mem0/                       # Memory operations
+├── agents/                         # Claude Agent SDK
+├── requirements.txt                # Python dependencies
+├── Dockerfile                      # Docker image
+├── fly.toml                        # Fly.io deployment
+├── .env                            # Environment variables
+└── .mcp.json                       # MCP servers
+
+.ai-stack-config.json              # Deployment state
+DEPLOYMENT-COMPLETE.md             # Final summary
+ENVIRONMENT.md                     # Env var documentation
+```
+
+### Environment Variables
+
+**Frontend (.env.local):**
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_BACKEND_URL=http://localhost:8000
+ANTHROPIC_API_KEY=
+OPENAI_API_KEY=
+GOOGLE_API_KEY=
+```
+
+**Backend (.env):**
+```bash
+SUPABASE_URL=
+SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_KEY=
+ANTHROPIC_API_KEY=
+OPENAI_API_KEY=
+GOOGLE_API_KEY=
+MEM0_API_KEY=  # if using Mem0 Platform
+```
+
+## Progressive Context Management
+
+The key innovation preventing infinite scrolling:
+
+**Problem:** Late in conversation, launching multiple agents causes hang.
+
+**Solution:** Progressively limit agents as context grows:
+- **Phase 1** (fresh context): 3 agents max
+- **Phase 2** (growing): 2 agents max
+- **Phase 3** (large): 1 agent or none
+
+**Resumption:** If context becomes too large, state saved in `.ai-stack-config.json` for resumption with `/ai-tech-stack-1:resume`
+
+## Local Development
+
+After deployment completes:
 
 ```bash
-# Location
-~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ai-tech-stack-1/
+# Terminal 1: Frontend
+cd your-app
+npm run dev
+# Visit: http://localhost:3000
 
-# Structure
-plugins/ai-tech-stack-1/
-├── commands/
-│   ├── build-full-stack.md
-│   ├── resume.md
-│   └── validate.md
-├── .claude-plugin/
-│   └── plugin.json
-└── README.md
+# Terminal 2: Backend
+cd your-app-backend
+pip install -r requirements.txt
+uvicorn main:app --reload
+# API: http://localhost:8000
 ```
+
+## Production Deployment
+
+### Deploy Frontend to Vercel
+```bash
+cd your-app
+vercel --prod
+# Update NEXT_PUBLIC_BACKEND_URL with production backend URL
+```
+
+### Deploy Backend to Fly.io
+```bash
+cd your-app-backend
+fly deploy
+# Note the URL: https://your-app-backend.fly.dev
+```
+
+### Configure Supabase
+Already done during deployment! Just add production API keys.
+
+## Technology Stack
+
+### Required Plugins
+- `nextjs-frontend` - Next.js 15 setup
+- `fastapi-backend` - FastAPI backend creation
+- `vercel-ai-sdk` - AI streaming and multi-model
+- `supabase` - Database, auth, realtime
+- `mem0` - Memory persistence
+- `fastmcp` - MCP server tools (optional for custom servers)
+- `claude-agent-sdk` - Agent orchestration
+
+### Stack Components
+- **Next.js 15** - App Router, Server Components, TypeScript
+- **FastAPI** - Python async API framework
+- **Vercel AI SDK** - Streaming, multi-model, tools
+- **Supabase** - PostgreSQL, RLS, Auth, Realtime, pgvector
+- **Mem0** - User/agent/session memory
+- **Claude Agent SDK** - Custom tools, subagents, orchestration
+- **MCP Servers** - Supabase, memory, filesystem (pre-configured)
+- **shadcn/ui** - React components
+- **Tailwind CSS** - Utility-first styling
+
+## Files Created During Deployment
+
+- `.ai-stack-config.json` - Deployment state (for resumption)
+- `PHASE-1-SUMMARY.md` - Phase 1 completion summary
+- `PHASE-2-SUMMARY.md` - Phase 2 completion summary
+- `DEPLOYMENT-COMPLETE.md` - Final deployment summary
+- `ENVIRONMENT.md` - Environment variables documentation
+- `VALIDATION-REPORT.md` - Validation results (from /validate)
+- `validation-errors.txt` - Errors if validation fails
+- `error-log.txt` - Errors if any phase fails
+
+## Troubleshooting
+
+### Phase fails
+State is saved. Fix the issue and run the same phase again, or use `/ai-tech-stack-1:resume`.
+
+### Context becomes too large
+Run `/ai-tech-stack-1:resume` to continue with fresh context.
+
+### Build errors
+Run `/ai-tech-stack-1:validate` to check all components.
+
+### MCP servers not working
+Check `.mcp.json` in both frontend and backend directories.
+
+## Example: Complete Red AI Deployment
+
+```bash
+# Start deployment (will take ~70 minutes)
+/ai-tech-stack-1:build-full-stack red-ai
+
+# Phase 1 runs automatically (Foundation) - 20 min
+# Phase 2 runs automatically (AI Features) - 25 min
+# Phase 3 runs automatically (Integration) - 25 min
+
+# Result: Complete Red AI foundation ready!
+
+# Local development
+cd red-ai && npm run dev              # Frontend
+cd red-ai-backend && uvicorn main:app --reload  # Backend
+
+# Production deployment
+cd red-ai && vercel --prod            # Frontend to Vercel
+cd red-ai-backend && fly deploy       # Backend to Fly.io
+```
+
+## Architecture Documentation
+
+See `docs/AI-TECH-STACK-ARCHITECTURE.md` for complete architecture details including:
+- Kitchen vs Appliances philosophy
+- Astro (marketing sites) vs Next.js (applications) distinction
+- Complete technology decision tree
+- Plugin composition patterns
 
 ## Contributing
 
-This plugin follows the domain-plugin-builder standards. To modify:
+To modify this plugin:
 
 1. Edit commands in `commands/`
 2. Update `plugin.json` if adding/removing commands
-3. Test with validation: `/ai-tech-stack-1:validate`
+3. Test with `/ai-tech-stack-1:validate`
 4. Commit changes
 
 ## Support
 
-- **Documentation:** This README
+- **Documentation:** This README + `docs/AI-TECH-STACK-ARCHITECTURE.md`
 - **Issues:** Report at ai-dev-marketplace repository
-- **Plugin Builder:** Use `/domain-plugin-builder:*` commands to modify
+- **Plugin Builder:** Use `/domain-plugin-builder:*` commands
 
 ## License
 

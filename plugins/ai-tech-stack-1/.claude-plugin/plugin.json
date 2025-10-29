@@ -19,6 +19,9 @@
   "mcpServers": [],
   "commands": [
     "build-full-stack",
+    "build-full-stack-phase-1",
+    "build-full-stack-phase-2",
+    "build-full-stack-phase-3",
     "resume",
     "validate"
   ],
