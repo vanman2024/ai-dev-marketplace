@@ -90,6 +90,12 @@ Deploy: Vercel + Fly.io + Supabase Cloud
 
 **Time:** ~70 minutes total (slow but reliable, prevents hang)
 
+**Dual-Mode Detection:**
+- **Interactive Mode**: No specs found - asks questions via AskUserQuestion
+- **Spec-Driven Mode**: Detects `specs/` directory - auto-configures from spec files
+- Automatically reads `spec.md`, `plan.md` files and parses requirements
+- No questions needed - "go nuts" mode for projects with existing specs
+
 ### Phase Commands (Can Run Individually)
 
 #### `/ai-tech-stack-1:build-full-stack-phase-1 [app-name]`
@@ -153,12 +159,26 @@ Validate complete stack deployment.
 
 ## Use Cases
 
-### Red AI Deployment
+### Red AI Deployment (Spec-Driven Mode)
 Multi-pillar AI platform with cost tracking, multi-model orchestration, prompt management.
 
+**With Existing Specs** (Auto-configured):
+```bash
+cd redai  # Project with specs/ directory
+/ai-tech-stack-1:build-full-stack red-ai
+# Automatically detects:
+# - specs/001-red-seal-ai/spec.md (architecture details)
+# - Claude Agent SDK orchestration
+# - MCP multi-agent architecture
+# - Mem0 memory layer
+# - Auto-configures without questions
+# Result: Complete stack built from specs
+```
+
+**Without Specs** (Interactive Mode):
 ```bash
 /ai-tech-stack-1:build-full-stack red-ai
-# Answer questions:
+# Asks questions:
 # - App type: Red AI
 # - Features: streaming, multi-model, cost tracking, memory, vector search
 # - Auth: email, OAuth (Google, GitHub)
@@ -250,6 +270,45 @@ The key innovation preventing infinite scrolling:
 - **Phase 3** (large): 1 agent or none
 
 **Resumption:** If context becomes too large, state saved in `.ai-stack-config.json` for resumption with `/ai-tech-stack-1:resume`
+
+## Spec-Driven Mode (Auto-Configuration)
+
+When running inside a project with existing specs, the orchestrator automatically detects and parses spec files.
+
+### Supported Spec Structures
+
+**Red AI Pattern** (numbered directories):
+```
+specs/
+├── 001-red-seal-ai/
+│   ├── spec.md              # Feature specification with architecture
+│   ├── plan.md              # Implementation plan
+│   ├── data-model.md        # Database schema
+│   ├── quickstart.md        # Quick start guide
+│   ├── research.md          # Research findings
+│   ├── tasks.md             # Implementation tasks
+│   └── contracts/           # API contracts
+├── 002-mentorship-marketplace/
+├── 003-create-an-employer/
+└── 004-the-skilled-trades/
+```
+
+### Auto-Detection Logic
+
+Phase 1 automatically:
+1. Detects `specs/` directory existence
+2. Finds all `spec.md` and `plan.md` files
+3. Parses for:
+   - App type (platform, chatbot, RAG, multi-agent)
+   - Backend features (REST, GraphQL, WebSockets, FastAPI)
+   - Database features (vector/pgvector, multi-tenant, realtime)
+   - Auth requirements (OAuth, email, MFA)
+   - AI architecture (Claude Agent SDK, MCP servers, Mem0, Vercel AI SDK)
+4. Auto-fills `.ai-stack-config.json`
+5. Skips interactive questions
+6. Proceeds to build
+
+**Result**: "Go nuts" mode - builds complete stack from specs without questions.
 
 ## Local Development
 
