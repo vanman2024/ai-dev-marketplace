@@ -1,0 +1,27 @@
+{
+  "name": "ai-tech-stack-1",
+  "version": "1.0.0",
+  "description": "AI application stack orchestrator - deploys complete Next.js + Vercel AI SDK + Supabase + Mem0 + FastMCP applications with progressive context management",
+  "author": "AI Dev Marketplace",
+  "marketplace": "ai-dev-marketplace",
+  "category": "orchestrator",
+  "tags": ["nextjs", "vercel-ai-sdk", "supabase", "mem0", "fastmcp", "claude-agent-sdk", "orchestrator", "full-stack", "ai-applications"],
+  "dependencies": {
+    "plugins": [
+      "nextjs-frontend@ai-dev-marketplace",
+      "vercel-ai-sdk@ai-dev-marketplace",
+      "supabase@ai-dev-marketplace",
+      "mem0@ai-dev-marketplace",
+      "fastmcp@ai-dev-marketplace",
+      "claude-agent-sdk@ai-dev-marketplace"
+    ]
+  },
+  "mcpServers": [],
+  "commands": [
+    "build-full-stack",
+    "resume",
+    "validate"
+  ],
+  "agents": [],
+  "skills": []
+}

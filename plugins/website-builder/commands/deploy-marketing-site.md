@@ -6,13 +6,15 @@ allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQue
 
 **Arguments**: $ARGUMENTS
 
-# Full-Stack Website Deployment Orchestrator
+# Marketing Site Deployment Orchestrator
 
-Goal: Analyze project context, then systematically deploy complete Astro website with all integrations, running commands in optimal order without manual intervention.
+Goal: Analyze project context, then systematically deploy complete Astro marketing website with all integrations, running commands in optimal order without manual intervention.
+
+NOTE: This is for STATIC MARKETING SITES (blogs, landing pages, documentation). For full-stack AI APPLICATIONS, use /ai-tech-stack-1:build-full-stack instead.
 
 ## Core Principles
 
-1. **One Command Deployment**: User runs `/website-builder:deploy-full-stack` and everything happens automatically
+1. **One Command Deployment**: User runs `/website-builder:deploy-marketing-site` and everything happens automatically
 2. **Context-Aware**: Detect existing project vs new project
 3. **Parallel When Possible**: Run independent steps concurrently
 4. **Sequential When Required**: Respect dependencies (init before integrate)
