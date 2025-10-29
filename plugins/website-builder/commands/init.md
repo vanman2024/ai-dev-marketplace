@@ -46,15 +46,31 @@ Goal: Create the Astro website project
 
 Actions:
 
-Launch the website-setup agent to create the project structure.
+Step 1: Run automated initialization script
+- Execute the astro-setup skill's init-project.sh script
+- Script handles: prerequisites check, npm create astro, integrations, dependencies, directory structure, env files
+- Command: bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/skills/astro-setup/scripts/init-project.sh <project-name> --template=<website-type>
+- The script will:
+  - Check Node.js 18.14.1+ requirement
+  - Create Astro project with TypeScript strictest mode
+  - Install integrations: React, MDX, Tailwind, Sitemap
+  - Install dependencies: @supabase/supabase-js, zod, date-fns
+  - Create directory structure (src/lib, src/content/blog, public/images)
+  - Generate utility files (utils.ts, supabase.ts)
+  - Create SEO component
+  - Setup .env.example and .env files
+  - Update astro.config.mjs with all integrations
 
-Provide the agent with:
+Step 2: Additional customizations based on requirements
+If user requested specific integrations from Phase 1:
+
+Launch the website-setup agent for additional customizations:
 - Project name: $ARGUMENTS
 - Website type from Phase 1
 - Requirements from Phase 1
 - Structure plan from Phase 2
 - Astro documentation context
-- Expected output: Complete Astro project with all integrations
+- Expected output: Customized features beyond base installation
 
 Phase 4: Validation
 Goal: Verify the project was created correctly
