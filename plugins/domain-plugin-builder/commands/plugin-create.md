@@ -75,11 +75,26 @@ Register the plugin in marketplace.json:
 
 !{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/sync-marketplace.sh}
 
-### Step 4: Git Commit
+### Step 4: Register Commands in Settings
+
+CRITICAL: Register all slash commands in .claude/settings.local.json
+
+Read the current settings file and the plugin's commands:
+
+@.claude/settings.local.json
+!{bash ls plugins/$ARGUMENTS/commands/*.md | sed 's|plugins/||; s|/commands/|:|; s|.md||'}
+
+Add ALL plugin commands to the permissions.allow array in settings.local.json:
+- "SlashCommand(/$ARGUMENTS:*)"
+- "SlashCommand(/$ARGUMENTS:command-name)" for each command
+
+Use Edit tool to insert commands after the last existing plugin's commands but before "Bash".
+
+### Step 5: Git Commit
 
 Stage and commit all plugin files:
 
-!{bash git add plugins/$ARGUMENTS plugins/domain-plugin-builder/docs/sdks/$ARGUMENTS-documentation.md .claude-plugin/marketplace.json}
+!{bash git add plugins/$ARGUMENTS plugins/domain-plugin-builder/docs/sdks/$ARGUMENTS-documentation.md .claude-plugin/marketplace.json .claude/settings.local.json}
 
 !{bash git commit -m "$(cat <<'EOF'
 feat: Add $ARGUMENTS plugin
