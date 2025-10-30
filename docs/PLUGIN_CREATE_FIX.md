@@ -10,6 +10,7 @@ The `/domain-plugin-builder:plugin-create` command was **not completing the full
 - ✅ Generate README.md
 - ❌ **NOT run validation script**
 - ❌ **NOT update marketplace.json**
+- ❌ **NOT register commands in .claude/settings.local.json** (CRITICAL!)
 - ❌ **NOT commit to git**
 - ❌ **NOT display completion report**
 
