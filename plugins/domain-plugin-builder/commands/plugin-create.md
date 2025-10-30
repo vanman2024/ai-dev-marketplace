@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task(*), AskUserQuestion(*), Bash(*), Read(*)
+allowed-tools: Task(*), AskUserQuestion(*), Bash(*), Read(*), Write(*), Edit(*), TodoWrite(*)
 description: Universal plugin builder - creates complete domain-specific plugins (SDK, Framework, Custom) with all components from start to finish
 argument-hint: <plugin-name>
 ---
@@ -49,7 +49,7 @@ Store all answers for Phase 3.
 
 Orchestrate slash commands to create the entire plugin from start to finish:
 
-Actions:
+### Step 1: Create Plugin Structure
 - Create complete directory structure
 - Build ALL commands: `/domain-plugin-builder:slash-commands-create` for each command
 - Build ALL agents: `/domain-plugin-builder:agents-create` for each agent
@@ -60,9 +60,37 @@ Actions:
     - templates/ with actual template files
     - examples/ with working examples
 - Generate comprehensive README.md
-- Run validation on all components
-- Fix any validation errors
-- Provide final report with validation results
+
+### Step 2: Run Comprehensive Validation
+
+Run the validation script:
+
+!{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-plugin.sh plugins/$ARGUMENTS}
+
+If validation fails, fix issues and re-run validation.
+
+### Step 3: Update Marketplace Configuration
+
+Register the plugin in marketplace.json:
+
+!{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/sync-marketplace.sh}
+
+### Step 4: Git Commit
+
+Stage and commit all plugin files:
+
+!{bash git add plugins/$ARGUMENTS plugins/domain-plugin-builder/docs/sdks/$ARGUMENTS-documentation.md .claude-plugin/marketplace.json}
+
+!{bash git commit -m "$(cat <<'EOF'
+feat: Add $ARGUMENTS plugin
+
+Complete plugin with commands, agents, and skills following domain-plugin-builder patterns.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"}
 
 Context needed:
 - Plugin type, description, requirements from Phase 2
@@ -71,26 +99,38 @@ Context needed:
 
 ## Phase 4: Display Results
 
-After agent completes, show summary:
+Count components and display comprehensive summary:
 
-**Plugin Created:** {plugin-name}
-**Location:** plugins/{plugin-name}
-**Type:** SDK | Framework | Custom
+!{bash ls plugins/$ARGUMENTS/commands/ | wc -l}
+!{bash ls plugins/$ARGUMENTS/agents/ | wc -l}
+!{bash ls -d plugins/$ARGUMENTS/skills/*/ 2>/dev/null | wc -l}
+
+Display formatted summary:
+
+**Plugin Created:** $ARGUMENTS
+**Location:** plugins/$ARGUMENTS
+**Type:** SDK | Framework | Custom (from Phase 2 answers)
 
 **Components:**
-- Commands: X/X validated ✅
-- Agents: Y/Y validated ✅
-- Skills: Z/Z validated ✅
+- Commands: X/X validated ✅ (use count from first bash command)
+- Agents: Y/Y validated ✅ (use count from second bash command)
+- Skills: Z/Z validated ✅ (use count from third bash command)
 
-**Total Validation:** ALL PASSED (N/N) ✅
+**Total Validation:** ALL PASSED ✅
+
+**Git Status:**
+- ✅ Committed to master branch
+- Ready to push to origin
 
 **Next Steps:**
-1. Install plugin locally for testing:
-   !{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/install-plugin-locally.sh plugins/{plugin-name}}
-2. Install via command: `/plugin install {plugin-name}@ai-dev-marketplace`
-3. Test a command: `/{plugin-name}:init` (or first command from plugin)
-4. Commit to git: `git add plugins/{plugin-name} && git commit -m "feat: Add {plugin-name} plugin"`
-5. Push to GitHub: `git push origin master`
+1. Push to GitHub:
+   `git push origin master`
+
+2. Test the plugin:
+   `/$ARGUMENTS:init` (or first command from plugin)
+
+3. Install via marketplace:
+   `/plugin install $ARGUMENTS@ai-dev-marketplace`
 
 ## Success Criteria
 
