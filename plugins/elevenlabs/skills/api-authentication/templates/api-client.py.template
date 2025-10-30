@@ -1,0 +1,206 @@
+"""
+ElevenLabs API Client
+
+Standard Python client for ElevenLabs API.
+Handles authentication, error handling, and provides typed methods.
+"""
+
+import os
+from typing import Optional, Iterator
+from elevenlabs.client import ElevenLabs
+from elevenlabs import Voice, VoiceSettings
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+
+class ElevenLabsError(Exception):
+    """Custom exception for ElevenLabs API errors"""
+
+    def __init__(self, message: str, status_code: Optional[int] = None, details: any = None):
+        super().__init__(message)
+        self.status_code = status_code
+        self.details = details
+
+
+def create_elevenlabs_client(api_key: Optional[str] = None) -> ElevenLabs:
+    """
+    Create and configure ElevenLabs client
+
+    Args:
+        api_key: Optional API key. If not provided, uses ELEVENLABS_API_KEY from environment.
+
+    Returns:
+        Configured ElevenLabs client
+
+    Raises:
+        ElevenLabsError: If API key is not provided or invalid
+    """
+    key = api_key or os.getenv("ELEVENLABS_API_KEY")
+
+    if not key:
+        raise ElevenLabsError(
+            "ELEVENLABS_API_KEY is required. Set it in .env file or pass it to create_elevenlabs_client()"
+        )
+
+    if not key.startswith("sk_"):
+        print("Warning: API key does not start with 'sk_' - this may not be a valid ElevenLabs API key")
+
+    return ElevenLabs(api_key=key)
+
+
+def validate_api_key(api_key: str) -> bool:
+    """
+    Validate API key format
+
+    Args:
+        api_key: API key to validate
+
+    Returns:
+        True if valid format, False otherwise
+    """
+    return isinstance(api_key, str) and len(api_key) > 20 and api_key.startswith("sk_")
+
+
+def get_default_voice_id() -> str:
+    """
+    Get default voice ID from environment
+
+    Returns:
+        Voice ID string
+
+    Raises:
+        ElevenLabsError: If ELEVENLABS_DEFAULT_VOICE_ID not set
+    """
+    voice_id = os.getenv("ELEVENLABS_DEFAULT_VOICE_ID")
+    if not voice_id:
+        raise ElevenLabsError("ELEVENLABS_DEFAULT_VOICE_ID not set in environment")
+    return voice_id
+
+
+def get_default_model_id() -> str:
+    """
+    Get default model ID from environment
+
+    Returns:
+        Model ID string (defaults to eleven_monolingual_v1)
+    """
+    return os.getenv("ELEVENLABS_DEFAULT_MODEL_ID", "eleven_monolingual_v1")
+
+
+def test_connection(client: Optional[ElevenLabs] = None) -> bool:
+    """
+    Test API connection
+
+    Args:
+        client: Optional ElevenLabs client. Creates new one if not provided.
+
+    Returns:
+        True if connection successful
+
+    Raises:
+        ElevenLabsError: If connection test fails
+    """
+    elevenlabs_client = client or create_elevenlabs_client()
+
+    try:
+        models = elevenlabs_client.models.get_all()
+        return len(models) > 0
+    except Exception as e:
+        raise ElevenLabsError(f"Connection test failed: {str(e)}", details=e)
+
+
+def text_to_speech(
+    text: str,
+    voice_id: Optional[str] = None,
+    model_id: Optional[str] = None,
+    client: Optional[ElevenLabs] = None,
+) -> Iterator[bytes]:
+    """
+    Convert text to speech with error handling
+
+    Args:
+        text: Text to convert to speech
+        voice_id: Optional voice ID. Uses default from environment if not provided.
+        model_id: Optional model ID. Uses default from environment if not provided.
+        client: Optional ElevenLabs client. Creates new one if not provided.
+
+    Returns:
+        Iterator of audio bytes
+
+    Raises:
+        ElevenLabsError: If text-to-speech generation fails
+
+    Example:
+        >>> client = create_elevenlabs_client()
+        >>> audio = text_to_speech("Hello world!", client=client)
+        >>> with open("output.mp3", "wb") as f:
+        ...     for chunk in audio:
+        ...         f.write(chunk)
+    """
+    elevenlabs_client = client or create_elevenlabs_client()
+    voice = voice_id or get_default_voice_id()
+    model = model_id or get_default_model_id()
+
+    try:
+        audio_stream = elevenlabs_client.generate(
+            text=text,
+            voice=voice,
+            model=model,
+        )
+        return audio_stream
+    except Exception as e:
+        raise ElevenLabsError(f"Text-to-speech failed: {str(e)}", details=e)
+
+
+def get_voice_settings() -> VoiceSettings:
+    """
+    Get voice settings from environment or use defaults
+
+    Returns:
+        VoiceSettings object with configured parameters
+    """
+    return VoiceSettings(
+        stability=float(os.getenv("ELEVENLABS_STABILITY", "0.5")),
+        similarity_boost=float(os.getenv("ELEVENLABS_SIMILARITY_BOOST", "0.75")),
+        style=float(os.getenv("ELEVENLABS_STYLE", "0.0")),
+        use_speaker_boost=os.getenv("ELEVENLABS_USE_SPEAKER_BOOST", "true").lower() == "true",
+    )
+
+
+# Singleton instance (optional)
+_default_client: Optional[ElevenLabs] = None
+
+
+def get_default_client() -> ElevenLabs:
+    """
+    Get or create singleton ElevenLabs client
+
+    Returns:
+        Shared ElevenLabs client instance
+    """
+    global _default_client
+    if _default_client is None:
+        _default_client = create_elevenlabs_client()
+    return _default_client
+
+
+if __name__ == "__main__":
+    # Example usage
+    print("Testing ElevenLabs API connection...")
+
+    try:
+        client = create_elevenlabs_client()
+        connected = test_connection(client)
+        print(f"✓ Connection successful: {connected}")
+
+        # Example: Generate speech
+        # audio = text_to_speech("Hello world!", client=client)
+        # with open("output.mp3", "wb") as f:
+        #     for chunk in audio:
+        #         f.write(chunk)
+        # print("✓ Audio generated successfully")
+
+    except ElevenLabsError as e:
+        print(f"✗ Error: {e}")

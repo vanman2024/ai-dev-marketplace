@@ -1,0 +1,191 @@
+import { experimental_transcribe as transcribe } from 'ai';
+import { elevenlabs } from '@ai-sdk/elevenlabs';
+import { NextRequest, NextResponse } from 'next/server';
+
+/**
+ * Next.js App Router API Route for ElevenLabs Transcription
+ *
+ * Usage:
+ *   POST /api/transcribe
+ *   Content-Type: multipart/form-data
+ *   Body: audio file + optional config
+ *
+ * Example with fetch:
+ *   const formData = new FormData();
+ *   formData.append('audio', audioFile);
+ *   formData.append('language', 'en');
+ *   formData.append('speakers', '2');
+ *
+ *   const response = await fetch('/api/transcribe', {
+ *     method: 'POST',
+ *     body: formData,
+ *   });
+ */
+
+export const runtime = 'nodejs'; // or 'edge' for Edge Runtime
+
+// Configuration
+const MAX_FILE_SIZE = 100 * 1024 * 1024; // 100MB
+const VALID_MIME_TYPES = [
+  'audio/mpeg',
+  'audio/wav',
+  'audio/flac',
+  'audio/m4a',
+  'audio/ogg',
+  'audio/x-m4a',
+  'audio/mp4',
+];
+
+export async function POST(request: NextRequest) {
+  try {
+    // Parse multipart form data
+    const formData = await request.formData();
+    const audioFile = formData.get('audio') as File | null;
+
+    if (!audioFile) {
+      return NextResponse.json(
+        { error: 'No audio file provided' },
+        { status: 400 }
+      );
+    }
+
+    // Validate file type
+    if (!VALID_MIME_TYPES.includes(audioFile.type)) {
+      return NextResponse.json(
+        {
+          error: `Invalid file type: ${audioFile.type}`,
+          validTypes: VALID_MIME_TYPES,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Validate file size
+    if (audioFile.size > MAX_FILE_SIZE) {
+      return NextResponse.json(
+        {
+          error: `File too large: ${audioFile.size} bytes (max ${MAX_FILE_SIZE} bytes)`,
+        },
+        { status: 400 }
+      );
+    }
+
+    // Convert File to Buffer
+    const arrayBuffer = await audioFile.arrayBuffer();
+    const audioBuffer = Buffer.from(arrayBuffer);
+
+    // Extract optional configuration from form data
+    const language = formData.get('language') as string | null;
+    const speakersStr = formData.get('speakers') as string | null;
+    const timestamps = formData.get('timestamps') === 'true';
+    const diarize = formData.get('diarize') === 'true';
+
+    // Build provider options
+    const providerOptions: any = {};
+
+    if (language) {
+      providerOptions.languageCode = language;
+    }
+
+    if (speakersStr) {
+      const numSpeakers = parseInt(speakersStr, 10);
+      if (!isNaN(numSpeakers) && numSpeakers >= 1 && numSpeakers <= 32) {
+        providerOptions.numSpeakers = numSpeakers;
+      }
+    }
+
+    if (diarize || speakersStr) {
+      providerOptions.diarize = true;
+    }
+
+    if (timestamps) {
+      providerOptions.timestampsGranularity = 'word';
+    }
+
+    // Track processing time
+    const startTime = Date.now();
+
+    // Transcribe audio using ElevenLabs via Vercel AI SDK
+    const result = await transcribe({
+      model: elevenlabs.transcription('scribe_v1'),
+      audio: audioBuffer,
+      ...(Object.keys(providerOptions).length > 0 && {
+        providerOptions: { elevenlabs: providerOptions },
+      }),
+    });
+
+    const processingTime = Date.now() - startTime;
+
+    // Return structured response
+    return NextResponse.json({
+      success: true,
+      text: result.text,
+      language: result.language,
+      durationInSeconds: result.durationInSeconds,
+      segments: result.segments,
+      metadata: {
+        fileName: audioFile.name,
+        fileSize: audioFile.size,
+        fileType: audioFile.type,
+        processingTimeMs: processingTime,
+        requestedOptions: {
+          language,
+          speakers: speakersStr,
+          timestamps,
+          diarize,
+        },
+      },
+    });
+  } catch (error) {
+    console.error('Transcription error:', error);
+
+    // Handle specific error types
+    if (error instanceof Error) {
+      // Check for AI SDK specific errors
+      if (error.name === 'AI_NoTranscriptGeneratedError') {
+        return NextResponse.json(
+          {
+            success: false,
+            error: 'Transcription failed',
+            message: error.message,
+            type: error.name,
+          },
+          { status: 500 }
+        );
+      }
+
+      return NextResponse.json(
+        {
+          success: false,
+          error: error.message,
+          type: error.name,
+        },
+        { status: 500 }
+      );
+    }
+
+    // Unknown error
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Unknown error occurred',
+      },
+      { status: 500 }
+    );
+  }
+}
+
+// Optional: GET endpoint for health check and capabilities
+export async function GET() {
+  return NextResponse.json({
+    status: 'ok',
+    provider: 'elevenlabs',
+    model: 'scribe_v1',
+    capabilities: {
+      maxFileSizeMB: MAX_FILE_SIZE / 1024 / 1024,
+      supportedFormats: VALID_MIME_TYPES,
+      features: ['transcription', 'diarization', 'timestamps', 'multi-language'],
+    },
+    version: '1.0.0',
+  });
+}

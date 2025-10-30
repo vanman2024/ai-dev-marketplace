@@ -1,0 +1,127 @@
+{
+  "batch_configuration": {
+    "output_directory": "${OUTPUT_DIRECTORY}",
+    "concurrent_clones": 3,
+    "retry_on_failure": true,
+    "max_retries": 3,
+    "save_results": true
+  },
+  "common_settings": ${COMMON_SETTINGS},
+  "voices": ${VOICES},
+  "voice_template": {
+    "name": "Voice Name",
+    "description": "Voice description",
+    "cloning_method": "instant",
+    "audio_files": ["path/to/audio1.mp3", "path/to/audio2.mp3"],
+    "labels": {
+      "collection": "Collection Name",
+      "language": "en",
+      "accent": "American",
+      "use_case": "narration"
+    },
+    "settings": {
+      "stability": 0.75,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true
+    }
+  },
+  "example_batch": {
+    "voices": [
+      {
+        "name": "Narrator Voice 1",
+        "description": "Professional male narrator",
+        "cloning_method": "instant",
+        "audio_files": ["samples/narrator1_sample1.mp3", "samples/narrator1_sample2.mp3"],
+        "labels": {
+          "collection": "Narrators",
+          "gender": "male",
+          "tone": "professional"
+        }
+      },
+      {
+        "name": "Narrator Voice 2",
+        "description": "Professional female narrator",
+        "cloning_method": "instant",
+        "audio_files": ["samples/narrator2_sample1.mp3", "samples/narrator2_sample2.mp3"],
+        "labels": {
+          "collection": "Narrators",
+          "gender": "female",
+          "tone": "professional"
+        }
+      },
+      {
+        "name": "Character Voice 1",
+        "description": "Energetic character voice",
+        "cloning_method": "professional",
+        "audio_files": ["samples/character1_sample1.mp3", "samples/character1_sample2.mp3", "samples/character1_sample3.mp3"],
+        "labels": {
+          "collection": "Characters",
+          "type": "character",
+          "energy": "high"
+        },
+        "settings": {
+          "stability": 0.3,
+          "similarity_boost": 0.7,
+          "style": 0.6,
+          "use_speaker_boost": false
+        }
+      }
+    ]
+  },
+  "processing_workflow": [
+    {
+      "step": 1,
+      "action": "validate_files",
+      "description": "Check all audio files exist and are valid"
+    },
+    {
+      "step": 2,
+      "action": "process_audio",
+      "description": "Apply audio processing if needed (noise reduction, normalization)"
+    },
+    {
+      "step": 3,
+      "action": "clone_voices",
+      "description": "Clone all voices in batch",
+      "concurrent": true
+    },
+    {
+      "step": 4,
+      "action": "verify_clones",
+      "description": "Verify all voice clones were created successfully"
+    },
+    {
+      "step": 5,
+      "action": "apply_settings",
+      "description": "Apply voice settings to cloned voices"
+    },
+    {
+      "step": 6,
+      "action": "save_results",
+      "description": "Save voice IDs and metadata to output file"
+    }
+  ],
+  "output_format": {
+    "success": {
+      "voice_id": "generated_voice_id",
+      "name": "Voice Name",
+      "status": "success",
+      "cloning_method": "instant",
+      "created_at": "2025-10-29T12:00:00Z"
+    },
+    "failure": {
+      "name": "Voice Name",
+      "status": "failed",
+      "error": "Error message",
+      "retry_count": 3
+    }
+  },
+  "best_practices": {
+    "concurrent_clones": "Keep at 3 or lower to avoid rate limits",
+    "audio_quality": "Process audio files before cloning",
+    "naming_convention": "Use consistent naming for easy management",
+    "collections": "Group related voices in collections",
+    "error_handling": "Review failed clones and retry manually"
+  }
+}

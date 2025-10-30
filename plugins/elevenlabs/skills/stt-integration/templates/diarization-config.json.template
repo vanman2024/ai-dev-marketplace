@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "Speaker Diarization Configuration",
+  "description": "Configuration template for ElevenLabs speaker diarization features",
+
+  "diarization": {
+    "enabled": true,
+    "enabledComment": "Master switch for speaker diarization feature",
+
+    "numSpeakers": null,
+    "numSpeakersComment": "Specify number of speakers (1-32) for better accuracy. null = auto-detect",
+
+    "maxSpeakers": 32,
+    "maxSpeakersComment": "Maximum supported speakers by Scribe v1 model",
+
+    "speakerLabeling": {
+      "format": "Speaker {N}",
+      "formatComment": "Speaker label format. {N} is replaced with speaker number",
+
+      "customLabels": null,
+      "customLabelsComment": "Optional custom labels: {'Speaker 1': 'John', 'Speaker 2': 'Jane'}",
+
+      "includeInTranscript": true,
+      "includeInTranscriptComment": "Include speaker labels in formatted output"
+    }
+  },
+
+  "useCases": {
+    "podcast": {
+      "description": "Podcast with 2-3 hosts",
+      "config": {
+        "diarize": true,
+        "numSpeakers": 3,
+        "tagAudioEvents": true,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Set numSpeakers to expected host count for better accuracy"
+    },
+
+    "interview": {
+      "description": "One-on-one interview",
+      "config": {
+        "diarize": true,
+        "numSpeakers": 2,
+        "tagAudioEvents": false,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Simple two-speaker scenario with high accuracy"
+    },
+
+    "meeting": {
+      "description": "Business meeting with multiple participants",
+      "config": {
+        "diarize": true,
+        "numSpeakers": null,
+        "tagAudioEvents": false,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Let model auto-detect number of speakers for dynamic meetings"
+    },
+
+    "panel": {
+      "description": "Panel discussion with 4-6 speakers",
+      "config": {
+        "diarize": true,
+        "numSpeakers": 6,
+        "tagAudioEvents": true,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Set numSpeakers to panel size for optimal speaker separation"
+    },
+
+    "classroom": {
+      "description": "Classroom lecture with Q&A",
+      "config": {
+        "diarize": true,
+        "numSpeakers": null,
+        "tagAudioEvents": false,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Auto-detect for variable number of student questions"
+    },
+
+    "conference": {
+      "description": "Conference call with many participants",
+      "config": {
+        "diarize": true,
+        "numSpeakers": null,
+        "tagAudioEvents": false,
+        "timestampsGranularity": "word"
+      },
+      "notes": "Use auto-detect for large groups (up to 32 speakers)"
+    }
+  },
+
+  "optimization": {
+    "accuracyTips": [
+      "Specify numSpeakers when known for better accuracy",
+      "Ensure clear audio with minimal background noise",
+      "Use individual microphones for each speaker when possible",
+      "Avoid speaker overlap (cross-talk)",
+      "Maintain consistent distance from microphone",
+      "Use audio with sample rate >= 16kHz"
+    ],
+
+    "audioQuality": {
+      "recommended": {
+        "format": "WAV or FLAC (lossless)",
+        "sampleRate": "16000 Hz or higher",
+        "bitrate": "192 kbps or higher",
+        "channels": "Mono or stereo (separate channels per speaker ideal)"
+      },
+
+      "minimum": {
+        "format": "MP3, AAC, or similar",
+        "sampleRate": "8000 Hz",
+        "bitrate": "64 kbps",
+        "channels": "Mono"
+      }
+    },
+
+    "performance": {
+      "processingTime": "~1-2 minutes per hour of audio",
+      "processingTimeComment": "Actual time varies by audio length and complexity",
+
+      "chunkingThreshold": 480,
+      "chunkingThresholdComment": "Files >8 minutes (480s) are chunked for parallel processing",
+
+      "concurrentRequests": {
+        "free": 8,
+        "starter": 16,
+        "creator": 30,
+        "pro": 30,
+        "scale": 60,
+        "business": 60
+      }
+    }
+  },
+
+  "outputFormats": {
+    "json": {
+      "description": "Raw JSON with segments, speakers, and timestamps",
+      "structure": {
+        "text": "Full transcription text",
+        "segments": [
+          {
+            "type": "word | audio_event",
+            "text": "Word or event text",
+            "start_time": 0.0,
+            "end_time": 1.5,
+            "speaker": "Speaker 1"
+          }
+        ]
+      }
+    },
+
+    "formatted": {
+      "description": "Human-readable format with speaker labels",
+      "example": "[Speaker 1]: Hello, how are you?\n\n[Speaker 2]: I'm doing great, thanks!"
+    },
+
+    "timestamped": {
+      "description": "Transcript with timestamps and speakers",
+      "example": "[00:00] [Speaker 1] Hello\n[00:02] [Speaker 1] how are you\n[00:05] [Speaker 2] I'm doing great"
+    },
+
+    "srt": {
+      "description": "SRT subtitle format with speaker labels",
+      "example": "1\n00:00:00,000 --> 00:00:02,000\n[Speaker 1] Hello, how are you?\n\n2\n00:00:02,500 --> 00:00:05,000\n[Speaker 2] I'm doing great, thanks!"
+    }
+  },
+
+  "advancedFeatures": {
+    "speakerClustering": {
+      "description": "Group similar voices into speaker clusters",
+      "enabled": true,
+      "algorithm": "Automatic clustering based on voice characteristics"
+    },
+
+    "speakerChangeDetection": {
+      "description": "Detect when speaker changes mid-segment",
+      "sensitivity": "high",
+      "sensitivityComment": "Options: low, medium, high"
+    },
+
+    "overlapHandling": {
+      "description": "Handle simultaneous speakers (cross-talk)",
+      "strategy": "segment",
+      "strategyComment": "Options: segment (separate segments), merge (combined text)"
+    }
+  },
+
+  "postProcessing": {
+    "speakerMerging": {
+      "enabled": false,
+      "enabledComment": "Merge speakers identified as same person",
+
+      "similarityThreshold": 0.85,
+      "similarityThresholdComment": "Voice similarity threshold (0.0-1.0) for merging"
+    },
+
+    "speakerFiltering": {
+      "minDuration": 0.5,
+      "minDurationComment": "Filter out speaker segments shorter than this (seconds)",
+
+      "minWords": 1,
+      "minWordsComment": "Filter out segments with fewer words than this"
+    },
+
+    "speakerRenaming": {
+      "enabled": false,
+      "mappings": {},
+      "mappingsComment": "Example: {'Speaker 1': 'Host', 'Speaker 2': 'Guest'}"
+    }
+  },
+
+  "validation": {
+    "checks": [
+      "Audio file exists and is readable",
+      "File format is supported",
+      "File size <= 3 GB",
+      "Duration <= 10 hours",
+      "numSpeakers is between 1-32 (if specified)",
+      "Audio has clear voice content (not silence or noise only)"
+    ],
+
+    "errorHandling": {
+      "onNoSpeakersDetected": "fallback_to_text_only",
+      "onTooManySpeakers": "limit_to_32",
+      "onPoorAudioQuality": "warn_and_continue"
+    }
+  },
+
+  "examples": {
+    "typescriptExample": {
+      "description": "TypeScript with Vercel AI SDK",
+      "code": "const result = await transcribe({\n  model: elevenlabs.transcription('scribe_v1'),\n  audio: audioData,\n  providerOptions: {\n    elevenlabs: {\n      languageCode: 'en',\n      diarize: true,\n      numSpeakers: 2,\n    }\n  }\n});"
+    },
+
+    "pythonExample": {
+      "description": "Python with ElevenLabs SDK",
+      "code": "result = client.audio_to_text.convert(\n    audio=audio_data,\n    model_id='scribe_v1',\n    diarize=True,\n    num_speakers=2,\n    language_code='en'\n)"
+    },
+
+    "curlExample": {
+      "description": "Direct API with curl",
+      "code": "curl -X POST https://api.elevenlabs.io/v1/audio-to-text \\\n  -H 'xi-api-key: YOUR_API_KEY' \\\n  -F 'audio=@audio.mp3' \\\n  -F 'model_id=scribe_v1' \\\n  -F 'diarize=true' \\\n  -F 'num_speakers=2' \\\n  -F 'language_code=en'"
+    }
+  },
+
+  "bestPractices": {
+    "dos": [
+      "Specify numSpeakers when count is known",
+      "Use high-quality audio (>=16kHz sample rate)",
+      "Ensure speakers are clearly distinguishable",
+      "Test with sample audio first",
+      "Use mono channel per speaker if possible",
+      "Enable word-level timestamps for better alignment"
+    ],
+
+    "donts": [
+      "Don't use poor quality audio (<8kHz)",
+      "Don't expect perfect accuracy with heavy cross-talk",
+      "Don't use compressed audio for critical applications",
+      "Don't exceed 32 speakers",
+      "Don't process files over 3 GB or 10 hours",
+      "Don't forget to handle API rate limits"
+    ]
+  },
+
+  "troubleshooting": {
+    "speakersNotDetected": {
+      "causes": [
+        "Poor audio quality",
+        "Single speaker in audio",
+        "Background noise too high",
+        "Speakers too similar"
+      ],
+      "solutions": [
+        "Improve audio quality",
+        "Set diarize=true explicitly",
+        "Use noise reduction preprocessing",
+        "Set numSpeakers manually"
+      ]
+    },
+
+    "tooManySpeakersDetected": {
+      "causes": [
+        "Background voices",
+        "Echo or reverb",
+        "Music or audio events"
+      ],
+      "solutions": [
+        "Set numSpeakers to expected count",
+        "Clean audio to remove background noise",
+        "Disable tagAudioEvents if music interferes"
+      ]
+    },
+
+    "speakersMislabeled": {
+      "causes": [
+        "Similar voices",
+        "Speaker position changes",
+        "Audio quality inconsistent"
+      ],
+      "solutions": [
+        "Use separate microphones per speaker",
+        "Maintain consistent audio levels",
+        "Post-process to merge similar speakers"
+      ]
+    }
+  }
+}

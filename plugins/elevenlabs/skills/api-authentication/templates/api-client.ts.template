@@ -1,0 +1,157 @@
+/**
+ * ElevenLabs API Client
+ *
+ * Standard TypeScript/JavaScript client for ElevenLabs API.
+ * Handles authentication, error handling, and provides typed methods.
+ */
+
+import { ElevenLabsClient } from 'elevenlabs';
+import 'dotenv/config';
+
+// Configuration interface
+interface ElevenLabsConfig {
+  apiKey?: string;
+  timeout?: number;
+}
+
+// Error types
+export class ElevenLabsError extends Error {
+  constructor(
+    message: string,
+    public statusCode?: number,
+    public details?: unknown
+  ) {
+    super(message);
+    this.name = 'ElevenLabsError';
+  }
+}
+
+/**
+ * Create and configure ElevenLabs client
+ */
+export function createElevenLabsClient(config?: ElevenLabsConfig): ElevenLabsClient {
+  const apiKey = config?.apiKey || process.env.ELEVENLABS_API_KEY;
+
+  if (!apiKey) {
+    throw new ElevenLabsError(
+      'ELEVENLABS_API_KEY is required. Set it in .env file or pass it to createElevenLabsClient()'
+    );
+  }
+
+  if (!apiKey.startsWith('sk_')) {
+    console.warn('Warning: API key does not start with "sk_" - this may not be a valid ElevenLabs API key');
+  }
+
+  return new ElevenLabsClient({
+    apiKey,
+  });
+}
+
+/**
+ * Validate API key format
+ */
+export function validateApiKey(apiKey: string): boolean {
+  return typeof apiKey === 'string' && apiKey.length > 20 && apiKey.startsWith('sk_');
+}
+
+/**
+ * Get default voice ID from environment
+ */
+export function getDefaultVoiceId(): string {
+  const voiceId = process.env.ELEVENLABS_DEFAULT_VOICE_ID;
+  if (!voiceId) {
+    throw new ElevenLabsError('ELEVENLABS_DEFAULT_VOICE_ID not set in environment');
+  }
+  return voiceId;
+}
+
+/**
+ * Get default model ID from environment
+ */
+export function getDefaultModelId(): string {
+  return process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1';
+}
+
+/**
+ * Test API connection
+ */
+export async function testConnection(client?: ElevenLabsClient): Promise<boolean> {
+  const elevenLabsClient = client || createElevenLabsClient();
+
+  try {
+    // Test by fetching models
+    const models = await elevenLabsClient.models.getAll();
+    return models.length > 0;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new ElevenLabsError(
+        `Connection test failed: ${error.message}`,
+        undefined,
+        error
+      );
+    }
+    throw error;
+  }
+}
+
+/**
+ * Example: Text to speech with error handling
+ */
+export async function textToSpeech(
+  text: string,
+  voiceId?: string,
+  client?: ElevenLabsClient
+): Promise<Buffer> {
+  const elevenLabsClient = client || createElevenLabsClient();
+  const voice = voiceId || getDefaultVoiceId();
+
+  try {
+    const audio = await elevenLabsClient.generate({
+      voice,
+      text,
+      model_id: getDefaultModelId(),
+    });
+
+    // Convert audio stream to buffer
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of audio) {
+      chunks.push(chunk);
+    }
+
+    return Buffer.concat(chunks);
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new ElevenLabsError(
+        `Text-to-speech failed: ${error.message}`,
+        undefined,
+        error
+      );
+    }
+    throw error;
+  }
+}
+
+// Export singleton instance (optional)
+let defaultClient: ElevenLabsClient | null = null;
+
+export function getDefaultClient(): ElevenLabsClient {
+  if (!defaultClient) {
+    defaultClient = createElevenLabsClient();
+  }
+  return defaultClient;
+}
+
+/**
+ * Example usage:
+ *
+ * import { createElevenLabsClient, textToSpeech } from './elevenlabs';
+ *
+ * // Create client
+ * const client = createElevenLabsClient();
+ *
+ * // Generate speech
+ * const audio = await textToSpeech('Hello world!', 'voice-id', client);
+ *
+ * // Test connection
+ * const isConnected = await testConnection(client);
+ */

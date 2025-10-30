@@ -1,0 +1,79 @@
+{
+  "agent": {
+    "name": "Zapier MCP Assistant",
+    "description": "Voice assistant with access to hundreds of tools via Zapier MCP",
+    "voiceId": "JBFqnCBsd6RMkjVDRZzb",
+    "model": "eleven_turbo_v2_5",
+    "language": "en",
+    "firstMessage": "Hello! I'm your Zapier assistant. I can help you with email, calendar, search, and hundreds of other tasks. What would you like me to do?",
+    "systemPrompt": "You are a helpful voice assistant with access to external tools via Zapier MCP. Always explain what you're about to do before requesting tool approval. Be concise but friendly. When a tool requires approval, clearly explain what action you'll take and why.",
+    "mcpConfiguration": {
+      "enabled": true,
+      "servers": [
+        {
+          "name": "zapier-mcp",
+          "enabled": true,
+          "approvalMode": "fine_grained",
+          "tools": {
+            "include": ["*"],
+            "exclude": ["*_delete", "*_admin", "system_*"]
+          }
+        }
+      ],
+      "globalSettings": {
+        "defaultApprovalMode": "fine_grained",
+        "approvalTimeout": 30,
+        "fallbackBehavior": "deny",
+        "logToolUsage": true
+      }
+    },
+    "conversationConfig": {
+      "maxDuration": 600,
+      "silenceTimeout": 10,
+      "interruptible": true,
+      "optimizationMethod": "latency"
+    },
+    "toolApprovalConfiguration": {
+      "autoApprovedTools": [
+        "zapier_weather_get",
+        "zapier_calendar_read",
+        "zapier_search_web",
+        "zapier_knowledge_base_search",
+        "zapier_customer_lookup",
+        "zapier_product_info"
+      ],
+      "requiresApprovalTools": [
+        "zapier_email_send",
+        "zapier_calendar_create",
+        "zapier_calendar_update",
+        "zapier_message_send",
+        "zapier_spreadsheet_update",
+        "zapier_task_create"
+      ],
+      "disabledTools": [
+        "zapier_file_delete",
+        "zapier_user_delete",
+        "zapier_admin_action",
+        "zapier_system_execute"
+      ],
+      "approvalPatterns": {
+        "autoApproved": ["^zapier_.*_(get|read|search|lookup)$"],
+        "requiresApproval": ["^zapier_.*_(send|create|update|modify)$"],
+        "disabled": ["^zapier_.*_(delete|remove|admin)$"]
+      }
+    },
+    "security": {
+      "requireToolApproval": true,
+      "allowedOrigins": ["*"],
+      "rateLimit": {
+        "requestsPerMinute": 60,
+        "conversationsPerHour": 100
+      }
+    },
+    "metadata": {
+      "version": "1.0.0",
+      "environment": "production",
+      "tags": ["zapier", "mcp", "productivity", "assistant"]
+    }
+  }
+}

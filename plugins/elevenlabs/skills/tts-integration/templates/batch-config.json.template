@@ -1,0 +1,172 @@
+{
+  "batch_processing": {
+    "input_file": "input-texts.txt",
+    "output_directory": "./batch-output",
+    "parallel_jobs": 1,
+    "rate_limit_rpm": 60,
+    "delay_between_requests_ms": 500
+  },
+  "voice_config": {
+    "voice_id": "${VOICE_ID}",
+    "model_id": "eleven_flash_v2_5",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true
+    }
+  },
+  "output_config": {
+    "format": "mp3_44100_128",
+    "filename_pattern": "{index:04d}_{text_preview}",
+    "text_preview_length": 50,
+    "overwrite_existing": false,
+    "create_manifest": true,
+    "manifest_file": "batch-manifest.json"
+  },
+  "text_processing": {
+    "encoding": "utf-8",
+    "skip_empty_lines": true,
+    "trim_whitespace": true,
+    "max_line_length": 10000,
+    "split_long_lines": false,
+    "line_separator": "\n"
+  },
+  "retry_strategy": {
+    "enabled": true,
+    "max_retries": 3,
+    "retry_delay_ms": 2000,
+    "exponential_backoff": true,
+    "backoff_multiplier": 2,
+    "max_retry_delay_ms": 30000,
+    "retry_on_codes": [429, 500, 502, 503, 504]
+  },
+  "error_handling": {
+    "continue_on_error": true,
+    "skip_failed": true,
+    "log_errors": true,
+    "error_log_file": "batch-errors.log",
+    "save_failed_items": true,
+    "failed_items_file": "batch-failed.txt"
+  },
+  "progress_tracking": {
+    "enabled": true,
+    "log_interval": 10,
+    "show_progress_bar": true,
+    "save_checkpoint": true,
+    "checkpoint_file": "batch-checkpoint.json",
+    "checkpoint_interval": 50
+  },
+  "validation": {
+    "validate_before_start": true,
+    "check_api_key": true,
+    "check_voice_id": true,
+    "check_output_directory": true,
+    "validate_audio_output": false
+  },
+  "optimization": {
+    "cache_enabled": false,
+    "cache_directory": "./batch-cache",
+    "skip_duplicates": true,
+    "deduplicate_by": "text_hash",
+    "resume_from_checkpoint": true
+  },
+  "post_processing": {
+    "convert_format": false,
+    "target_format": "opus",
+    "normalize_audio": false,
+    "apply_filters": false,
+    "generate_thumbnails": false
+  },
+  "monitoring": {
+    "track_statistics": true,
+    "statistics_file": "batch-statistics.json",
+    "track_timing": true,
+    "track_costs": true,
+    "estimated_cost_per_char": 0.00003,
+    "track_api_usage": true
+  },
+  "use_case_presets": {
+    "audiobook_chapters": {
+      "model_id": "eleven_multilingual_v2",
+      "format": "mp3_44100_192",
+      "voice_settings": {
+        "stability": 0.8,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "rate_limit_rpm": 30,
+      "description": "High quality for audiobook chapters"
+    },
+    "elearning_modules": {
+      "model_id": "eleven_turbo_v2_5",
+      "format": "mp3_44100_128",
+      "voice_settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "rate_limit_rpm": 60,
+      "description": "Clear delivery for e-learning"
+    },
+    "bulk_notifications": {
+      "model_id": "eleven_flash_v2_5",
+      "format": "mp3_22050_64",
+      "voice_settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "rate_limit_rpm": 120,
+      "parallel_jobs": 3,
+      "description": "Fast, cost-effective bulk processing"
+    },
+    "character_dialogues": {
+      "model_id": "eleven_v3",
+      "format": "mp3_44100_128",
+      "voice_settings": {
+        "stability": 0.4,
+        "similarity_boost": 0.75,
+        "style": 0.3,
+        "use_speaker_boost": true
+      },
+      "rate_limit_rpm": 30,
+      "description": "Expressive character voices"
+    }
+  },
+  "scheduling": {
+    "enabled": false,
+    "start_time": "2025-10-29T00:00:00Z",
+    "end_time": "2025-10-29T23:59:59Z",
+    "time_window": "off-peak",
+    "pause_on_rate_limit": true
+  },
+  "notifications": {
+    "enabled": false,
+    "notify_on_complete": true,
+    "notify_on_error": true,
+    "notification_email": "",
+    "webhook_url": ""
+  },
+  "input_formats": {
+    "text_file": {
+      "format": "txt",
+      "delimiter": "\n",
+      "encoding": "utf-8"
+    },
+    "csv": {
+      "format": "csv",
+      "text_column": "text",
+      "id_column": "id",
+      "has_header": true
+    },
+    "json": {
+      "format": "json",
+      "text_field": "text",
+      "metadata_fields": ["id", "category"]
+    }
+  }
+}

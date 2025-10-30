@@ -1,0 +1,556 @@
+"""
+ElevenLabs STT with Python - Template
+
+This template demonstrates how to use the ElevenLabs Python SDK for
+speech-to-text transcription.
+
+Installation:
+    pip install elevenlabs httpx aiofiles
+
+Environment Variables:
+    ELEVENLABS_API_KEY - Your ElevenLabs API key
+"""
+
+import os
+import asyncio
+from pathlib import Path
+from typing import Optional, List, Dict, Any, Callable
+from dataclasses import dataclass, field
+import json
+
+try:
+    from elevenlabs import ElevenLabs
+    from elevenlabs.types import TranscriptionResult as ELTranscriptionResult
+except ImportError:
+    print("Error: elevenlabs package not installed")
+    print("Install with: pip install elevenlabs")
+    exit(1)
+
+
+# ============================================================================
+# Configuration
+# ============================================================================
+
+@dataclass
+class TranscriptionConfig:
+    """Configuration for audio transcription"""
+    audio_path: str
+    language_code: Optional[str] = None  # ISO-639-1/3 code
+    diarize: bool = True
+    num_speakers: Optional[int] = None  # 1-32 speakers
+    tag_audio_events: bool = True
+    timestamps_granularity: str = "word"  # none, word, character
+    file_format: str = "other"  # other or pcm_s16le_16
+
+
+@dataclass
+class TranscriptionResult:
+    """Result of transcription operation"""
+    text: str
+    segments: List[Dict[str, Any]] = field(default_factory=list)
+    duration: float = 0.0
+    language: str = "unknown"
+    success: bool = True
+    error: Optional[str] = None
+
+
+# ============================================================================
+# ElevenLabs Client Setup
+# ============================================================================
+
+def get_client(api_key: Optional[str] = None) -> ElevenLabs:
+    """
+    Get ElevenLabs client instance
+
+    Args:
+        api_key: Optional API key. If not provided, uses ELEVENLABS_API_KEY env var
+
+    Returns:
+        ElevenLabs client instance
+    """
+    api_key = api_key or os.getenv("ELEVENLABS_API_KEY")
+    if not api_key:
+        raise ValueError("ELEVENLABS_API_KEY not set")
+
+    return ElevenLabs(api_key=api_key)
+
+
+# ============================================================================
+# Main Transcription Function
+# ============================================================================
+
+def transcribe_audio(
+    config: TranscriptionConfig,
+    client: Optional[ElevenLabs] = None
+) -> TranscriptionResult:
+    """
+    Transcribe audio file using ElevenLabs STT
+
+    Args:
+        config: Transcription configuration
+        client: Optional ElevenLabs client instance
+
+    Returns:
+        TranscriptionResult with text and metadata
+    """
+    # Get client
+    if client is None:
+        client = get_client()
+
+    # Validate audio file
+    audio_path = Path(config.audio_path)
+    if not audio_path.exists():
+        raise FileNotFoundError(f"Audio file not found: {config.audio_path}")
+
+    try:
+        # Read audio file
+        with open(audio_path, 'rb') as audio_file:
+            audio_data = audio_file.read()
+
+        # Prepare transcription parameters
+        params = {
+            "model_id": "scribe_v1",
+            "diarize": config.diarize,
+            "tag_audio_events": config.tag_audio_events,
+            "timestamps_granularity": config.timestamps_granularity,
+            "file_format": config.file_format,
+        }
+
+        # Add optional parameters
+        if config.language_code:
+            params["language_code"] = config.language_code
+        if config.num_speakers:
+            params["num_speakers"] = config.num_speakers
+
+        # Perform transcription
+        result = client.audio_to_text.convert(
+            audio=audio_data,
+            **params
+        )
+
+        # Parse result
+        return TranscriptionResult(
+            text=result.text if hasattr(result, 'text') else str(result),
+            segments=_extract_segments(result),
+            duration=_extract_duration(result),
+            language=config.language_code or "auto",
+            success=True,
+        )
+
+    except Exception as e:
+        print(f"Transcription failed: {e}")
+        return TranscriptionResult(
+            text="",
+            success=False,
+            error=str(e),
+        )
+
+
+# ============================================================================
+# Async Transcription
+# ============================================================================
+
+async def transcribe_audio_async(
+    config: TranscriptionConfig,
+    client: Optional[ElevenLabs] = None,
+    on_progress: Optional[Callable[[float], None]] = None
+) -> TranscriptionResult:
+    """
+    Async version of transcribe_audio with progress callback
+
+    Args:
+        config: Transcription configuration
+        client: Optional ElevenLabs client
+        on_progress: Optional progress callback (0.0 to 1.0)
+
+    Returns:
+        TranscriptionResult
+    """
+    if on_progress:
+        on_progress(0.1)  # Starting
+
+    # Run synchronous transcription in executor
+    loop = asyncio.get_event_loop()
+    result = await loop.run_in_executor(
+        None,
+        transcribe_audio,
+        config,
+        client
+    )
+
+    if on_progress:
+        on_progress(1.0)  # Complete
+
+    return result
+
+
+# ============================================================================
+# Batch Transcription
+# ============================================================================
+
+def transcribe_batch(
+    audio_paths: List[str],
+    config_base: Optional[Dict[str, Any]] = None,
+    client: Optional[ElevenLabs] = None
+) -> List[TranscriptionResult]:
+    """
+    Transcribe multiple audio files
+
+    Args:
+        audio_paths: List of audio file paths
+        config_base: Base configuration to apply to all files
+        client: Optional ElevenLabs client
+
+    Returns:
+        List of TranscriptionResult objects
+    """
+    if client is None:
+        client = get_client()
+
+    config_base = config_base or {}
+    results = []
+
+    for audio_path in audio_paths:
+        try:
+            config = TranscriptionConfig(
+                audio_path=audio_path,
+                **config_base
+            )
+            result = transcribe_audio(config, client)
+            results.append(result)
+        except Exception as e:
+            print(f"Failed to transcribe {audio_path}: {e}")
+            results.append(TranscriptionResult(
+                text="",
+                success=False,
+                error=str(e),
+            ))
+
+    return results
+
+
+async def transcribe_batch_async(
+    audio_paths: List[str],
+    config_base: Optional[Dict[str, Any]] = None,
+    client: Optional[ElevenLabs] = None,
+    max_concurrent: int = 3
+) -> List[TranscriptionResult]:
+    """
+    Async batch transcription with concurrency control
+
+    Args:
+        audio_paths: List of audio file paths
+        config_base: Base configuration
+        client: Optional ElevenLabs client
+        max_concurrent: Maximum concurrent transcriptions
+
+    Returns:
+        List of TranscriptionResult objects
+    """
+    semaphore = asyncio.Semaphore(max_concurrent)
+
+    async def transcribe_with_semaphore(path: str) -> TranscriptionResult:
+        async with semaphore:
+            config = TranscriptionConfig(
+                audio_path=path,
+                **(config_base or {})
+            )
+            return await transcribe_audio_async(config, client)
+
+    tasks = [transcribe_with_semaphore(path) for path in audio_paths]
+    return await asyncio.gather(*tasks, return_exceptions=False)
+
+
+# ============================================================================
+# Speaker Diarization Helpers
+# ============================================================================
+
+@dataclass
+class SpeakerSegment:
+    """Speaker segment with text and timing"""
+    speaker: str
+    text: str
+    start_time: float
+    end_time: float
+
+
+def extract_speaker_segments(result: TranscriptionResult) -> List[SpeakerSegment]:
+    """
+    Extract speaker-separated segments from transcription
+
+    Args:
+        result: TranscriptionResult with segments
+
+    Returns:
+        List of SpeakerSegment objects
+    """
+    if not result.segments:
+        return []
+
+    speaker_segments = []
+    current_speaker = None
+    current_text = []
+    current_start = 0.0
+    current_end = 0.0
+
+    for segment in result.segments:
+        speaker = segment.get("speaker")
+        if not speaker:
+            continue
+
+        if current_speaker and current_speaker != speaker:
+            # Speaker changed, save previous segment
+            speaker_segments.append(SpeakerSegment(
+                speaker=current_speaker,
+                text=" ".join(current_text).strip(),
+                start_time=current_start,
+                end_time=current_end,
+            ))
+            current_text = []
+
+        current_speaker = speaker
+        current_text.append(segment.get("text", ""))
+        current_start = segment.get("start_time", current_start)
+        current_end = segment.get("end_time", current_end)
+
+    # Add final segment
+    if current_speaker and current_text:
+        speaker_segments.append(SpeakerSegment(
+            speaker=current_speaker,
+            text=" ".join(current_text).strip(),
+            start_time=current_start,
+            end_time=current_end,
+        ))
+
+    return speaker_segments
+
+
+# ============================================================================
+# Formatting Helpers
+# ============================================================================
+
+def format_transcript_with_speakers(result: TranscriptionResult) -> str:
+    """
+    Format transcription with speaker labels
+
+    Args:
+        result: TranscriptionResult
+
+    Returns:
+        Formatted transcript string
+    """
+    speaker_segments = extract_speaker_segments(result)
+
+    if not speaker_segments:
+        return result.text
+
+    lines = []
+    for segment in speaker_segments:
+        lines.append(f"[{segment.speaker}]: {segment.text}")
+
+    return "\n\n".join(lines)
+
+
+def format_timestamped(result: TranscriptionResult) -> str:
+    """
+    Format transcription with timestamps
+
+    Args:
+        result: TranscriptionResult
+
+    Returns:
+        Formatted transcript with timestamps
+    """
+    if not result.segments:
+        return result.text
+
+    lines = []
+    for segment in result.segments:
+        if not segment.get("text"):
+            continue
+
+        start = segment.get("start_time", 0.0)
+        time_str = _format_time(start)
+        speaker = segment.get("speaker", "")
+        speaker_str = f"[{speaker}] " if speaker else ""
+        text = segment.get("text", "")
+
+        lines.append(f"[{time_str}] {speaker_str}{text}")
+
+    return "\n".join(lines)
+
+
+def format_srt(result: TranscriptionResult) -> str:
+    """
+    Format transcription as SRT subtitles
+
+    Args:
+        result: TranscriptionResult
+
+    Returns:
+        SRT formatted string
+    """
+    if not result.segments:
+        return ""
+
+    srt_blocks = []
+    counter = 1
+
+    for segment in result.segments:
+        if not segment.get("text"):
+            continue
+
+        start_time = _format_srt_time(segment.get("start_time", 0.0))
+        end_time = _format_srt_time(segment.get("end_time", 0.0))
+        text = segment.get("text", "")
+
+        srt_blocks.append(f"{counter}\n{start_time} --> {end_time}\n{text}\n")
+        counter += 1
+
+    return "\n".join(srt_blocks)
+
+
+# ============================================================================
+# Helper Functions
+# ============================================================================
+
+def _extract_segments(result: Any) -> List[Dict[str, Any]]:
+    """Extract segments from API result"""
+    if hasattr(result, 'segments'):
+        return [
+            {
+                "text": seg.text if hasattr(seg, 'text') else str(seg),
+                "start_time": seg.start_time if hasattr(seg, 'start_time') else 0.0,
+                "end_time": seg.end_time if hasattr(seg, 'end_time') else 0.0,
+                "speaker": seg.speaker if hasattr(seg, 'speaker') else None,
+            }
+            for seg in result.segments
+        ]
+    return []
+
+
+def _extract_duration(result: Any) -> float:
+    """Extract duration from API result"""
+    if hasattr(result, 'duration'):
+        return float(result.duration)
+    return 0.0
+
+
+def _format_time(seconds: float) -> str:
+    """Format seconds as MM:SS"""
+    mins = int(seconds // 60)
+    secs = int(seconds % 60)
+    return f"{mins:02d}:{secs:02d}"
+
+
+def _format_srt_time(seconds: float) -> str:
+    """Format seconds as SRT time (HH:MM:SS,mmm)"""
+    hours = int(seconds // 3600)
+    minutes = int((seconds % 3600) // 60)
+    secs = int(seconds % 60)
+    millis = int((seconds % 1) * 1000)
+    return f"{hours:02d}:{minutes:02d}:{secs:02d},{millis:03d}"
+
+
+# ============================================================================
+# Usage Examples
+# ============================================================================
+
+def example_basic_transcription():
+    """Basic transcription example"""
+    config = TranscriptionConfig(
+        audio_path="./audio/interview.mp3",
+        language_code="en",
+    )
+
+    result = transcribe_audio(config)
+    print("Transcription:", result.text)
+
+
+def example_with_diarization():
+    """Transcription with speaker diarization"""
+    config = TranscriptionConfig(
+        audio_path="./audio/meeting.mp3",
+        language_code="en",
+        diarize=True,
+        num_speakers=3,
+    )
+
+    result = transcribe_audio(config)
+    print("Formatted transcript:")
+    print(format_transcript_with_speakers(result))
+
+
+async def example_batch_processing():
+    """Batch processing example"""
+    audio_paths = [
+        "./audio/file1.mp3",
+        "./audio/file2.mp3",
+        "./audio/file3.mp3",
+    ]
+
+    results = await transcribe_batch_async(
+        audio_paths,
+        config_base={"language_code": "en", "diarize": True},
+        max_concurrent=2
+    )
+
+    for i, result in enumerate(results, 1):
+        print(f"\n=== File {i} ===")
+        if result.success:
+            print(result.text)
+        else:
+            print("Error:", result.error)
+
+
+def example_save_to_file():
+    """Save transcription to file"""
+    config = TranscriptionConfig(
+        audio_path="./audio/video.mp4",
+        language_code="en",
+    )
+
+    result = transcribe_audio(config)
+
+    # Save as text
+    with open("transcription.txt", "w") as f:
+        f.write(result.text)
+
+    # Save as SRT
+    with open("subtitles.srt", "w") as f:
+        f.write(format_srt(result))
+
+    print("Saved transcription to files")
+
+
+# ============================================================================
+# CLI Interface
+# ============================================================================
+
+if __name__ == "__main__":
+    import sys
+
+    if len(sys.argv) < 2:
+        print("Usage: python vercel-ai-transcribe.py <audio_file> [language_code]")
+        sys.exit(1)
+
+    audio_path = sys.argv[1]
+    language_code = sys.argv[2] if len(sys.argv) > 2 else None
+
+    config = TranscriptionConfig(
+        audio_path=audio_path,
+        language_code=language_code,
+        diarize=True,
+        tag_audio_events=True,
+    )
+
+    result = transcribe_audio(config)
+
+    if result.success:
+        print("\n=== Transcription Result ===")
+        print(format_transcript_with_speakers(result))
+        print("\n=== With Timestamps ===")
+        print(format_timestamped(result))
+    else:
+        print(f"Error: {result.error}")
+        sys.exit(1)

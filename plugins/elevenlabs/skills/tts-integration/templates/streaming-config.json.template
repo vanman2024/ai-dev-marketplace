@@ -1,0 +1,121 @@
+{
+  "websocket_config": {
+    "url": "wss://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream",
+    "api_key": "${ELEVENLABS_API_KEY}",
+    "reconnect": true,
+    "max_reconnect_attempts": 5,
+    "reconnect_delay": 2000
+  },
+  "stream_settings": {
+    "model_id": "eleven_flash_v2_5",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true
+    },
+    "output_format": "mp3_44100_128",
+    "optimize_streaming_latency": 3,
+    "chunk_length_schedule": [120, 160, 250, 290]
+  },
+  "buffer_config": {
+    "buffer_size": 8192,
+    "min_buffer_size": 2048,
+    "max_buffer_size": 16384,
+    "prefetch_size": 4096
+  },
+  "text_input": {
+    "flush_on_silence": true,
+    "silence_threshold_ms": 1000,
+    "max_chunk_size": 500,
+    "enable_ssml": false
+  },
+  "audio_output": {
+    "sample_rate": 44100,
+    "channels": 1,
+    "bit_depth": 16,
+    "encoding": "pcm_s16le"
+  },
+  "performance": {
+    "low_latency_mode": true,
+    "target_latency_ms": 100,
+    "jitter_buffer_ms": 50,
+    "enable_preprocessing": false
+  },
+  "error_handling": {
+    "retry_on_error": true,
+    "max_retries": 3,
+    "retry_delay_ms": 1000,
+    "fallback_to_http": true,
+    "continue_on_partial_failure": true
+  },
+  "monitoring": {
+    "log_events": true,
+    "track_latency": true,
+    "track_buffer_stats": true,
+    "log_level": "info"
+  },
+  "use_case_presets": {
+    "realtime_chat": {
+      "model_id": "eleven_flash_v2_5",
+      "optimize_streaming_latency": 4,
+      "buffer_size": 4096,
+      "target_latency_ms": 75,
+      "description": "Ultra-low latency for real-time chat"
+    },
+    "voice_assistant": {
+      "model_id": "eleven_flash_v2_5",
+      "optimize_streaming_latency": 3,
+      "buffer_size": 6144,
+      "target_latency_ms": 100,
+      "description": "Balanced latency for voice assistants"
+    },
+    "live_narration": {
+      "model_id": "eleven_turbo_v2_5",
+      "optimize_streaming_latency": 2,
+      "buffer_size": 8192,
+      "target_latency_ms": 250,
+      "description": "Better quality for live narration"
+    },
+    "interactive_game": {
+      "model_id": "eleven_flash_v2_5",
+      "optimize_streaming_latency": 3,
+      "buffer_size": 4096,
+      "target_latency_ms": 100,
+      "description": "Low latency for gaming applications"
+    }
+  },
+  "advanced_features": {
+    "generation_config": {
+      "text": "Initial text to generate",
+      "previous_text": "",
+      "next_text": "",
+      "previous_request_ids": [],
+      "next_request_ids": []
+    },
+    "pronunciation_dictionary": {
+      "enabled": false,
+      "version_id": ""
+    },
+    "seed": null,
+    "apply_text_normalization": "auto"
+  },
+  "websocket_events": {
+    "on_connect": "log",
+    "on_message": "process",
+    "on_error": "retry",
+    "on_close": "reconnect",
+    "on_audio_chunk": "play",
+    "on_generation_complete": "cleanup"
+  },
+  "client_examples": {
+    "javascript": {
+      "library": "WebSocket API",
+      "example": "examples/streaming-tts/client-example.js"
+    },
+    "python": {
+      "library": "websockets",
+      "example": "examples/streaming-tts/client-example.py"
+    }
+  }
+}

@@ -1,0 +1,319 @@
+/**
+ * Token Bucket Rate Limiter with Priority Queue
+ *
+ * Implements a token bucket algorithm for rate limiting ElevenLabs API requests
+ * with priority-based request queuing and automatic backpressure handling.
+ *
+ * Usage:
+ *   const limiter = new TokenBucketRateLimiter({
+ *     capacity: 10,
+ *     refillRate: 2,
+ *     queueSize: 100
+ *   });
+ *
+ *   await limiter.acquire(priority);
+ */
+
+const EventEmitter = require('events');
+
+class TokenBucketRateLimiter extends EventEmitter {
+  /**
+   * @param {Object} config - Configuration options
+   * @param {number} config.capacity - Maximum number of tokens (concurrent requests)
+   * @param {number} config.refillRate - Tokens to add per second
+   * @param {number} config.queueSize - Maximum queue size
+   * @param {Object} config.metrics - Optional Prometheus metrics
+   */
+  constructor(config = {}) {
+    super();
+
+    this.capacity = config.capacity || 10;
+    this.refillRate = config.refillRate || 2;
+    this.queueSize = config.queueSize || 1000;
+    this.metrics = config.metrics || null;
+
+    // Token bucket state
+    this.tokens = this.capacity;
+    this.lastRefill = Date.now();
+
+    // Priority queue (higher priority = processed first)
+    this.queue = [];
+    this.currentConcurrent = 0;
+
+    // Start refill timer
+    this.startRefillTimer();
+
+    this.emit('initialized', { capacity: this.capacity, refillRate: this.refillRate });
+  }
+
+  /**
+   * Refill tokens based on elapsed time
+   */
+  refillTokens() {
+    const now = Date.now();
+    const elapsed = (now - this.lastRefill) / 1000; // seconds
+    const tokensToAdd = Math.floor(elapsed * this.refillRate);
+
+    if (tokensToAdd > 0) {
+      this.tokens = Math.min(this.capacity, this.tokens + tokensToAdd);
+      this.lastRefill = now;
+      this.emit('refill', { tokens: this.tokens, added: tokensToAdd });
+    }
+  }
+
+  /**
+   * Start automatic token refill
+   */
+  startRefillTimer() {
+    this.refillInterval = setInterval(() => {
+      this.refillTokens();
+      this.processQueue();
+    }, 100); // Check every 100ms
+  }
+
+  /**
+   * Stop automatic token refill
+   */
+  stop() {
+    if (this.refillInterval) {
+      clearInterval(this.refillInterval);
+      this.refillInterval = null;
+    }
+  }
+
+  /**
+   * Acquire a token (or queue if none available)
+   *
+   * @param {number} priority - Request priority (0-10, higher = more important)
+   * @returns {Promise} Resolves when token is acquired
+   */
+  acquire(priority = 5) {
+    return new Promise((resolve, reject) => {
+      // Try immediate acquisition
+      if (this.tryAcquire()) {
+        resolve();
+        return;
+      }
+
+      // Queue if under limit
+      if (this.queue.length >= this.queueSize) {
+        this.emit('queue-full', { queueSize: this.queue.length });
+        reject(new Error('Rate limiter queue is full'));
+        return;
+      }
+
+      // Add to priority queue
+      const request = {
+        priority,
+        resolve,
+        reject,
+        timestamp: Date.now()
+      };
+
+      this.queue.push(request);
+      this.queue.sort((a, b) => b.priority - a.priority); // Higher priority first
+
+      this.emit('queued', { queueDepth: this.queue.length, priority });
+
+      if (this.metrics) {
+        this.metrics.queueDepth.set(this.queue.length);
+      }
+    });
+  }
+
+  /**
+   * Try to acquire a token immediately
+   *
+   * @returns {boolean} True if token was acquired
+   */
+  tryAcquire() {
+    this.refillTokens();
+
+    if (this.tokens > 0) {
+      this.tokens--;
+      this.currentConcurrent++;
+
+      this.emit('acquired', {
+        tokens: this.tokens,
+        concurrent: this.currentConcurrent
+      });
+
+      if (this.metrics) {
+        this.metrics.concurrentRequests.set(this.currentConcurrent);
+      }
+
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * Release a token (called after request completes)
+   */
+  release() {
+    this.currentConcurrent--;
+
+    this.emit('released', {
+      tokens: this.tokens,
+      concurrent: this.currentConcurrent
+    });
+
+    if (this.metrics) {
+      this.metrics.concurrentRequests.set(this.currentConcurrent);
+    }
+
+    // Process next queued request
+    setImmediate(() => this.processQueue());
+  }
+
+  /**
+   * Process queued requests
+   */
+  processQueue() {
+    while (this.queue.length > 0 && this.tokens > 0) {
+      const request = this.queue.shift();
+
+      if (this.tryAcquire()) {
+        const waitTime = Date.now() - request.timestamp;
+        this.emit('dequeued', {
+          queueDepth: this.queue.length,
+          waitTime
+        });
+
+        request.resolve();
+
+        if (this.metrics) {
+          this.metrics.queueDepth.set(this.queue.length);
+        }
+      } else {
+        // Put it back if acquisition failed
+        this.queue.unshift(request);
+        break;
+      }
+    }
+  }
+
+  /**
+   * Get current state
+   *
+   * @returns {Object} Current limiter state
+   */
+  getState() {
+    return {
+      tokens: this.tokens,
+      capacity: this.capacity,
+      concurrent: this.currentConcurrent,
+      queueDepth: this.queue.length,
+      queueSize: this.queueSize,
+      utilization: ((this.capacity - this.tokens) / this.capacity * 100).toFixed(1)
+    };
+  }
+
+  /**
+   * Wrap a function with rate limiting
+   *
+   * @param {Function} fn - Async function to wrap
+   * @param {number} priority - Request priority
+   * @returns {Function} Rate-limited function
+   */
+  wrap(fn, priority = 5) {
+    return async (...args) => {
+      await this.acquire(priority);
+
+      try {
+        const result = await fn(...args);
+        return result;
+      } finally {
+        this.release();
+      }
+    };
+  }
+}
+
+/**
+ * Circuit Breaker for fault tolerance
+ */
+class CircuitBreaker {
+  constructor(config = {}) {
+    this.failureThreshold = config.failureThreshold || 5;
+    this.resetTimeout = config.resetTimeout || 60000; // 60 seconds
+    this.monitorInterval = config.monitorInterval || 5000; // 5 seconds
+
+    this.state = 'CLOSED'; // CLOSED, OPEN, HALF_OPEN
+    this.failures = 0;
+    this.successes = 0;
+    this.lastFailureTime = null;
+
+    this.startMonitoring();
+  }
+
+  startMonitoring() {
+    this.monitor = setInterval(() => {
+      if (this.state === 'OPEN' && this.shouldAttemptReset()) {
+        this.state = 'HALF_OPEN';
+        this.failures = 0;
+        console.log('[CircuitBreaker] State changed to HALF_OPEN');
+      }
+    }, this.monitorInterval);
+  }
+
+  shouldAttemptReset() {
+    if (!this.lastFailureTime) return false;
+    return Date.now() - this.lastFailureTime >= this.resetTimeout;
+  }
+
+  async execute(fn) {
+    if (this.state === 'OPEN') {
+      throw new Error('Circuit breaker is OPEN');
+    }
+
+    try {
+      const result = await fn();
+      this.onSuccess();
+      return result;
+    } catch (error) {
+      this.onFailure();
+      throw error;
+    }
+  }
+
+  onSuccess() {
+    this.failures = 0;
+    this.successes++;
+
+    if (this.state === 'HALF_OPEN') {
+      this.state = 'CLOSED';
+      console.log('[CircuitBreaker] State changed to CLOSED');
+    }
+  }
+
+  onFailure() {
+    this.failures++;
+    this.lastFailureTime = Date.now();
+
+    if (this.failures >= this.failureThreshold) {
+      this.state = 'OPEN';
+      console.log('[CircuitBreaker] State changed to OPEN');
+    }
+  }
+
+  getState() {
+    return {
+      state: this.state,
+      failures: this.failures,
+      successes: this.successes
+    };
+  }
+
+  stop() {
+    if (this.monitor) {
+      clearInterval(this.monitor);
+    }
+  }
+}
+
+module.exports = {
+  TokenBucketRateLimiter,
+  CircuitBreaker
+};

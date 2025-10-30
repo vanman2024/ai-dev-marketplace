@@ -1,0 +1,278 @@
+/**
+ * Comprehensive Health Check Endpoint
+ *
+ * Provides liveness and readiness checks for ElevenLabs API integration
+ * with detailed dependency status and metrics.
+ *
+ * Usage:
+ *   const healthCheck = new HealthCheck({
+ *     rateLimiter: rateLimiterInstance,
+ *     circuitBreaker: circuitBreakerInstance
+ *   });
+ *
+ *   app.get('/health', healthCheck.liveness());
+ *   app.get('/ready', healthCheck.readiness());
+ */
+
+const axios = require('axios');
+
+class HealthCheck {
+  /**
+   * @param {Object} config - Configuration
+   * @param {Object} config.rateLimiter - Rate limiter instance
+   * @param {Object} config.circuitBreaker - Circuit breaker instance
+   * @param {string} config.apiKey - ElevenLabs API key
+   */
+  constructor(config = {}) {
+    this.rateLimiter = config.rateLimiter;
+    this.circuitBreaker = config.circuitBreaker;
+    this.apiKey = config.apiKey || process.env.ELEVENLABS_API_KEY;
+
+    this.startTime = Date.now();
+    this.checks = new Map();
+  }
+
+  /**
+   * Liveness check - is the service running?
+   *
+   * @returns {Function} Express middleware
+   */
+  liveness() {
+    return (req, res) => {
+      const health = {
+        status: 'healthy',
+        timestamp: new Date().toISOString(),
+        uptime: this.getUptime(),
+        service: 'elevenlabs-api',
+        version: process.env.APP_VERSION || '1.0.0'
+      };
+
+      res.status(200).json(health);
+    };
+  }
+
+  /**
+   * Readiness check - is the service ready to accept traffic?
+   *
+   * @returns {Function} Express middleware
+   */
+  readiness() {
+    return async (req, res) => {
+      const checks = await this.runHealthChecks();
+
+      const allHealthy = Object.values(checks).every(check => check.healthy);
+      const status = allHealthy ? 'ready' : 'not ready';
+      const httpStatus = allHealthy ? 200 : 503;
+
+      const response = {
+        status,
+        timestamp: new Date().toISOString(),
+        checks
+      };
+
+      res.status(httpStatus).json(response);
+    };
+  }
+
+  /**
+   * Run all health checks
+   *
+   * @returns {Promise<Object>} Health check results
+   */
+  async runHealthChecks() {
+    const checks = {
+      api: await this.checkAPIConnectivity(),
+      rateLimiter: this.checkRateLimiter(),
+      circuitBreaker: this.checkCircuitBreaker(),
+      memory: this.checkMemory(),
+      queueDepth: this.checkQueueDepth()
+    };
+
+    return checks;
+  }
+
+  /**
+   * Check ElevenLabs API connectivity
+   *
+   * @returns {Promise<Object>} Check result
+   */
+  async checkAPIConnectivity() {
+    try {
+      const response = await axios.get('https://api.elevenlabs.io/v1/voices', {
+        headers: {
+          'xi-api-key': this.apiKey
+        },
+        timeout: 5000
+      });
+
+      return {
+        healthy: response.status === 200,
+        status: response.status,
+        message: 'API connectivity OK'
+      };
+    } catch (error) {
+      return {
+        healthy: false,
+        status: error.response?.status || 0,
+        message: error.message,
+        error: true
+      };
+    }
+  }
+
+  /**
+   * Check rate limiter health
+   *
+   * @returns {Object} Check result
+   */
+  checkRateLimiter() {
+    if (!this.rateLimiter) {
+      return {
+        healthy: true,
+        message: 'Rate limiter not configured'
+      };
+    }
+
+    const state = this.rateLimiter.getState();
+
+    // Consider unhealthy if queue is very deep or utilization is very high
+    const queueHealthy = state.queueDepth < (state.queueSize * 0.8);
+    const utilizationHealthy = parseFloat(state.utilization) < 95;
+
+    return {
+      healthy: queueHealthy && utilizationHealthy,
+      tokens: state.tokens,
+      capacity: state.capacity,
+      concurrent: state.concurrent,
+      queueDepth: state.queueDepth,
+      utilization: `${state.utilization}%`,
+      message: (queueHealthy && utilizationHealthy)
+        ? 'Rate limiter OK'
+        : 'Rate limiter under heavy load'
+    };
+  }
+
+  /**
+   * Check circuit breaker health
+   *
+   * @returns {Object} Check result
+   */
+  checkCircuitBreaker() {
+    if (!this.circuitBreaker) {
+      return {
+        healthy: true,
+        message: 'Circuit breaker not configured'
+      };
+    }
+
+    const state = this.circuitBreaker.getState();
+
+    return {
+      healthy: state.state === 'CLOSED',
+      state: state.state,
+      failures: state.failures,
+      successes: state.successes,
+      message: state.state === 'CLOSED'
+        ? 'Circuit breaker OK'
+        : `Circuit breaker ${state.state}`
+    };
+  }
+
+  /**
+   * Check memory usage
+   *
+   * @returns {Object} Check result
+   */
+  checkMemory() {
+    const usage = process.memoryUsage();
+    const heapUsedMB = Math.round(usage.heapUsed / 1024 / 1024);
+    const heapTotalMB = Math.round(usage.heapTotal / 1024 / 1024);
+    const heapUsedPercent = (usage.heapUsed / usage.heapTotal * 100).toFixed(1);
+
+    // Consider unhealthy if using more than 90% of heap
+    const healthy = parseFloat(heapUsedPercent) < 90;
+
+    return {
+      healthy,
+      heapUsed: `${heapUsedMB}MB`,
+      heapTotal: `${heapTotalMB}MB`,
+      heapUsedPercent: `${heapUsedPercent}%`,
+      rss: `${Math.round(usage.rss / 1024 / 1024)}MB`,
+      message: healthy ? 'Memory usage OK' : 'High memory usage'
+    };
+  }
+
+  /**
+   * Check request queue depth
+   *
+   * @returns {Object} Check result
+   */
+  checkQueueDepth() {
+    if (!this.rateLimiter) {
+      return {
+        healthy: true,
+        message: 'Queue monitoring not configured'
+      };
+    }
+
+    const state = this.rateLimiter.getState();
+    const queueDepth = state.queueDepth;
+    const queueSize = state.queueSize;
+    const queuePercent = (queueDepth / queueSize * 100).toFixed(1);
+
+    // Consider unhealthy if queue is more than 80% full
+    const healthy = parseFloat(queuePercent) < 80;
+
+    return {
+      healthy,
+      queueDepth,
+      queueSize,
+      queuePercent: `${queuePercent}%`,
+      message: healthy ? 'Queue depth OK' : 'Queue depth high'
+    };
+  }
+
+  /**
+   * Get uptime in human-readable format
+   *
+   * @returns {string} Uptime string
+   */
+  getUptime() {
+    const uptimeMs = Date.now() - this.startTime;
+    const seconds = Math.floor(uptimeMs / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const hours = Math.floor(minutes / 60);
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) {
+      return `${days}d ${hours % 24}h ${minutes % 60}m`;
+    } else if (hours > 0) {
+      return `${hours}h ${minutes % 60}m`;
+    } else if (minutes > 0) {
+      return `${minutes}m ${seconds % 60}s`;
+    } else {
+      return `${seconds}s`;
+    }
+  }
+
+  /**
+   * Get detailed status for monitoring
+   *
+   * @returns {Promise<Object>} Detailed status
+   */
+  async getDetailedStatus() {
+    const checks = await this.runHealthChecks();
+
+    return {
+      service: 'elevenlabs-api',
+      version: process.env.APP_VERSION || '1.0.0',
+      environment: process.env.NODE_ENV || 'development',
+      timestamp: new Date().toISOString(),
+      uptime: this.getUptime(),
+      checks,
+      overall: Object.values(checks).every(c => c.healthy) ? 'healthy' : 'degraded'
+    };
+  }
+}
+
+module.exports = HealthCheck;

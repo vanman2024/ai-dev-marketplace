@@ -1,0 +1,370 @@
+/**
+ * Production Error Handler for ElevenLabs API
+ *
+ * Comprehensive error handling with categorization, retry logic,
+ * circuit breaker integration, and structured logging.
+ *
+ * Usage:
+ *   const errorHandler = new ErrorHandler({
+ *     logger: winston.createLogger(...),
+ *     metrics: prometheusMetrics
+ *   });
+ *
+ *   const result = await errorHandler.executeWithRetry(
+ *     () => makeAPICall(),
+ *     { maxRetries: 3, category: 'rate_limit' }
+ *   );
+ */
+
+const { CircuitBreaker } = require('./rate-limiter');
+
+/**
+ * Error categories for different handling strategies
+ */
+const ErrorCategory = {
+  RATE_LIMIT: 'rate_limit',     // 429 errors
+  SERVER_ERROR: 'server_error',  // 5xx errors
+  CLIENT_ERROR: 'client_error',  // 4xx errors (not 429)
+  NETWORK_ERROR: 'network_error', // Connection issues
+  TIMEOUT: 'timeout',            // Request timeouts
+  UNKNOWN: 'unknown'             // Uncategorized errors
+};
+
+/**
+ * Retry strategies
+ */
+const RetryStrategy = {
+  EXPONENTIAL: 'exponential',
+  LINEAR: 'linear',
+  FIXED: 'fixed'
+};
+
+class ErrorHandler {
+  /**
+   * @param {Object} config - Configuration
+   * @param {Object} config.logger - Winston logger instance
+   * @param {Object} config.metrics - Prometheus metrics
+   * @param {Object} config.circuitBreaker - Circuit breaker instance
+   */
+  constructor(config = {}) {
+    this.logger = config.logger || console;
+    this.metrics = config.metrics || null;
+    this.circuitBreaker = config.circuitBreaker || new CircuitBreaker({
+      failureThreshold: 5,
+      resetTimeout: 60000
+    });
+
+    // Default retry configurations by error category
+    this.retryConfigs = {
+      [ErrorCategory.RATE_LIMIT]: {
+        maxRetries: 5,
+        strategy: RetryStrategy.EXPONENTIAL,
+        initialDelay: 1000,
+        maxDelay: 30000,
+        jitter: true,
+        shouldRetry: true
+      },
+      [ErrorCategory.SERVER_ERROR]: {
+        maxRetries: 3,
+        strategy: RetryStrategy.EXPONENTIAL,
+        initialDelay: 2000,
+        maxDelay: 10000,
+        jitter: true,
+        shouldRetry: true
+      },
+      [ErrorCategory.NETWORK_ERROR]: {
+        maxRetries: 3,
+        strategy: RetryStrategy.LINEAR,
+        initialDelay: 1000,
+        maxDelay: 5000,
+        jitter: false,
+        shouldRetry: true
+      },
+      [ErrorCategory.CLIENT_ERROR]: {
+        maxRetries: 0,
+        shouldRetry: false
+      },
+      [ErrorCategory.TIMEOUT]: {
+        maxRetries: 2,
+        strategy: RetryStrategy.FIXED,
+        initialDelay: 2000,
+        shouldRetry: true
+      }
+    };
+  }
+
+  /**
+   * Categorize error
+   *
+   * @param {Error} error - The error to categorize
+   * @returns {string} Error category
+   */
+  categorizeError(error) {
+    // HTTP status code errors
+    if (error.response) {
+      const status = error.response.status;
+
+      if (status === 429) {
+        return ErrorCategory.RATE_LIMIT;
+      } else if (status >= 500) {
+        return ErrorCategory.SERVER_ERROR;
+      } else if (status >= 400) {
+        return ErrorCategory.CLIENT_ERROR;
+      }
+    }
+
+    // Network errors
+    if (error.code === 'ECONNREFUSED' ||
+        error.code === 'ENOTFOUND' ||
+        error.code === 'ECONNRESET') {
+      return ErrorCategory.NETWORK_ERROR;
+    }
+
+    // Timeout errors
+    if (error.code === 'ETIMEDOUT' || error.message.includes('timeout')) {
+      return ErrorCategory.TIMEOUT;
+    }
+
+    return ErrorCategory.UNKNOWN;
+  }
+
+  /**
+   * Calculate retry delay
+   *
+   * @param {number} attempt - Current attempt number (0-indexed)
+   * @param {Object} config - Retry configuration
+   * @returns {number} Delay in milliseconds
+   */
+  calculateDelay(attempt, config) {
+    let delay;
+
+    switch (config.strategy) {
+      case RetryStrategy.EXPONENTIAL:
+        delay = Math.min(
+          config.initialDelay * Math.pow(2, attempt),
+          config.maxDelay || 30000
+        );
+        break;
+
+      case RetryStrategy.LINEAR:
+        delay = Math.min(
+          config.initialDelay * (attempt + 1),
+          config.maxDelay || 10000
+        );
+        break;
+
+      case RetryStrategy.FIXED:
+        delay = config.initialDelay;
+        break;
+
+      default:
+        delay = 1000;
+    }
+
+    // Add jitter to prevent thundering herd
+    if (config.jitter) {
+      delay = delay * (0.5 + Math.random() * 0.5);
+    }
+
+    return Math.floor(delay);
+  }
+
+  /**
+   * Execute function with retry logic
+   *
+   * @param {Function} fn - Async function to execute
+   * @param {Object} options - Execution options
+   * @param {string} options.category - Error category (overrides auto-detection)
+   * @param {number} options.maxRetries - Override max retries
+   * @param {Object} options.context - Additional context for logging
+   * @returns {Promise} Result of function execution
+   */
+  async executeWithRetry(fn, options = {}) {
+    const startTime = Date.now();
+    let lastError;
+    let attempt = 0;
+
+    while (true) {
+      try {
+        // Execute with circuit breaker
+        const result = await this.circuitBreaker.execute(async () => {
+          return await fn();
+        });
+
+        // Log success
+        this.logger.info('Request succeeded', {
+          attempt: attempt + 1,
+          duration: Date.now() - startTime,
+          ...options.context
+        });
+
+        // Update metrics
+        if (this.metrics) {
+          this.metrics.requestsTotal.inc({
+            method: options.context?.method || 'unknown',
+            status: 'success',
+            model: options.context?.model || 'unknown'
+          });
+        }
+
+        return result;
+
+      } catch (error) {
+        lastError = error;
+        const category = options.category || this.categorizeError(error);
+        const config = this.retryConfigs[category] || this.retryConfigs[ErrorCategory.UNKNOWN];
+        const maxRetries = options.maxRetries !== undefined ? options.maxRetries : config.maxRetries;
+
+        // Log error
+        this.logger.error('Request failed', {
+          error: error.message,
+          category,
+          attempt: attempt + 1,
+          maxRetries,
+          statusCode: error.response?.status,
+          ...options.context
+        });
+
+        // Update metrics
+        if (this.metrics) {
+          this.metrics.errorsTotal.inc({
+            type: category,
+            code: error.response?.status || error.code || 'unknown'
+          });
+        }
+
+        // Check if should retry
+        if (attempt >= maxRetries || !config.shouldRetry) {
+          this.logger.error('Max retries reached or retry not allowed', {
+            category,
+            attempts: attempt + 1,
+            ...options.context
+          });
+          throw error;
+        }
+
+        // Calculate delay
+        const delay = this.calculateDelay(attempt, config);
+
+        this.logger.warn('Retrying request', {
+          category,
+          attempt: attempt + 1,
+          delay,
+          ...options.context
+        });
+
+        // Update retry metrics
+        if (this.metrics) {
+          this.metrics.retriesTotal.inc({ reason: category });
+        }
+
+        // Wait before retry
+        await this.sleep(delay);
+        attempt++;
+      }
+    }
+  }
+
+  /**
+   * Execute with fallback
+   *
+   * @param {Function} fn - Primary function
+   * @param {Function} fallbackFn - Fallback function
+   * @param {Object} options - Options
+   * @returns {Promise} Result or fallback result
+   */
+  async executeWithFallback(fn, fallbackFn, options = {}) {
+    try {
+      return await this.executeWithRetry(fn, options);
+    } catch (error) {
+      this.logger.warn('Falling back to alternative', {
+        error: error.message,
+        ...options.context
+      });
+
+      try {
+        return await fallbackFn();
+      } catch (fallbackError) {
+        this.logger.error('Fallback also failed', {
+          originalError: error.message,
+          fallbackError: fallbackError.message,
+          ...options.context
+        });
+        throw fallbackError;
+      }
+    }
+  }
+
+  /**
+   * Sleep utility
+   *
+   * @param {number} ms - Milliseconds to sleep
+   * @returns {Promise}
+   */
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  /**
+   * Format error for response
+   *
+   * @param {Error} error - Error to format
+   * @returns {Object} Formatted error
+   */
+  formatError(error) {
+    const category = this.categorizeError(error);
+
+    return {
+      error: true,
+      message: this.getUserFriendlyMessage(category, error),
+      category,
+      statusCode: error.response?.status || 500,
+      retryable: this.retryConfigs[category]?.shouldRetry || false,
+      timestamp: new Date().toISOString()
+    };
+  }
+
+  /**
+   * Get user-friendly error message
+   *
+   * @param {string} category - Error category
+   * @param {Error} error - Original error
+   * @returns {string} User-friendly message
+   */
+  getUserFriendlyMessage(category, error) {
+    switch (category) {
+      case ErrorCategory.RATE_LIMIT:
+        return 'Request rate limit exceeded. Please try again in a moment.';
+
+      case ErrorCategory.SERVER_ERROR:
+        return 'Service temporarily unavailable. Please try again later.';
+
+      case ErrorCategory.CLIENT_ERROR:
+        return error.response?.data?.message || 'Invalid request. Please check your input.';
+
+      case ErrorCategory.NETWORK_ERROR:
+        return 'Network connection error. Please check your internet connection.';
+
+      case ErrorCategory.TIMEOUT:
+        return 'Request timed out. Please try again.';
+
+      default:
+        return 'An unexpected error occurred. Please try again.';
+    }
+  }
+
+  /**
+   * Get circuit breaker state
+   *
+   * @returns {Object} Circuit breaker state
+   */
+  getCircuitBreakerState() {
+    return this.circuitBreaker.getState();
+  }
+}
+
+module.exports = {
+  ErrorHandler,
+  ErrorCategory,
+  RetryStrategy
+};

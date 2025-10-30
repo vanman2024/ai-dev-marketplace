@@ -1,0 +1,279 @@
+{
+  "presets": {
+    "narration_consistent": {
+      "name": "Narration - Consistent",
+      "description": "Audiobook narration with high consistency",
+      "settings": {
+        "stability": 0.8,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2"],
+      "use_cases": ["audiobook", "documentary", "narration"]
+    },
+    "narration_expressive": {
+      "name": "Narration - Expressive",
+      "description": "Story narration with emotional range",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.75,
+        "style": 0.2,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2", "eleven_v3"],
+      "use_cases": ["storytelling", "fiction", "character narration"]
+    },
+    "dialogue_character": {
+      "name": "Dialogue - Character",
+      "description": "Character dialogue with high expressiveness",
+      "settings": {
+        "stability": 0.4,
+        "similarity_boost": 0.75,
+        "style": 0.3,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_v3"],
+      "use_cases": ["character dialogue", "theater", "gaming"]
+    },
+    "dialogue_natural": {
+      "name": "Dialogue - Natural",
+      "description": "Natural conversational dialogue",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.1,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_turbo_v2_5", "eleven_v3"],
+      "use_cases": ["conversation", "interview", "casual speech"]
+    },
+    "elearning_clear": {
+      "name": "E-Learning - Clear",
+      "description": "Professional e-learning with clarity",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.8,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2", "eleven_turbo_v2_5"],
+      "use_cases": ["e-learning", "training", "education", "tutorials"]
+    },
+    "elearning_engaging": {
+      "name": "E-Learning - Engaging",
+      "description": "E-learning with engaging delivery",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.75,
+        "style": 0.1,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_turbo_v2_5"],
+      "use_cases": ["e-learning", "presentations", "course content"]
+    },
+    "marketing_energetic": {
+      "name": "Marketing - Energetic",
+      "description": "Energetic marketing and advertisements",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.4,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_turbo_v2_5", "eleven_v3"],
+      "use_cases": ["advertisement", "marketing", "promo", "commercial"]
+    },
+    "marketing_professional": {
+      "name": "Marketing - Professional",
+      "description": "Professional marketing content",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8,
+        "style": 0.2,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2", "eleven_turbo_v2_5"],
+      "use_cases": ["corporate video", "brand content", "professional marketing"]
+    },
+    "ivr_professional": {
+      "name": "IVR - Professional",
+      "description": "Professional IVR and customer service",
+      "settings": {
+        "stability": 0.7,
+        "similarity_boost": 0.8,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_turbo_v2_5"],
+      "use_cases": ["ivr", "customer service", "phone system", "automated responses"],
+      "recommended_format": "ulaw"
+    },
+    "gaming_character": {
+      "name": "Gaming - Character",
+      "description": "Game character voiceovers",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.2,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2", "eleven_v3"],
+      "use_cases": ["gaming", "character voiceover", "npc dialogue"]
+    },
+    "podcast_engaging": {
+      "name": "Podcast - Engaging",
+      "description": "Engaging podcast delivery",
+      "settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.75,
+        "style": 0.1,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_multilingual_v2", "eleven_turbo_v2_5"],
+      "use_cases": ["podcast", "radio", "broadcast"]
+    },
+    "realtime_interactive": {
+      "name": "Real-time - Interactive",
+      "description": "Real-time interactive applications",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_flash_v2_5"],
+      "use_cases": ["chatbot", "virtual assistant", "real-time agent", "live interaction"]
+    },
+    "bulk_processing": {
+      "name": "Bulk Processing",
+      "description": "Cost-effective bulk processing",
+      "settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "recommended_models": ["eleven_flash_v2_5"],
+      "use_cases": ["bulk generation", "mass content", "high volume"]
+    }
+  },
+  "parameter_guide": {
+    "stability": {
+      "range": [0.0, 1.0],
+      "description": "Controls voice consistency and predictability",
+      "low": "0.0-0.4: More expressive, variable, emotional",
+      "medium": "0.4-0.7: Balanced expression and consistency",
+      "high": "0.7-1.0: Very consistent, predictable, stable",
+      "recommendations": {
+        "audiobook": 0.8,
+        "character_dialogue": 0.4,
+        "elearning": 0.6,
+        "ivr": 0.7,
+        "natural_conversation": 0.5
+      }
+    },
+    "similarity_boost": {
+      "range": [0.0, 1.0],
+      "description": "Controls similarity to original voice sample",
+      "low": "0.0-0.5: More creative interpretation",
+      "medium": "0.5-0.8: Balanced similarity",
+      "high": "0.8-1.0: Very close to original voice",
+      "recommendations": {
+        "cloned_voice": 0.85,
+        "professional_content": 0.8,
+        "general_use": 0.75,
+        "creative_interpretation": 0.6
+      }
+    },
+    "style": {
+      "range": [0.0, 1.0],
+      "description": "Controls style exaggeration (use with caution)",
+      "low": "0.0-0.2: Subtle or no style exaggeration",
+      "medium": "0.2-0.4: Moderate style emphasis",
+      "high": "0.4-1.0: High style exaggeration (may cause instability)",
+      "warning": "Higher values can cause audio instability",
+      "recommendations": {
+        "natural_speech": 0.0,
+        "slight_emphasis": 0.1,
+        "character_personality": 0.3,
+        "dramatic_delivery": 0.4
+      }
+    },
+    "use_speaker_boost": {
+      "type": "boolean",
+      "description": "Enhances similarity to the speaker",
+      "default": true,
+      "recommendations": {
+        "cloned_voices": true,
+        "premium_voices": true,
+        "general_use": true
+      }
+    }
+  },
+  "optimization_tips": {
+    "for_consistency": {
+      "title": "Optimizing for Consistency",
+      "tips": [
+        "Use stability 0.7-0.9 for predictable output",
+        "Set style to 0.0 to avoid exaggeration",
+        "Use similarity_boost 0.75-0.8",
+        "Consider Multilingual v2 model",
+        "Use seed parameter for reproducible results"
+      ]
+    },
+    "for_expressiveness": {
+      "title": "Optimizing for Expressiveness",
+      "tips": [
+        "Use stability 0.3-0.5 for variable output",
+        "Set style to 0.2-0.4 for personality",
+        "Use similarity_boost 0.7-0.75",
+        "Consider Eleven v3 model",
+        "Add emotional cues in text"
+      ]
+    },
+    "for_quality": {
+      "title": "Optimizing for Quality",
+      "tips": [
+        "Use Multilingual v2 or Eleven v3",
+        "Set similarity_boost to 0.8-0.85",
+        "Use MP3 192kbps or PCM format",
+        "Enable speaker boost",
+        "Provide clear, well-formatted text"
+      ]
+    },
+    "for_speed": {
+      "title": "Optimizing for Speed",
+      "tips": [
+        "Use Flash v2.5 model for ultra-low latency",
+        "Use default or lower similarity_boost",
+        "Set stability to 0.5",
+        "Use Opus or MP3 64-128kbps format",
+        "Keep text chunks under 1000 characters"
+      ]
+    },
+    "for_cost": {
+      "title": "Optimizing for Cost",
+      "tips": [
+        "Use Flash v2.5 (50% cheaper)",
+        "Cache generated audio when possible",
+        "Batch process similar content",
+        "Use lower bitrate formats",
+        "Reuse audio for repeated phrases"
+      ]
+    }
+  },
+  "custom_profile_template": {
+    "name": "Custom Profile Name",
+    "description": "Description of this profile",
+    "settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true
+    },
+    "recommended_models": ["eleven_turbo_v2_5"],
+    "use_cases": ["your use case"],
+    "notes": "Additional notes about this profile"
+  }
+}

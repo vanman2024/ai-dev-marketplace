@@ -1,0 +1,105 @@
+{
+  "voice_id": "${VOICE_ID}",
+  "verification": {
+    "captcha_type": "${CAPTCHA_TYPE}",
+    "verification_text": "${VERIFICATION_TEXT}",
+    "status": "pending",
+    "required": true
+  },
+  "captcha_types": {
+    "voice_recording": {
+      "description": "Record yourself speaking the verification text",
+      "text_provided": true,
+      "audio_required": true,
+      "min_duration": 3,
+      "max_duration": 10
+    },
+    "text_to_speech": {
+      "description": "Generate TTS using the cloned voice with verification text",
+      "text_provided": true,
+      "audio_required": false,
+      "automatic": true
+    }
+  },
+  "verification_workflow": [
+    {
+      "step": 1,
+      "action": "request_captcha",
+      "endpoint": "/v1/voices/${VOICE_ID}/verification",
+      "method": "GET",
+      "description": "Request verification captcha for voice"
+    },
+    {
+      "step": 2,
+      "action": "receive_verification_text",
+      "description": "Receive random text to speak for verification"
+    },
+    {
+      "step": 3,
+      "action": "record_audio",
+      "description": "Record yourself speaking the verification text",
+      "requirements": {
+        "duration": "3-10 seconds",
+        "format": "mp3, wav, or m4a",
+        "quality": "clear recording matching original voice"
+      }
+    },
+    {
+      "step": 4,
+      "action": "submit_verification",
+      "endpoint": "/v1/voices/${VOICE_ID}/verification",
+      "method": "POST",
+      "description": "Submit verification audio"
+    },
+    {
+      "step": 5,
+      "action": "await_approval",
+      "description": "Wait for verification to be processed"
+    }
+  ],
+  "verification_requirements": {
+    "purpose": "Confirm voice clone is from your own audio samples",
+    "required_for": [
+      "sharing_voice",
+      "library_submission",
+      "reward_program"
+    ],
+    "not_required_for": [
+      "personal_use",
+      "private_projects"
+    ]
+  },
+  "best_practices": {
+    "recording": [
+      "Use same microphone as original samples",
+      "Record in quiet environment",
+      "Speak clearly and naturally",
+      "Match original voice characteristics",
+      "Complete sentence without pauses"
+    ],
+    "submission": [
+      "Submit immediately after recording",
+      "Use high-quality audio format",
+      "Ensure audio is not edited",
+      "One submission per verification request"
+    ]
+  },
+  "common_issues": {
+    "verification_failed": {
+      "reasons": [
+        "Audio doesn't match voice characteristics",
+        "Background noise too high",
+        "Incorrect verification text",
+        "Audio quality too low",
+        "Voice doesn't match samples"
+      ],
+      "solutions": [
+        "Re-record in quiet environment",
+        "Speak verification text exactly as provided",
+        "Use better microphone",
+        "Match original voice tone and pace",
+        "Request new verification text"
+      ]
+    }
+  }
+}

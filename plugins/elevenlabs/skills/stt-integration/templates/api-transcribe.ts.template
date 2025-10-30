@@ -1,0 +1,392 @@
+/**
+ * ElevenLabs STT Direct API - TypeScript Template
+ *
+ * This template demonstrates direct API integration without the Vercel AI SDK.
+ * Useful for custom implementations or when you need more control over the API calls.
+ *
+ * No external dependencies required (uses native fetch)
+ *
+ * Environment Variables:
+ *   ELEVENLABS_API_KEY - Your ElevenLabs API key
+ */
+
+import { readFile } from 'fs/promises';
+import { existsSync } from 'fs';
+
+// ============================================================================
+// API Configuration
+// ============================================================================
+
+const API_BASE_URL = 'https://api.elevenlabs.io/v1';
+const STT_ENDPOINT = `${API_BASE_URL}/audio-to-text`;
+
+interface APIConfig {
+  apiKey: string;
+  baseUrl?: string;
+}
+
+// ============================================================================
+// Request Types
+// ============================================================================
+
+interface TranscriptionRequest {
+  audioPath?: string;          // File path
+  audioBuffer?: Buffer;         // Or raw buffer
+  modelId?: string;             // Default: scribe_v1
+  languageCode?: string;        // ISO-639-1/3 code
+  diarize?: boolean;            // Enable speaker identification
+  numSpeakers?: number;         // Number of speakers (1-32)
+  tagAudioEvents?: boolean;     // Detect audio events
+  timestampsGranularity?: 'none' | 'word' | 'character';
+  fileFormat?: 'pcm_s16le_16' | 'other';
+}
+
+interface TranscriptionResponse {
+  text: string;
+  segments?: Segment[];
+  duration?: number;
+  language?: string;
+}
+
+interface Segment {
+  type: 'word' | 'spacing' | 'audio_event';
+  text: string;
+  start_time?: number;
+  end_time?: number;
+  speaker?: string;
+}
+
+// ============================================================================
+// API Client Class
+// ============================================================================
+
+export class ElevenLabsSTTClient {
+  private config: APIConfig;
+
+  constructor(config: APIConfig) {
+    this.config = {
+      baseUrl: API_BASE_URL,
+      ...config,
+    };
+  }
+
+  /**
+   * Transcribe audio file or buffer
+   */
+  async transcribe(request: TranscriptionRequest): Promise<TranscriptionResponse> {
+    // Get audio data
+    let audioData: Buffer;
+    if (request.audioPath) {
+      if (!existsSync(request.audioPath)) {
+        throw new Error(`Audio file not found: ${request.audioPath}`);
+      }
+      audioData = await readFile(request.audioPath);
+    } else if (request.audioBuffer) {
+      audioData = request.audioBuffer;
+    } else {
+      throw new Error('Either audioPath or audioBuffer must be provided');
+    }
+
+    // Build form data
+    const formData = new FormData();
+    const audioBlob = new Blob([audioData]);
+    formData.append('audio', audioBlob, 'audio.mp3');
+    formData.append('model_id', request.modelId || 'scribe_v1');
+
+    // Add optional parameters
+    if (request.languageCode) {
+      formData.append('language_code', request.languageCode);
+    }
+    if (request.diarize !== undefined) {
+      formData.append('diarize', String(request.diarize));
+    }
+    if (request.numSpeakers) {
+      formData.append('num_speakers', String(request.numSpeakers));
+    }
+    if (request.tagAudioEvents !== undefined) {
+      formData.append('tag_audio_events', String(request.tagAudioEvents));
+    }
+    if (request.timestampsGranularity) {
+      formData.append('timestamps_granularity', request.timestampsGranularity);
+    }
+    if (request.fileFormat) {
+      formData.append('file_format', request.fileFormat);
+    }
+
+    // Make API request
+    const response = await fetch(STT_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        'xi-api-key': this.config.apiKey,
+      },
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`API request failed (${response.status}): ${errorText}`);
+    }
+
+    return await response.json();
+  }
+
+  /**
+   * Check API connection and authentication
+   */
+  async checkConnection(): Promise<boolean> {
+    try {
+      const response = await fetch(`${this.config.baseUrl}/models`, {
+        headers: {
+          'xi-api-key': this.config.apiKey,
+        },
+      });
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }
+}
+
+// ============================================================================
+// Convenience Functions
+// ============================================================================
+
+/**
+ * Quick transcription function
+ */
+export async function transcribeAudio(
+  audioPath: string,
+  options: Partial<TranscriptionRequest> = {}
+): Promise<TranscriptionResponse> {
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+  if (!apiKey) {
+    throw new Error('ELEVENLABS_API_KEY environment variable not set');
+  }
+
+  const client = new ElevenLabsSTTClient({ apiKey });
+  return await client.transcribe({
+    audioPath,
+    ...options,
+  });
+}
+
+/**
+ * Batch transcription
+ */
+export async function transcribeBatch(
+  audioPaths: string[],
+  options: Partial<TranscriptionRequest> = {}
+): Promise<TranscriptionResponse[]> {
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+  if (!apiKey) {
+    throw new Error('ELEVENLABS_API_KEY environment variable not set');
+  }
+
+  const client = new ElevenLabsSTTClient({ apiKey });
+  const results: TranscriptionResponse[] = [];
+
+  for (const audioPath of audioPaths) {
+    try {
+      const result = await client.transcribe({ audioPath, ...options });
+      results.push(result);
+    } catch (error) {
+      console.error(`Failed to transcribe ${audioPath}:`, error);
+      results.push({
+        text: '',
+        segments: [],
+      });
+    }
+  }
+
+  return results;
+}
+
+// ============================================================================
+// Format Helpers
+// ============================================================================
+
+export function formatWithSpeakers(response: TranscriptionResponse): string {
+  if (!response.segments || response.segments.length === 0) {
+    return response.text;
+  }
+
+  const speakerMap = new Map<string, string[]>();
+
+  for (const segment of response.segments) {
+    if (segment.speaker && segment.type === 'word') {
+      if (!speakerMap.has(segment.speaker)) {
+        speakerMap.set(segment.speaker, []);
+      }
+      speakerMap.get(segment.speaker)!.push(segment.text);
+    }
+  }
+
+  const lines: string[] = [];
+  let currentSpeaker: string | null = null;
+  let currentText: string[] = [];
+
+  for (const segment of response.segments) {
+    if (segment.speaker && segment.type === 'word') {
+      if (currentSpeaker !== segment.speaker) {
+        if (currentSpeaker && currentText.length > 0) {
+          lines.push(`[${currentSpeaker}]: ${currentText.join(' ')}`);
+          currentText = [];
+        }
+        currentSpeaker = segment.speaker;
+      }
+      currentText.push(segment.text);
+    }
+  }
+
+  // Add final speaker segment
+  if (currentSpeaker && currentText.length > 0) {
+    lines.push(`[${currentSpeaker}]: ${currentText.join(' ')}`);
+  }
+
+  return lines.join('\n\n');
+}
+
+export function formatWithTimestamps(response: TranscriptionResponse): string {
+  if (!response.segments || response.segments.length === 0) {
+    return response.text;
+  }
+
+  return response.segments
+    .filter(s => s.type === 'word' && s.text)
+    .map(segment => {
+      const time = formatTime(segment.start_time || 0);
+      const speaker = segment.speaker ? `[${segment.speaker}] ` : '';
+      return `[${time}] ${speaker}${segment.text}`;
+    })
+    .join('\n');
+}
+
+export function extractAudioEvents(response: TranscriptionResponse): string[] {
+  if (!response.segments) {
+    return [];
+  }
+
+  return response.segments
+    .filter(s => s.type === 'audio_event')
+    .map(s => s.text);
+}
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ============================================================================
+// Usage Examples
+// ============================================================================
+
+async function example1_basicTranscription() {
+  const result = await transcribeAudio('./audio/sample.mp3', {
+    languageCode: 'en',
+  });
+
+  console.log('Text:', result.text);
+}
+
+async function example2_withDiarization() {
+  const result = await transcribeAudio('./audio/interview.mp3', {
+    languageCode: 'en',
+    diarize: true,
+    numSpeakers: 2,
+  });
+
+  console.log('Formatted:');
+  console.log(formatWithSpeakers(result));
+}
+
+async function example3_withAudioEvents() {
+  const result = await transcribeAudio('./audio/podcast.mp3', {
+    languageCode: 'en',
+    tagAudioEvents: true,
+  });
+
+  const events = extractAudioEvents(result);
+  console.log('Audio events detected:', events);
+}
+
+async function example4_batchProcessing() {
+  const files = [
+    './audio/file1.mp3',
+    './audio/file2.mp3',
+    './audio/file3.mp3',
+  ];
+
+  const results = await transcribeBatch(files, {
+    languageCode: 'en',
+    diarize: true,
+  });
+
+  results.forEach((result, i) => {
+    console.log(`\n=== File ${i + 1} ===`);
+    console.log(result.text);
+  });
+}
+
+async function example5_usingClient() {
+  const apiKey = process.env.ELEVENLABS_API_KEY!;
+  const client = new ElevenLabsSTTClient({ apiKey });
+
+  // Check connection
+  const isConnected = await client.checkConnection();
+  console.log('API connected:', isConnected);
+
+  // Transcribe
+  const result = await client.transcribe({
+    audioPath: './audio/sample.mp3',
+    languageCode: 'en',
+    diarize: true,
+    tagAudioEvents: true,
+    timestampsGranularity: 'word',
+  });
+
+  console.log('Transcription:', result.text);
+}
+
+// ============================================================================
+// CLI Interface
+// ============================================================================
+
+async function main() {
+  const args = process.argv.slice(2);
+
+  if (args.length === 0) {
+    console.log('Usage: node api-transcribe.js <audio_file> [language_code]');
+    process.exit(1);
+  }
+
+  const audioPath = args[0];
+  const languageCode = args[1];
+
+  try {
+    const result = await transcribeAudio(audioPath, {
+      languageCode,
+      diarize: true,
+      tagAudioEvents: true,
+    });
+
+    console.log('\n=== Transcription ===');
+    console.log(formatWithSpeakers(result));
+
+    console.log('\n=== With Timestamps ===');
+    console.log(formatWithTimestamps(result));
+
+    const events = extractAudioEvents(result);
+    if (events.length > 0) {
+      console.log('\n=== Audio Events ===');
+      events.forEach(event => console.log(`  - ${event}`));
+    }
+  } catch (error) {
+    console.error('Error:', error instanceof Error ? error.message : 'Unknown error');
+    process.exit(1);
+  }
+}
+
+if (require.main === module) {
+  main();
+}

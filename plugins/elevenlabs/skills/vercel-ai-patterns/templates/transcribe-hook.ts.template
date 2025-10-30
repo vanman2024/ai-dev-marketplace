@@ -1,0 +1,220 @@
+import { useState, useCallback } from 'react';
+
+/**
+ * React hook for client-side transcription using ElevenLabs
+ *
+ * Usage:
+ *   const { transcribe, isLoading, error, result } = useTranscribe();
+ *
+ *   const handleFileUpload = async (file: File) => {
+ *     await transcribe(file, { language: 'en', speakers: 2 });
+ *   };
+ */
+
+export interface TranscribeOptions {
+  language?: string;
+  speakers?: number;
+  timestamps?: boolean;
+  diarize?: boolean;
+}
+
+export interface TranscribeResult {
+  success: boolean;
+  text: string;
+  language?: string;
+  durationInSeconds?: number;
+  segments?: Array<{
+    text: string;
+    speaker?: number;
+    timestamp?: number;
+  }>;
+  metadata?: {
+    fileName: string;
+    fileSize: number;
+    fileType: string;
+    processingTimeMs: number;
+  };
+}
+
+export interface UseTranscribeReturn {
+  transcribe: (file: File, options?: TranscribeOptions) => Promise<TranscribeResult | null>;
+  isLoading: boolean;
+  error: string | null;
+  result: TranscribeResult | null;
+  reset: () => void;
+}
+
+export function useTranscribe(apiEndpoint = '/api/transcribe'): UseTranscribeReturn {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<TranscribeResult | null>(null);
+
+  const transcribe = useCallback(
+    async (file: File, options: TranscribeOptions = {}): Promise<TranscribeResult | null> => {
+      setIsLoading(true);
+      setError(null);
+      setResult(null);
+
+      try {
+        // Validate file
+        if (!file) {
+          throw new Error('No file provided');
+        }
+
+        // Validate file type
+        const validTypes = [
+          'audio/mpeg',
+          'audio/wav',
+          'audio/flac',
+          'audio/m4a',
+          'audio/ogg',
+          'audio/x-m4a',
+          'audio/mp4',
+        ];
+
+        if (!validTypes.includes(file.type)) {
+          throw new Error(
+            `Invalid file type: ${file.type}. Supported types: ${validTypes.join(', ')}`
+          );
+        }
+
+        // Validate file size (max 100MB)
+        const maxSize = 100 * 1024 * 1024;
+        if (file.size > maxSize) {
+          throw new Error(
+            `File too large: ${(file.size / 1024 / 1024).toFixed(2)}MB (max 100MB)`
+          );
+        }
+
+        // Build form data
+        const formData = new FormData();
+        formData.append('audio', file);
+
+        if (options.language) {
+          formData.append('language', options.language);
+        }
+
+        if (options.speakers !== undefined) {
+          formData.append('speakers', options.speakers.toString());
+        }
+
+        if (options.timestamps) {
+          formData.append('timestamps', 'true');
+        }
+
+        if (options.diarize) {
+          formData.append('diarize', 'true');
+        }
+
+        // Send request
+        const response = await fetch(apiEndpoint, {
+          method: 'POST',
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({
+            error: `HTTP ${response.status}: ${response.statusText}`,
+          }));
+
+          throw new Error(errorData.error || `HTTP ${response.status}`);
+        }
+
+        // Parse result
+        const transcribeResult: TranscribeResult = await response.json();
+
+        if (!transcribeResult.success) {
+          throw new Error(transcribeResult.error || 'Transcription failed');
+        }
+
+        setResult(transcribeResult);
+        return transcribeResult;
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+        setError(errorMessage);
+        console.error('Transcription error:', err);
+        return null;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [apiEndpoint]
+  );
+
+  const reset = useCallback(() => {
+    setIsLoading(false);
+    setError(null);
+    setResult(null);
+  }, []);
+
+  return {
+    transcribe,
+    isLoading,
+    error,
+    result,
+    reset,
+  };
+}
+
+// Optional: Hook for recording and transcribing from microphone
+export interface UseRecordAndTranscribeReturn extends UseTranscribeReturn {
+  isRecording: boolean;
+  startRecording: () => Promise<void>;
+  stopRecording: () => Promise<void>;
+  audioBlob: Blob | null;
+}
+
+export function useRecordAndTranscribe(
+  apiEndpoint = '/api/transcribe'
+): UseRecordAndTranscribeReturn {
+  const transcribeHook = useTranscribe(apiEndpoint);
+  const [isRecording, setIsRecording] = useState(false);
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
+  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+
+  const startRecording = useCallback(async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const recorder = new MediaRecorder(stream);
+      const chunks: Blob[] = [];
+
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunks.push(e.data);
+        }
+      };
+
+      recorder.onstop = async () => {
+        const blob = new Blob(chunks, { type: 'audio/webm' });
+        setAudioBlob(blob);
+
+        // Auto-transcribe after recording stops
+        const file = new File([blob], 'recording.webm', { type: 'audio/webm' });
+        await transcribeHook.transcribe(file);
+      };
+
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+    } catch (err) {
+      console.error('Failed to start recording:', err);
+      throw new Error('Microphone access denied or unavailable');
+    }
+  }, [transcribeHook]);
+
+  const stopRecording = useCallback(async () => {
+    if (mediaRecorder && isRecording) {
+      mediaRecorder.stop();
+      mediaRecorder.stream.getTracks().forEach((track) => track.stop());
+      setIsRecording(false);
+    }
+  }, [mediaRecorder, isRecording]);
+
+  return {
+    ...transcribeHook,
+    isRecording,
+    startRecording,
+    stopRecording,
+    audioBlob,
+  };
+}

@@ -1,0 +1,71 @@
+{
+  "voice_id": "${VOICE_ID}",
+  "display_name": "${DISPLAY_NAME}",
+  "description": "${DESCRIPTION}",
+  "category": "${CATEGORY}",
+  "tags": ${TAGS},
+  "sharing": {
+    "status": "enabled",
+    "public_owner_id": true,
+    "enable_for_tier": "all",
+    "enable_rewards": ${ENABLE_REWARDS}
+  },
+  "library_metadata": {
+    "accent": "${ACCENT}",
+    "age": "${AGE}",
+    "gender": "${GENDER}",
+    "use_case": "${USE_CASE}",
+    "language": "${LANGUAGE}",
+    "tone": "${TONE}"
+  },
+  "sample_text": "${SAMPLE_TEXT}",
+  "preview_settings": {
+    "stability": 0.75,
+    "similarity_boost": 0.75,
+    "style": 0.0
+  },
+  "categories": [
+    "narration",
+    "conversational",
+    "character",
+    "professional",
+    "casual",
+    "dramatic",
+    "educational",
+    "entertainment"
+  ],
+  "supported_languages": [
+    "en",
+    "es",
+    "fr",
+    "de",
+    "it",
+    "pt",
+    "pl",
+    "uk",
+    "ru",
+    "ja",
+    "ko",
+    "zh"
+  ],
+  "accents": [
+    "American",
+    "British",
+    "Australian",
+    "Canadian",
+    "Irish",
+    "Scottish",
+    "Indian",
+    "South African"
+  ],
+  "tones": [
+    "neutral",
+    "friendly",
+    "professional",
+    "energetic",
+    "calm",
+    "authoritative",
+    "warm",
+    "serious"
+  ]
+}

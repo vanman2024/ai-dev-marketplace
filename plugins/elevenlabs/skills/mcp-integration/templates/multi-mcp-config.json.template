@@ -1,0 +1,175 @@
+{
+  "mcpServers": {
+    "zapier-mcp": {
+      "name": "zapier-mcp",
+      "description": "Access to hundreds of tools via Zapier",
+      "url": "{{ZAPIER_MCP_URL}}",
+      "transport": "sse",
+      "approvalMode": "fine_grained",
+      "priority": 1,
+      "enabled": true
+    },
+    "custom-crm-mcp": {
+      "name": "custom-crm-mcp",
+      "description": "Direct CRM integration with custom tools",
+      "url": "{{CRM_MCP_URL}}",
+      "transport": "http",
+      "approvalMode": "always_ask",
+      "priority": 2,
+      "enabled": true
+    },
+    "knowledge-base-mcp": {
+      "name": "knowledge-base-mcp",
+      "description": "Internal knowledge base and documentation",
+      "url": "{{KB_MCP_URL}}",
+      "transport": "sse",
+      "approvalMode": "fine_grained",
+      "priority": 3,
+      "enabled": true
+    }
+  },
+  "coordinationRules": {
+    "conflictResolution": "priority",
+    "allowParallelExecution": true,
+    "maxConcurrentTools": 3,
+    "toolRouting": {
+      "email": ["zapier-mcp"],
+      "calendar": ["zapier-mcp"],
+      "customer_data": ["custom-crm-mcp"],
+      "order_management": ["custom-crm-mcp"],
+      "knowledge": ["knowledge-base-mcp"],
+      "search": ["knowledge-base-mcp", "zapier-mcp"]
+    }
+  },
+  "globalSettings": {
+    "defaultApprovalMode": "always_ask",
+    "approvalTimeout": 30,
+    "fallbackBehavior": "deny",
+    "cacheEnabled": true,
+    "cacheTTL": 300,
+    "rateLimiting": {
+      "globalRequestsPerMinute": 100,
+      "perServerRequestsPerMinute": 60
+    },
+    "logging": {
+      "enabled": true,
+      "logLevel": "info",
+      "logFile": ".elevenlabs/multi-mcp.log"
+    }
+  },
+  "toolApprovalRules": {
+    "crossServerRules": {
+      "autoApproved": {
+        "patterns": [
+          "*_read",
+          "*_get",
+          "*_search",
+          "*_lookup"
+        ],
+        "description": "Read-only operations across all servers"
+      },
+      "requiresApproval": {
+        "patterns": [
+          "*_send",
+          "*_create",
+          "*_update",
+          "*_process"
+        ],
+        "description": "Modification operations across all servers"
+      },
+      "disabled": {
+        "patterns": [
+          "*_delete",
+          "*_remove",
+          "admin_*",
+          "system_*"
+        ],
+        "description": "High-risk operations disabled globally"
+      }
+    },
+    "serverSpecific": {
+      "zapier-mcp": {
+        "autoApproved": ["weather_get", "calendar_read", "search_web"],
+        "requiresApproval": ["email_send", "calendar_create", "message_send"],
+        "disabled": ["file_delete", "user_delete"]
+      },
+      "custom-crm-mcp": {
+        "autoApproved": ["customer_lookup", "order_status", "product_info"],
+        "requiresApproval": ["customer_update", "order_create", "ticket_create"],
+        "disabled": ["customer_delete", "order_delete"]
+      },
+      "knowledge-base-mcp": {
+        "autoApproved": ["search", "retrieve", "query"],
+        "requiresApproval": [],
+        "disabled": ["update", "delete", "admin"]
+      }
+    }
+  },
+  "failover": {
+    "enabled": true,
+    "strategy": "priority",
+    "redundantServers": {
+      "search": ["knowledge-base-mcp", "zapier-mcp"],
+      "calendar": ["zapier-mcp"]
+    },
+    "healthCheckInterval": 60,
+    "unhealthyServerBehavior": "fallback"
+  },
+  "monitoring": {
+    "enabled": true,
+    "metrics": {
+      "toolUsageByServer": true,
+      "approvalRateByServer": true,
+      "latencyByServer": true,
+      "errorRateByServer": true
+    },
+    "alerts": {
+      "highErrorRate": {
+        "enabled": true,
+        "threshold": 0.1,
+        "windowSeconds": 300
+      },
+      "highLatency": {
+        "enabled": true,
+        "thresholdMs": 5000,
+        "windowSeconds": 300
+      },
+      "serverDown": {
+        "enabled": true,
+        "notificationChannels": ["email", "webhook"]
+      }
+    }
+  },
+  "useCases": {
+    "customer_service": {
+      "description": "Handle customer inquiries with access to CRM and knowledge base",
+      "servers": ["custom-crm-mcp", "knowledge-base-mcp"],
+      "workflow": [
+        "1. Search knowledge base for answer",
+        "2. Look up customer information in CRM",
+        "3. Check order status if needed",
+        "4. Create support ticket if requires approval"
+      ]
+    },
+    "personal_assistant": {
+      "description": "Manage calendar, email, and tasks via Zapier",
+      "servers": ["zapier-mcp"],
+      "workflow": [
+        "1. Check calendar for availability",
+        "2. Send email (requires approval)",
+        "3. Create calendar event (requires approval)",
+        "4. Search for information"
+      ]
+    },
+    "sales_support": {
+      "description": "Support sales team with CRM access and communication tools",
+      "servers": ["custom-crm-mcp", "zapier-mcp"],
+      "workflow": [
+        "1. Look up customer in CRM",
+        "2. Check order history",
+        "3. Send follow-up email via Zapier (requires approval)",
+        "4. Update CRM records (requires approval)"
+      ]
+    }
+  }
+}

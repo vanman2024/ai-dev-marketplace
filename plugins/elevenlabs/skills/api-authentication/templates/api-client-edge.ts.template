@@ -1,0 +1,195 @@
+/**
+ * ElevenLabs API Client for Edge Runtime
+ *
+ * Compatible with Vercel Edge Functions, Cloudflare Workers, and Deno.
+ * Uses only Edge-compatible APIs (no Node.js APIs).
+ */
+
+import { ElevenLabsClient } from 'elevenlabs';
+
+// Edge runtime detection
+const isEdgeRuntime =
+  typeof EdgeRuntime !== 'undefined' ||
+  typeof Deno !== 'undefined' ||
+  // @ts-ignore - Cloudflare Workers
+  typeof caches !== 'undefined';
+
+// Error types
+export class ElevenLabsError extends Error {
+  constructor(
+    message: string,
+    public statusCode?: number,
+    public details?: unknown
+  ) {
+    super(message);
+    this.name = 'ElevenLabsError';
+  }
+}
+
+/**
+ * Create ElevenLabs client for edge runtime
+ *
+ * IMPORTANT: Environment variables must be configured in your edge platform:
+ * - Vercel: Add to Environment Variables in dashboard
+ * - Cloudflare: Add to wrangler.toml or dashboard
+ * - Deno Deploy: Add to environment variables
+ */
+export function createElevenLabsClient(apiKey?: string): ElevenLabsClient {
+  const key = apiKey || process.env.ELEVENLABS_API_KEY;
+
+  if (!key) {
+    throw new ElevenLabsError(
+      'ELEVENLABS_API_KEY is required. Configure it in your edge runtime environment variables.'
+    );
+  }
+
+  if (!key.startsWith('sk_')) {
+    console.warn('[ElevenLabs] Warning: API key does not start with "sk_"');
+  }
+
+  return new ElevenLabsClient({
+    apiKey: key,
+  });
+}
+
+/**
+ * Generate speech from text (edge-compatible)
+ *
+ * Returns Uint8Array instead of Buffer for edge compatibility
+ */
+export async function generateSpeech(
+  text: string,
+  voiceId: string,
+  options?: {
+    modelId?: string;
+    apiKey?: string;
+  }
+): Promise<Uint8Array> {
+  const client = createElevenLabsClient(options?.apiKey);
+  const modelId = options?.modelId || 'eleven_monolingual_v1';
+
+  try {
+    const audio = await client.generate({
+      voice: voiceId,
+      text,
+      model_id: modelId,
+    });
+
+    // Collect chunks into Uint8Array (edge-compatible)
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of audio) {
+      chunks.push(chunk);
+    }
+
+    // Concatenate chunks
+    const totalLength = chunks.reduce((acc, chunk) => acc + chunk.length, 0);
+    const result = new Uint8Array(totalLength);
+    let offset = 0;
+    for (const chunk of chunks) {
+      result.set(chunk, offset);
+      offset += chunk.length;
+    }
+
+    return result;
+  } catch (error) {
+    console.error('[ElevenLabs] Speech generation failed:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Speech generation failed',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Stream speech directly to Response (edge-optimized)
+ */
+export async function streamSpeech(
+  text: string,
+  voiceId: string,
+  options?: {
+    modelId?: string;
+    apiKey?: string;
+  }
+): Promise<Response> {
+  const client = createElevenLabsClient(options?.apiKey);
+  const modelId = options?.modelId || 'eleven_monolingual_v1';
+
+  try {
+    const audio = await client.generate({
+      voice: voiceId,
+      text,
+      model_id: modelId,
+    });
+
+    // Create ReadableStream from async iterator
+    const stream = new ReadableStream({
+      async start(controller) {
+        try {
+          for await (const chunk of audio) {
+            controller.enqueue(chunk);
+          }
+          controller.close();
+        } catch (error) {
+          controller.error(error);
+        }
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'audio/mpeg',
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    });
+  } catch (error) {
+    console.error('[ElevenLabs] Speech streaming failed:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Speech streaming failed',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Get available voices (edge-compatible)
+ */
+export async function getVoices(apiKey?: string) {
+  const client = createElevenLabsClient(apiKey);
+
+  try {
+    return await client.voices.getAll();
+  } catch (error) {
+    console.error('[ElevenLabs] Failed to fetch voices:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Failed to fetch voices',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Example usage in Edge Function:
+ *
+ * // Vercel Edge Function
+ * export const config = { runtime: 'edge' };
+ *
+ * export default async function handler(req: Request) {
+ *   const { text, voiceId } = await req.json();
+ *
+ *   // Stream audio directly
+ *   return await streamSpeech(text, voiceId);
+ * }
+ *
+ * // Cloudflare Worker
+ * export default {
+ *   async fetch(request: Request) {
+ *     const { text, voiceId } = await request.json();
+ *     return await streamSpeech(text, voiceId, {
+ *       apiKey: env.ELEVENLABS_API_KEY
+ *     });
+ *   }
+ * }
+ */

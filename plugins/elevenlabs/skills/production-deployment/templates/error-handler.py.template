@@ -1,0 +1,454 @@
+"""
+Production Error Handler for ElevenLabs API
+
+Comprehensive async error handling with context-aware retry logic,
+circuit breaker integration, error aggregation, and monitoring.
+
+Usage:
+    error_handler = ErrorHandler(
+        logger=structlog.get_logger(),
+        metrics=prometheus_metrics
+    )
+
+    result = await error_handler.execute_with_retry(
+        make_api_call,
+        max_retries=3,
+        category=ErrorCategory.RATE_LIMIT
+    )
+"""
+
+import asyncio
+import time
+import random
+from typing import Optional, Callable, Any, Dict
+from enum import Enum
+from dataclasses import dataclass
+import logging
+
+
+class ErrorCategory(Enum):
+    """Error categories for different handling strategies"""
+    RATE_LIMIT = "rate_limit"        # 429 errors
+    SERVER_ERROR = "server_error"    # 5xx errors
+    CLIENT_ERROR = "client_error"    # 4xx errors (not 429)
+    NETWORK_ERROR = "network_error"  # Connection issues
+    TIMEOUT = "timeout"              # Request timeouts
+    UNKNOWN = "unknown"              # Uncategorized errors
+
+
+class RetryStrategy(Enum):
+    """Retry backoff strategies"""
+    EXPONENTIAL = "exponential"
+    LINEAR = "linear"
+    FIXED = "fixed"
+
+
+@dataclass
+class RetryConfig:
+    """Configuration for retry behavior"""
+    max_retries: int
+    strategy: RetryStrategy
+    initial_delay: float
+    max_delay: float
+    jitter: bool
+    should_retry: bool
+
+
+class ErrorHandler:
+    """
+    Production-grade error handler with retry logic
+
+    Args:
+        logger: Structured logger instance
+        metrics: Prometheus metrics collector
+        circuit_breaker: Circuit breaker instance
+    """
+
+    def __init__(
+        self,
+        logger: Optional[logging.Logger] = None,
+        metrics: Optional[Any] = None,
+        circuit_breaker: Optional[Any] = None
+    ):
+        self.logger = logger or logging.getLogger(__name__)
+        self.metrics = metrics
+        self.circuit_breaker = circuit_breaker
+
+        # Default retry configurations by category
+        self.retry_configs = {
+            ErrorCategory.RATE_LIMIT: RetryConfig(
+                max_retries=5,
+                strategy=RetryStrategy.EXPONENTIAL,
+                initial_delay=1.0,
+                max_delay=30.0,
+                jitter=True,
+                should_retry=True
+            ),
+            ErrorCategory.SERVER_ERROR: RetryConfig(
+                max_retries=3,
+                strategy=RetryStrategy.EXPONENTIAL,
+                initial_delay=2.0,
+                max_delay=10.0,
+                jitter=True,
+                should_retry=True
+            ),
+            ErrorCategory.NETWORK_ERROR: RetryConfig(
+                max_retries=3,
+                strategy=RetryStrategy.LINEAR,
+                initial_delay=1.0,
+                max_delay=5.0,
+                jitter=False,
+                should_retry=True
+            ),
+            ErrorCategory.CLIENT_ERROR: RetryConfig(
+                max_retries=0,
+                strategy=RetryStrategy.FIXED,
+                initial_delay=0,
+                max_delay=0,
+                jitter=False,
+                should_retry=False
+            ),
+            ErrorCategory.TIMEOUT: RetryConfig(
+                max_retries=2,
+                strategy=RetryStrategy.FIXED,
+                initial_delay=2.0,
+                max_delay=2.0,
+                jitter=False,
+                should_retry=True
+            )
+        }
+
+    def categorize_error(self, error: Exception) -> ErrorCategory:
+        """
+        Categorize error for appropriate handling
+
+        Args:
+            error: The exception to categorize
+
+        Returns:
+            ErrorCategory enum value
+        """
+        # Check for HTTP response status
+        if hasattr(error, 'response') and error.response is not None:
+            status = getattr(error.response, 'status_code', None) or \
+                     getattr(error.response, 'status', None)
+
+            if status == 429:
+                return ErrorCategory.RATE_LIMIT
+            elif status and status >= 500:
+                return ErrorCategory.SERVER_ERROR
+            elif status and status >= 400:
+                return ErrorCategory.CLIENT_ERROR
+
+        # Check error type
+        error_type = type(error).__name__
+        error_msg = str(error).lower()
+
+        if 'timeout' in error_msg or error_type == 'TimeoutError':
+            return ErrorCategory.TIMEOUT
+
+        if any(x in error_msg for x in ['connection', 'network', 'refused']):
+            return ErrorCategory.NETWORK_ERROR
+
+        return ErrorCategory.UNKNOWN
+
+    def calculate_delay(self, attempt: int, config: RetryConfig) -> float:
+        """
+        Calculate retry delay based on strategy
+
+        Args:
+            attempt: Current attempt number (0-indexed)
+            config: Retry configuration
+
+        Returns:
+            Delay in seconds
+        """
+        if config.strategy == RetryStrategy.EXPONENTIAL:
+            delay = min(
+                config.initial_delay * (2 ** attempt),
+                config.max_delay
+            )
+        elif config.strategy == RetryStrategy.LINEAR:
+            delay = min(
+                config.initial_delay * (attempt + 1),
+                config.max_delay
+            )
+        else:  # FIXED
+            delay = config.initial_delay
+
+        # Add jitter to prevent thundering herd
+        if config.jitter:
+            delay = delay * (0.5 + random.random() * 0.5)
+
+        return delay
+
+    async def execute_with_retry(
+        self,
+        fn: Callable,
+        *args,
+        max_retries: Optional[int] = None,
+        category: Optional[ErrorCategory] = None,
+        context: Optional[Dict[str, Any]] = None,
+        **kwargs
+    ) -> Any:
+        """
+        Execute function with retry logic
+
+        Args:
+            fn: Async function to execute
+            *args: Positional arguments for fn
+            max_retries: Override default max retries
+            category: Force specific error category
+            context: Additional context for logging
+            **kwargs: Keyword arguments for fn
+
+        Returns:
+            Result of function execution
+
+        Raises:
+            Last exception if all retries exhausted
+        """
+        start_time = time.time()
+        context = context or {}
+        attempt = 0
+        last_error = None
+
+        while True:
+            try:
+                # Execute with circuit breaker if available
+                if self.circuit_breaker:
+                    async with self.circuit_breaker.execute():
+                        result = await fn(*args, **kwargs)
+                else:
+                    result = await fn(*args, **kwargs)
+
+                # Log success
+                self.logger.info(
+                    "request_succeeded",
+                    attempt=attempt + 1,
+                    duration=time.time() - start_time,
+                    **context
+                )
+
+                # Update metrics
+                if self.metrics:
+                    self.metrics.requests_total.labels(
+                        method=context.get('method', 'unknown'),
+                        status='success',
+                        model=context.get('model', 'unknown')
+                    ).inc()
+
+                return result
+
+            except Exception as error:
+                last_error = error
+                error_category = category or self.categorize_error(error)
+                config = self.retry_configs.get(
+                    error_category,
+                    self.retry_configs[ErrorCategory.UNKNOWN]
+                )
+
+                retry_limit = max_retries if max_retries is not None else config.max_retries
+
+                # Extract status code if available
+                status_code = None
+                if hasattr(error, 'response') and error.response:
+                    status_code = getattr(error.response, 'status_code', None) or \
+                                getattr(error.response, 'status', None)
+
+                # Log error
+                self.logger.error(
+                    "request_failed",
+                    error=str(error),
+                    error_type=type(error).__name__,
+                    category=error_category.value,
+                    attempt=attempt + 1,
+                    max_retries=retry_limit,
+                    status_code=status_code,
+                    **context
+                )
+
+                # Update error metrics
+                if self.metrics:
+                    self.metrics.errors_total.labels(
+                        type=error_category.value,
+                        code=str(status_code) if status_code else 'unknown'
+                    ).inc()
+
+                # Check if should retry
+                if attempt >= retry_limit or not config.should_retry:
+                    self.logger.error(
+                        "max_retries_reached",
+                        category=error_category.value,
+                        attempts=attempt + 1,
+                        **context
+                    )
+                    raise error
+
+                # Calculate delay
+                delay = self.calculate_delay(attempt, config)
+
+                self.logger.warning(
+                    "retrying_request",
+                    category=error_category.value,
+                    attempt=attempt + 1,
+                    delay=delay,
+                    **context
+                )
+
+                # Update retry metrics
+                if self.metrics:
+                    self.metrics.retries_total.labels(
+                        reason=error_category.value
+                    ).inc()
+
+                # Wait before retry
+                await asyncio.sleep(delay)
+                attempt += 1
+
+    async def execute_with_fallback(
+        self,
+        fn: Callable,
+        fallback_fn: Callable,
+        *args,
+        context: Optional[Dict[str, Any]] = None,
+        **kwargs
+    ) -> Any:
+        """
+        Execute with fallback function
+
+        Args:
+            fn: Primary async function
+            fallback_fn: Fallback async function
+            *args: Positional arguments
+            context: Additional context
+            **kwargs: Keyword arguments
+
+        Returns:
+            Result from primary or fallback function
+        """
+        context = context or {}
+
+        try:
+            return await self.execute_with_retry(fn, *args, context=context, **kwargs)
+        except Exception as error:
+            self.logger.warning(
+                "falling_back",
+                error=str(error),
+                **context
+            )
+
+            try:
+                return await fallback_fn(*args, **kwargs)
+            except Exception as fallback_error:
+                self.logger.error(
+                    "fallback_failed",
+                    original_error=str(error),
+                    fallback_error=str(fallback_error),
+                    **context
+                )
+                raise fallback_error
+
+    def format_error(self, error: Exception) -> Dict[str, Any]:
+        """
+        Format error for API response
+
+        Args:
+            error: Exception to format
+
+        Returns:
+            Formatted error dictionary
+        """
+        category = self.categorize_error(error)
+        status_code = 500
+
+        if hasattr(error, 'response') and error.response:
+            status_code = getattr(error.response, 'status_code', 500) or \
+                         getattr(error.response, 'status', 500)
+
+        return {
+            'error': True,
+            'message': self.get_user_friendly_message(category, error),
+            'category': category.value,
+            'status_code': status_code,
+            'retryable': self.retry_configs[category].should_retry,
+            'timestamp': time.time()
+        }
+
+    def get_user_friendly_message(
+        self,
+        category: ErrorCategory,
+        error: Exception
+    ) -> str:
+        """
+        Get user-friendly error message
+
+        Args:
+            category: Error category
+            error: Original exception
+
+        Returns:
+            User-friendly error message
+        """
+        messages = {
+            ErrorCategory.RATE_LIMIT: "Request rate limit exceeded. Please try again in a moment.",
+            ErrorCategory.SERVER_ERROR: "Service temporarily unavailable. Please try again later.",
+            ErrorCategory.CLIENT_ERROR: "Invalid request. Please check your input.",
+            ErrorCategory.NETWORK_ERROR: "Network connection error. Please check your internet connection.",
+            ErrorCategory.TIMEOUT: "Request timed out. Please try again.",
+            ErrorCategory.UNKNOWN: "An unexpected error occurred. Please try again."
+        }
+
+        # Try to get message from response
+        if hasattr(error, 'response') and error.response:
+            if hasattr(error.response, 'json'):
+                try:
+                    data = error.response.json()
+                    if 'message' in data:
+                        return data['message']
+                except:
+                    pass
+
+        return messages.get(category, messages[ErrorCategory.UNKNOWN])
+
+    def get_circuit_breaker_state(self) -> Optional[Dict[str, Any]]:
+        """
+        Get circuit breaker state
+
+        Returns:
+            Circuit breaker state or None if not configured
+        """
+        if self.circuit_breaker:
+            return self.circuit_breaker.get_state()
+        return None
+
+
+# Example usage
+async def example_usage():
+    """Example of using the error handler"""
+    import structlog
+
+    logger = structlog.get_logger()
+    error_handler = ErrorHandler(logger=logger)
+
+    async def make_api_call():
+        """Simulated API call that might fail"""
+        import random
+        if random.random() < 0.3:
+            raise Exception("Simulated network error")
+        return {"data": "success"}
+
+    try:
+        result = await error_handler.execute_with_retry(
+            make_api_call,
+            max_retries=3,
+            context={'method': 'text-to-speech', 'model': 'eleven_turbo_v2'}
+        )
+        print(f"Success: {result}")
+    except Exception as e:
+        error_response = error_handler.format_error(e)
+        print(f"Failed: {error_response}")
+
+
+if __name__ == "__main__":
+    asyncio.run(example_usage())

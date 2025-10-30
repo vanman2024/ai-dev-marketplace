@@ -1,0 +1,303 @@
+'use client';
+
+import { useState, useRef } from 'react';
+import { useTranscribe, type TranscribeResult } from '@/hooks/useTranscribe';
+
+/**
+ * Multi-Modal Chat Component with Voice + Text Input
+ *
+ * Features:
+ * - Voice input via file upload or microphone
+ * - Text input via traditional chat interface
+ * - ElevenLabs transcription integration
+ * - LLM response generation
+ * - Conversation history
+ *
+ * Usage:
+ *   <MultiModalChat />
+ */
+
+interface Message {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+  type: 'text' | 'voice';
+  transcription?: TranscribeResult;
+}
+
+export default function MultiModalChat() {
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const { transcribe, isLoading: isTranscribing, error: transcribeError } = useTranscribe();
+
+  const addMessage = (message: Omit<Message, 'id' | 'timestamp'>) => {
+    const newMessage: Message = {
+      ...message,
+      id: crypto.randomUUID(),
+      timestamp: new Date(),
+    };
+    setMessages((prev) => [...prev, newMessage]);
+    return newMessage;
+  };
+
+  const generateResponse = async (userMessage: string) => {
+    setIsGenerating(true);
+
+    try {
+      // Call your LLM API endpoint (OpenAI, Anthropic, etc.)
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [
+            ...messages.map((m) => ({
+              role: m.role,
+              content: m.content,
+            })),
+            { role: 'user', content: userMessage },
+          ],
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate response');
+      }
+
+      const data = await response.json();
+      const assistantMessage = data.message || data.text || 'No response';
+
+      addMessage({
+        role: 'assistant',
+        content: assistantMessage,
+        type: 'text',
+      });
+    } catch (error) {
+      console.error('Response generation error:', error);
+      addMessage({
+        role: 'assistant',
+        content: 'Sorry, I encountered an error generating a response.',
+        type: 'text',
+      });
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleTextSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!input.trim() || isGenerating) return;
+
+    const userMessage = input.trim();
+    setInput('');
+
+    addMessage({
+      role: 'user',
+      content: userMessage,
+      type: 'text',
+    });
+
+    await generateResponse(userMessage);
+  };
+
+  const handleVoiceUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      // Transcribe audio
+      const result = await transcribe(file, {
+        language: 'en',
+        timestamps: true,
+      });
+
+      if (!result || !result.text) {
+        throw new Error('Transcription failed');
+      }
+
+      // Add user message with transcription
+      addMessage({
+        role: 'user',
+        content: result.text,
+        type: 'voice',
+        transcription: result,
+      });
+
+      // Generate LLM response
+      await generateResponse(result.text);
+    } catch (error) {
+      console.error('Voice upload error:', error);
+      addMessage({
+        role: 'assistant',
+        content: 'Sorry, I could not transcribe your audio.',
+        type: 'text',
+      });
+    }
+
+    // Reset file input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  };
+
+  return (
+    <div className="flex flex-col h-screen max-w-4xl mx-auto p-4">
+      {/* Header */}
+      <div className="mb-4 pb-4 border-b">
+        <h1 className="text-2xl font-bold">Multi-Modal Chat</h1>
+        <p className="text-sm text-gray-600">Voice + Text powered by ElevenLabs & Vercel AI SDK</p>
+      </div>
+
+      {/* Messages */}
+      <div className="flex-1 overflow-y-auto space-y-4 mb-4">
+        {messages.length === 0 ? (
+          <div className="text-center text-gray-500 mt-8">
+            <p>Start a conversation with text or voice input</p>
+          </div>
+        ) : (
+          messages.map((message) => (
+            <div
+              key={message.id}
+              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[70%] rounded-lg p-3 ${
+                  message.role === 'user'
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-200 text-gray-900'
+                }`}
+              >
+                {/* Message type indicator */}
+                {message.type === 'voice' && (
+                  <div className="flex items-center gap-1 text-xs mb-1 opacity-75">
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+                      />
+                    </svg>
+                    <span>Voice message</span>
+                  </div>
+                )}
+
+                {/* Content */}
+                <p className="whitespace-pre-wrap break-words">{message.content}</p>
+
+                {/* Metadata */}
+                <div className="flex items-center justify-between mt-2 text-xs opacity-75">
+                  <span>{formatTime(message.timestamp)}</span>
+                  {message.transcription && (
+                    <span>
+                      {message.transcription.durationInSeconds?.toFixed(1)}s •{' '}
+                      {message.transcription.language}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          ))
+        )}
+
+        {/* Loading states */}
+        {isTranscribing && (
+          <div className="flex justify-end">
+            <div className="bg-blue-100 text-blue-900 rounded-lg p-3">
+              <p className="text-sm">Transcribing audio...</p>
+            </div>
+          </div>
+        )}
+
+        {isGenerating && (
+          <div className="flex justify-start">
+            <div className="bg-gray-200 text-gray-900 rounded-lg p-3">
+              <p className="text-sm">Thinking...</p>
+            </div>
+          </div>
+        )}
+
+        {/* Error */}
+        {transcribeError && (
+          <div className="bg-red-100 text-red-900 rounded-lg p-3">
+            <p className="text-sm">Error: {transcribeError}</p>
+          </div>
+        )}
+      </div>
+
+      {/* Input Area */}
+      <div className="border-t pt-4">
+        <form onSubmit={handleTextSubmit} className="flex gap-2">
+          {/* Voice Input Button */}
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={isTranscribing || isGenerating}
+            className="px-4 py-2 bg-gray-200 hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+            title="Upload audio file"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
+              />
+            </svg>
+          </button>
+
+          {/* Hidden file input */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="audio/*"
+            onChange={handleVoiceUpload}
+            className="hidden"
+          />
+
+          {/* Text Input */}
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Type a message..."
+            disabled={isTranscribing || isGenerating}
+            className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          />
+
+          {/* Send Button */}
+          <button
+            type="submit"
+            disabled={!input.trim() || isTranscribing || isGenerating}
+            className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          >
+            Send
+          </button>
+        </form>
+
+        {/* File format hint */}
+        <p className="text-xs text-gray-500 mt-2">
+          Supported audio formats: MP3, WAV, M4A, FLAC, OGG (max 100MB)
+        </p>
+      </div>
+    </div>
+  );
+}

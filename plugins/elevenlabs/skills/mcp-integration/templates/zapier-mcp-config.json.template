@@ -1,0 +1,154 @@
+{
+  "mcpServers": {
+    "zapier-mcp": {
+      "name": "zapier-mcp",
+      "description": "Access to hundreds of tools via Zapier",
+      "url": "{{ZAPIER_MCP_URL}}",
+      "transport": "sse",
+      "approvalMode": "always_ask",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{ZAPIER_MCP_TOKEN}}",
+        "User-Agent": "ElevenLabs-Agent/1.0",
+        "X-Zapier-Client": "elevenlabs-mcp"
+      },
+      "enabled": true,
+      "createdAt": "{{TIMESTAMP}}",
+      "zapierConfig": {
+        "rateLimiting": {
+          "requestsPerMinute": 60,
+          "burstLimit": 10
+        },
+        "caching": {
+          "enabled": true,
+          "ttlSeconds": 300
+        },
+        "commonTools": {
+          "email": {
+            "gmail_send": {
+              "approval": "requires_approval",
+              "description": "Send emails via Gmail"
+            },
+            "outlook_send": {
+              "approval": "requires_approval",
+              "description": "Send emails via Outlook"
+            }
+          },
+          "calendar": {
+            "google_calendar_create": {
+              "approval": "requires_approval",
+              "description": "Create Google Calendar events"
+            },
+            "google_calendar_read": {
+              "approval": "auto_approved",
+              "description": "Read Google Calendar events"
+            }
+          },
+          "spreadsheets": {
+            "sheets_append": {
+              "approval": "requires_approval",
+              "description": "Append rows to Google Sheets"
+            },
+            "sheets_read": {
+              "approval": "auto_approved",
+              "description": "Read Google Sheets data"
+            }
+          },
+          "messaging": {
+            "slack_message": {
+              "approval": "requires_approval",
+              "description": "Send Slack messages"
+            },
+            "discord_message": {
+              "approval": "requires_approval",
+              "description": "Send Discord messages"
+            }
+          },
+          "search": {
+            "web_search": {
+              "approval": "auto_approved",
+              "description": "Search the web"
+            },
+            "weather_get": {
+              "approval": "auto_approved",
+              "description": "Get weather information"
+            }
+          },
+          "crm": {
+            "salesforce_lookup": {
+              "approval": "auto_approved",
+              "description": "Look up Salesforce records"
+            },
+            "salesforce_create": {
+              "approval": "requires_approval",
+              "description": "Create Salesforce records"
+            },
+            "hubspot_contact_lookup": {
+              "approval": "auto_approved",
+              "description": "Look up HubSpot contacts"
+            }
+          },
+          "databases": {
+            "airtable_read": {
+              "approval": "auto_approved",
+              "description": "Read Airtable records"
+            },
+            "airtable_create": {
+              "approval": "requires_approval",
+              "description": "Create Airtable records"
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": {
+    "defaultApprovalMode": "always_ask",
+    "recommendedSettings": {
+      "readOnlyTools": {
+        "approval": "auto_approved",
+        "examples": [
+          "zapier_weather_get",
+          "zapier_calendar_read",
+          "zapier_search",
+          "zapier_sheets_read",
+          "zapier_salesforce_lookup"
+        ]
+      },
+      "dataModificationTools": {
+        "approval": "requires_approval",
+        "examples": [
+          "zapier_email_send",
+          "zapier_calendar_create",
+          "zapier_spreadsheet_update",
+          "zapier_slack_message",
+          "zapier_salesforce_create"
+        ]
+      },
+      "restrictedTools": {
+        "approval": "disabled",
+        "examples": [
+          "zapier_file_delete",
+          "zapier_admin_action",
+          "zapier_user_delete"
+        ]
+      }
+    }
+  },
+  "monitoring": {
+    "enabled": true,
+    "healthCheckInterval": 60,
+    "logToolInvocations": true,
+    "alertOnFailures": true,
+    "metrics": {
+      "trackUsage": true,
+      "trackLatency": true,
+      "trackErrors": true
+    }
+  },
+  "integration": {
+    "agentId": "{{AGENT_ID}}",
+    "environmentName": "{{ENVIRONMENT}}",
+    "deploymentRegion": "us-east-1"
+  }
+}

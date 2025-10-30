@@ -1,0 +1,123 @@
+{
+  "api_config": {
+    "api_key": "${ELEVENLABS_API_KEY}",
+    "base_url": "https://api.elevenlabs.io/v1",
+    "timeout": 30000,
+    "max_retries": 3,
+    "retry_delay": 2000
+  },
+  "voice_config": {
+    "voice_id": "${VOICE_ID}",
+    "model_id": "eleven_turbo_v2_5",
+    "voice_settings": {
+      "stability": 0.5,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true
+    }
+  },
+  "output_config": {
+    "format": "mp3_44100_128",
+    "output_directory": "./audio-output",
+    "filename_pattern": "{index:04d}_{text_preview}",
+    "overwrite_existing": false
+  },
+  "text_processing": {
+    "max_characters": 5000,
+    "split_long_text": true,
+    "preserve_context": true,
+    "previous_text_chars": 200,
+    "next_text_chars": 200
+  },
+  "streaming": {
+    "enabled": false,
+    "chunk_size": 2048,
+    "buffer_size": 4096
+  },
+  "rate_limiting": {
+    "enabled": true,
+    "requests_per_minute": 60,
+    "delay_between_requests": 500
+  },
+  "error_handling": {
+    "log_errors": true,
+    "error_log_path": "./errors.log",
+    "continue_on_error": true,
+    "skip_failed": false
+  },
+  "optimization": {
+    "cache_enabled": false,
+    "cache_directory": "./cache",
+    "cache_ttl": 86400,
+    "parallel_requests": 1
+  },
+  "monitoring": {
+    "track_usage": true,
+    "track_latency": true,
+    "track_costs": true,
+    "log_file": "./tts-usage.log"
+  },
+  "model_presets": {
+    "speed_priority": {
+      "model_id": "eleven_flash_v2_5",
+      "description": "Ultra-low latency for real-time applications"
+    },
+    "quality_priority": {
+      "model_id": "eleven_multilingual_v2",
+      "description": "Best quality and consistency"
+    },
+    "balanced": {
+      "model_id": "eleven_turbo_v2_5",
+      "description": "Good balance of quality and speed"
+    },
+    "expressive": {
+      "model_id": "eleven_v3",
+      "description": "Most emotionally expressive (Alpha)"
+    }
+  },
+  "use_case_presets": {
+    "audiobook": {
+      "model_id": "eleven_multilingual_v2",
+      "voice_settings": {
+        "stability": 0.8,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "format": "mp3_44100_192"
+    },
+    "dialogue": {
+      "model_id": "eleven_v3",
+      "voice_settings": {
+        "stability": 0.4,
+        "similarity_boost": 0.75,
+        "style": 0.3,
+        "use_speaker_boost": true
+      },
+      "format": "mp3_44100_128"
+    },
+    "elearning": {
+      "model_id": "eleven_turbo_v2_5",
+      "voice_settings": {
+        "stability": 0.6,
+        "similarity_boost": 0.8,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "format": "mp3_44100_128"
+    },
+    "realtime": {
+      "model_id": "eleven_flash_v2_5",
+      "voice_settings": {
+        "stability": 0.5,
+        "similarity_boost": 0.75,
+        "style": 0.0,
+        "use_speaker_boost": true
+      },
+      "format": "opus_44100_64",
+      "streaming": {
+        "enabled": true
+      }
+    }
+  }
+}

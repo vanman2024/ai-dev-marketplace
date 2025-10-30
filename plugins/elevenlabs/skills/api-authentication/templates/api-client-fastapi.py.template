@@ -1,0 +1,330 @@
+"""
+ElevenLabs API Client for FastAPI
+
+FastAPI-optimized client with dependency injection and streaming support.
+Includes middleware, error handlers, and API route examples.
+"""
+
+import os
+from typing import Optional, Annotated
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI, Depends, HTTPException, status
+from fastapi.responses import StreamingResponse
+from elevenlabs.client import AsyncElevenLabs
+from dotenv import load_dotenv
+from pydantic import BaseModel, Field
+
+# Load environment variables
+load_dotenv()
+
+
+# Pydantic models
+class TextToSpeechRequest(BaseModel):
+    """Request model for text-to-speech endpoint"""
+
+    text: str = Field(..., description="Text to convert to speech", min_length=1, max_length=5000)
+    voice_id: Optional[str] = Field(None, description="Voice ID (uses default if not provided)")
+    model_id: Optional[str] = Field(None, description="Model ID (uses default if not provided)")
+
+
+class VoiceResponse(BaseModel):
+    """Response model for voice data"""
+
+    voice_id: str
+    name: str
+    category: Optional[str] = None
+
+
+class ErrorResponse(BaseModel):
+    """Standard error response"""
+
+    detail: str
+    status_code: int
+
+
+# Global client instance
+_elevenlabs_client: Optional[AsyncElevenLabs] = None
+
+
+def get_elevenlabs_client() -> AsyncElevenLabs:
+    """
+    Dependency injection for ElevenLabs client
+
+    Returns:
+        AsyncElevenLabs client instance
+
+    Raises:
+        HTTPException: If client is not initialized or API key is missing
+    """
+    if _elevenlabs_client is None:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="ElevenLabs client not initialized",
+        )
+    return _elevenlabs_client
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Lifespan context manager for FastAPI app
+    Initializes and cleans up ElevenLabs client
+    """
+    global _elevenlabs_client
+
+    # Startup
+    api_key = os.getenv("ELEVENLABS_API_KEY")
+    if not api_key:
+        raise RuntimeError("ELEVENLABS_API_KEY environment variable is required")
+
+    _elevenlabs_client = AsyncElevenLabs(api_key=api_key)
+    print("✓ ElevenLabs client initialized")
+
+    yield
+
+    # Shutdown
+    if _elevenlabs_client is not None:
+        await _elevenlabs_client.close()
+        print("✓ ElevenLabs client closed")
+
+
+# Create FastAPI app
+app = FastAPI(
+    title="ElevenLabs API",
+    description="FastAPI integration with ElevenLabs text-to-speech",
+    version="1.0.0",
+    lifespan=lifespan,
+)
+
+
+@app.get("/health")
+async def health_check():
+    """Health check endpoint"""
+    return {"status": "healthy", "service": "elevenlabs-api"}
+
+
+@app.get("/api/voices", response_model=list[VoiceResponse])
+async def get_voices(
+    client: Annotated[AsyncElevenLabs, Depends(get_elevenlabs_client)]
+):
+    """
+    Get all available voices
+
+    Returns:
+        List of available voices
+    """
+    try:
+        voices = await client.voices.get_all()
+        return [
+            VoiceResponse(
+                voice_id=voice.voice_id,
+                name=voice.name,
+                category=getattr(voice, "category", None),
+            )
+            for voice in voices.voices
+        ]
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to fetch voices: {str(e)}",
+        )
+
+
+@app.get("/api/models")
+async def get_models(
+    client: Annotated[AsyncElevenLabs, Depends(get_elevenlabs_client)]
+):
+    """
+    Get all available models
+
+    Returns:
+        List of available models
+    """
+    try:
+        models = await client.models.get_all()
+        return [
+            {
+                "model_id": model.model_id,
+                "name": model.name,
+            }
+            for model in models
+        ]
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to fetch models: {str(e)}",
+        )
+
+
+@app.post("/api/text-to-speech")
+async def text_to_speech(
+    request: TextToSpeechRequest,
+    client: Annotated[AsyncElevenLabs, Depends(get_elevenlabs_client)]
+):
+    """
+    Convert text to speech and return audio file
+
+    Args:
+        request: Text-to-speech request with text, voice_id, and model_id
+
+    Returns:
+        StreamingResponse with audio/mpeg content
+    """
+    voice_id = request.voice_id or os.getenv(
+        "ELEVENLABS_DEFAULT_VOICE_ID", "21m00Tcm4TlvDq8ikWAM"
+    )
+    model_id = request.model_id or os.getenv(
+        "ELEVENLABS_DEFAULT_MODEL_ID", "eleven_monolingual_v1"
+    )
+
+    try:
+        audio_stream = await client.generate(
+            text=request.text,
+            voice=voice_id,
+            model=model_id,
+        )
+
+        async def generate_audio():
+            """Generator for streaming audio"""
+            async for chunk in audio_stream:
+                yield chunk
+
+        return StreamingResponse(
+            generate_audio(),
+            media_type="audio/mpeg",
+            headers={
+                "Content-Disposition": "attachment; filename=speech.mp3",
+                "Cache-Control": "no-cache",
+            },
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Text-to-speech generation failed: {str(e)}",
+        )
+
+
+@app.post("/api/text-to-speech/stream")
+async def text_to_speech_stream(
+    request: TextToSpeechRequest,
+    client: Annotated[AsyncElevenLabs, Depends(get_elevenlabs_client)]
+):
+    """
+    Stream text to speech in real-time
+
+    Args:
+        request: Text-to-speech request
+
+    Returns:
+        StreamingResponse with chunked audio
+    """
+    voice_id = request.voice_id or os.getenv(
+        "ELEVENLABS_DEFAULT_VOICE_ID", "21m00Tcm4TlvDq8ikWAM"
+    )
+    model_id = request.model_id or os.getenv(
+        "ELEVENLABS_DEFAULT_MODEL_ID", "eleven_monolingual_v1"
+    )
+
+    try:
+        audio_stream = await client.generate(
+            text=request.text,
+            voice=voice_id,
+            model=model_id,
+            stream=True,
+        )
+
+        async def generate_stream():
+            """Generator for real-time streaming"""
+            async for chunk in audio_stream:
+                yield chunk
+
+        return StreamingResponse(
+            generate_stream(),
+            media_type="audio/mpeg",
+            headers={
+                "Content-Disposition": "inline",
+                "Cache-Control": "no-cache",
+                "X-Content-Type-Options": "nosniff",
+            },
+        )
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Text-to-speech streaming failed: {str(e)}",
+        )
+
+
+@app.get("/api/connection-test")
+async def connection_test(
+    client: Annotated[AsyncElevenLabs, Depends(get_elevenlabs_client)]
+):
+    """
+    Test ElevenLabs API connection
+
+    Returns:
+        Connection status and basic info
+    """
+    try:
+        models = await client.models.get_all()
+        voices = await client.voices.get_all()
+
+        return {
+            "status": "connected",
+            "models_count": len(models),
+            "voices_count": len(voices.voices),
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Connection test failed: {str(e)}",
+        )
+
+
+# Error handlers
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc: HTTPException):
+    """Custom HTTP exception handler"""
+    return ErrorResponse(
+        detail=exc.detail,
+        status_code=exc.status_code,
+    )
+
+
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(
+        app,
+        host="0.0.0.0",
+        port=8000,
+        log_level="info",
+    )
+
+"""
+Example usage:
+
+1. Start the server:
+   uvicorn main:app --reload
+
+2. Test endpoints:
+   # Health check
+   curl http://localhost:8000/health
+
+   # Get voices
+   curl http://localhost:8000/api/voices
+
+   # Generate speech
+   curl -X POST http://localhost:8000/api/text-to-speech \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Hello world!"}' \
+     --output speech.mp3
+
+   # Stream speech
+   curl -X POST http://localhost:8000/api/text-to-speech/stream \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Hello world!", "voice_id": "21m00Tcm4TlvDq8ikWAM"}' \
+     --output speech_stream.mp3
+"""

@@ -1,0 +1,27 @@
+{
+  "name": "${VOICE_NAME}",
+  "description": "${VOICE_DESCRIPTION}",
+  "cloning_method": "${CLONING_METHOD}",
+  "audio_files": ${AUDIO_FILES},
+  "labels": ${LABELS},
+  "settings": {
+    "stability": 0.75,
+    "similarity_boost": 0.75,
+    "style": 0.0,
+    "use_speaker_boost": true
+  },
+  "metadata": {
+    "created_date": "${CREATED_DATE}",
+    "source": "${SOURCE}",
+    "language": "${LANGUAGE}",
+    "accent": "${ACCENT}",
+    "use_case": "${USE_CASE}"
+  },
+  "requirements": {
+    "min_duration_seconds": 60,
+    "max_duration_seconds": 300,
+    "sample_rate_hz": 22050,
+    "format": ["mp3", "wav", "flac", "ogg"],
+    "quality": "high"
+  }
+}

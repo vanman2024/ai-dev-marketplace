@@ -1,0 +1,351 @@
+"""
+Sliding Window Rate Limiter with Async Support
+
+Implements a sliding window rate limiter for ElevenLabs API requests
+with Redis backing for distributed systems and circuit breaker integration.
+
+Usage:
+    limiter = SlidingWindowRateLimiter(
+        max_concurrent=10,
+        window_size=60,
+        priority_levels=3
+    )
+
+    async with limiter.acquire(priority=2):
+        # Make API call
+        pass
+"""
+
+import asyncio
+import time
+from collections import deque
+from typing import Optional, Dict, Any
+from contextlib import asynccontextmanager
+from enum import Enum
+
+
+class CircuitBreakerState(Enum):
+    """Circuit breaker states"""
+    CLOSED = "closed"
+    OPEN = "open"
+    HALF_OPEN = "half_open"
+
+
+class SlidingWindowRateLimiter:
+    """
+    Sliding window rate limiter with priority support
+
+    Args:
+        max_concurrent: Maximum concurrent requests
+        window_size: Time window in seconds
+        priority_levels: Number of priority levels (1-10)
+        redis_client: Optional Redis client for distributed limiting
+    """
+
+    def __init__(
+        self,
+        max_concurrent: int = 10,
+        window_size: int = 60,
+        priority_levels: int = 3,
+        redis_client: Optional[Any] = None
+    ):
+        self.max_concurrent = max_concurrent
+        self.window_size = window_size
+        self.priority_levels = priority_levels
+        self.redis_client = redis_client
+
+        # Local state
+        self.request_times: deque = deque()
+        self.current_concurrent = 0
+        self.queue: list = []
+        self.lock = asyncio.Lock()
+
+        # Metrics
+        self.total_requests = 0
+        self.total_queued = 0
+        self.total_rejected = 0
+
+    async def acquire(self, priority: int = 5, timeout: Optional[float] = None) -> bool:
+        """
+        Acquire a slot in the rate limiter
+
+        Args:
+            priority: Request priority (0-10, higher = more important)
+            timeout: Maximum time to wait in seconds
+
+        Returns:
+            True if acquired, False if timeout
+        """
+        start_time = time.time()
+
+        while True:
+            async with self.lock:
+                # Clean old requests from window
+                await self._clean_window()
+
+                # Try immediate acquisition
+                if self.current_concurrent < self.max_concurrent:
+                    await self._do_acquire()
+                    return True
+
+                # Check timeout
+                if timeout and (time.time() - start_time) >= timeout:
+                    self.total_rejected += 1
+                    return False
+
+                # Queue the request
+                request = {
+                    'priority': priority,
+                    'timestamp': time.time(),
+                    'event': asyncio.Event()
+                }
+                self._insert_by_priority(request)
+                self.total_queued += 1
+
+            # Wait for slot
+            try:
+                remaining_timeout = None
+                if timeout:
+                    remaining_timeout = timeout - (time.time() - start_time)
+                    if remaining_timeout <= 0:
+                        return False
+
+                await asyncio.wait_for(
+                    request['event'].wait(),
+                    timeout=remaining_timeout
+                )
+                return True
+            except asyncio.TimeoutError:
+                # Remove from queue on timeout
+                async with self.lock:
+                    if request in self.queue:
+                        self.queue.remove(request)
+                self.total_rejected += 1
+                return False
+
+    async def release(self):
+        """Release a slot"""
+        async with self.lock:
+            self.current_concurrent = max(0, self.current_concurrent - 1)
+            await self._process_queue()
+
+    @asynccontextmanager
+    async def acquire_context(self, priority: int = 5, timeout: Optional[float] = None):
+        """
+        Context manager for automatic acquire/release
+
+        Usage:
+            async with limiter.acquire_context(priority=8):
+                # Make API call
+                pass
+        """
+        acquired = await self.acquire(priority, timeout)
+        if not acquired:
+            raise TimeoutError("Failed to acquire rate limiter slot")
+
+        try:
+            yield
+        finally:
+            await self.release()
+
+    async def _clean_window(self):
+        """Remove requests outside the time window"""
+        current_time = time.time()
+        cutoff_time = current_time - self.window_size
+
+        while self.request_times and self.request_times[0] < cutoff_time:
+            self.request_times.popleft()
+
+    async def _do_acquire(self):
+        """Perform the actual acquisition"""
+        self.request_times.append(time.time())
+        self.current_concurrent += 1
+        self.total_requests += 1
+
+    def _insert_by_priority(self, request: Dict):
+        """Insert request in priority order"""
+        # Binary search for insertion point
+        left, right = 0, len(self.queue)
+        while left < right:
+            mid = (left + right) // 2
+            if self.queue[mid]['priority'] < request['priority']:
+                right = mid
+            else:
+                left = mid + 1
+        self.queue.insert(left, request)
+
+    async def _process_queue(self):
+        """Process queued requests"""
+        while self.queue and self.current_concurrent < self.max_concurrent:
+            request = self.queue.pop(0)
+            await self._do_acquire()
+            request['event'].set()
+
+    def get_state(self) -> Dict[str, Any]:
+        """Get current limiter state"""
+        return {
+            'current_concurrent': self.current_concurrent,
+            'max_concurrent': self.max_concurrent,
+            'queue_depth': len(self.queue),
+            'window_size': self.window_size,
+            'total_requests': self.total_requests,
+            'total_queued': self.total_queued,
+            'total_rejected': self.total_rejected,
+            'utilization': (self.current_concurrent / self.max_concurrent * 100)
+        }
+
+
+class CircuitBreaker:
+    """
+    Circuit breaker for fault tolerance
+
+    Args:
+        failure_threshold: Number of failures to open circuit
+        reset_timeout: Time in seconds before attempting reset
+        half_open_max_calls: Max calls to test in half-open state
+    """
+
+    def __init__(
+        self,
+        failure_threshold: int = 5,
+        reset_timeout: float = 60.0,
+        half_open_max_calls: int = 3
+    ):
+        self.failure_threshold = failure_threshold
+        self.reset_timeout = reset_timeout
+        self.half_open_max_calls = half_open_max_calls
+
+        self.state = CircuitBreakerState.CLOSED
+        self.failure_count = 0
+        self.success_count = 0
+        self.last_failure_time: Optional[float] = None
+        self.half_open_calls = 0
+
+        self.lock = asyncio.Lock()
+
+    @asynccontextmanager
+    async def execute(self):
+        """
+        Execute function with circuit breaker protection
+
+        Usage:
+            async with circuit_breaker.execute():
+                # Make API call
+                pass
+        """
+        async with self.lock:
+            if self.state == CircuitBreakerState.OPEN:
+                if self._should_attempt_reset():
+                    self.state = CircuitBreakerState.HALF_OPEN
+                    self.half_open_calls = 0
+                    print("[CircuitBreaker] Entering HALF_OPEN state")
+                else:
+                    raise Exception("Circuit breaker is OPEN")
+
+            if self.state == CircuitBreakerState.HALF_OPEN:
+                if self.half_open_calls >= self.half_open_max_calls:
+                    raise Exception("Circuit breaker HALF_OPEN limit reached")
+                self.half_open_calls += 1
+
+        try:
+            yield
+            await self._on_success()
+        except Exception as e:
+            await self._on_failure()
+            raise e
+
+    def _should_attempt_reset(self) -> bool:
+        """Check if circuit should attempt reset"""
+        if not self.last_failure_time:
+            return False
+        return time.time() - self.last_failure_time >= self.reset_timeout
+
+    async def _on_success(self):
+        """Handle successful call"""
+        async with self.lock:
+            self.failure_count = 0
+            self.success_count += 1
+
+            if self.state == CircuitBreakerState.HALF_OPEN:
+                if self.success_count >= self.half_open_max_calls:
+                    self.state = CircuitBreakerState.CLOSED
+                    self.half_open_calls = 0
+                    print("[CircuitBreaker] Entering CLOSED state")
+
+    async def _on_failure(self):
+        """Handle failed call"""
+        async with self.lock:
+            self.failure_count += 1
+            self.last_failure_time = time.time()
+
+            if self.failure_count >= self.failure_threshold:
+                self.state = CircuitBreakerState.OPEN
+                print(f"[CircuitBreaker] Entering OPEN state after {self.failure_count} failures")
+
+    def get_state(self) -> Dict[str, Any]:
+        """Get circuit breaker state"""
+        return {
+            'state': self.state.value,
+            'failure_count': self.failure_count,
+            'success_count': self.success_count,
+            'last_failure_time': self.last_failure_time
+        }
+
+
+class AdaptiveRateLimiter(SlidingWindowRateLimiter):
+    """
+    Rate limiter that adapts based on API response headers
+
+    Monitors current-concurrent-requests and maximum-concurrent-requests
+    headers to dynamically adjust rate limits.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.observed_max: Optional[int] = None
+        self.adjustment_factor = 0.9  # Use 90% of observed limit
+
+    def update_from_headers(self, current: int, maximum: int):
+        """
+        Update rate limit based on response headers
+
+        Args:
+            current: current-concurrent-requests value
+            maximum: maximum-concurrent-requests value
+        """
+        self.observed_max = maximum
+        adjusted_limit = int(maximum * self.adjustment_factor)
+
+        if adjusted_limit != self.max_concurrent:
+            print(f"[AdaptiveRateLimiter] Adjusting limit: {self.max_concurrent} -> {adjusted_limit}")
+            self.max_concurrent = adjusted_limit
+
+
+# Example usage
+async def example_usage():
+    """Example of using the rate limiter"""
+    limiter = SlidingWindowRateLimiter(
+        max_concurrent=5,
+        window_size=60
+    )
+
+    circuit_breaker = CircuitBreaker(
+        failure_threshold=3,
+        reset_timeout=30.0
+    )
+
+    async def make_api_call():
+        """Simulated API call"""
+        async with limiter.acquire_context(priority=5):
+            async with circuit_breaker.execute():
+                # Your API call here
+                await asyncio.sleep(0.1)
+                print(f"Request completed. State: {limiter.get_state()}")
+
+    # Make concurrent calls
+    tasks = [make_api_call() for _ in range(20)]
+    await asyncio.gather(*tasks, return_exceptions=True)
+
+
+if __name__ == "__main__":
+    asyncio.run(example_usage())

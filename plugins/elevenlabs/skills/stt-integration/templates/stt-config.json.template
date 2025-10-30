@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "ElevenLabs STT Configuration",
+  "description": "Configuration template for ElevenLabs Speech-to-Text transcription",
+
+  "api": {
+    "endpoint": "https://api.elevenlabs.io/v1/audio-to-text",
+    "model": "scribe_v1",
+    "apiKey": "${ELEVENLABS_API_KEY}"
+  },
+
+  "transcription": {
+    "languageCode": "en",
+    "languageCodeComment": "ISO-639-1 or ISO-639-3 code (e.g., 'en', 'es', 'ja', 'zh'). Set to null for auto-detection.",
+
+    "diarize": true,
+    "diarizeComment": "Enable speaker identification (up to 32 speakers)",
+
+    "numSpeakers": null,
+    "numSpeakersComment": "Specify number of speakers (1-32) for better accuracy. Set to null for auto-detection.",
+
+    "tagAudioEvents": true,
+    "tagAudioEventsComment": "Detect and tag audio events like laughter, applause, music",
+
+    "timestampsGranularity": "word",
+    "timestampsGranularityComment": "Options: 'none', 'word', 'character'. Word-level recommended for most use cases.",
+
+    "fileFormat": "other",
+    "fileFormatComment": "Options: 'other' or 'pcm_s16le_16' (16-bit PCM, 16kHz mono). Use pcm_s16le_16 for lowest latency."
+  },
+
+  "fileConstraints": {
+    "maxFileSize": 3221225472,
+    "maxFileSizeComment": "3 GB in bytes",
+
+    "maxDuration": 36000,
+    "maxDurationComment": "10 hours in seconds",
+
+    "supportedAudioFormats": [
+      "aac", "aiff", "ogg", "mp3", "opus", "wav", "webm", "flac", "m4a"
+    ],
+
+    "supportedVideoFormats": [
+      "mp4", "avi", "mkv", "mov", "wmv", "flv", "webm", "mpeg", "3gp"
+    ]
+  },
+
+  "processing": {
+    "webhook": {
+      "enabled": false,
+      "url": null,
+      "urlComment": "Optional webhook URL for async transcription results"
+    },
+
+    "chunkThreshold": 480,
+    "chunkThresholdComment": "Files >8 minutes (480s) are automatically chunked for parallel processing",
+
+    "retryPolicy": {
+      "maxRetries": 3,
+      "retryDelay": 1000,
+      "backoffMultiplier": 2
+    }
+  },
+
+  "output": {
+    "format": "text",
+    "formatComment": "Options: 'text', 'json', 'srt', 'vtt'",
+
+    "includeTimestamps": true,
+    "includeSpeakers": true,
+    "includeAudioEvents": true,
+
+    "saveToFile": true,
+    "outputDirectory": "./transcriptions"
+  },
+
+  "languageSupport": {
+    "comment": "Language accuracy levels (WER = Word Error Rate)",
+
+    "excellent": {
+      "werRange": "≤5%",
+      "languages": [
+        "en", "fr", "de", "es", "it", "ja", "pt", "nl", "pl", "ru",
+        "ar", "cs", "da", "fi", "el", "he", "hu", "ko", "no", "ro",
+        "sk", "sv", "tr", "uk", "bg", "ca", "hr", "et", "lv", "lt"
+      ]
+    },
+
+    "high": {
+      "werRange": ">5-10%",
+      "languages": [
+        "bn", "zh", "ta", "te", "vi", "id", "th", "mr", "kn", "ml",
+        "gu", "fa", "ur", "sw", "pa", "jv", "is", "gl", "eu"
+      ]
+    },
+
+    "good": {
+      "werRange": ">10-25%",
+      "languages": [
+        "hi", "af", "az", "be", "bs", "cy", "eo", "tl", "ka", "ha",
+        "hy", "kk", "km", "lo", "lb", "mk", "ms", "mt", "mn", "ne",
+        "ps", "si", "sl", "so", "sq", "sr", "su", "tg", "uz", "yi"
+      ]
+    },
+
+    "moderate": {
+      "werRange": ">25-50%",
+      "languages": [
+        "am", "my", "ht", "ig", "kn", "mg", "mi", "om", "pa", "sa",
+        "sd", "sm", "sn", "st", "tl", "to", "ug", "xh", "yo"
+      ]
+    }
+  },
+
+  "examples": {
+    "basicTranscription": {
+      "description": "Simple transcription with auto language detection",
+      "config": {
+        "languageCode": null,
+        "diarize": false,
+        "tagAudioEvents": false
+      }
+    },
+
+    "multiSpeakerInterview": {
+      "description": "Interview or podcast with multiple speakers",
+      "config": {
+        "languageCode": "en",
+        "diarize": true,
+        "numSpeakers": 2,
+        "tagAudioEvents": true,
+        "timestampsGranularity": "word"
+      }
+    },
+
+    "videoSubtitles": {
+      "description": "Generate subtitles for video content",
+      "config": {
+        "languageCode": "en",
+        "diarize": false,
+        "timestampsGranularity": "word",
+        "output": {
+          "format": "srt",
+          "includeTimestamps": true
+        }
+      }
+    },
+
+    "multiLanguageContent": {
+      "description": "Content in multiple languages (auto-detect)",
+      "config": {
+        "languageCode": null,
+        "diarize": true,
+        "tagAudioEvents": true
+      }
+    }
+  }
+}

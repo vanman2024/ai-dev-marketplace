@@ -16,6 +16,7 @@
                 "email": "dev@example.com"
             },
             "source": "./plugins/claude-agent-sdk",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "claude",
@@ -42,6 +43,7 @@
                 "email": "noreply@ai-dev-marketplace.dev"
             },
             "source": "./plugins/domain-plugin-builder",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "sdk-builder",
@@ -67,6 +69,7 @@
                 "email": "noreply@ai-dev-marketplace.dev"
             },
             "source": "./plugins/fastmcp",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "fastmcp",
@@ -95,6 +98,7 @@
                 "email": "noreply@ai-dev-marketplace.dev"
             },
             "source": "./plugins/mem0",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "mem0",
@@ -123,6 +127,7 @@
                 "email": "noreply@ai-dev-marketplace.dev"
             },
             "source": "./plugins/supabase",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "supabase",
@@ -153,6 +158,7 @@
                 "email": "noreply@ai-dev-marketplace.dev"
             },
             "source": "./plugins/vercel-ai-sdk",
+            "commands": "./commands",
             "category": "development",
             "keywords": [
                 "vercel",
@@ -168,6 +174,157 @@
                 "typescript",
                 "javascript",
                 "python"
+            ]
+        },
+        {
+            "name": "nextjs-frontend",
+            "description": "Complete Next.js 15 + React 19 frontend plugin with App Router, component integration (shadcn + Tailwind UI), and seamless integration with Vercel AI SDK and Supabase",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "dev@example.com"
+            },
+            "source": "./plugins/nextjs-frontend",
+            "commands": "./commands",
+            "category": "development",
+            "keywords": [
+                "nextjs",
+                "next.js",
+                "react",
+                "frontend",
+                "app-router",
+                "shadcn",
+                "tailwind",
+                "tailwind-ui",
+                "typescript",
+                "server-components",
+                "mcp",
+                "ui-components",
+                "vercel",
+                "supabase"
+            ]
+        },
+        {
+            "name": "fastapi-backend",
+            "description": "Complete FastAPI backend plugin for building REST APIs with async support, WebSocket, and Supabase integration",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "dev@example.com"
+            },
+            "source": "./plugins/fastapi-backend",
+            "commands": "./commands",
+            "category": "development",
+            "keywords": [
+                "fastapi",
+                "python",
+                "rest-api",
+                "async",
+                "websocket",
+                "backend",
+                "api",
+                "supabase",
+                "framework",
+                "pydantic",
+                "uvicorn",
+                "authentication",
+                "cors",
+                "background-tasks"
+            ]
+        },
+        {
+            "name": "website-builder",
+            "description": "AI-powered website builder with Astro, MDX, content-image-generation MCP, Supabase CMS, and component integration for marketing sites, blogs, and documentation",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "dev@example.com"
+            },
+            "source": "./plugins/website-builder",
+            "commands": "./commands",
+            "category": "development",
+            "keywords": [
+                "astro",
+                "website-builder",
+                "marketing-sites",
+                "blog",
+                "documentation",
+                "ai-content-generation",
+                "imagen",
+                "veo",
+                "supabase-cms",
+                "mdx",
+                "static-site-generator",
+                "react-components",
+                "shadcn",
+                "tailwind-ui",
+                "content-image-generation-mcp",
+                "seo",
+                "vercel",
+                "claude-sonnet",
+                "gemini"
+            ]
+        },
+        {
+            "name": "ai-tech-stack-1",
+            "description": "AI application stack orchestrator - deploys complete Next.js + Vercel AI SDK + Supabase + Mem0 + FastMCP applications with progressive context management",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/ai-tech-stack-1",
+            "commands": "./commands",
+            "category": "orchestrator",
+            "keywords": [
+                "nextjs",
+                "vercel-ai-sdk",
+                "supabase",
+                "mem0",
+                "fastmcp",
+                "claude-agent-sdk",
+                "orchestrator",
+                "full-stack",
+                "ai-applications",
+                "deployment",
+                "progressive-context",
+                "multi-phase"
+            ]
+        },
+        {
+            "name": "elevenlabs",
+            "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, conversational AI agents, and Vercel AI SDK support",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "dev@example.com"
+            },
+            "source": "./plugins/elevenlabs",
+            "commands": "./commands",
+            "category": "sdk",
+            "keywords": [
+                "elevenlabs",
+                "voice",
+                "tts",
+                "text-to-speech",
+                "stt",
+                "speech-to-text",
+                "voice-cloning",
+                "audio",
+                "ai-audio",
+                "conversational-ai",
+                "agents-platform",
+                "mcp",
+                "model-context-protocol",
+                "vercel-ai-sdk",
+                "streaming",
+                "websocket",
+                "sound-effects",
+                "dubbing",
+                "multilingual",
+                "typescript",
+                "python",
+                "javascript"
             ]
         }
     ]

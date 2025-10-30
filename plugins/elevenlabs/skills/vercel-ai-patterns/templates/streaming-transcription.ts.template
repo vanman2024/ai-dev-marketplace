@@ -1,0 +1,356 @@
+/**
+ * Real-time Streaming Transcription with ElevenLabs
+ *
+ * Note: As of the current Vercel AI SDK version, experimental_transcribe
+ * does not support real-time streaming. This template demonstrates the
+ * architecture for when streaming becomes available, and provides
+ * workarounds for simulating streaming behavior.
+ *
+ * Current Implementation:
+ * - Chunk-based processing for long audio files
+ * - Progress callbacks for UI updates
+ * - WebSocket-ready architecture
+ *
+ * Future Implementation (when SDK supports it):
+ * - True real-time streaming
+ * - Incremental transcription results
+ */
+
+import { experimental_transcribe as transcribe } from 'ai';
+import { elevenlabs } from '@ai-sdk/elevenlabs';
+
+export interface StreamingTranscriptionOptions {
+  language?: string;
+  onProgress?: (progress: number) => void;
+  onChunk?: (text: string, isFinal: boolean) => void;
+  onComplete?: (fullText: string) => void;
+  onError?: (error: Error) => void;
+  chunkSizeMs?: number; // For simulated streaming
+}
+
+export interface TranscriptionChunk {
+  text: string;
+  timestamp: number;
+  isFinal: boolean;
+  confidence?: number;
+}
+
+/**
+ * Simulated streaming transcription by processing audio in chunks
+ * (Workaround until real streaming is available)
+ */
+export async function streamingTranscribe(
+  audio: Buffer | Uint8Array | ArrayBuffer,
+  options: StreamingTranscriptionOptions = {}
+): Promise<string> {
+  const {
+    language,
+    onProgress,
+    onChunk,
+    onComplete,
+    onError,
+  } = options;
+
+  try {
+    // Report initial progress
+    onProgress?.(0);
+
+    // For now, we process the entire audio at once
+    // In the future, this will use true streaming when SDK supports it
+    const result = await transcribe({
+      model: elevenlabs.transcription('scribe_v1'),
+      audio,
+      ...(language && {
+        providerOptions: {
+          elevenlabs: {
+            languageCode: language,
+            timestampsGranularity: 'word',
+          },
+        },
+      }),
+    });
+
+    // Simulate streaming by sending segments
+    if (result.segments && result.segments.length > 0) {
+      for (let i = 0; i < result.segments.length; i++) {
+        const segment = result.segments[i];
+        const progress = ((i + 1) / result.segments.length) * 100;
+
+        onProgress?.(progress);
+        onChunk?.(segment.text, i === result.segments.length - 1);
+
+        // Small delay to simulate streaming
+        await new Promise((resolve) => setTimeout(resolve, 50));
+      }
+    } else {
+      // No segments, send entire text
+      onProgress?.(100);
+      onChunk?.(result.text, true);
+    }
+
+    onComplete?.(result.text);
+    return result.text;
+  } catch (error) {
+    const err = error instanceof Error ? error : new Error('Transcription failed');
+    onError?.(err);
+    throw err;
+  }
+}
+
+/**
+ * WebSocket-based streaming transcription server handler
+ * (For use in Next.js API routes with WebSocket support)
+ */
+export class StreamingTranscriptionServer {
+  private connections: Set<WebSocket> = new Set();
+
+  constructor() {}
+
+  handleConnection(ws: WebSocket) {
+    this.connections.add(ws);
+
+    ws.on('message', async (data: Buffer) => {
+      try {
+        await this.processAudio(ws, data);
+      } catch (error) {
+        ws.send(
+          JSON.stringify({
+            type: 'error',
+            error: error instanceof Error ? error.message : 'Unknown error',
+          })
+        );
+      }
+    });
+
+    ws.on('close', () => {
+      this.connections.delete(ws);
+    });
+
+    // Send ready message
+    ws.send(JSON.stringify({ type: 'ready' }));
+  }
+
+  private async processAudio(ws: WebSocket, audioData: Buffer) {
+    // Send processing message
+    ws.send(JSON.stringify({ type: 'processing' }));
+
+    try {
+      const result = await transcribe({
+        model: elevenlabs.transcription('scribe_v1'),
+        audio: audioData,
+        providerOptions: {
+          elevenlabs: {
+            timestampsGranularity: 'word',
+          },
+        },
+      });
+
+      // Send segments if available
+      if (result.segments && result.segments.length > 0) {
+        for (const segment of result.segments) {
+          ws.send(
+            JSON.stringify({
+              type: 'chunk',
+              text: segment.text,
+              timestamp: segment.timestamp,
+            })
+          );
+        }
+      }
+
+      // Send complete message
+      ws.send(
+        JSON.stringify({
+          type: 'complete',
+          text: result.text,
+          language: result.language,
+          durationInSeconds: result.durationInSeconds,
+        })
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  close() {
+    this.connections.forEach((ws) => ws.close());
+    this.connections.clear();
+  }
+}
+
+/**
+ * Client-side WebSocket handler for streaming transcription
+ */
+export class StreamingTranscriptionClient {
+  private ws: WebSocket | null = null;
+  private onChunkCallback?: (chunk: TranscriptionChunk) => void;
+  private onCompleteCallback?: (text: string) => void;
+  private onErrorCallback?: (error: Error) => void;
+
+  constructor(
+    private url: string,
+    callbacks?: {
+      onChunk?: (chunk: TranscriptionChunk) => void;
+      onComplete?: (text: string) => void;
+      onError?: (error: Error) => void;
+    }
+  ) {
+    this.onChunkCallback = callbacks?.onChunk;
+    this.onCompleteCallback = callbacks?.onComplete;
+    this.onErrorCallback = callbacks?.onError;
+  }
+
+  async connect(): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.ws = new WebSocket(this.url);
+
+      this.ws.onopen = () => {
+        resolve();
+      };
+
+      this.ws.onerror = (event) => {
+        reject(new Error('WebSocket connection failed'));
+      };
+
+      this.ws.onmessage = (event) => {
+        try {
+          const message = JSON.parse(event.data);
+          this.handleMessage(message);
+        } catch (error) {
+          console.error('Failed to parse message:', error);
+        }
+      };
+    });
+  }
+
+  private handleMessage(message: any) {
+    switch (message.type) {
+      case 'ready':
+        // Connection ready
+        break;
+
+      case 'processing':
+        // Processing started
+        break;
+
+      case 'chunk':
+        this.onChunkCallback?.({
+          text: message.text,
+          timestamp: message.timestamp,
+          isFinal: false,
+        });
+        break;
+
+      case 'complete':
+        this.onCompleteCallback?.(message.text);
+        break;
+
+      case 'error':
+        this.onErrorCallback?.(new Error(message.error));
+        break;
+
+      default:
+        console.warn('Unknown message type:', message.type);
+    }
+  }
+
+  async sendAudio(audio: Blob | ArrayBuffer): Promise<void> {
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) {
+      throw new Error('WebSocket not connected');
+    }
+
+    if (audio instanceof Blob) {
+      const arrayBuffer = await audio.arrayBuffer();
+      this.ws.send(arrayBuffer);
+    } else {
+      this.ws.send(audio);
+    }
+  }
+
+  disconnect() {
+    if (this.ws) {
+      this.ws.close();
+      this.ws = null;
+    }
+  }
+}
+
+/**
+ * React hook for streaming transcription
+ */
+export function useStreamingTranscription() {
+  const [isConnected, setIsConnected] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false);
+  const [chunks, setChunks] = useState<TranscriptionChunk[]>([]);
+  const [fullText, setFullText] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const clientRef = useRef<StreamingTranscriptionClient | null>(null);
+
+  const connect = useCallback(async (url: string) => {
+    try {
+      const client = new StreamingTranscriptionClient(url, {
+        onChunk: (chunk) => {
+          setChunks((prev) => [...prev, chunk]);
+        },
+        onComplete: (text) => {
+          setFullText(text);
+          setIsProcessing(false);
+        },
+        onError: (err) => {
+          setError(err.message);
+          setIsProcessing(false);
+        },
+      });
+
+      await client.connect();
+      clientRef.current = client;
+      setIsConnected(true);
+      setError(null);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Connection failed');
+      setIsConnected(false);
+    }
+  }, []);
+
+  const sendAudio = useCallback(async (audio: Blob | ArrayBuffer) => {
+    if (!clientRef.current) {
+      throw new Error('Not connected');
+    }
+
+    setIsProcessing(true);
+    setChunks([]);
+    setFullText('');
+    setError(null);
+
+    try {
+      await clientRef.current.sendAudio(audio);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to send audio');
+      setIsProcessing(false);
+    }
+  }, []);
+
+  const disconnect = useCallback(() => {
+    if (clientRef.current) {
+      clientRef.current.disconnect();
+      clientRef.current = null;
+    }
+    setIsConnected(false);
+    setIsProcessing(false);
+  }, []);
+
+  return {
+    isConnected,
+    isProcessing,
+    chunks,
+    fullText,
+    error,
+    connect,
+    sendAudio,
+    disconnect,
+  };
+}
+
+// Required import for React hook
+import { useState, useCallback, useRef } from 'react';

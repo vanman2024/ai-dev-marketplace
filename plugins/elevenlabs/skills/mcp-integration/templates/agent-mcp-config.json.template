@@ -1,0 +1,72 @@
+{
+  "agent": {
+    "name": "{{AGENT_NAME}}",
+    "description": "{{AGENT_DESCRIPTION}}",
+    "voiceId": "{{VOICE_ID}}",
+    "model": "eleven_turbo_v2_5",
+    "language": "en",
+    "mcpConfiguration": {
+      "enabled": true,
+      "servers": [
+        {
+          "name": "{{MCP_SERVER_NAME}}",
+          "enabled": true,
+          "approvalMode": "always_ask",
+          "tools": {
+            "include": ["*"],
+            "exclude": []
+          }
+        }
+      ],
+      "globalSettings": {
+        "defaultApprovalMode": "always_ask",
+        "approvalTimeout": 30,
+        "fallbackBehavior": "deny",
+        "logToolUsage": true
+      }
+    },
+    "conversationConfig": {
+      "maxDuration": 600,
+      "silenceTimeout": 10,
+      "interruptible": true
+    },
+    "security": {
+      "requireToolApproval": true,
+      "allowedOrigins": ["*"],
+      "rateLimit": {
+        "requestsPerMinute": 60,
+        "conversationsPerHour": 100
+      }
+    },
+    "metadata": {
+      "environment": "{{ENVIRONMENT}}",
+      "version": "1.0.0",
+      "createdAt": "{{TIMESTAMP}}"
+    }
+  },
+  "toolConfiguration": {
+    "autoApprovedPatterns": [
+      "^.*_read$",
+      "^.*_get$",
+      "^.*_search$",
+      "^weather_.*",
+      "^knowledge_base_.*"
+    ],
+    "requiresApprovalPatterns": [
+      "^.*_send$",
+      "^.*_create$",
+      "^.*_update$",
+      "^.*_process$"
+    ],
+    "disabledPatterns": [
+      "^.*_delete$",
+      "^.*_admin.*",
+      "^system_.*"
+    ]
+  },
+  "callbacks": {
+    "onToolApprovalRequest": "{{APPROVAL_CALLBACK_URL}}",
+    "onToolExecution": "{{EXECUTION_CALLBACK_URL}}",
+    "onError": "{{ERROR_CALLBACK_URL}}"
+  }
+}

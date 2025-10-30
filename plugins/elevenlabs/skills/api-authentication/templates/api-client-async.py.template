@@ -1,0 +1,296 @@
+"""
+ElevenLabs Async API Client
+
+Async Python client for ElevenLabs API with connection pooling.
+Optimized for high-throughput applications and concurrent requests.
+"""
+
+import os
+import asyncio
+from typing import Optional, AsyncIterator
+from elevenlabs.client import AsyncElevenLabs
+from elevenlabs import Voice, VoiceSettings
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+
+class ElevenLabsError(Exception):
+    """Custom exception for ElevenLabs API errors"""
+
+    def __init__(self, message: str, status_code: Optional[int] = None, details: any = None):
+        super().__init__(message)
+        self.status_code = status_code
+        self.details = details
+
+
+def create_async_elevenlabs_client(api_key: Optional[str] = None) -> AsyncElevenLabs:
+    """
+    Create and configure async ElevenLabs client
+
+    Args:
+        api_key: Optional API key. If not provided, uses ELEVENLABS_API_KEY from environment.
+
+    Returns:
+        Configured AsyncElevenLabs client
+
+    Raises:
+        ElevenLabsError: If API key is not provided or invalid
+    """
+    key = api_key or os.getenv("ELEVENLABS_API_KEY")
+
+    if not key:
+        raise ElevenLabsError(
+            "ELEVENLABS_API_KEY is required. Set it in .env file or pass to create_async_elevenlabs_client()"
+        )
+
+    if not key.startswith("sk_"):
+        print("Warning: API key does not start with 'sk_' - this may not be a valid ElevenLabs API key")
+
+    return AsyncElevenLabs(api_key=key)
+
+
+async def test_connection(client: Optional[AsyncElevenLabs] = None) -> bool:
+    """
+    Test API connection asynchronously
+
+    Args:
+        client: Optional AsyncElevenLabs client. Creates new one if not provided.
+
+    Returns:
+        True if connection successful
+
+    Raises:
+        ElevenLabsError: If connection test fails
+    """
+    elevenlabs_client = client or create_async_elevenlabs_client()
+
+    try:
+        models = await elevenlabs_client.models.get_all()
+        return len(models) > 0
+    except Exception as e:
+        raise ElevenLabsError(f"Connection test failed: {str(e)}", details=e)
+
+
+async def text_to_speech(
+    text: str,
+    voice_id: Optional[str] = None,
+    model_id: Optional[str] = None,
+    client: Optional[AsyncElevenLabs] = None,
+) -> bytes:
+    """
+    Convert text to speech asynchronously
+
+    Args:
+        text: Text to convert to speech
+        voice_id: Optional voice ID. Uses default from environment if not provided.
+        model_id: Optional model ID. Uses default from environment if not provided.
+        client: Optional AsyncElevenLabs client. Creates new one if not provided.
+
+    Returns:
+        Complete audio as bytes
+
+    Raises:
+        ElevenLabsError: If text-to-speech generation fails
+
+    Example:
+        >>> client = create_async_elevenlabs_client()
+        >>> audio = await text_to_speech("Hello world!", client=client)
+        >>> with open("output.mp3", "wb") as f:
+        ...     f.write(audio)
+    """
+    elevenlabs_client = client or create_async_elevenlabs_client()
+    voice = voice_id or os.getenv("ELEVENLABS_DEFAULT_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
+    model = model_id or os.getenv("ELEVENLABS_DEFAULT_MODEL_ID", "eleven_monolingual_v1")
+
+    try:
+        audio_stream = await elevenlabs_client.generate(
+            text=text,
+            voice=voice,
+            model=model,
+        )
+
+        # Collect all chunks
+        chunks = []
+        async for chunk in audio_stream:
+            chunks.append(chunk)
+
+        return b"".join(chunks)
+    except Exception as e:
+        raise ElevenLabsError(f"Text-to-speech failed: {str(e)}", details=e)
+
+
+async def text_to_speech_stream(
+    text: str,
+    voice_id: Optional[str] = None,
+    model_id: Optional[str] = None,
+    client: Optional[AsyncElevenLabs] = None,
+) -> AsyncIterator[bytes]:
+    """
+    Stream text to speech asynchronously
+
+    Args:
+        text: Text to convert to speech
+        voice_id: Optional voice ID. Uses default from environment if not provided.
+        model_id: Optional model ID. Uses default from environment if not provided.
+        client: Optional AsyncElevenLabs client. Creates new one if not provided.
+
+    Yields:
+        Audio chunks as bytes
+
+    Raises:
+        ElevenLabsError: If text-to-speech generation fails
+
+    Example:
+        >>> client = create_async_elevenlabs_client()
+        >>> async with aiofiles.open("output.mp3", "wb") as f:
+        ...     async for chunk in text_to_speech_stream("Hello!", client=client):
+        ...         await f.write(chunk)
+    """
+    elevenlabs_client = client or create_async_elevenlabs_client()
+    voice = voice_id or os.getenv("ELEVENLABS_DEFAULT_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")
+    model = model_id or os.getenv("ELEVENLABS_DEFAULT_MODEL_ID", "eleven_monolingual_v1")
+
+    try:
+        audio_stream = await elevenlabs_client.generate(
+            text=text,
+            voice=voice,
+            model=model,
+        )
+
+        async for chunk in audio_stream:
+            yield chunk
+    except Exception as e:
+        raise ElevenLabsError(f"Text-to-speech streaming failed: {str(e)}", details=e)
+
+
+async def batch_text_to_speech(
+    texts: list[str],
+    voice_id: Optional[str] = None,
+    model_id: Optional[str] = None,
+    max_concurrent: int = 5,
+    client: Optional[AsyncElevenLabs] = None,
+) -> list[bytes]:
+    """
+    Convert multiple texts to speech concurrently with rate limiting
+
+    Args:
+        texts: List of texts to convert
+        voice_id: Optional voice ID
+        model_id: Optional model ID
+        max_concurrent: Maximum concurrent requests (default: 5)
+        client: Optional AsyncElevenLabs client
+
+    Returns:
+        List of audio bytes in same order as input texts
+
+    Example:
+        >>> texts = ["Hello", "World", "How are you?"]
+        >>> audios = await batch_text_to_speech(texts, max_concurrent=3)
+    """
+    semaphore = asyncio.Semaphore(max_concurrent)
+
+    async def process_one(text: str, index: int) -> tuple[int, bytes]:
+        async with semaphore:
+            audio = await text_to_speech(text, voice_id, model_id, client)
+            return index, audio
+
+    # Process all texts concurrently with rate limiting
+    tasks = [process_one(text, i) for i, text in enumerate(texts)]
+    results = await asyncio.gather(*tasks)
+
+    # Sort by original index to maintain order
+    results.sort(key=lambda x: x[0])
+    return [audio for _, audio in results]
+
+
+async def get_voices(client: Optional[AsyncElevenLabs] = None):
+    """
+    Get available voices asynchronously
+
+    Args:
+        client: Optional AsyncElevenLabs client
+
+    Returns:
+        List of available voices
+    """
+    elevenlabs_client = client or create_async_elevenlabs_client()
+
+    try:
+        return await elevenlabs_client.voices.get_all()
+    except Exception as e:
+        raise ElevenLabsError(f"Failed to fetch voices: {str(e)}", details=e)
+
+
+async def get_models(client: Optional[AsyncElevenLabs] = None):
+    """
+    Get available models asynchronously
+
+    Args:
+        client: Optional AsyncElevenLabs client
+
+    Returns:
+        List of available models
+    """
+    elevenlabs_client = client or create_async_elevenlabs_client()
+
+    try:
+        return await elevenlabs_client.models.get_all()
+    except Exception as e:
+        raise ElevenLabsError(f"Failed to fetch models: {str(e)}", details=e)
+
+
+# Connection pool management
+_client_pool: Optional[AsyncElevenLabs] = None
+
+
+async def get_pooled_client() -> AsyncElevenLabs:
+    """
+    Get or create a pooled client for reuse
+
+    Returns:
+        Shared AsyncElevenLabs client instance
+    """
+    global _client_pool
+    if _client_pool is None:
+        _client_pool = create_async_elevenlabs_client()
+    return _client_pool
+
+
+async def close_pooled_client():
+    """Close the pooled client connection"""
+    global _client_pool
+    if _client_pool is not None:
+        await _client_pool.close()
+        _client_pool = None
+
+
+async def main():
+    """Example usage"""
+    print("Testing async ElevenLabs API connection...")
+
+    try:
+        client = create_async_elevenlabs_client()
+
+        # Test connection
+        connected = await test_connection(client)
+        print(f"✓ Connection successful: {connected}")
+
+        # Example: Generate speech
+        # audio = await text_to_speech("Hello world!", client=client)
+        # with open("output.mp3", "wb") as f:
+        #     f.write(audio)
+        # print("✓ Audio generated successfully")
+
+        # Example: Batch processing
+        # texts = ["Hello", "World", "Test"]
+        # audios = await batch_text_to_speech(texts, max_concurrent=3, client=client)
+        # print(f"✓ Generated {len(audios)} audio files")
+
+    except ElevenLabsError as e:
+        print(f"✗ Error: {e}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

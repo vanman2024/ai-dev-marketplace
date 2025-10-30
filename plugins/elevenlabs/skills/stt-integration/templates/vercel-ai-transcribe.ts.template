@@ -1,0 +1,368 @@
+/**
+ * ElevenLabs STT with Vercel AI SDK - TypeScript Template
+ *
+ * This template demonstrates how to use the Vercel AI SDK with the ElevenLabs
+ * provider for speech-to-text transcription.
+ *
+ * Installation:
+ *   npm install ai @ai-sdk/elevenlabs
+ *
+ * Environment Variables:
+ *   ELEVENLABS_API_KEY - Your ElevenLabs API key
+ */
+
+import { elevenlabs } from '@ai-sdk/elevenlabs';
+import { experimental_transcribe as transcribe } from 'ai';
+import { readFile } from 'fs/promises';
+import { existsSync } from 'fs';
+
+// ============================================================================
+// Configuration
+// ============================================================================
+
+interface TranscriptionConfig {
+  audioPath: string;
+  languageCode?: string; // ISO-639-1/3 code (e.g., 'en', 'es', 'ja')
+  diarize?: boolean;     // Enable speaker identification
+  numSpeakers?: number;  // Number of speakers (1-32)
+  tagAudioEvents?: boolean; // Detect sounds like laughter
+  timestampsGranularity?: 'none' | 'word' | 'character';
+  fileFormat?: 'pcm_s16le_16' | 'other';
+}
+
+// Default configuration
+const DEFAULT_CONFIG: Partial<TranscriptionConfig> = {
+  diarize: true,
+  tagAudioEvents: true,
+  timestampsGranularity: 'word',
+  fileFormat: 'other',
+};
+
+// ============================================================================
+// Main Transcription Function
+// ============================================================================
+
+export async function transcribeAudio(
+  config: TranscriptionConfig
+): Promise<TranscriptionResult> {
+  // Validate audio file exists
+  if (!existsSync(config.audioPath)) {
+    throw new Error(`Audio file not found: ${config.audioPath}`);
+  }
+
+  // Read audio file
+  const audioBuffer = await readFile(config.audioPath);
+  const audioData = new Uint8Array(audioBuffer);
+
+  // Merge with defaults
+  const finalConfig = { ...DEFAULT_CONFIG, ...config };
+
+  try {
+    // Perform transcription
+    const result = await transcribe({
+      model: elevenlabs.transcription('scribe_v1'),
+      audio: audioData,
+      providerOptions: {
+        elevenlabs: {
+          languageCode: finalConfig.languageCode,
+          diarize: finalConfig.diarize,
+          numSpeakers: finalConfig.numSpeakers,
+          tagAudioEvents: finalConfig.tagAudioEvents,
+          timestampsGranularity: finalConfig.timestampsGranularity,
+          fileFormat: finalConfig.fileFormat,
+        },
+      },
+    });
+
+    return {
+      text: result.text,
+      segments: result.segments,
+      duration: result.duration,
+      language: finalConfig.languageCode || 'auto',
+      success: true,
+    };
+  } catch (error) {
+    console.error('Transcription failed:', error);
+    throw new Error(`Transcription error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+// ============================================================================
+// Advanced: Transcription with Streaming
+// ============================================================================
+
+export async function transcribeWithProgress(
+  config: TranscriptionConfig,
+  onProgress?: (progress: number) => void
+): Promise<TranscriptionResult> {
+  // Simulate progress for file processing
+  onProgress?.(0.1); // File reading
+
+  const audioBuffer = await readFile(config.audioPath);
+  const audioData = new Uint8Array(audioBuffer);
+
+  onProgress?.(0.3); // File read complete
+
+  const result = await transcribe({
+    model: elevenlabs.transcription('scribe_v1'),
+    audio: audioData,
+    providerOptions: {
+      elevenlabs: {
+        languageCode: config.languageCode,
+        diarize: config.diarize ?? true,
+        numSpeakers: config.numSpeakers,
+        tagAudioEvents: config.tagAudioEvents ?? true,
+        timestampsGranularity: config.timestampsGranularity ?? 'word',
+      },
+    },
+  });
+
+  onProgress?.(1.0); // Complete
+
+  return {
+    text: result.text,
+    segments: result.segments,
+    duration: result.duration,
+    language: config.languageCode || 'auto',
+    success: true,
+  };
+}
+
+// ============================================================================
+// Batch Transcription
+// ============================================================================
+
+export async function transcribeBatch(
+  audioPaths: string[],
+  config: Partial<TranscriptionConfig> = {}
+): Promise<TranscriptionResult[]> {
+  const results: TranscriptionResult[] = [];
+
+  for (const audioPath of audioPaths) {
+    try {
+      const result = await transcribeAudio({
+        ...config,
+        audioPath,
+      } as TranscriptionConfig);
+      results.push(result);
+    } catch (error) {
+      console.error(`Failed to transcribe ${audioPath}:`, error);
+      results.push({
+        text: '',
+        segments: [],
+        duration: 0,
+        language: 'unknown',
+        success: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
+  }
+
+  return results;
+}
+
+// ============================================================================
+// Speaker Diarization Helper
+// ============================================================================
+
+export interface SpeakerSegment {
+  speaker: string;
+  text: string;
+  startTime: number;
+  endTime: number;
+}
+
+export function extractSpeakerSegments(result: TranscriptionResult): SpeakerSegment[] {
+  if (!result.segments) {
+    return [];
+  }
+
+  const speakerSegments: SpeakerSegment[] = [];
+  let currentSpeaker: string | null = null;
+  let currentText = '';
+  let currentStart = 0;
+  let currentEnd = 0;
+
+  for (const segment of result.segments) {
+    if ('speaker' in segment && segment.speaker) {
+      if (currentSpeaker && currentSpeaker !== segment.speaker) {
+        // Speaker changed, save previous segment
+        speakerSegments.push({
+          speaker: currentSpeaker,
+          text: currentText.trim(),
+          startTime: currentStart,
+          endTime: currentEnd,
+        });
+        currentText = '';
+      }
+
+      currentSpeaker = segment.speaker;
+      currentText += (segment.text || '') + ' ';
+
+      if ('startTime' in segment) currentStart = segment.startTime || currentStart;
+      if ('endTime' in segment) currentEnd = segment.endTime || currentEnd;
+    }
+  }
+
+  // Add final segment
+  if (currentSpeaker && currentText) {
+    speakerSegments.push({
+      speaker: currentSpeaker,
+      text: currentText.trim(),
+      startTime: currentStart,
+      endTime: currentEnd,
+    });
+  }
+
+  return speakerSegments;
+}
+
+// ============================================================================
+// Format Helpers
+// ============================================================================
+
+export function formatTranscriptWithSpeakers(result: TranscriptionResult): string {
+  const speakerSegments = extractSpeakerSegments(result);
+
+  if (speakerSegments.length === 0) {
+    return result.text;
+  }
+
+  return speakerSegments
+    .map(segment => `[${segment.speaker}]: ${segment.text}`)
+    .join('\n\n');
+}
+
+export function formatTimestamped(result: TranscriptionResult): string {
+  if (!result.segments) {
+    return result.text;
+  }
+
+  return result.segments
+    .filter(segment => 'text' in segment && segment.text)
+    .map(segment => {
+      const start = 'startTime' in segment ? formatTime(segment.startTime || 0) : '00:00';
+      const text = segment.text || '';
+      const speaker = 'speaker' in segment && segment.speaker ? `[${segment.speaker}] ` : '';
+      return `[${start}] ${speaker}${text}`;
+    })
+    .join('\n');
+}
+
+function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// ============================================================================
+// Type Definitions
+// ============================================================================
+
+export interface TranscriptionResult {
+  text: string;
+  segments?: TranscriptionSegment[];
+  duration?: number;
+  language: string;
+  success: boolean;
+  error?: string;
+}
+
+export interface TranscriptionSegment {
+  text?: string;
+  startTime?: number;
+  endTime?: number;
+  speaker?: string;
+  type?: 'word' | 'audio_event';
+}
+
+// ============================================================================
+// Usage Examples
+// ============================================================================
+
+async function exampleBasicTranscription() {
+  const result = await transcribeAudio({
+    audioPath: './audio/interview.mp3',
+    languageCode: 'en',
+  });
+
+  console.log('Transcription:', result.text);
+}
+
+async function exampleWithDiarization() {
+  const result = await transcribeAudio({
+    audioPath: './audio/meeting.mp3',
+    languageCode: 'en',
+    diarize: true,
+    numSpeakers: 3,
+  });
+
+  console.log('Formatted transcript:');
+  console.log(formatTranscriptWithSpeakers(result));
+}
+
+async function exampleBatchProcessing() {
+  const audioPaths = [
+    './audio/file1.mp3',
+    './audio/file2.mp3',
+    './audio/file3.mp3',
+  ];
+
+  const results = await transcribeBatch(audioPaths, {
+    languageCode: 'en',
+    diarize: true,
+  });
+
+  results.forEach((result, index) => {
+    console.log(`\n=== File ${index + 1} ===`);
+    if (result.success) {
+      console.log(result.text);
+    } else {
+      console.log('Error:', result.error);
+    }
+  });
+}
+
+async function exampleMultiLanguage() {
+  // Auto-detect language
+  const result = await transcribeAudio({
+    audioPath: './audio/multilingual.mp3',
+    // No languageCode specified - will auto-detect
+  });
+
+  console.log('Detected language:', result.language);
+  console.log('Transcription:', result.text);
+}
+
+// ============================================================================
+// CLI Interface (Optional)
+// ============================================================================
+
+if (require.main === module) {
+  const args = process.argv.slice(2);
+
+  if (args.length === 0) {
+    console.log('Usage: ts-node vercel-ai-transcribe.ts <audio_file> [language_code]');
+    process.exit(1);
+  }
+
+  const audioPath = args[0];
+  const languageCode = args[1];
+
+  transcribeAudio({
+    audioPath,
+    languageCode,
+    diarize: true,
+    tagAudioEvents: true,
+  })
+    .then(result => {
+      console.log('\n=== Transcription Result ===');
+      console.log(formatTranscriptWithSpeakers(result));
+      console.log('\n=== With Timestamps ===');
+      console.log(formatTimestamped(result));
+    })
+    .catch(error => {
+      console.error('Error:', error.message);
+      process.exit(1);
+    });
+}

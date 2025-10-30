@@ -1,0 +1,121 @@
+{
+  "input": {
+    "format": "${INPUT_FORMAT}",
+    "path": "${INPUT_PATH}",
+    "validate": true
+  },
+  "output": {
+    "format": "${OUTPUT_FORMAT}",
+    "path": "${OUTPUT_PATH}",
+    "sample_rate": ${SAMPLE_RATE},
+    "bitrate": "${BITRATE}",
+    "channels": ${CHANNELS}
+  },
+  "processing_pipeline": [
+    {
+      "step": "load",
+      "description": "Load audio file"
+    },
+    {
+      "step": "validate",
+      "description": "Validate audio properties",
+      "checks": [
+        "file_exists",
+        "format_supported",
+        "duration_valid",
+        "quality_check"
+      ]
+    },
+    {
+      "step": "noise_reduction",
+      "enabled": ${REMOVE_NOISE},
+      "description": "Remove background noise",
+      "parameters": {
+        "stationary": true,
+        "prop_decrease": 0.8
+      }
+    },
+    {
+      "step": "normalize",
+      "enabled": ${NORMALIZE},
+      "description": "Normalize audio levels",
+      "target_dbfs": -20.0
+    },
+    {
+      "step": "trim_silence",
+      "enabled": ${TRIM_SILENCE},
+      "description": "Trim silence from start and end",
+      "parameters": {
+        "silence_thresh": -40,
+        "min_silence_len": 500
+      }
+    },
+    {
+      "step": "resample",
+      "enabled": true,
+      "description": "Convert sample rate",
+      "target_rate": ${SAMPLE_RATE}
+    },
+    {
+      "step": "format_conversion",
+      "enabled": true,
+      "description": "Convert audio format",
+      "target_format": "${OUTPUT_FORMAT}"
+    },
+    {
+      "step": "export",
+      "description": "Export processed audio"
+    }
+  ],
+  "validation_rules": {
+    "min_duration": 30,
+    "max_duration": 18000,
+    "min_sample_rate": 16000,
+    "recommended_sample_rate": 22050,
+    "supported_formats": ["mp3", "wav", "flac", "ogg"],
+    "max_channels": 2,
+    "min_bitrate": "64k",
+    "recommended_bitrate": "128k"
+  },
+  "quality_checks": {
+    "check_clipping": true,
+    "check_silence_ratio": true,
+    "check_noise_floor": true,
+    "max_silence_ratio": 0.3,
+    "max_noise_floor_db": -60
+  },
+  "presets": {
+    "voice_cloning_instant": {
+      "sample_rate": 22050,
+      "format": "mp3",
+      "bitrate": "128k",
+      "remove_noise": true,
+      "normalize": true,
+      "trim_silence": true
+    },
+    "voice_cloning_professional": {
+      "sample_rate": 44100,
+      "format": "wav",
+      "bitrate": "320k",
+      "remove_noise": true,
+      "normalize": true,
+      "trim_silence": true
+    },
+    "quick_conversion": {
+      "sample_rate": 22050,
+      "format": "mp3",
+      "bitrate": "128k",
+      "remove_noise": false,
+      "normalize": false,
+      "trim_silence": false
+    },
+    "high_quality": {
+      "sample_rate": 48000,
+      "format": "flac",
+      "bitrate": "320k",
+      "remove_noise": true,
+      "normalize": true,
+      "trim_silence": true
+    }
+  }
+}

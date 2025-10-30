@@ -1,0 +1,175 @@
+{
+  "toolApprovalConfiguration": {
+    "defaultMode": "always_ask",
+    "approvalModes": {
+      "alwaysAsk": {
+        "enabled": true,
+        "description": "Maximum security - requires approval for every tool use",
+        "timeout": 30,
+        "fallbackOnTimeout": "deny"
+      },
+      "fineGrained": {
+        "enabled": true,
+        "description": "Configure approval per tool or pattern",
+        "rules": {
+          "autoApproved": {
+            "tools": [
+              "weather_get",
+              "calendar_read",
+              "knowledge_base_search",
+              "product_lookup",
+              "customer_info_read",
+              "search_web"
+            ],
+            "patterns": [
+              "^.*_read$",
+              "^.*_get$",
+              "^.*_search$",
+              "^.*_lookup$"
+            ],
+            "description": "Safe read-only operations"
+          },
+          "requiresApproval": {
+            "tools": [
+              "email_send",
+              "calendar_create",
+              "calendar_update",
+              "order_process",
+              "customer_data_update",
+              "spreadsheet_update",
+              "message_send"
+            ],
+            "patterns": [
+              "^.*_send$",
+              "^.*_create$",
+              "^.*_update$",
+              "^.*_process$",
+              "^.*_modify$"
+            ],
+            "description": "Data modification and external actions",
+            "timeout": 30,
+            "fallbackOnTimeout": "deny"
+          },
+          "disabled": {
+            "tools": [
+              "file_delete",
+              "user_delete",
+              "admin_action",
+              "system_execute",
+              "financial_transfer"
+            ],
+            "patterns": [
+              "^.*_delete$",
+              "^.*_remove$",
+              "^admin_.*",
+              "^system_.*",
+              "^financial_.*"
+            ],
+            "description": "High-risk operations - permanently disabled"
+          }
+        }
+      },
+      "noApproval": {
+        "enabled": false,
+        "description": "No approval required - only for fully trusted servers",
+        "warning": "Use only with thoroughly vetted MCP servers"
+      }
+    },
+    "approvalWorkflow": {
+      "method": "webhook",
+      "webhookUrl": "{{APPROVAL_WEBHOOK_URL}}",
+      "headers": {
+        "Authorization": "Bearer {{APPROVAL_WEBHOOK_TOKEN}}",
+        "Content-Type": "application/json"
+      },
+      "retryPolicy": {
+        "maxRetries": 3,
+        "retryDelay": 1000,
+        "backoffMultiplier": 2
+      }
+    },
+    "logging": {
+      "enabled": true,
+      "logLevel": "info",
+      "logDestination": "file",
+      "logFile": ".elevenlabs/tool-approvals.log",
+      "includeParameters": true,
+      "includeResponse": false
+    },
+    "security": {
+      "requireAuthentication": true,
+      "allowedApprovers": ["{{APPROVER_EMAIL}}"],
+      "approvalTokenExpiry": 300,
+      "auditEnabled": true,
+      "auditDestination": ".elevenlabs/tool-audit.log"
+    },
+    "notifications": {
+      "enabled": true,
+      "channels": {
+        "email": {
+          "enabled": true,
+          "recipients": ["{{NOTIFICATION_EMAIL}}"],
+          "template": "tool-approval-request"
+        },
+        "webhook": {
+          "enabled": false,
+          "url": "{{NOTIFICATION_WEBHOOK_URL}}"
+        }
+      },
+      "notifyOn": {
+        "approvalRequest": true,
+        "approvalGranted": false,
+        "approvalDenied": true,
+        "toolExecutionError": true,
+        "suspiciousActivity": true
+      }
+    },
+    "riskAssessment": {
+      "enabled": true,
+      "riskLevels": {
+        "low": {
+          "autoApprove": true,
+          "description": "Read-only, no side effects"
+        },
+        "medium": {
+          "autoApprove": false,
+          "requiresApproval": true,
+          "description": "Data modification, external communication"
+        },
+        "high": {
+          "autoApprove": false,
+          "requiresMultipleApprovals": false,
+          "description": "Sensitive operations, financial actions"
+        },
+        "critical": {
+          "autoApprove": false,
+          "requiresMultipleApprovals": true,
+          "permanentlyDisabled": true,
+          "description": "Destructive operations, admin actions"
+        }
+      }
+    },
+    "examples": {
+      "autoApprovedTool": {
+        "tool": "weather_get",
+        "server": "zapier-mcp",
+        "reason": "Read-only, no side effects",
+        "riskLevel": "low"
+      },
+      "requiresApprovalTool": {
+        "tool": "email_send",
+        "server": "zapier-mcp",
+        "reason": "External communication, data transmission",
+        "riskLevel": "medium",
+        "approvalRequired": true
+      },
+      "disabledTool": {
+        "tool": "user_delete",
+        "server": "custom-mcp",
+        "reason": "Destructive operation, high risk",
+        "riskLevel": "critical",
+        "permanentlyDisabled": true
+      }
+    }
+  }
+}

@@ -1,0 +1,176 @@
+/**
+ * ElevenLabs API Client for Next.js
+ *
+ * Optimized for Next.js Server Actions and API Routes.
+ * Use ONLY on server-side (never in client components).
+ */
+
+'use server';
+
+import { ElevenLabsClient } from 'elevenlabs';
+import { cache } from 'react';
+
+// Error types
+export class ElevenLabsError extends Error {
+  constructor(
+    message: string,
+    public statusCode?: number,
+    public details?: unknown
+  ) {
+    super(message);
+    this.name = 'ElevenLabsError';
+  }
+}
+
+/**
+ * Create ElevenLabs client (cached per request)
+ *
+ * IMPORTANT: This uses React's cache() for request-level memoization.
+ * The client is created once per request and reused.
+ */
+export const createElevenLabsClient = cache((): ElevenLabsClient => {
+  const apiKey = process.env.ELEVENLABS_API_KEY;
+
+  if (!apiKey) {
+    throw new ElevenLabsError(
+      'ELEVENLABS_API_KEY environment variable is required. Add it to .env.local'
+    );
+  }
+
+  if (!apiKey.startsWith('sk_')) {
+    console.warn('[ElevenLabs] Warning: API key does not start with "sk_"');
+  }
+
+  return new ElevenLabsClient({
+    apiKey,
+  });
+});
+
+/**
+ * Get default voice ID from environment
+ */
+export function getDefaultVoiceId(): string {
+  const voiceId = process.env.ELEVENLABS_DEFAULT_VOICE_ID;
+  if (!voiceId) {
+    throw new ElevenLabsError(
+      'ELEVENLABS_DEFAULT_VOICE_ID not set. Add it to .env.local'
+    );
+  }
+  return voiceId;
+}
+
+/**
+ * Get default model ID
+ */
+export function getDefaultModelId(): string {
+  return process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1';
+}
+
+/**
+ * Server Action: Generate speech from text
+ *
+ * @example
+ * 'use server';
+ * const audioBuffer = await generateSpeech('Hello world!');
+ */
+export async function generateSpeech(
+  text: string,
+  voiceId?: string,
+  modelId?: string
+): Promise<Buffer> {
+  const client = createElevenLabsClient();
+  const voice = voiceId || getDefaultVoiceId();
+  const model = modelId || getDefaultModelId();
+
+  try {
+    const audio = await client.generate({
+      voice,
+      text,
+      model_id: model,
+    });
+
+    const chunks: Uint8Array[] = [];
+    for await (const chunk of audio) {
+      chunks.push(chunk);
+    }
+
+    return Buffer.concat(chunks);
+  } catch (error) {
+    console.error('[ElevenLabs] Speech generation failed:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Speech generation failed',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Server Action: Get available voices
+ */
+export async function getVoices() {
+  const client = createElevenLabsClient();
+
+  try {
+    return await client.voices.getAll();
+  } catch (error) {
+    console.error('[ElevenLabs] Failed to fetch voices:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Failed to fetch voices',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Server Action: Get available models
+ */
+export async function getModels() {
+  const client = createElevenLabsClient();
+
+  try {
+    return await client.models.getAll();
+  } catch (error) {
+    console.error('[ElevenLabs] Failed to fetch models:', error);
+    throw new ElevenLabsError(
+      error instanceof Error ? error.message : 'Failed to fetch models',
+      undefined,
+      error
+    );
+  }
+}
+
+/**
+ * Server Action: Test API connection
+ */
+export async function testConnection(): Promise<boolean> {
+  try {
+    const models = await getModels();
+    return models.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Example usage in Next.js:
+ *
+ * // In a Server Component:
+ * import { generateSpeech, getVoices } from '@/lib/elevenlabs';
+ *
+ * export default async function Page() {
+ *   const voices = await getVoices();
+ *   return <VoiceList voices={voices} />;
+ * }
+ *
+ * // In a Server Action:
+ * 'use server';
+ * import { generateSpeech } from '@/lib/elevenlabs';
+ *
+ * export async function textToSpeechAction(formData: FormData) {
+ *   const text = formData.get('text') as string;
+ *   const audio = await generateSpeech(text);
+ *   return audio;
+ * }
+ */

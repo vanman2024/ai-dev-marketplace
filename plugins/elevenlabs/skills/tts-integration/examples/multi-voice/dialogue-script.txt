@@ -1,0 +1,20 @@
+# Sample Dialogue Script for Multi-Speaker TTS
+# Format: A: Speaker A text
+#         B: Speaker B text
+
+A: Hello! It's great to finally meet you in person.
+B: Likewise! I've heard so many good things about your work.
+A: That's very kind of you to say. I'm excited about this collaboration.
+B: Me too! I think we're going to create something amazing together.
+A: Absolutely. So, where should we start?
+B: Well, I've been thinking about the initial framework. Let me share my ideas.
+A: I'm all ears. Please go ahead.
+B: The key is to focus on user experience from the very beginning.
+A: I completely agree. That should be our north star.
+B: Exactly! And with your expertise in design, I think we can really nail this.
+A: I appreciate your confidence. Let's schedule our next meeting to dive deeper.
+B: Sounds perfect. How about next Tuesday at ten?
+A: Tuesday at ten works great for me. I'll prepare some mockups.
+B: Excellent! I'll bring the technical specifications we discussed.
+A: Perfect. I'm looking forward to it!
+B: Me too. This is going to be an exciting project!

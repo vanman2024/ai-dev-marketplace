@@ -1,0 +1,380 @@
+import { experimental_transcribe as transcribe } from 'ai';
+import { generateText } from 'ai';
+import { elevenlabs } from '@ai-sdk/elevenlabs';
+import { openai } from '@ai-sdk/openai';
+
+/**
+ * Voice Workflow: Voice → Transcription → LLM → Response
+ *
+ * Complete pipeline for processing voice input and generating intelligent responses
+ *
+ * Features:
+ * - Audio transcription via ElevenLabs
+ * - Context-aware LLM responses
+ * - Error handling and retry logic
+ * - Streaming support (optional)
+ *
+ * Usage:
+ *   const result = await processVoiceInput(audioBuffer, {
+ *     context: conversationHistory,
+ *     systemPrompt: 'You are a helpful assistant',
+ *   });
+ */
+
+export interface VoiceWorkflowOptions {
+  // Transcription options
+  language?: string;
+  speakers?: number;
+  enableDiarization?: boolean;
+  enableTimestamps?: boolean;
+
+  // LLM options
+  model?: string;
+  systemPrompt?: string;
+  context?: Array<{ role: 'user' | 'assistant'; content: string }>;
+  temperature?: number;
+  maxTokens?: number;
+
+  // Workflow options
+  enableStreaming?: boolean;
+  onTranscriptionComplete?: (text: string) => void;
+  onResponseChunk?: (chunk: string) => void;
+}
+
+export interface VoiceWorkflowResult {
+  success: boolean;
+  transcription: {
+    text: string;
+    language?: string;
+    durationInSeconds?: number;
+    segments?: any[];
+  };
+  response: {
+    text: string;
+    tokensUsed?: number;
+    finishReason?: string;
+  };
+  metadata: {
+    transcriptionTimeMs: number;
+    responseTimeMs: number;
+    totalTimeMs: number;
+  };
+  error?: string;
+}
+
+/**
+ * Process voice input through complete workflow
+ */
+export async function processVoiceInput(
+  audio: Buffer | Uint8Array | ArrayBuffer,
+  options: VoiceWorkflowOptions = {}
+): Promise<VoiceWorkflowResult> {
+  const startTime = Date.now();
+  let transcriptionTime = 0;
+  let responseTime = 0;
+
+  try {
+    // Step 1: Transcribe audio
+    const transcriptionStart = Date.now();
+
+    const providerOptions: any = {};
+
+    if (options.language) {
+      providerOptions.languageCode = options.language;
+    }
+
+    if (options.speakers) {
+      providerOptions.numSpeakers = options.speakers;
+    }
+
+    if (options.enableDiarization) {
+      providerOptions.diarize = true;
+    }
+
+    if (options.enableTimestamps) {
+      providerOptions.timestampsGranularity = 'word';
+    }
+
+    const transcriptionResult = await transcribe({
+      model: elevenlabs.transcription('scribe_v1'),
+      audio,
+      ...(Object.keys(providerOptions).length > 0 && {
+        providerOptions: { elevenlabs: providerOptions },
+      }),
+    });
+
+    transcriptionTime = Date.now() - transcriptionStart;
+
+    // Callback after transcription
+    if (options.onTranscriptionComplete) {
+      options.onTranscriptionComplete(transcriptionResult.text);
+    }
+
+    // Step 2: Generate LLM response
+    const responseStart = Date.now();
+
+    // Build messages for LLM
+    const messages = [];
+
+    if (options.systemPrompt) {
+      messages.push({
+        role: 'system' as const,
+        content: options.systemPrompt,
+      });
+    }
+
+    // Add conversation context
+    if (options.context && options.context.length > 0) {
+      messages.push(...options.context);
+    }
+
+    // Add current user message (transcribed text)
+    messages.push({
+      role: 'user' as const,
+      content: transcriptionResult.text,
+    });
+
+    const llmModel = options.model || 'gpt-4o';
+
+    const llmResult = await generateText({
+      model: openai(llmModel),
+      messages,
+      temperature: options.temperature ?? 0.7,
+      maxTokens: options.maxTokens ?? 1000,
+    });
+
+    responseTime = Date.now() - responseStart;
+
+    const totalTime = Date.now() - startTime;
+
+    return {
+      success: true,
+      transcription: {
+        text: transcriptionResult.text,
+        language: transcriptionResult.language,
+        durationInSeconds: transcriptionResult.durationInSeconds,
+        segments: transcriptionResult.segments,
+      },
+      response: {
+        text: llmResult.text,
+        tokensUsed: llmResult.usage?.totalTokens,
+        finishReason: llmResult.finishReason,
+      },
+      metadata: {
+        transcriptionTimeMs: transcriptionTime,
+        responseTimeMs: responseTime,
+        totalTimeMs: totalTime,
+      },
+    };
+  } catch (error) {
+    console.error('Voice workflow error:', error);
+
+    return {
+      success: false,
+      transcription: {
+        text: '',
+      },
+      response: {
+        text: '',
+      },
+      metadata: {
+        transcriptionTimeMs: transcriptionTime,
+        responseTimeMs: responseTime,
+        totalTimeMs: Date.now() - startTime,
+      },
+      error: error instanceof Error ? error.message : 'Unknown error',
+    };
+  }
+}
+
+/**
+ * Process voice input with streaming response
+ */
+export async function processVoiceInputStreaming(
+  audio: Buffer | Uint8Array | ArrayBuffer,
+  options: VoiceWorkflowOptions = {}
+): Promise<AsyncGenerator<string, VoiceWorkflowResult, unknown>> {
+  return (async function* () {
+    const startTime = Date.now();
+    let transcriptionTime = 0;
+    let responseTime = 0;
+
+    try {
+      // Step 1: Transcribe audio (same as non-streaming)
+      const transcriptionStart = Date.now();
+
+      const providerOptions: any = {};
+
+      if (options.language) {
+        providerOptions.languageCode = options.language;
+      }
+
+      if (options.speakers) {
+        providerOptions.numSpeakers = options.speakers;
+      }
+
+      if (options.enableDiarization) {
+        providerOptions.diarize = true;
+      }
+
+      if (options.enableTimestamps) {
+        providerOptions.timestampsGranularity = 'word';
+      }
+
+      const transcriptionResult = await transcribe({
+        model: elevenlabs.transcription('scribe_v1'),
+        audio,
+        ...(Object.keys(providerOptions).length > 0 && {
+          providerOptions: { elevenlabs: providerOptions },
+        }),
+      });
+
+      transcriptionTime = Date.now() - transcriptionStart;
+
+      if (options.onTranscriptionComplete) {
+        options.onTranscriptionComplete(transcriptionResult.text);
+      }
+
+      // Step 2: Stream LLM response
+      const responseStart = Date.now();
+
+      const messages = [];
+
+      if (options.systemPrompt) {
+        messages.push({
+          role: 'system' as const,
+          content: options.systemPrompt,
+        });
+      }
+
+      if (options.context && options.context.length > 0) {
+        messages.push(...options.context);
+      }
+
+      messages.push({
+        role: 'user' as const,
+        content: transcriptionResult.text,
+      });
+
+      const llmModel = options.model || 'gpt-4o';
+
+      // Import streamText for streaming
+      const { streamText } = await import('ai');
+
+      const stream = await streamText({
+        model: openai(llmModel),
+        messages,
+        temperature: options.temperature ?? 0.7,
+        maxTokens: options.maxTokens ?? 1000,
+      });
+
+      let fullText = '';
+
+      // Stream response chunks
+      for await (const chunk of stream.textStream) {
+        fullText += chunk;
+
+        if (options.onResponseChunk) {
+          options.onResponseChunk(chunk);
+        }
+
+        yield chunk;
+      }
+
+      responseTime = Date.now() - responseStart;
+      const totalTime = Date.now() - startTime;
+
+      return {
+        success: true,
+        transcription: {
+          text: transcriptionResult.text,
+          language: transcriptionResult.language,
+          durationInSeconds: transcriptionResult.durationInSeconds,
+          segments: transcriptionResult.segments,
+        },
+        response: {
+          text: fullText,
+        },
+        metadata: {
+          transcriptionTimeMs: transcriptionTime,
+          responseTimeMs: responseTime,
+          totalTimeMs: totalTime,
+        },
+      };
+    } catch (error) {
+      console.error('Voice workflow streaming error:', error);
+
+      return {
+        success: false,
+        transcription: {
+          text: '',
+        },
+        response: {
+          text: '',
+        },
+        metadata: {
+          transcriptionTimeMs: transcriptionTime,
+          responseTimeMs: responseTime,
+          totalTimeMs: Date.now() - startTime,
+        },
+        error: error instanceof Error ? error.message : 'Unknown error',
+      };
+    }
+  })();
+}
+
+/**
+ * Batch process multiple voice inputs
+ */
+export async function batchProcessVoiceInputs(
+  audioFiles: Array<Buffer | Uint8Array | ArrayBuffer>,
+  options: VoiceWorkflowOptions = {}
+): Promise<VoiceWorkflowResult[]> {
+  const results: VoiceWorkflowResult[] = [];
+
+  for (const audio of audioFiles) {
+    const result = await processVoiceInput(audio, options);
+    results.push(result);
+  }
+
+  return results;
+}
+
+/**
+ * Process voice input with retry logic
+ */
+export async function processVoiceInputWithRetry(
+  audio: Buffer | Uint8Array | ArrayBuffer,
+  options: VoiceWorkflowOptions = {},
+  maxRetries = 3
+): Promise<VoiceWorkflowResult> {
+  let lastError: Error | null = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await processVoiceInput(audio, options);
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error('Unknown error');
+      console.error(`Attempt ${attempt} failed:`, lastError.message);
+
+      if (attempt < maxRetries) {
+        // Exponential backoff
+        const delay = Math.pow(2, attempt) * 1000;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+    }
+  }
+
+  // All retries failed
+  return {
+    success: false,
+    transcription: { text: '' },
+    response: { text: '' },
+    metadata: {
+      transcriptionTimeMs: 0,
+      responseTimeMs: 0,
+      totalTimeMs: 0,
+    },
+    error: lastError?.message || 'All retry attempts failed',
+  };
+}

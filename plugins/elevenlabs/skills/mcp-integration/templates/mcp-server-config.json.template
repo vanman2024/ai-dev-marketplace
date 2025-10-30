@@ -1,0 +1,38 @@
+{
+  "mcpServers": {
+    "{{SERVER_NAME}}": {
+      "name": "{{SERVER_NAME}}",
+      "description": "{{SERVER_DESCRIPTION}}",
+      "url": "{{SERVER_URL}}",
+      "transport": "sse",
+      "approvalMode": "always_ask",
+      "headers": {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer {{AUTH_TOKEN}}",
+        "User-Agent": "ElevenLabs-Agent/1.0"
+      },
+      "enabled": true,
+      "createdAt": "{{TIMESTAMP}}",
+      "rateLimiting": {
+        "requestsPerMinute": 60,
+        "burstLimit": 10
+      },
+      "timeout": {
+        "connection": 5000,
+        "request": 30000
+      },
+      "retry": {
+        "enabled": true,
+        "maxRetries": 3,
+        "backoffMultiplier": 2,
+        "initialDelay": 1000
+      }
+    }
+  },
+  "globalSettings": {
+    "defaultApprovalMode": "always_ask",
+    "logToolInvocations": true,
+    "cacheEnabled": true,
+    "healthCheckInterval": 60
+  }
+}

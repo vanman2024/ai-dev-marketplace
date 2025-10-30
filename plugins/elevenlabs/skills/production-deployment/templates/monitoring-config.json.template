@@ -1,0 +1,306 @@
+{
+  "prometheus": {
+    "scrape_configs": [
+      {
+        "job_name": "elevenlabs-api",
+        "scrape_interval": "15s",
+        "scrape_timeout": "10s",
+        "static_configs": [
+          {
+            "targets": ["localhost:8080"],
+            "labels": {
+              "environment": "production",
+              "service": "elevenlabs-api"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "alertmanager": {
+    "route": {
+      "group_by": ["alertname", "cluster", "service"],
+      "group_wait": "10s",
+      "group_interval": "10s",
+      "repeat_interval": "12h",
+      "receiver": "team-notifications"
+    },
+    "receivers": [
+      {
+        "name": "team-notifications",
+        "slack_configs": [
+          {
+            "api_url": "${SLACK_WEBHOOK_URL}",
+            "channel": "#alerts",
+            "title": "ElevenLabs API Alert",
+            "text": "{{ range .Alerts }}{{ .Annotations.description }}{{ end }}"
+          }
+        ],
+        "email_configs": [
+          {
+            "to": "${ALERT_EMAIL}",
+            "from": "alerts@example.com",
+            "smarthost": "smtp.gmail.com:587",
+            "auth_username": "${SMTP_USERNAME}",
+            "auth_password": "${SMTP_PASSWORD}",
+            "headers": {
+              "Subject": "ElevenLabs API Alert"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "alert_rules": [
+    {
+      "alert": "HighErrorRate",
+      "expr": "rate(elevenlabs_errors_total[5m]) > 0.05",
+      "for": "5m",
+      "labels": {
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "High error rate detected",
+        "description": "Error rate is {{ $value }} (threshold: 5%)"
+      }
+    },
+    {
+      "alert": "CircuitBreakerOpen",
+      "expr": "elevenlabs_circuit_breaker_state > 0",
+      "for": "1m",
+      "labels": {
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "Circuit breaker is open",
+        "description": "Circuit {{ $labels.circuit }} is in {{ $value }} state"
+      }
+    },
+    {
+      "alert": "HighQueueDepth",
+      "expr": "elevenlabs_queue_depth > 500",
+      "for": "2m",
+      "labels": {
+        "severity": "critical"
+      },
+      "annotations": {
+        "summary": "Request queue is very deep",
+        "description": "Queue depth is {{ $value }} requests"
+      }
+    },
+    {
+      "alert": "HighLatency",
+      "expr": "histogram_quantile(0.95, rate(elevenlabs_request_duration_seconds_bucket[5m])) > 2",
+      "for": "5m",
+      "labels": {
+        "severity": "warning"
+      },
+      "annotations": {
+        "summary": "High latency detected",
+        "description": "P95 latency is {{ $value }}s (threshold: 2s)"
+      }
+    },
+    {
+      "alert": "HighQuotaUsage",
+      "expr": "elevenlabs_quota_used_percentage > 90",
+      "for": "10m",
+      "labels": {
+        "severity": "warning"
+      },
+      "annotations": {
+        "summary": "Quota usage is high",
+        "description": "Quota usage is {{ $value }}% (threshold: 90%)"
+      }
+    },
+    {
+      "alert": "HighRetryRate",
+      "expr": "rate(elevenlabs_retries_total[5m]) > 0.2",
+      "for": "5m",
+      "labels": {
+        "severity": "warning"
+      },
+      "annotations": {
+        "summary": "High retry rate detected",
+        "description": "Retry rate is {{ $value }} (threshold: 20%)"
+      }
+    }
+  ],
+  "grafana": {
+    "dashboards": [
+      {
+        "title": "ElevenLabs API Overview",
+        "refresh": "30s",
+        "panels": [
+          {
+            "title": "Request Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(elevenlabs_requests_total[5m])",
+                "legendFormat": "{{ method }} - {{ status }}"
+              }
+            ]
+          },
+          {
+            "title": "Error Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(elevenlabs_errors_total[5m])",
+                "legendFormat": "{{ type }}"
+              }
+            ]
+          },
+          {
+            "title": "Request Duration P95",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.95, rate(elevenlabs_request_duration_seconds_bucket[5m]))",
+                "legendFormat": "{{ method }}"
+              }
+            ]
+          },
+          {
+            "title": "Concurrent Requests",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "elevenlabs_concurrent_requests"
+              }
+            ]
+          },
+          {
+            "title": "Queue Depth",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "elevenlabs_queue_depth"
+              }
+            ]
+          },
+          {
+            "title": "Circuit Breaker State",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "elevenlabs_circuit_breaker_state"
+              }
+            ],
+            "fieldConfig": {
+              "mappings": [
+                {
+                  "value": 0,
+                  "text": "CLOSED"
+                },
+                {
+                  "value": 1,
+                  "text": "OPEN"
+                },
+                {
+                  "value": 2,
+                  "text": "HALF_OPEN"
+                }
+              ]
+            }
+          },
+          {
+            "title": "Characters Generated",
+            "type": "stat",
+            "targets": [
+              {
+                "expr": "sum(elevenlabs_characters_generated_total)"
+              }
+            ]
+          },
+          {
+            "title": "Quota Usage",
+            "type": "gauge",
+            "targets": [
+              {
+                "expr": "elevenlabs_quota_used_percentage"
+              }
+            ],
+            "fieldConfig": {
+              "min": 0,
+              "max": 100,
+              "thresholds": {
+                "steps": [
+                  {
+                    "value": 0,
+                    "color": "green"
+                  },
+                  {
+                    "value": 80,
+                    "color": "yellow"
+                  },
+                  {
+                    "value": 90,
+                    "color": "red"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    ]
+  },
+  "logging": {
+    "level": "${LOG_LEVEL:-info}",
+    "format": "json",
+    "outputs": [
+      {
+        "type": "file",
+        "path": "${LOG_DIR:-./logs}/app.log",
+        "rotation": {
+          "maxSize": "100MB",
+          "maxAge": "14d",
+          "maxBackups": 10,
+          "compress": true
+        }
+      },
+      {
+        "type": "file",
+        "path": "${LOG_DIR:-./logs}/error.log",
+        "level": "error",
+        "rotation": {
+          "maxSize": "100MB",
+          "maxAge": "30d",
+          "maxBackups": 20,
+          "compress": true
+        }
+      },
+      {
+        "type": "console",
+        "colorize": true
+      }
+    ],
+    "fields": {
+      "service": "elevenlabs-api",
+      "environment": "${ENVIRONMENT:-production}",
+      "version": "${APP_VERSION:-1.0.0}"
+    }
+  },
+  "tracing": {
+    "enabled": true,
+    "serviceName": "elevenlabs-api",
+    "jaeger": {
+      "agentHost": "${JAEGER_AGENT_HOST:-localhost}",
+      "agentPort": "${JAEGER_AGENT_PORT:-6831}",
+      "samplingRate": 0.1
+    }
+  },
+  "health_checks": {
+    "liveness": {
+      "path": "/health",
+      "interval": "30s",
+      "timeout": "5s"
+    },
+    "readiness": {
+      "path": "/ready",
+      "interval": "10s",
+      "timeout": "5s"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "name": "elevenlabs",
+  "version": "1.0.0",
+  "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, and Vercel AI SDK support",
+  "author": {
+    "name": "AI Dev Marketplace",
+    "email": "plugins@ai-dev-marketplace.com"
+  },
+  "keywords": [
+    "elevenlabs",
+    "voice",
+    "tts",
+    "stt",
+    "speech",
+    "audio",
+    "ai",
+    "vercel-ai-sdk",
+    "voice-cloning",
+    "transcription"
+  ],
+  "category": "sdk",
+  "homepage": "https://elevenlabs.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ai-dev-marketplace/plugins"
+  },
+  "license": "MIT"
+}

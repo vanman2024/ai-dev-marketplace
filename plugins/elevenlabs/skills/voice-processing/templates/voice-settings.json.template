@@ -1,0 +1,93 @@
+{
+  "voice_id": "${VOICE_ID}",
+  "settings": {
+    "stability": ${STABILITY},
+    "similarity_boost": ${SIMILARITY_BOOST},
+    "style": ${STYLE},
+    "use_speaker_boost": ${USE_SPEAKER_BOOST}
+  },
+  "presets": {
+    "narration": {
+      "stability": 0.8,
+      "similarity_boost": 0.75,
+      "style": 0.0,
+      "use_speaker_boost": true,
+      "description": "Stable, consistent output for audiobooks and podcasts"
+    },
+    "dialogue": {
+      "stability": 0.5,
+      "similarity_boost": 0.8,
+      "style": 0.2,
+      "use_speaker_boost": true,
+      "description": "Balanced expressiveness for conversational content"
+    },
+    "character": {
+      "stability": 0.3,
+      "similarity_boost": 0.7,
+      "style": 0.6,
+      "use_speaker_boost": false,
+      "description": "Expressive, variable output for character voices"
+    },
+    "clone_fidelity": {
+      "stability": 0.7,
+      "similarity_boost": 0.9,
+      "style": 0.0,
+      "use_speaker_boost": true,
+      "description": "Maximum similarity to original voice"
+    },
+    "creative": {
+      "stability": 0.4,
+      "similarity_boost": 0.5,
+      "style": 0.4,
+      "use_speaker_boost": false,
+      "description": "More creative and varied interpretation"
+    }
+  },
+  "parameter_guides": {
+    "stability": {
+      "range": [0.0, 1.0],
+      "low": "More expressive, variable (0.0-0.3)",
+      "medium": "Balanced expression and consistency (0.4-0.6)",
+      "high": "More consistent, stable (0.7-1.0)",
+      "recommended_use": {
+        "audiobooks": 0.8,
+        "podcasts": 0.75,
+        "dialogue": 0.5,
+        "character_voices": 0.3
+      }
+    },
+    "similarity_boost": {
+      "range": [0.0, 1.0],
+      "low": "More creative, varied (0.0-0.3)",
+      "medium": "Balanced clone fidelity (0.4-0.6)",
+      "high": "Closer to original voice (0.7-1.0)",
+      "recommended_use": {
+        "exact_match": 0.9,
+        "natural_variation": 0.75,
+        "creative_interpretation": 0.5
+      }
+    },
+    "style": {
+      "range": [0.0, 1.0],
+      "low": "More neutral delivery (0.0-0.2)",
+      "medium": "Moderate expressiveness (0.3-0.6)",
+      "high": "More expressive, character-like (0.7-1.0)",
+      "recommended_use": {
+        "neutral_narration": 0.0,
+        "conversational": 0.2,
+        "emotional_content": 0.5,
+        "character_performance": 0.7
+      }
+    },
+    "use_speaker_boost": {
+      "type": "boolean",
+      "true": "Enhance speaker characteristics",
+      "false": "Standard processing",
+      "recommended_use": {
+        "cloned_voices": true,
+        "character_voices": false,
+        "narration": true
+      }
+    }
+  }
+}

@@ -1,0 +1,358 @@
+import { experimental_transcribe as transcribe } from 'ai';
+import { elevenlabs } from '@ai-sdk/elevenlabs';
+
+/**
+ * Speaker Diarization with ElevenLabs
+ *
+ * Identifies and labels different speakers in audio recordings
+ *
+ * Use cases:
+ * - Meeting transcription
+ * - Interview recordings
+ * - Multi-speaker conversations
+ * - Podcast transcription
+ *
+ * Features:
+ * - Automatic speaker detection
+ * - Speaker labeling
+ * - Timestamp tracking
+ * - Turn-taking analysis
+ */
+
+export interface SpeakerSegment {
+  speaker: number;
+  text: string;
+  startTime: number;
+  endTime: number;
+  duration: number;
+}
+
+export interface SpeakerStats {
+  speakerId: number;
+  totalDuration: number;
+  segmentCount: number;
+  averageSegmentDuration: number;
+  percentageOfTotal: number;
+}
+
+export interface DiarizationResult {
+  fullText: string;
+  segments: SpeakerSegment[];
+  speakers: SpeakerStats[];
+  totalDuration: number;
+  numSpeakersDetected: number;
+}
+
+/**
+ * Transcribe audio with speaker diarization
+ */
+export async function transcribeWithDiarization(
+  audio: Buffer | Uint8Array | ArrayBuffer,
+  options: {
+    language?: string;
+    expectedSpeakers?: number;
+    enableTimestamps?: boolean;
+  } = {}
+): Promise<DiarizationResult> {
+  const { language, expectedSpeakers, enableTimestamps = true } = options;
+
+  // Build provider options
+  const providerOptions: any = {
+    diarize: true,
+    timestampsGranularity: enableTimestamps ? 'word' : 'none',
+  };
+
+  if (language) {
+    providerOptions.languageCode = language;
+  }
+
+  if (expectedSpeakers && expectedSpeakers >= 1 && expectedSpeakers <= 32) {
+    providerOptions.numSpeakers = expectedSpeakers;
+  }
+
+  // Transcribe with diarization
+  const result = await transcribe({
+    model: elevenlabs.transcription('scribe_v1'),
+    audio,
+    providerOptions: {
+      elevenlabs: providerOptions,
+    },
+  });
+
+  // Process segments
+  const segments: SpeakerSegment[] = [];
+  const speakerDurations = new Map<number, number>();
+  const speakerCounts = new Map<number, number>();
+
+  if (result.segments && result.segments.length > 0) {
+    for (const segment of result.segments) {
+      const speakerId = segment.speaker || 0;
+      const startTime = segment.timestamp || 0;
+      const endTime = segment.endTimestamp || startTime;
+      const duration = endTime - startTime;
+
+      segments.push({
+        speaker: speakerId,
+        text: segment.text,
+        startTime,
+        endTime,
+        duration,
+      });
+
+      // Track speaker statistics
+      speakerDurations.set(
+        speakerId,
+        (speakerDurations.get(speakerId) || 0) + duration
+      );
+
+      speakerCounts.set(speakerId, (speakerCounts.get(speakerId) || 0) + 1);
+    }
+  }
+
+  // Calculate speaker statistics
+  const totalDuration = result.durationInSeconds || 0;
+  const speakers: SpeakerStats[] = [];
+  const detectedSpeakers = new Set(segments.map((s) => s.speaker));
+
+  for (const speakerId of detectedSpeakers) {
+    const duration = speakerDurations.get(speakerId) || 0;
+    const count = speakerCounts.get(speakerId) || 0;
+
+    speakers.push({
+      speakerId,
+      totalDuration: duration,
+      segmentCount: count,
+      averageSegmentDuration: count > 0 ? duration / count : 0,
+      percentageOfTotal: totalDuration > 0 ? (duration / totalDuration) * 100 : 0,
+    });
+  }
+
+  // Sort by speaking time
+  speakers.sort((a, b) => b.totalDuration - a.totalDuration);
+
+  return {
+    fullText: result.text,
+    segments,
+    speakers,
+    totalDuration,
+    numSpeakersDetected: detectedSpeakers.size,
+  };
+}
+
+/**
+ * Format diarized transcript for display
+ */
+export function formatDiarizedTranscript(result: DiarizationResult): string {
+  let output = '';
+
+  // Group consecutive segments by speaker
+  const turns: Array<{ speaker: number; text: string; startTime: number }> = [];
+  let currentSpeaker = -1;
+  let currentText = '';
+  let currentStartTime = 0;
+
+  for (const segment of result.segments) {
+    if (segment.speaker !== currentSpeaker) {
+      if (currentText) {
+        turns.push({
+          speaker: currentSpeaker,
+          text: currentText.trim(),
+          startTime: currentStartTime,
+        });
+      }
+      currentSpeaker = segment.speaker;
+      currentText = segment.text;
+      currentStartTime = segment.startTime;
+    } else {
+      currentText += ' ' + segment.text;
+    }
+  }
+
+  // Add final turn
+  if (currentText) {
+    turns.push({
+      speaker: currentSpeaker,
+      text: currentText.trim(),
+      startTime: currentStartTime,
+    });
+  }
+
+  // Format output
+  for (const turn of turns) {
+    const timestamp = formatTimestamp(turn.startTime);
+    output += `[${timestamp}] Speaker ${turn.speaker}: ${turn.text}\n\n`;
+  }
+
+  return output;
+}
+
+/**
+ * Generate meeting summary with speaker insights
+ */
+export function generateMeetingSummary(result: DiarizationResult): string {
+  let summary = '# Meeting Transcription Summary\n\n';
+
+  // Overview
+  summary += `## Overview\n`;
+  summary += `- Duration: ${formatDuration(result.totalDuration)}\n`;
+  summary += `- Speakers: ${result.numSpeakersDetected}\n`;
+  summary += `- Total Segments: ${result.segments.length}\n\n`;
+
+  // Speaker breakdown
+  summary += `## Speaker Breakdown\n\n`;
+
+  for (const speaker of result.speakers) {
+    summary += `### Speaker ${speaker.speakerId}\n`;
+    summary += `- Speaking Time: ${formatDuration(speaker.totalDuration)} (${speaker.percentageOfTotal.toFixed(1)}%)\n`;
+    summary += `- Turns: ${speaker.segmentCount}\n`;
+    summary += `- Avg Turn Length: ${formatDuration(speaker.averageSegmentDuration)}\n\n`;
+  }
+
+  // Full transcript
+  summary += `## Full Transcript\n\n`;
+  summary += formatDiarizedTranscript(result);
+
+  return summary;
+}
+
+/**
+ * Export diarized transcript as structured data
+ */
+export function exportDiarizedTranscript(result: DiarizationResult) {
+  return {
+    metadata: {
+      duration: result.totalDuration,
+      speakers: result.numSpeakersDetected,
+      segments: result.segments.length,
+      generatedAt: new Date().toISOString(),
+    },
+    speakers: result.speakers,
+    segments: result.segments.map((seg) => ({
+      speaker: seg.speaker,
+      text: seg.text,
+      startTime: seg.startTime,
+      endTime: seg.endTime,
+      duration: seg.duration,
+    })),
+    fullText: result.fullText,
+  };
+}
+
+/**
+ * Find speaker turns and interactions
+ */
+export function analyzeSpeakerInteractions(result: DiarizationResult) {
+  const interactions: Array<{
+    from: number;
+    to: number;
+    count: number;
+  }> = [];
+
+  const interactionMap = new Map<string, number>();
+
+  for (let i = 1; i < result.segments.length; i++) {
+    const prevSpeaker = result.segments[i - 1].speaker;
+    const currSpeaker = result.segments[i].speaker;
+
+    if (prevSpeaker !== currSpeaker) {
+      const key = `${prevSpeaker}->${currSpeaker}`;
+      interactionMap.set(key, (interactionMap.get(key) || 0) + 1);
+    }
+  }
+
+  for (const [key, count] of interactionMap) {
+    const [from, to] = key.split('->').map(Number);
+    interactions.push({ from, to, count });
+  }
+
+  // Sort by frequency
+  interactions.sort((a, b) => b.count - a.count);
+
+  return interactions;
+}
+
+/**
+ * Search for specific speaker's contributions
+ */
+export function findSpeakerSegments(
+  result: DiarizationResult,
+  speakerId: number
+): SpeakerSegment[] {
+  return result.segments.filter((seg) => seg.speaker === speakerId);
+}
+
+/**
+ * Extract dialogue between two specific speakers
+ */
+export function extractDialogue(
+  result: DiarizationResult,
+  speaker1: number,
+  speaker2: number
+): SpeakerSegment[] {
+  return result.segments.filter(
+    (seg) => seg.speaker === speaker1 || seg.speaker === speaker2
+  );
+}
+
+// Helper functions
+
+function formatTimestamp(seconds: number): string {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+
+  if (hours > 0) {
+    return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+function formatDuration(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const secs = Math.floor(seconds % 60);
+
+  if (minutes > 0) {
+    return `${minutes}m ${secs}s`;
+  }
+
+  return `${secs}s`;
+}
+
+/**
+ * Next.js API route handler for diarization
+ */
+export async function handleDiarizationRequest(
+  audioBuffer: Buffer,
+  options: {
+    language?: string;
+    expectedSpeakers?: number;
+    format?: 'json' | 'text' | 'summary';
+  } = {}
+) {
+  const result = await transcribeWithDiarization(audioBuffer, {
+    language: options.language,
+    expectedSpeakers: options.expectedSpeakers,
+  });
+
+  switch (options.format) {
+    case 'text':
+      return {
+        format: 'text',
+        content: formatDiarizedTranscript(result),
+      };
+
+    case 'summary':
+      return {
+        format: 'summary',
+        content: generateMeetingSummary(result),
+      };
+
+    case 'json':
+    default:
+      return {
+        format: 'json',
+        content: exportDiarizedTranscript(result),
+      };
+  }
+}
