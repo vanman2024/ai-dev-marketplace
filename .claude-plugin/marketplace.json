@@ -61,35 +61,6 @@
             ]
         },
         {
-            "name": "fastmcp",
-            "description": "FastMCP SDK plugin for building MCP servers with Python/TypeScript. Layered commands for server development, authentication, deployment, and integrations with comprehensive feature support.",
-            "version": "1.0.0",
-            "author": {
-                "name": "ai-dev-marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/fastmcp",
-            "commands": "./commands",
-            "category": "development",
-            "keywords": [
-                "fastmcp",
-                "mcp",
-                "model-context-protocol",
-                "python",
-                "typescript",
-                "sdk",
-                "server-development",
-                "authentication",
-                "deployment",
-                "tools",
-                "resources",
-                "prompts",
-                "oauth",
-                "fastapi",
-                "claude-desktop"
-            ]
-        },
-        {
             "name": "mem0",
             "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
             "version": "1.1.0",
