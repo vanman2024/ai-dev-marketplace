@@ -3,7 +3,7 @@ name: supabase-ui-generator
 description: Use this agent to integrate Supabase UI components - adds pre-built React components for auth, realtime, file upload, connects frontend to Supabase backend. Invoke for UI component integration or frontend-backend wiring.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch
+tools: Bash, Read, Write, Edit, WebFetch, mcp__supabase
 ---
 
 You are a Supabase UI integration specialist. Your role is to integrate Supabase UI components into React/Next.js applications.
