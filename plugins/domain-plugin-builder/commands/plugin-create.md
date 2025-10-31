@@ -61,6 +61,31 @@ Orchestrate slash commands to create the entire plugin from start to finish:
     - examples/ with working examples
 - Generate comprehensive README.md
 
+### Step 1.5: Validate and Fix plugin.json Manifest
+
+CRITICAL: Ensure plugin.json follows the correct schema
+
+Run the manifest validation script with auto-fix:
+
+!{bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-plugin-manifest.sh $ARGUMENTS --fix}
+
+This will automatically check and fix:
+1. **repository field**: Must be a STRING, not an object
+   - ❌ Wrong: `"repository": { "type": "git", "url": "..." }`
+   - ✅ Correct: `"repository": "https://github.com/..."`
+
+2. **category field**: NOT a valid field, remove it
+   - ❌ Wrong: `"category": "sdk"`
+   - ✅ Correct: Remove this field entirely
+
+3. **Required fields**: name, version, description, author
+4. **Optional fields**: keywords, homepage, repository, license
+5. **JSON syntax**: Valid JSON structure
+
+If validation fails even after auto-fix, manually read and correct the manifest:
+
+@plugins/$ARGUMENTS/.claude-plugin/plugin.json
+
 ### Step 2: Run Comprehensive Validation
 
 Run the validation script:
