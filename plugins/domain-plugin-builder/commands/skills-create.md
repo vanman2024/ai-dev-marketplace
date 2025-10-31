@@ -1,7 +1,7 @@
 ---
 description: Create new skill(s) using skills-builder agent - analyzes plugin structure or accepts direct specifications (supports parallel creation)
 argument-hint: [--analyze <plugin-name>] | [<skill-name> "<description>"] | [<skill-1> "<desc-1>" <skill-2> "<desc-2>" ...]
-allowed-tools: Task
+allowed-tools: Task, Read, Bash
 ---
 
 **Arguments**: $ARGUMENTS
@@ -29,43 +29,85 @@ Actions:
 Phase 2: Parse Arguments & Determine Mode
 
 Actions:
-- Check if $ARGUMENTS starts with --analyze:
-  - If yes: Extract plugin name, set mode to "analyze"
-  - If no: Parse arguments to detect multiple skill requests
-    - Single skill: <skill-name> "<description>"
-    - Multiple skills: <skill-1> "<desc-1>" <skill-2> "<desc-2>" ... (creates in parallel)
+
+Use bash to parse $ARGUMENTS and count how many skills are being requested:
+
+!{bash echo "$ARGUMENTS" | grep -oE '<[^>]+>' | wc -l}
+
+Store the count. Then extract each skill specification:
+- If count = 0 and --analyze present: Set mode to "analyze", extract plugin name
+- If count = 1: Single skill mode - extract <skill-name> and "<description>"
+- If count >= 2: Multiple skills mode - extract all <skill-N> "<desc-N>" pairs
 
 Phase 3: Launch Skills Builder Agent(s)
 
 Actions:
 
+**For --analyze mode:**
+
+Task(description="Analyze plugin for needed skills", subagent_type="domain-plugin-builder:skills-builder", prompt="You are the skills-builder agent. Analyze the plugin structure at plugins/$PLUGIN_NAME to determine what skills are needed.
+
+Architectural context from component-decision-framework.md:
+@plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+
+Tasks:
+1. Read detailed skills documentation via WebFetch:
+   - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
+   - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+   - https://docs.claude.com/en/docs/claude-code/skills
+   - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
+   - https://github.com/anthropics/claude-cookbooks/tree/main/skills
+   - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+2. Analyze plugin commands and agents
+3. Identify what reusable capabilities are needed
+4. Report recommended skills to create
+
+Plugin: plugins/$PLUGIN_NAME
+Deliverable: List of recommended skills with descriptions")
+
 **For Single Skill:**
-Launch the skills-builder agent to create the skill.
 
-Provide the agent with:
-- Full arguments: $ARGUMENTS
-- Architectural context from Phase 1 (what agents/commands/skills/hooks/MCP are and when to use them)
-- The agent will:
-  1. Read detailed skills implementation documentation (WebFetch):
-     - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
-     - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
-     - https://docs.claude.com/en/docs/claude-code/skills
-     - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
-     - https://github.com/anthropics/claude-cookbooks/tree/main/skills
-     - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
-  2. Load local templates and examples
-  3. Create skill following best practices
+Task(description="Create skill", subagent_type="domain-plugin-builder:skills-builder", prompt="You are the skills-builder agent. Create a complete skill with functional scripts, templates, and examples.
 
-**For Multiple Skills (3 or more skills):**
-Launch multiple skills-builder agents IN PARALLEL (all at once):
-- Launch skills-builder agent for skill 1 with: <skill-1> "<desc-1>"
-- Launch skills-builder agent for skill 2 with: <skill-2> "<desc-2>"
-- Launch skills-builder agent for skill 3 with: <skill-3> "<desc-3>"
-- (Continue for all requested skills)
-- Each agent receives the architectural context from Phase 1
-- Each agent will independently fetch detailed skills documentation (listed above)
+Skill name: $SKILL_NAME
+Description: $DESCRIPTION
 
-Wait for ALL agents to complete before proceeding.
+Architectural context from component-decision-framework.md:
+@plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+
+Tasks:
+1. Read detailed skills documentation via WebFetch:
+   - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/quickstart
+   - https://docs.claude.com/en/docs/agents-and-tools/agent-skills/best-practices
+   - https://docs.claude.com/en/docs/claude-code/skills
+   - https://docs.claude.com/en/docs/claude-code/slash-commands#skills-vs-slash-commands
+   - https://github.com/anthropics/claude-cookbooks/tree/main/skills
+   - https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills
+2. Load local templates from plugins/domain-plugin-builder/skills/build-assistant/templates/skills/
+3. Create complete skill structure:
+   - SKILL.md with comprehensive documentation
+   - scripts/ with FUNCTIONAL scripts (NOT placeholders)
+   - templates/ with actual template files
+   - examples/ with working examples
+4. Validate the skill structure
+
+Deliverable: Complete functional skill ready to use")
+
+**For Multiple Skills:**
+
+Launch multiple skills-builder agents IN PARALLEL (all at once) using multiple Task() calls in ONE response:
+
+Task(description="Create skill 1", subagent_type="domain-plugin-builder:skills-builder", prompt="Create skill: $SKILL_1 - $DESC_1 [same prompt structure as single skill above]")
+
+Task(description="Create skill 2", subagent_type="domain-plugin-builder:skills-builder", prompt="Create skill: $SKILL_2 - $DESC_2 [same prompt structure as single skill above]")
+
+Task(description="Create skill 3", subagent_type="domain-plugin-builder:skills-builder", prompt="Create skill: $SKILL_3 - $DESC_3 [same prompt structure as single skill above]")
+
+[Continue for all N skills requested]
+
+Each Task() call happens in parallel. Parse $ARGUMENTS to determine how many Task() calls to make.
+
+Wait for ALL agents to complete before proceeding to Phase 4.
 
 Phase 4: Git Commit and Push
 
