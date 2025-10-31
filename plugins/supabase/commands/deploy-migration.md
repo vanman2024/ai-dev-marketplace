@@ -1,7 +1,7 @@
 ---
 description: Deploy database migration - applies migration files safely with rollback capability
 argument-hint: <migration-file>
-allowed-tools: Task
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

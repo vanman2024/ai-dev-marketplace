@@ -1,7 +1,7 @@
 ---
 description: Test RLS policy enforcement - validates Row Level Security policies work correctly
 argument-hint: <table1,table2,...>
-allowed-tools: Task
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: Add authentication - OAuth providers, email auth, RLS policies with parallel validation
 argument-hint: [provider1,provider2,...] (e.g., google,github,discord)
-allowed-tools: Task
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS
