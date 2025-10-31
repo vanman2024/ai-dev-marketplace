@@ -211,7 +211,7 @@ Actions:
     {
       "deployment": {
         "env": {
-          "CATS_API_KEY": "${CATS_API_KEY}",
+          "CATS_API_KEY": "${CATS_API_KEY}"
           "CATS_MCP_API_KEY": "${CATS_MCP_API_KEY}"
         }
       }

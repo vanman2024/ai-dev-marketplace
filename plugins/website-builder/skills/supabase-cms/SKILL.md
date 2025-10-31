@@ -1,8 +1,7 @@
 ---
 name: supabase-cms
 description: Supabase CMS integration patterns, schema design, RLS policies, and content management for Astro websites. Use when building CMS systems, setting up Supabase backends, creating content schemas, implementing RLS security, or when user mentions Supabase CMS, headless CMS, content management, database schemas, or Row Level Security.
-allowed-tools:
-  - Read
+allowed-tools: - Read
   - Write
   - Edit
   - Bash
@@ -255,8 +254,8 @@ Read: templates/realtime/content-subscription.ts
 // Subscribe to content changes
 const subscription = supabase
   .channel('content-changes')
-  .on('postgres_changes',
-    { event: '*', schema: 'public', table: 'posts' },
+  .on('postgres_changes'
+    { event: '*', schema: 'public', table: 'posts' }
     handleContentChange
   )
   .subscribe()

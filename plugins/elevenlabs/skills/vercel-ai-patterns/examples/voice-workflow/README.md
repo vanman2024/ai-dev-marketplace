@@ -93,9 +93,9 @@ async function main() {
 
   // Process voice input
   const result = await processVoiceInput(audioBuffer, {
-    language: 'en',
-    systemPrompt: 'You are a helpful voice assistant.',
-    temperature: 0.7,
+    language: 'en'
+    systemPrompt: 'You are a helpful voice assistant.'
+    temperature: 0.7
   });
 
   if (result.success) {
@@ -114,13 +114,13 @@ main();
 
 ```typescript
 const conversationHistory = [
-  { role: 'user', content: 'What is the weather?' },
-  { role: 'assistant', content: 'It is sunny today.' },
+  { role: 'user', content: 'What is the weather?' }
+  { role: 'assistant', content: 'It is sunny today.' }
 ];
 
 const result = await processVoiceInput(audioBuffer, {
-  context: conversationHistory,
-  systemPrompt: 'You are a weather assistant.',
+  context: conversationHistory
+  systemPrompt: 'You are a weather assistant.'
 });
 ```
 
@@ -135,10 +135,10 @@ async function streamingExample() {
   const stream = await processVoiceInputStreaming(audioBuffer, {
     onTranscriptionComplete: (text) => {
       console.log('User said:', text);
-    },
+    }
     onResponseChunk: (chunk) => {
       process.stdout.write(chunk);
-    },
+    }
   });
 
   // Stream will automatically yield chunks
@@ -159,14 +159,14 @@ import { batchProcessVoiceInputs } from './lib/voice-workflow';
 
 async function batchExample() {
   const audioFiles = [
-    await readFile('audio1.mp3'),
-    await readFile('audio2.mp3'),
-    await readFile('audio3.mp3'),
+    await readFile('audio1.mp3')
+    await readFile('audio2.mp3')
+    await readFile('audio3.mp3')
   ];
 
   const results = await batchProcessVoiceInputs(audioFiles, {
-    language: 'en',
-    systemPrompt: 'You are a helpful assistant.',
+    language: 'en'
+    systemPrompt: 'You are a helpful assistant.'
   });
 
   results.forEach((result, i) => {
@@ -182,11 +182,11 @@ import { processVoiceInputWithRetry } from './lib/voice-workflow';
 
 async function retryExample() {
   const result = await processVoiceInputWithRetry(
-    audioBuffer,
+    audioBuffer
     {
-      language: 'en',
-      systemPrompt: 'You are a helpful assistant.',
-    },
+      language: 'en'
+      systemPrompt: 'You are a helpful assistant.'
+    }
     3 // Max retries
   );
 
@@ -209,17 +209,17 @@ class VoiceAssistant {
 
   async processVoice(audioBuffer: Buffer): Promise<string> {
     const result = await processVoiceInput(audioBuffer, {
-      context: this.conversationHistory,
-      systemPrompt: 'You are a helpful voice assistant with memory.',
+      context: this.conversationHistory
+      systemPrompt: 'You are a helpful voice assistant with memory.'
       onTranscriptionComplete: (text) => {
         this.conversationHistory.push({ role: 'user', content: text });
-      },
+      }
     });
 
     if (result.success) {
       this.conversationHistory.push({
-        role: 'assistant',
-        content: result.response.text,
+        role: 'assistant'
+        content: result.response.text
       });
       return result.response.text;
     }
@@ -244,15 +244,15 @@ const response2 = await assistant.processVoice(audio2); // Has context from audi
 async function detectAndProcess(audioBuffer: Buffer) {
   // First transcribe without language hint
   const initialResult = await processVoiceInput(audioBuffer, {
-    systemPrompt: 'Detect the language and respond in the same language.',
+    systemPrompt: 'Detect the language and respond in the same language.'
   });
 
   const detectedLanguage = initialResult.transcription.language;
 
   // Re-process with detected language for better accuracy
   const finalResult = await processVoiceInput(audioBuffer, {
-    language: detectedLanguage,
-    systemPrompt: `Respond in ${detectedLanguage}.`,
+    language: detectedLanguage
+    systemPrompt: `Respond in ${detectedLanguage}.`
   });
 
   return finalResult;
@@ -263,14 +263,14 @@ async function detectAndProcess(audioBuffer: Buffer) {
 
 ```typescript
 const COMMANDS = {
-  weather: /what('?s| is) the weather/i,
-  time: /what('?s| is) the time/i,
-  reminder: /remind me to (.+)/i,
+  weather: /what('?s| is) the weather/i
+  time: /what('?s| is) the time/i
+  reminder: /remind me to (.+)/i
 };
 
 async function handleVoiceCommand(audioBuffer: Buffer) {
   const result = await processVoiceInput(audioBuffer, {
-    systemPrompt: 'Extract user intent and respond appropriately.',
+    systemPrompt: 'Extract user intent and respond appropriately.'
   });
 
   const userText = result.transcription.text;
@@ -292,21 +292,21 @@ async function handleVoiceCommand(audioBuffer: Buffer) {
 ```typescript
 async function processMeeting(audioBuffer: Buffer) {
   const result = await processVoiceInput(audioBuffer, {
-    speakers: 3,
-    enableDiarization: true,
-    enableTimestamps: true,
+    speakers: 3
+    enableDiarization: true
+    enableTimestamps: true
     systemPrompt: `
       Summarize the meeting with:
       1. Key discussion points
       2. Action items
       3. Decisions made
-    `,
+    `
   });
 
   return {
-    transcript: result.transcription.text,
-    summary: result.response.text,
-    speakers: result.transcription.segments,
+    transcript: result.transcription.text
+    summary: result.response.text
+    speakers: result.transcription.segments
   };
 }
 ```
@@ -333,15 +333,15 @@ export async function POST(request: NextRequest) {
     const audioBuffer = Buffer.from(await audioFile.arrayBuffer());
 
     const result = await processVoiceInput(audioBuffer, {
-      systemPrompt,
-      context,
-      language: 'en',
+      systemPrompt
+      context
+      language: 'en'
     });
 
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
-      { error: error instanceof Error ? error.message : 'Unknown error' },
+      { error: error instanceof Error ? error.message : 'Unknown error' }
       { status: 500 }
     );
   }
@@ -358,8 +358,8 @@ async function sendVoiceMessage(audioFile: File) {
   formData.append('context', JSON.stringify(conversationHistory));
 
   const response = await fetch('/api/voice-workflow', {
-    method: 'POST',
-    body: formData,
+    method: 'POST'
+    body: formData
   });
 
   const result = await response.json();
@@ -376,7 +376,7 @@ async function parallelProcess(audioFiles: Buffer[]) {
   const results = await Promise.all(
     audioFiles.map((audio) =>
       processVoiceInput(audio, {
-        systemPrompt: 'You are a helpful assistant.',
+        systemPrompt: 'You are a helpful assistant.'
       })
     )
   );
@@ -400,7 +400,7 @@ async function cachedProcess(audioBuffer: Buffer) {
   }
 
   const result = await processVoiceInput(audioBuffer, {
-    systemPrompt: 'You are a helpful assistant.',
+    systemPrompt: 'You are a helpful assistant.'
   });
 
   cache.set(hash, result);
@@ -446,13 +446,13 @@ const logger = new Logger({
 const result = await processVoiceInput(audioBuffer, {
   onTranscriptionComplete: (text) => {
     logger.info('Transcription complete', { text });
-  },
+  }
 });
 
 logger.info('Workflow complete', {
-  transcriptionTime: result.metadata.transcriptionTimeMs,
-  responseTime: result.metadata.responseTimeMs,
-  totalTime: result.metadata.totalTimeMs,
+  transcriptionTime: result.metadata.transcriptionTimeMs
+  responseTime: result.metadata.responseTimeMs
+  totalTime: result.metadata.totalTimeMs
 });
 ```
 

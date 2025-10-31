@@ -199,10 +199,10 @@ AND NOT EXISTS (
 -- Should return NO rows
 
 -- 2. All tables have complete policy coverage
-SELECT tablename,
-  COUNT(*) FILTER (WHERE cmd = 'SELECT') as select_policies,
-  COUNT(*) FILTER (WHERE cmd = 'INSERT') as insert_policies,
-  COUNT(*) FILTER (WHERE cmd = 'UPDATE') as update_policies,
+SELECT tablename
+  COUNT(*) FILTER (WHERE cmd = 'SELECT') as select_policies
+  COUNT(*) FILTER (WHERE cmd = 'INSERT') as insert_policies
+  COUNT(*) FILTER (WHERE cmd = 'UPDATE') as update_policies
   COUNT(*) FILTER (WHERE cmd = 'DELETE') as delete_policies
 FROM pg_policies
 WHERE schemaname = 'public'

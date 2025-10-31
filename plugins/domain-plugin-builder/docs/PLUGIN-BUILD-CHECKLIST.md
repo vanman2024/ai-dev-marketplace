@@ -145,15 +145,15 @@ cat .claude-plugin/marketplace.json | python3 -m json.tool | grep -A 20 '"name":
 **Expected output:**
 ```json
 {
-  "name": "<plugin-name>",
-  "description": "...",
-  "version": "1.0.0",
+  "name": "<plugin-name>"
+  "description": "..."
+  "version": "1.0.0"
   "author": {
-    "name": "...",
+    "name": "..."
     "email": "..."
-  },
-  "source": "./plugins/<plugin-name>",
-  "category": "development",
+  }
+  "source": "./plugins/<plugin-name>"
+  "category": "development"
   "keywords": [...]
 }
 ```

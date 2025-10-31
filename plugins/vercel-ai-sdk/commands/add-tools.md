@@ -38,9 +38,7 @@ Goal: Add tool calling capability
 
 Actions:
 
-Invoke the **general-purpose** agent to implement tools:
-
-The agent should:
+Invoke the **general-purpose** agent to implement tools: The agent should:
 - Define tool schemas with zod or similar validation
 - Create tool handler functions
 - Integrate tools with existing AI calls

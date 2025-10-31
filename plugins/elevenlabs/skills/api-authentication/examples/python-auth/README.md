@@ -85,9 +85,9 @@ async def main():
 
     # Generate speech
     audio = await client.generate(
-        text="Hello world!",
-        voice=os.getenv("ELEVENLABS_DEFAULT_VOICE_ID"),
-        model="eleven_monolingual_v1",
+        text="Hello world!"
+        voice=os.getenv("ELEVENLABS_DEFAULT_VOICE_ID")
+        model="eleven_monolingual_v1"
     )
 
     # Save to file
@@ -133,10 +133,10 @@ def text_to_speech_endpoint():
         audio_buffer.seek(0)
 
         return send_file(
-            audio_buffer,
-            mimetype="audio/mpeg",
-            as_attachment=True,
-            download_name="speech.mp3",
+            audio_buffer
+            mimetype="audio/mpeg"
+            as_attachment=True
+            download_name="speech.mp3"
         )
 
     except Exception as e:
@@ -223,9 +223,9 @@ Create `tests/test_connection.py`:
 ```python
 import pytest
 from elevenlabs_client import (
-    create_elevenlabs_client,
-    test_connection,
-    validate_api_key,
+    create_elevenlabs_client
+    test_connection
+    validate_api_key
 )
 
 def test_api_key_validation():
@@ -249,8 +249,8 @@ def test_connection():
 async def test_async_connection():
     """Test async client connection"""
     from elevenlabs_client import (
-        create_async_elevenlabs_client,
-        test_connection as async_test_connection,
+        create_async_elevenlabs_client
+        test_connection as async_test_connection
     )
 
     client = create_async_elevenlabs_client()
@@ -291,9 +291,9 @@ from elevenlabs_client import batch_text_to_speech
 
 async def process_multiple_texts():
     texts = [
-        "First text to convert",
-        "Second text to convert",
-        "Third text to convert",
+        "First text to convert"
+        "Second text to convert"
+        "Third text to convert"
     ]
 
     # Process all texts concurrently (max 5 at a time)
@@ -376,9 +376,9 @@ docker run -p 8000:8000 -e ELEVENLABS_API_KEY=sk_xxx elevenlabs-api
    from flask_limiter import Limiter
 
    limiter = Limiter(
-       app,
-       key_func=lambda: request.remote_addr,
-       default_limits=["100 per hour"],
+       app
+       key_func=lambda: request.remote_addr
+       default_limits=["100 per hour"]
    )
    ```
 

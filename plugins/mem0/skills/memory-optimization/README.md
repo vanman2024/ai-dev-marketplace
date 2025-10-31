@@ -92,8 +92,8 @@ memories = memory.search(query, user_id=user_id)
 
 # After
 memories = memory.search(
-    query,
-    user_id=user_id,
+    query
+    user_id=user_id
     limit=5,  # Reduce results
     filters={"categories": ["preferences"]},  # Narrow scope
     rerank=False  # Disable for simple queries
@@ -120,7 +120,7 @@ return result
 # Switch from large to small model
 config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
             "model": "text-embedding-3-small",  # Was: 3-large
         }

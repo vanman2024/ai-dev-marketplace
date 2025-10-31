@@ -23,9 +23,9 @@ This guide provides step-by-step migration strategies.
 ```sql
 -- Create table with RLS enabled from day 1
 CREATE TABLE conversations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    title TEXT,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    title TEXT
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -270,11 +270,11 @@ CREATE INDEX idx_documents_org_id ON documents(organization_id);
 
 ```sql
 CREATE TABLE org_members (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    role TEXT NOT NULL DEFAULT 'member',
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    role TEXT NOT NULL DEFAULT 'member'
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(organization_id, user_id)
 );
 
@@ -321,7 +321,7 @@ const { data: orgADocs } = await supabase
 
 // Should only see Org A documents
 console.assert(
-  orgADocs.every(doc => doc.organization_id === currentOrgId),
+  orgADocs.every(doc => doc.organization_id === currentOrgId)
   'User should only see their org documents'
 );
 ```
@@ -336,11 +336,11 @@ console.assert(
 
 ```sql
 CREATE TABLE document_shares (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    permission TEXT NOT NULL DEFAULT 'view',
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    permission TEXT NOT NULL DEFAULT 'view'
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(document_id, user_id)
 );
 
@@ -376,9 +376,9 @@ CREATE POLICY "documents_select_shared" ON documents
 const { data, error } = await supabase
   .from('document_shares')
   .insert({
-    document_id: docId,
-    user_id: recipientUserId,
-    permission: 'edit',
+    document_id: docId
+    user_id: recipientUserId
+    permission: 'edit'
   });
 ```
 
@@ -471,7 +471,7 @@ WHERE conrelid = 'conversations'::regclass;
 
 -- Drop and recreate with CASCADE
 ALTER TABLE conversations
-DROP CONSTRAINT conversations_user_id_fkey,
+DROP CONSTRAINT conversations_user_id_fkey
 ADD CONSTRAINT conversations_user_id_fkey
     FOREIGN KEY (user_id)
     REFERENCES auth.users(id)

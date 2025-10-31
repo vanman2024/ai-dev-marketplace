@@ -43,35 +43,32 @@ A production-ready pattern for implementing semantic document search with pgvect
 ```sql
 -- Main documents table
 CREATE TABLE documents (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    title TEXT NOT NULL,
-    source_url TEXT,
-    file_name TEXT,
-    file_size INTEGER,
-    content_type TEXT,
-    metadata JSONB DEFAULT '{}'::jsonb,
-    status TEXT DEFAULT 'processing',
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    title TEXT NOT NULL
+    source_url TEXT
+    file_name TEXT
+    file_size INTEGER
+    content_type TEXT
+    metadata JSONB DEFAULT '{}'::jsonb
+    status TEXT DEFAULT 'processing'
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
     updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Document chunks table with embeddings
 CREATE TABLE document_chunks (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    document_id BIGINT NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
-    chunk_index INTEGER NOT NULL,
-    content TEXT NOT NULL,
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+    document_id BIGINT NOT NULL REFERENCES documents(id) ON DELETE CASCADE
+    chunk_index INTEGER NOT NULL
+    content TEXT NOT NULL
     embedding vector(1536), -- OpenAI text-embedding-3-small
-    token_count INTEGER,
-
+    token_count INTEGER
     -- For hybrid search
-    fts tsvector GENERATED ALWAYS AS (to_tsvector('english', content)) STORED,
-
+    fts tsvector GENERATED ALWAYS AS (to_tsvector('english', content)) STORED
     -- Metadata
-    metadata JSONB DEFAULT '{}'::jsonb,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-
+    metadata JSONB DEFAULT '{}'::jsonb
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
     UNIQUE(document_id, chunk_index)
 );
 
@@ -121,30 +118,30 @@ CREATE POLICY "Users can insert their document chunks"
 ```sql
 -- Semantic search across user's documents
 CREATE OR REPLACE FUNCTION search_document_chunks(
-    query_embedding vector(1536),
-    user_id_filter UUID,
-    match_threshold FLOAT DEFAULT 0.78,
+    query_embedding vector(1536)
+    user_id_filter UUID
+    match_threshold FLOAT DEFAULT 0.78
     match_count INT DEFAULT 10
 )
 RETURNS TABLE(
-    chunk_id BIGINT,
-    document_id BIGINT,
-    document_title TEXT,
-    content TEXT,
-    chunk_index INTEGER,
-    similarity FLOAT,
+    chunk_id BIGINT
+    document_id BIGINT
+    document_title TEXT
+    content TEXT
+    chunk_index INTEGER
+    similarity FLOAT
     metadata JSONB
 )
 LANGUAGE sql
 STABLE
 AS $$
     SELECT
-        dc.id AS chunk_id,
-        dc.document_id,
-        d.title AS document_title,
-        dc.content,
-        dc.chunk_index,
-        1 - (dc.embedding <=> query_embedding) AS similarity,
+        dc.id AS chunk_id
+        dc.document_id
+        d.title AS document_title
+        dc.content
+        dc.chunk_index
+        1 - (dc.embedding <=> query_embedding) AS similarity
         dc.metadata
     FROM document_chunks dc
     JOIN documents d ON d.id = dc.document_id
@@ -157,20 +154,20 @@ $$;
 
 -- Hybrid search function
 CREATE OR REPLACE FUNCTION hybrid_search_documents(
-    query_text TEXT,
-    query_embedding vector(1536),
-    user_id_filter UUID,
-    match_count INT DEFAULT 10,
-    full_text_weight FLOAT DEFAULT 1.0,
+    query_text TEXT
+    query_embedding vector(1536)
+    user_id_filter UUID
+    match_count INT DEFAULT 10
+    full_text_weight FLOAT DEFAULT 1.0
     semantic_weight FLOAT DEFAULT 1.0
 )
 RETURNS TABLE(
-    chunk_id BIGINT,
-    document_id BIGINT,
-    document_title TEXT,
-    content TEXT,
-    similarity FLOAT,
-    fts_rank FLOAT,
+    chunk_id BIGINT
+    document_id BIGINT
+    document_title TEXT
+    content TEXT
+    similarity FLOAT
+    fts_rank FLOAT
     hybrid_score FLOAT
 )
 LANGUAGE plpgsql
@@ -179,25 +176,25 @@ BEGIN
     RETURN QUERY
     WITH semantic_results AS (
         SELECT
-            dc.id,
-            dc.document_id,
-            d.title,
-            dc.content,
-            1 - (dc.embedding <=> query_embedding) AS similarity,
+            dc.id
+            dc.document_id
+            d.title
+            dc.content
+            1 - (dc.embedding <=> query_embedding) AS similarity
             ROW_NUMBER() OVER (ORDER BY dc.embedding <=> query_embedding) AS rank
         FROM document_chunks dc
         JOIN documents d ON d.id = dc.document_id
         WHERE d.user_id = user_id_filter
         ORDER BY dc.embedding <=> query_embedding
         LIMIT match_count * 2
-    ),
+    )
     fulltext_results AS (
         SELECT
-            dc.id,
-            dc.document_id,
-            d.title,
-            dc.content,
-            ts_rank(dc.fts, websearch_to_tsquery('english', query_text)) AS fts_rank,
+            dc.id
+            dc.document_id
+            d.title
+            dc.content
+            ts_rank(dc.fts, websearch_to_tsquery('english', query_text)) AS fts_rank
             ROW_NUMBER() OVER (
                 ORDER BY ts_rank(dc.fts, websearch_to_tsquery('english', query_text)) DESC
             ) AS rank
@@ -210,12 +207,12 @@ BEGIN
         LIMIT match_count * 2
     )
     SELECT
-        COALESCE(s.id, f.id) AS chunk_id,
-        COALESCE(s.document_id, f.document_id) AS document_id,
-        COALESCE(s.title, f.title) AS document_title,
-        COALESCE(s.content, f.content) AS content,
-        COALESCE(s.similarity, 0.0) AS similarity,
-        COALESCE(f.fts_rank, 0.0) AS fts_rank,
+        COALESCE(s.id, f.id) AS chunk_id
+        COALESCE(s.document_id, f.document_id) AS document_id
+        COALESCE(s.title, f.title) AS document_title
+        COALESCE(s.content, f.content) AS content
+        COALESCE(s.similarity, 0.0) AS similarity
+        COALESCE(f.fts_rank, 0.0) AS fts_rank
         (
             COALESCE(1.0 / (50 + s.rank), 0.0) * semantic_weight +
             COALESCE(1.0 / (50 + f.rank), 0.0) * full_text_weight
@@ -256,8 +253,8 @@ function chunkText(text: string, maxTokens: number = 500): DocumentChunk[] {
 
         if (currentTokens + sentenceTokens > maxTokens && currentChunk) {
             chunks.push({
-                content: currentChunk.trim(),
-                chunk_index: chunkIndex++,
+                content: currentChunk.trim()
+                chunk_index: chunkIndex++
                 token_count: currentTokens
             })
             currentChunk = ""
@@ -270,8 +267,8 @@ function chunkText(text: string, maxTokens: number = 500): DocumentChunk[] {
 
     if (currentChunk.trim()) {
         chunks.push({
-            content: currentChunk.trim(),
-            chunk_index: chunkIndex,
+            content: currentChunk.trim()
+            chunk_index: chunkIndex
             token_count: currentTokens
         })
     }
@@ -281,7 +278,7 @@ function chunkText(text: string, maxTokens: number = 500): DocumentChunk[] {
 
 // Generate embeddings for chunks
 async function generateEmbeddings(
-    chunks: DocumentChunk[],
+    chunks: DocumentChunk[]
     openai: OpenAI
 ): Promise<number[][]> {
     const batchSize = 100
@@ -290,7 +287,7 @@ async function generateEmbeddings(
     for (let i = 0; i < chunks.length; i += batchSize) {
         const batch = chunks.slice(i, i + batchSize)
         const response = await openai.embeddings.create({
-            model: "text-embedding-3-small",
+            model: "text-embedding-3-small"
             input: batch.map(chunk => chunk.content)
         })
         embeddings.push(...response.data.map(d => d.embedding))
@@ -305,7 +302,7 @@ serve(async (req) => {
 
         // Initialize clients
         const supabase = createClient(
-            Deno.env.get('SUPABASE_URL')!,
+            Deno.env.get('SUPABASE_URL')!
             Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!
         )
         const openai = new OpenAI({
@@ -320,10 +317,10 @@ serve(async (req) => {
 
         // 3. Store chunks with embeddings
         const chunksToInsert = chunks.map((chunk, index) => ({
-            document_id: documentId,
-            chunk_index: chunk.chunk_index,
-            content: chunk.content,
-            embedding: embeddings[index],
+            document_id: documentId
+            chunk_index: chunk.chunk_index
+            content: chunk.content
+            embedding: embeddings[index]
             token_count: chunk.token_count
         }))
 
@@ -341,15 +338,15 @@ serve(async (req) => {
 
         return new Response(
             JSON.stringify({
-                success: true,
+                success: true
                 chunks_created: chunks.length
-            }),
+            })
             { headers: { "Content-Type": "application/json" } }
         )
 
     } catch (error) {
         return new Response(
-            JSON.stringify({ error: error.message }),
+            JSON.stringify({ error: error.message })
             { status: 500, headers: { "Content-Type": "application/json" } }
         )
     }
@@ -367,11 +364,11 @@ async function uploadDocument(file: File, userId: string) {
     const { data: document, error: docError } = await supabase
         .from('documents')
         .insert({
-            user_id: userId,
-            title: file.name,
-            file_name: file.name,
-            file_size: file.size,
-            content_type: file.type,
+            user_id: userId
+            title: file.name
+            file_name: file.name
+            file_size: file.size
+            content_type: file.type
             status: 'processing'
         })
         .select()
@@ -384,10 +381,10 @@ async function uploadDocument(file: File, userId: string) {
 
     // 3. Trigger processing Edge Function
     const { error: processError } = await supabase.functions.invoke(
-        'process-document',
+        'process-document'
         {
             body: {
-                documentId: document.id,
+                documentId: document.id
                 content: content
             }
         }
@@ -400,21 +397,21 @@ async function uploadDocument(file: File, userId: string) {
 
 // Search documents
 async function searchDocuments(
-    query: string,
-    userId: string,
+    query: string
+    userId: string
     searchType: 'semantic' | 'hybrid' = 'hybrid'
 ) {
     const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
 
     // 1. Generate query embedding
     const embeddingResponse = await fetch('https://api.openai.com/v1/embeddings', {
-        method: 'POST',
+        method: 'POST'
         headers: {
-            'Authorization': `Bearer ${OPENAI_API_KEY}`,
+            'Authorization': `Bearer ${OPENAI_API_KEY}`
             'Content-Type': 'application/json'
-        },
+        }
         body: JSON.stringify({
-            model: 'text-embedding-3-small',
+            model: 'text-embedding-3-small'
             input: query
         })
     })
@@ -425,11 +422,11 @@ async function searchDocuments(
     // 2. Execute search
     if (searchType === 'semantic') {
         const { data: results, error } = await supabase.rpc(
-            'search_document_chunks',
+            'search_document_chunks'
             {
-                query_embedding: queryEmbedding,
-                user_id_filter: userId,
-                match_threshold: 0.75,
+                query_embedding: queryEmbedding
+                user_id_filter: userId
+                match_threshold: 0.75
                 match_count: 10
             }
         )
@@ -438,13 +435,13 @@ async function searchDocuments(
         return results
     } else {
         const { data: results, error } = await supabase.rpc(
-            'hybrid_search_documents',
+            'hybrid_search_documents'
             {
-                query_text: query,
-                query_embedding: queryEmbedding,
-                user_id_filter: userId,
-                match_count: 10,
-                full_text_weight: 1.0,
+                query_text: query
+                query_embedding: queryEmbedding
+                user_id_filter: userId
+                match_count: 10
+                full_text_weight: 1.0
                 semantic_weight: 1.0
             }
         )
@@ -461,9 +458,9 @@ function groupResultsByDocument(results: any[]) {
     for (const result of results) {
         if (!grouped.has(result.document_id)) {
             grouped.set(result.document_id, {
-                document_id: result.document_id,
-                document_title: result.document_title,
-                chunks: [],
+                document_id: result.document_id
+                document_title: result.document_title
+                chunks: []
                 max_similarity: 0
             })
         }
@@ -595,9 +592,9 @@ async function cachedSearch(query: string, userId: string) {
 ```typescript
 // Load more results as user scrolls
 async function loadMoreResults(
-    query: string,
-    userId: string,
-    offset: number,
+    query: string
+    userId: string
+    offset: number
     limit: number = 10
 ) {
     // Implementation would need to modify search function
@@ -610,21 +607,21 @@ async function loadMoreResults(
 ```sql
 -- Track search queries
 CREATE TABLE search_logs (
-    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-    user_id UUID NOT NULL,
-    query_text TEXT NOT NULL,
-    result_count INTEGER,
-    search_type TEXT,
-    avg_similarity FLOAT,
+    id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY
+    user_id UUID NOT NULL
+    query_text TEXT NOT NULL
+    result_count INTEGER
+    search_type TEXT
+    avg_similarity FLOAT
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Log searches (call from Edge Function)
 CREATE OR REPLACE FUNCTION log_search(
-    p_user_id UUID,
-    p_query TEXT,
-    p_result_count INT,
-    p_search_type TEXT,
+    p_user_id UUID
+    p_query TEXT
+    p_result_count INT
+    p_search_type TEXT
     p_avg_similarity FLOAT
 ) RETURNS void AS $$
 BEGIN

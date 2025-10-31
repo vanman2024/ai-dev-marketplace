@@ -43,18 +43,18 @@ async function reactAgent(task: string, maxIterations: number = 5) {
   while (iteration < maxIterations) {
     // Reasoning step
     const thought = await generateText({
-      model: openai('gpt-4o'),
+      model: openai('gpt-4o')
       messages: [
-        { role: 'system', content: 'Think step-by-step...' },
+        { role: 'system', content: 'Think step-by-step...' }
         { role: 'user', content: task }
       ]
     })
 
     // Acting step (tool calls)
     const action = await generateText({
-      model: openai('gpt-4o'),
-      tools,
-      toolChoice: 'auto',
+      model: openai('gpt-4o')
+      tools
+      toolChoice: 'auto'
       messages: [/* ... */]
     })
 
@@ -102,7 +102,7 @@ async function reactAgent(task: string, maxIterations: number = 5) {
 
 ```typescript
 const config = {
-  maxIterations: 10,
+  maxIterations: 10
   onMaxIterations: 'return-last' | 'throw-error'
 }
 ```
@@ -113,7 +113,7 @@ const config = {
 
 ```typescript
 const config = {
-  maxTokens: 10000,
+  maxTokens: 10000
   onMaxTokens: 'graceful-stop'
 }
 ```
@@ -147,15 +147,15 @@ const config = {
 
 ```typescript
 const tools = {
-  search: tool({ /* ... */ }),
-  analyze: tool({ /* ... */ }),
+  search: tool({ /* ... */ })
+  analyze: tool({ /* ... */ })
   summarize: tool({ /* ... */ })
 }
 
 // AI decides order and usage
 const result = await generateText({
-  model: openai('gpt-4o'),
-  tools,
+  model: openai('gpt-4o')
+  tools
   maxToolRoundtrips: 5
 })
 ```
@@ -164,8 +164,8 @@ const result = await generateText({
 
 ```typescript
 const results = await Promise.all([
-  callTool('search', { query: 'topic1' }),
-  callTool('search', { query: 'topic2' }),
+  callTool('search', { query: 'topic1' })
+  callTool('search', { query: 'topic2' })
   callTool('search', { query: 'topic3' })
 ])
 ```

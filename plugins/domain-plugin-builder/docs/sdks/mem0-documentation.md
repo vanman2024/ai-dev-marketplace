@@ -332,8 +332,8 @@ Add to your MCP settings (e.g., Claude Desktop config):
 {
   "mcpServers": {
     "mem0": {
-      "command": "node",
-      "args": ["/path/to/mem0-mcp/build/index.js"],
+      "command": "node"
+      "args": ["/path/to/mem0-mcp/build/index.js"]
       "env": {
         "MEM0_API_KEY": "your-mem0-api-key"
       }
@@ -381,7 +381,7 @@ memory = Memory()
 
 # Add memories from conversation
 messages = [
-    {"role": "user", "content": "I love sci-fi movies"},
+    {"role": "user", "content": "I love sci-fi movies"}
     {"role": "assistant", "content": "I'll remember that!"}
 ]
 memory.add(messages, user_id="john_doe")
@@ -403,7 +403,7 @@ const memory = new Memory();
 
 // Add memories
 const messages = [
-    {role: "user", content: "I love sci-fi movies"},
+    {role: "user", content: "I love sci-fi movies"}
     {role: "assistant", content: "I'll remember that!"}
 ];
 await memory.add(messages, { userId: "john_doe" });
@@ -423,7 +423,7 @@ curl -X POST https://api.mem0.ai/v1/memories/ \
   -d '{
     "messages": [
       {"role": "user", "content": "I love sci-fi movies"}
-    ],
+    ]
     "user_id": "john_doe"
   }'
 
@@ -432,7 +432,7 @@ curl -X POST https://api.mem0.ai/v1/memories/search/ \
   -H "Authorization: Token YOUR_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "query": "movie preferences",
+    "query": "movie preferences"
     "user_id": "john_doe"
   }'
 ```
@@ -449,22 +449,22 @@ from mem0.configs.base import MemoryConfig
 
 config = MemoryConfig(
     vector_store={
-        "provider": "qdrant",
+        "provider": "qdrant"
         "config": {
-            "host": "localhost",
-            "port": 6333,
+            "host": "localhost"
+            "port": 6333
             "collection_name": "my_memories"
         }
-    },
+    }
     llm={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
-            "model": "gpt-4.1-nano-2025-04-14",
+            "model": "gpt-4.1-nano-2025-04-14"
             "api_key": "sk-..."
         }
-    },
+    }
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
             "model": "text-embedding-3-small"
         }
@@ -479,10 +479,10 @@ memory = Memory(config)
 ```python
 config = MemoryConfig(
     graph_store={
-        "provider": "neo4j",
+        "provider": "neo4j"
         "config": {
-            "url": "bolt://localhost:7687",
-            "username": "neo4j",
+            "url": "bolt://localhost:7687"
+            "username": "neo4j"
             "password": "password"
         }
     }
@@ -492,7 +492,7 @@ memory = Memory(config)
 
 # Add with relationship extraction
 result = memory.add(
-    "John works at OpenAI and is friends with Sarah",
+    "John works at OpenAI and is friends with Sarah"
     user_id="user123"
 )
 print(result["relations"])  # Graph relationships

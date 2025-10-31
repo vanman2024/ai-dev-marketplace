@@ -79,14 +79,14 @@ tailwind_cookies.py              (708B - Session cookie storage)
 ```python
 # Creates Puppeteer script to scrape Tailwind UI Application components
 APP_UI_SECTIONS = {
-    "application-shells": [...],
-    "data-display": [...],
-    "forms": [...],
-    "lists": [...],
-    "navigation": [...],
-    "overlays": [...],
-    "page-examples": [...],
-    "layout": [...],
+    "application-shells": [...]
+    "data-display": [...]
+    "forms": [...]
+    "lists": [...]
+    "navigation": [...]
+    "overlays": [...]
+    "page-examples": [...]
+    "layout": [...]
     "elements": [...]
 }
 
@@ -104,10 +104,10 @@ APP_UI_SECTIONS = {
 ```python
 TAILWIND_COOKIES = [
     {
-        'name': 'tailwind_plus_session',
-        'value': 'eyJpdiI6Im...[long token]...',
-        'domain': '.tailwindui.com',
-        'httpOnly': True,
+        'name': 'tailwind_plus_session'
+        'value': 'eyJpdiI6Im...[long token]...'
+        'domain': '.tailwindui.com'
+        'httpOnly': True
         'secure': True
     }
 ]
@@ -123,9 +123,9 @@ TAILWIND_COOKIES = [
 # Exports to: extracted_sections.json
 
 SECTION_PATTERNS = {
-    'hero': ['hero', 'header', 'landing', 'banner'],
-    'features': ['features', 'benefits', 'services'],
-    'pricing': ['pricing', 'plans', 'tiers'],
+    'hero': ['hero', 'header', 'landing', 'banner']
+    'features': ['features', 'benefits', 'services']
+    'pricing': ['pricing', 'plans', 'tiers']
     # ... 20+ section types
 }
 ```
@@ -142,31 +142,31 @@ SECTION_PATTERNS = {
 ```json
 {
   "Application Shells": {
-    "description": "Complete application layout structures",
+    "description": "Complete application layout structures"
     "components": []  // ⚠️ EMPTY!
-  },
-  "Stacked Layouts": { "components": [] },
-  "Sidebar Layouts": { "components": [] },
+  }
+  "Stacked Layouts": { "components": [] }
+  "Sidebar Layouts": { "components": [] }
   "Headings": {
     "subcategories": {
-      "Page Headings": [],
-      "Card Headings": [],
+      "Page Headings": []
+      "Card Headings": []
       "Section Headings": []
     }
-  },
+  }
   "Data Display": {
     "subcategories": {
-      "Description Lists": [],
-      "Stats": [],
-      "Calendars": [],
+      "Description Lists": []
+      "Stats": []
+      "Calendars": []
       "Tables": []
     }
-  },
+  }
   "Forms": {
     "subcategories": {
-      "Form Layouts": [],
-      "Input Groups": [],
-      "Select Menus": [],
+      "Form Layouts": []
+      "Input Groups": []
+      "Select Menus": []
       "Sign-in and Registration": []
     }
   }
@@ -199,15 +199,15 @@ SUPABASE_URL = 'https://wsmhiiharnhqupdniwgw.supabase.co'
 
 # Table structure:
 sections_to_insert.append({
-    'name': section['name'],
-    'description': section['description'],
-    'block_type': 'component',
-    'app_type': 'marketing-site',
+    'name': section['name']
+    'description': section['description']
+    'block_type': 'component'
+    'app_type': 'marketing-site'
     'react_template': section['react_template'],  # ⚠️ KEY FIELD
-    'category': section['category'],
-    'tags': section['tags'],
-    'dependencies': {...},
-    'is_template': True,
+    'category': section['category']
+    'tags': section['tags']
+    'dependencies': {...}
+    'is_template': True
     'published': True
 })
 ```
@@ -358,8 +358,8 @@ SELECT COUNT(*), app_type FROM sections
 GROUP BY app_type;
 
 -- 3. Sample one section
-SELECT name, category, 
-       LENGTH(react_template) as code_length,
+SELECT name, category
+       LENGTH(react_template) as code_length
        SUBSTRING(react_template, 1, 200) as code_preview
 FROM sections
 LIMIT 1;
@@ -409,8 +409,8 @@ supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 @mcp.tool()
 async def search_tailwind_components(
-    query: str,
-    category: str = None,
+    query: str
+    category: str = None
     limit: int = 20
 ) -> dict:
     """
@@ -435,12 +435,12 @@ async def search_tailwind_components(
     result = db_query.limit(limit).execute()
     
     return {
-        'total': len(result.data),
+        'total': len(result.data)
         'components': [{
-            'name': comp['name'],
-            'category': comp['category'],
-            'description': comp['description'],
-            'code_preview': comp['react_template'][:200] + '...',
+            'name': comp['name']
+            'category': comp['category']
+            'description': comp['description']
+            'code_preview': comp['react_template'][:200] + '...'
             'tags': comp['tags']
         } for comp in result.data]
     }
@@ -456,9 +456,9 @@ async def get_tailwind_component_code(name: str) -> dict:
         .execute()
     
     return {
-        'name': result.data['name'],
-        'code': result.data['react_template'],
-        'dependencies': result.data['dependencies'],
+        'name': result.data['name']
+        'code': result.data['react_template']
+        'dependencies': result.data['dependencies']
         'category': result.data['category']
     }
 
@@ -483,10 +483,10 @@ async def list_tailwind_categories() -> dict:
 {
   "mcpServers": {
     "tailwind-ui": {
-      "command": "python",
-      "args": ["tailwind-ui-mcp-server.py"],
+      "command": "python"
+      "args": ["tailwind-ui-mcp-server.py"]
       "env": {
-        "SUPABASE_URL": "https://wsmhiiharnhqupdniwgw.supabase.co",
+        "SUPABASE_URL": "https://wsmhiiharnhqupdniwgw.supabase.co"
         "SUPABASE_SERVICE_KEY": "your-key"
       }
     }

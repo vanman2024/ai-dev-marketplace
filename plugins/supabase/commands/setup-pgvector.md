@@ -1,7 +1,7 @@
 ---
 description: Configure pgvector for vector search - enables extension, creates embedding tables, sets up HNSW/IVFFlat indexes
 argument-hint: [--dimensions=1536] [--index=hnsw|ivfflat]
-allowed-tools: Task(supabase-ai-specialist), Skill(pgvector-setup)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

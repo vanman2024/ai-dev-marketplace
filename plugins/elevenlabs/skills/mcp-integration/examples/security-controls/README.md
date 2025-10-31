@@ -50,11 +50,11 @@ mkdir -p .elevenlabs/audit
 # Configure logging
 cat > .elevenlabs/audit/config.json <<EOF
 {
-  "enabled": true,
-  "logLevel": "info",
-  "destinations": ["file", "webhook"],
+  "enabled": true
+  "logLevel": "info"
+  "destinations": ["file", "webhook"]
   "retention": {
-    "days": 90,
+    "days": 90
     "compress": true
   }
 }
@@ -83,8 +83,8 @@ bash ../../scripts/monitor-mcp-health.sh --continuous --interval 60 &
 **Configuration:**
 ```json
 {
-  "approvalMode": "always_ask",
-  "approvalTimeout": 30,
+  "approvalMode": "always_ask"
+  "approvalTimeout": 30
   "fallbackOnTimeout": "deny"
 }
 ```
@@ -108,18 +108,18 @@ Agent: [Executes or cancels based on response]
 **Configuration:**
 ```json
 {
-  "approvalMode": "fine_grained",
+  "approvalMode": "fine_grained"
   "rules": {
     "autoApproved": {
-      "patterns": ["*_read", "*_get", "*_search"],
+      "patterns": ["*_read", "*_get", "*_search"]
       "tools": ["weather_get", "calendar_read"]
-    },
+    }
     "requiresApproval": {
-      "patterns": ["*_send", "*_create", "*_update"],
+      "patterns": ["*_send", "*_create", "*_update"]
       "tools": ["email_send", "order_process"]
-    },
+    }
     "disabled": {
-      "patterns": ["*_delete", "admin_*"],
+      "patterns": ["*_delete", "admin_*"]
       "tools": ["user_delete", "system_admin"]
     }
   }
@@ -136,8 +136,8 @@ Agent: [Executes or cancels based on response]
 **Configuration:**
 ```json
 {
-  "approvalMode": "no_approval",
-  "warning": "All tools execute without approval",
+  "approvalMode": "no_approval"
+  "warning": "All tools execute without approval"
   "auditLogging": "required"
 }
 ```
@@ -164,8 +164,8 @@ Agent: [Executes or cancels based on response]
 - **Configuration:**
   ```json
   {
-    "approval": "auto_approved",
-    "riskLevel": "low",
+    "approval": "auto_approved"
+    "riskLevel": "low"
     "auditLevel": "minimal"
   }
   ```
@@ -186,9 +186,9 @@ Agent: [Executes or cancels based on response]
 - **Configuration:**
   ```json
   {
-    "approval": "requires_approval",
-    "riskLevel": "medium",
-    "auditLevel": "standard",
+    "approval": "requires_approval"
+    "riskLevel": "medium"
+    "auditLevel": "standard"
     "approvalTimeout": 30
   }
   ```
@@ -209,10 +209,10 @@ Agent: [Executes or cancels based on response]
 - **Configuration:**
   ```json
   {
-    "approval": "requires_approval",
-    "riskLevel": "high",
-    "auditLevel": "detailed",
-    "requiresMultipleApprovals": true,
+    "approval": "requires_approval"
+    "riskLevel": "high"
+    "auditLevel": "detailed"
+    "requiresMultipleApprovals": true
     "approvalTimeout": 60
   }
   ```
@@ -233,9 +233,9 @@ Agent: [Executes or cancels based on response]
 - **Configuration:**
   ```json
   {
-    "approval": "disabled",
-    "riskLevel": "critical",
-    "permanentlyDisabled": true,
+    "approval": "disabled"
+    "riskLevel": "critical"
+    "permanentlyDisabled": true
     "reason": "Destructive operation"
   }
   ```
@@ -261,9 +261,9 @@ tail -f .elevenlabs/audit/errors.log
 // Monitor for suspicious patterns
 class SecurityMonitor {
   private suspiciousPatterns = [
-    { pattern: 'rapid_tool_changes', threshold: 10, window: 60 },
-    { pattern: 'unusual_hours', hours: [0, 1, 2, 3, 4, 5] },
-    { pattern: 'high_denial_rate', threshold: 0.5 },
+    { pattern: 'rapid_tool_changes', threshold: 10, window: 60 }
+    { pattern: 'unusual_hours', hours: [0, 1, 2, 3, 4, 5] }
+    { pattern: 'high_denial_rate', threshold: 0.5 }
     { pattern: 'new_tool_usage', alert: true }
   ];
 
@@ -274,8 +274,8 @@ class SecurityMonitor {
     const recentTools = this.getRecentToolUsage(60);
     if (recentTools.length > 10) {
       alerts.push({
-        type: 'rapid_tool_usage',
-        severity: 'medium',
+        type: 'rapid_tool_usage'
+        severity: 'medium'
         count: recentTools.length
       });
     }
@@ -284,8 +284,8 @@ class SecurityMonitor {
     const hour = new Date().getHours();
     if ([0, 1, 2, 3, 4, 5].includes(hour)) {
       alerts.push({
-        type: 'unusual_hours',
-        severity: 'low',
+        type: 'unusual_hours'
+        severity: 'low'
         hour
       });
     }
@@ -403,37 +403,37 @@ Complete security configuration:
 ```json
 {
   "authentication": {
-    "method": "bearer_token",
+    "method": "bearer_token"
     "tokenRotation": {
-      "enabled": true,
-      "intervalDays": 30,
+      "enabled": true
+      "intervalDays": 30
       "notifyBeforeDays": 7
     }
-  },
-  "approvalMode": "fine_grained",
+  }
+  "approvalMode": "fine_grained"
   "auditLogging": {
-    "enabled": true,
-    "destinations": ["file", "webhook"],
-    "logLevel": "info",
+    "enabled": true
+    "destinations": ["file", "webhook"]
+    "logLevel": "info"
     "retention": {
-      "days": 90,
+      "days": 90
       "compress": true
     }
-  },
+  }
   "monitoring": {
-    "enabled": true,
-    "healthCheckInterval": 60,
-    "anomalyDetection": true,
+    "enabled": true
+    "healthCheckInterval": 60
+    "anomalyDetection": true
     "alertChannels": ["email", "webhook"]
-  },
+  }
   "rateLimiting": {
-    "enabled": true,
-    "requestsPerMinute": 60,
+    "enabled": true
+    "requestsPerMinute": 60
     "burstLimit": 10
-  },
+  }
   "incidentResponse": {
-    "autoDisableOnSuspicious": true,
-    "notificationEmails": ["security@example.com"],
+    "autoDisableOnSuspicious": true
+    "notificationEmails": ["security@example.com"]
     "escalationWebhook": "https://your-alerting-system.com/webhook"
   }
 }

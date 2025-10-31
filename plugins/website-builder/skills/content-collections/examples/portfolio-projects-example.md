@@ -9,19 +9,19 @@ Portfolio site showcasing projects with case studies and filtering.
 import { defineCollection, z } from 'astro:content';
 
 const projects = defineCollection({
-  type: 'content',
+  type: 'content'
   schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string(),
-    category: z.enum(['web', 'mobile', 'design', 'other']),
-    tags: z.array(z.string()),
-    featured: z.boolean().default(false),
-    thumbnail: image(),
-    gallery: z.array(image()).default([]),
-    link: z.string().url().optional(),
-    github: z.string().url().optional(),
-    date: z.date(),
-    client: z.string().optional(),
+    title: z.string()
+    description: z.string()
+    category: z.enum(['web', 'mobile', 'design', 'other'])
+    tags: z.array(z.string())
+    featured: z.boolean().default(false)
+    thumbnail: image()
+    gallery: z.array(image()).default([])
+    link: z.string().url().optional()
+    github: z.string().url().optional()
+    date: z.date()
+    client: z.string().optional()
     role: z.string()
   })
 });

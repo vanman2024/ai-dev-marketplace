@@ -116,15 +116,15 @@ manager = MultiLevelMemoryManager()
 
 # Add user memory
 manager.add_user_memory(
-    "User prefers dark mode",
+    "User prefers dark mode"
     user_id="alice"
 )
 
 # Get context
 context = manager.get_multi_level_context(
-    query="What are the user's preferences?",
-    user_id="alice",
-    agent_id="assistant",
+    query="What are the user's preferences?"
+    user_id="alice"
+    agent_id="assistant"
     run_id="session_123"
 )
 ```

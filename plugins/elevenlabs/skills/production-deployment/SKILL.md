@@ -113,8 +113,8 @@ Best for: Enforcing strict concurrency limits with prioritization
 ```python
 # See templates/error-handler.py.template for full implementation
 limiter = SlidingWindowRateLimiter(
-    max_concurrent=10,
-    window_size=60,
+    max_concurrent=10
+    window_size=60
     priority_levels=3
 )
 ```
@@ -154,8 +154,8 @@ Monitors `current-concurrent-requests` and `maximum-concurrent-requests` headers
 ```javascript
 // Automatically opens circuit after threshold failures
 const circuitBreaker = new CircuitBreaker({
-  failureThreshold: 5,
-  resetTimeout: 60000,
+  failureThreshold: 5
+  resetTimeout: 60000
   monitorInterval: 5000
 });
 ```

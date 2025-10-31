@@ -13,7 +13,7 @@ import BlogLayout from '@/layouts/BlogLayout.astro';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map(post => ({
-    params: { slug: post.slug },
+    params: { slug: post.slug }
     props: { post }
   }));
 }
@@ -37,7 +37,7 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const docs = await getCollection('docs');
   return docs.map(doc => ({
-    params: { path: doc.slug },
+    params: { path: doc.slug }
     props: { doc }
   }));
 }
@@ -64,12 +64,12 @@ export const GET: APIRoute = async () => {
 
   return new Response(JSON.stringify({
     posts: posts.map(p => ({
-      slug: p.slug,
-      title: p.data.title,
+      slug: p.slug
+      title: p.data.title
       date: p.data.date
     }))
   }), {
-    status: 200,
+    status: 200
     headers: { 'Content-Type': 'application/json' }
   });
 };
@@ -78,7 +78,7 @@ export const POST: APIRoute = async ({ request }) => {
   const data = await request.json();
   // Handle POST request
   return new Response(JSON.stringify({ success: true }), {
-    status: 201,
+    status: 201
     headers: { 'Content-Type': 'application/json' }
   });
 };
@@ -137,10 +137,10 @@ export const onRequest = defineMiddleware(async (context, next) => {
 // astro.config.mjs
 export default defineConfig({
   redirects: {
-    '/old-blog': '/blog',
-    '/posts/[slug]': '/blog/[slug]',
+    '/old-blog': '/blog'
+    '/posts/[slug]': '/blog/[slug]'
     '/about': {
-      status: 301,
+      status: 301
       destination: '/company/about'
     }
   }

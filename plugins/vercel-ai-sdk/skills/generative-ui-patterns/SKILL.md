@@ -41,9 +41,9 @@ import { openai } from '@ai-sdk/openai'
 
 export async function generateUI(prompt: string) {
   const result = await streamUI({
-    model: openai('gpt-4'),
-    prompt,
-    text: ({ content }) => <p>{content}</p>,
+    model: openai('gpt-4')
+    prompt
+    text: ({ content }) => <p>{content}</p>
     tools: {
       // Tool definitions for dynamic UI generation
     }
@@ -146,20 +146,20 @@ export async function generateUI(prompt: string) {
 ```typescript
 const tools = {
   showChart: tool({
-    description: 'Display data as chart',
+    description: 'Display data as chart'
     parameters: z.object({
-      data: z.array(z.number()),
+      data: z.array(z.number())
       type: z.enum(['bar', 'line', 'pie'])
-    }),
+    })
     generate: async ({ data, type }) => {
       return <ChartComponent data={data} type={type} />
     }
-  }),
+  })
   showTable: tool({
-    description: 'Display data as table',
+    description: 'Display data as table'
     parameters: z.object({
       rows: z.array(z.record(z.string()))
-    }),
+    })
     generate: async ({ rows }) => {
       return <TableComponent rows={rows} />
     }
@@ -178,7 +178,7 @@ const result = await streamUI({
   // ... config
   onError: (error) => {
     return <ErrorBoundary error={error} />
-  },
+  }
   fallback: <LoadingSpinner />
 })
 ```
@@ -265,9 +265,9 @@ app/
 // tsconfig.json
 {
   "compilerOptions": {
-    "jsx": "preserve",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "module": "esnext",
+    "jsx": "preserve"
+    "lib": ["dom", "dom.iterable", "esnext"]
+    "module": "esnext"
     "moduleResolution": "bundler"
   }
 }

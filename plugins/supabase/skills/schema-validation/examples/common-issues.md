@@ -40,8 +40,8 @@ CREATE TABLE users (
 
 ```sql
 CREATE TABLE users (
-  userId UUID,
-  firstName TEXT,
+  userId UUID
+  firstName TEXT
   lastName TEXT
 );
 ```
@@ -51,8 +51,8 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  user_id UUID,
-  first_name TEXT,
+  user_id UUID
+  first_name TEXT
   last_name TEXT
 );
 ```
@@ -63,7 +63,7 @@ CREATE TABLE users (
 
 ```sql
 CREATE TABLE users (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   email TEXT UNIQUE
 );
 ```
@@ -73,7 +73,7 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
   email TEXT CONSTRAINT uq_users_email UNIQUE NOT NULL
 );
 ```
@@ -111,7 +111,7 @@ CREATE TABLE "user" (
 
 ```sql
 CREATE TABLE users (
-  email TEXT UNIQUE,
+  email TEXT UNIQUE
   username TEXT
 );
 ```
@@ -121,8 +121,8 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT CONSTRAINT uq_users_email UNIQUE NOT NULL,
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
+  email TEXT CONSTRAINT uq_users_email UNIQUE NOT NULL
   username TEXT CONSTRAINT uq_users_username UNIQUE NOT NULL
 );
 ```
@@ -133,7 +133,7 @@ CREATE TABLE users (
 
 ```sql
 CREATE TABLE posts (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   user_id UUID REFERENCES users(id)
 );
 ```
@@ -143,9 +143,8 @@ CREATE TABLE posts (
 **✅ Fix:**
 ```sql
 CREATE TABLE posts (
-  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
-
+  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid()
+  user_id UUID NOT NULL
   CONSTRAINT fk_posts_users
     FOREIGN KEY (user_id)
     REFERENCES users(id)
@@ -159,8 +158,8 @@ CREATE TABLE posts (
 
 ```sql
 CREATE TABLE users (
-  id UUID PRIMARY KEY,
-  email TEXT UNIQUE,
+  id UUID PRIMARY KEY
+  email TEXT UNIQUE
   created_at TIMESTAMPTZ
 );
 ```
@@ -171,9 +170,9 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT CONSTRAINT uq_users_email UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
+  email TEXT CONSTRAINT uq_users_email UNIQUE NOT NULL
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 ```
@@ -184,7 +183,7 @@ CREATE TABLE users (
 
 ```sql
 CREATE TABLE products (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   price NUMERIC
 );
 ```
@@ -194,9 +193,8 @@ CREATE TABLE products (
 **✅ Fix:**
 ```sql
 CREATE TABLE products (
-  id UUID CONSTRAINT pk_products PRIMARY KEY DEFAULT gen_random_uuid(),
-  price NUMERIC NOT NULL,
-
+  id UUID CONSTRAINT pk_products PRIMARY KEY DEFAULT gen_random_uuid()
+  price NUMERIC NOT NULL
   CONSTRAINT ck_products_positive_price
     CHECK (price > 0)
 );
@@ -210,7 +208,7 @@ CREATE TABLE products (
 
 ```sql
 CREATE TABLE posts (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   user_id UUID REFERENCES users(id)
 );
 ```
@@ -220,9 +218,8 @@ CREATE TABLE posts (
 **✅ Fix:**
 ```sql
 CREATE TABLE posts (
-  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
-
+  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid()
+  user_id UUID NOT NULL
   CONSTRAINT fk_posts_users
     FOREIGN KEY (user_id)
     REFERENCES users(id)
@@ -238,7 +235,7 @@ CREATE INDEX idx_posts_user_id ON posts (user_id);
 
 ```sql
 CREATE TABLE posts (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   user_id UUID REFERENCES users(id)
 );
 
@@ -264,7 +261,7 @@ CREATE INDEX idx_posts_user_id ON posts (user_id);
 
 ```sql
 CREATE TABLE documents (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   metadata JSONB
 );
 
@@ -276,7 +273,7 @@ CREATE INDEX idx_documents_metadata ON documents (metadata);
 **✅ Fix:**
 ```sql
 CREATE TABLE documents (
-  id UUID CONSTRAINT pk_documents PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_documents PRIMARY KEY DEFAULT gen_random_uuid()
   metadata JSONB NOT NULL DEFAULT '{}'::jsonb
 );
 
@@ -311,7 +308,7 @@ CREATE INDEX idx_users_email ON users (email);
 
 ```sql
 CREATE TABLE users (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   email TEXT
 );
 ```
@@ -321,7 +318,7 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
   email TEXT NOT NULL
 );
 
@@ -350,7 +347,7 @@ ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
   email TEXT NOT NULL
 );
 
@@ -469,7 +466,7 @@ CREATE TABLE users (
 **✅ Fix:**
 ```sql
 CREATE TABLE users (
-  id BIGINT GENERATED ALWAYS AS IDENTITY,
+  id BIGINT GENERATED ALWAYS AS IDENTITY
   CONSTRAINT pk_users PRIMARY KEY (id)
 );
 
@@ -506,7 +503,7 @@ CREATE TABLE users (
 
 ```sql
 CREATE TABLE posts (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -518,7 +515,7 @@ CREATE TABLE posts (
 **✅ Fix:**
 ```sql
 CREATE TABLE posts (
-  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid()
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -531,7 +528,7 @@ CREATE INDEX idx_posts_created_at ON posts (created_at DESC);
 
 ```sql
 CREATE TABLE posts (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   deleted_at TIMESTAMPTZ
 );
 
@@ -543,7 +540,7 @@ CREATE TABLE posts (
 **✅ Fix:**
 ```sql
 CREATE TABLE posts (
-  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_posts PRIMARY KEY DEFAULT gen_random_uuid()
   deleted_at TIMESTAMPTZ
 );
 

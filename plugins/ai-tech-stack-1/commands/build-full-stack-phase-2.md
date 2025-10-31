@@ -119,20 +119,20 @@ Actions:
 {
   "mcpServers": {
     "supabase": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-supabase"],
+      "command": "npx"
+      "args": ["-y", "@modelcontextprotocol/server-supabase"]
       "env": {
-        "SUPABASE_URL": "${SUPABASE_URL}",
+        "SUPABASE_URL": "${SUPABASE_URL}"
         "SUPABASE_KEY": "${SUPABASE_ANON_KEY}"
       }
-    },
+    }
     "memory": {
-      "command": "npx",
+      "command": "npx"
       "args": ["-y", "@modelcontextprotocol/server-memory"]
-    },
+    }
     "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem"],
+      "command": "npx"
+      "args": ["-y", "@modelcontextprotocol/server-filesystem"]
       "env": {
         "ALLOWED_DIRECTORIES": ["./data", "./uploads"]
       }

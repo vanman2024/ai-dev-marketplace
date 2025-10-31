@@ -34,7 +34,7 @@ memories = memory.search(query)  # No filters, full scan
 
 # After
 memories = memory.search(
-    query,
+    query
     user_id=user_id,  # Added filter
     limit=5,  # Reduced from 10
     rerank=False  # Disabled for simple queries
@@ -57,10 +57,10 @@ from cache_strategies.redis_cache import cached_search, cached_add
 
 # Search with caching
 results = cached_search(
-    memory,
-    query="user preferences",
-    user_id=user_id,
-    limit=5,
+    memory
+    query="user preferences"
+    user_id=user_id
+    limit=5
     ttl=900  # 15 minutes for preferences
 )
 
@@ -86,7 +86,7 @@ cached_add(memory, new_message, user_id=user_id)
 # After: text-embedding-3-small ($0.02/1M)
 config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {"model": "text-embedding-3-small"}
     }
 )
@@ -144,17 +144,17 @@ Accuracy: Good (baseline)
 ```python
 config = MemoryConfig(
     vector_store={
-        "provider": "qdrant",
+        "provider": "qdrant"
         "config": {
-            "on_disk": True,
-            "prefer_grpc": True,
+            "on_disk": True
+            "prefer_grpc": True
             "hnsw_config": {
-                "m": 16,
+                "m": 16
                 "ef_construct": 200
-            },
+            }
             "quantization_config": {
                 "scalar": {"type": "int8", "quantile": 0.99}
-            },
+            }
             "connection_pool_size": 100
         }
     }
@@ -174,9 +174,9 @@ config = MemoryConfig(
 ```python
 # Stage 1: Fast initial retrieval
 candidates = memory.search(
-    query,
-    user_id=user_id,
-    limit=50,
+    query
+    user_id=user_id
+    limit=50
     rerank=False  # Skip reranking
 )
 
@@ -184,9 +184,9 @@ candidates = memory.search(
 from cohere import Client
 reranker = Client(api_key=os.getenv("COHERE_API_KEY"))
 final_results = reranker.rerank(
-    query=query,
-    documents=[c['content'] for c in candidates],
-    top_n=10,
+    query=query
+    documents=[c['content'] for c in candidates]
+    top_n=10
     model="rerank-english-v3.5"
 )
 ```
@@ -252,8 +252,8 @@ No cost controls or limits
 **Implementation**:
 ```python
 TENANT_LIMITS = {
-    "free": {"max_memories": 100, "retention_days": 30},
-    "pro": {"max_memories": 1000, "retention_days": 180},
+    "free": {"max_memories": 100, "retention_days": 30}
+    "pro": {"max_memories": 1000, "retention_days": 180}
     "enterprise": {"max_memories": 10000, "retention_days": 365}
 }
 
@@ -334,8 +334,8 @@ def add_memory_with_limits(org_id: str, message: str):
 ```python
 # Mobile-optimized search
 memories = memory.search(
-    query,
-    user_id=user_id,
+    query
+    user_id=user_id
     limit=3,  # Minimal for mobile
     filters={"categories": ["recent", "important"]}
 )

@@ -1,7 +1,7 @@
 ---
 description: Add Row Level Security policies - generates and applies RLS policies for tables
 argument-hint: <table1,table2,...> [--pattern=user-isolation|multi-tenant|role-based]
-allowed-tools: Task(supabase-security-specialist), Skill(rls-templates)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

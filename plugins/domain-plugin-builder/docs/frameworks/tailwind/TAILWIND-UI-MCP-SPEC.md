@@ -100,9 +100,9 @@ SUPABASE_SERVICE_KEY=<your-service-role-key>
 **SQL Query:**
 ```sql
 SELECT 
-  category,
-  tailwind_ui_category,
-  tailwind_ui_subcategory,
+  category
+  tailwind_ui_category
+  tailwind_ui_subcategory
   COUNT(*) as count
 FROM sections 
 WHERE react_template IS NOT NULL
@@ -113,18 +113,18 @@ ORDER BY count DESC
 **Return Format:**
 ```json
 {
-  "total_categories": 30,
+  "total_categories": 30
   "categories": [
     {
-      "category": "application-ui",
-      "tailwind_ui_category": "Forms",
-      "tailwind_ui_subcategory": "Input_Groups",
+      "category": "application-ui"
+      "tailwind_ui_category": "Forms"
+      "tailwind_ui_subcategory": "Input_Groups"
       "count": 21
-    },
+    }
     {
-      "category": "application-ui",
-      "tailwind_ui_category": "Elements",
-      "tailwind_ui_subcategory": "Buttons",
+      "category": "application-ui"
+      "tailwind_ui_category": "Elements"
+      "tailwind_ui_subcategory": "Buttons"
       "count": 10
     }
   ]
@@ -155,13 +155,13 @@ User: "What categories do you have?"
 **SQL Query:**
 ```sql
 SELECT 
-  name,
-  category,
-  tailwind_ui_category,
-  tailwind_ui_subcategory,
-  description,
-  tags,
-  LENGTH(react_template) as code_length,
+  name
+  category
+  tailwind_ui_category
+  tailwind_ui_subcategory
+  description
+  tags
+  LENGTH(react_template) as code_length
   block_type
 FROM sections 
 WHERE react_template IS NOT NULL
@@ -179,16 +179,16 @@ LIMIT {limit}
 **Return Format:**
 ```json
 {
-  "total_found": 10,
+  "total_found": 10
   "components": [
     {
-      "name": "Elements - Buttons - Example",
-      "category": "application-ui",
-      "tailwind_ui_category": "Elements",
-      "tailwind_ui_subcategory": "Buttons",
-      "description": "Primary button components with various sizes",
-      "tags": ["beta", "tailwind-ui", "application-ui", "elements"],
-      "code_length": 1576,
+      "name": "Elements - Buttons - Example"
+      "category": "application-ui"
+      "tailwind_ui_category": "Elements"
+      "tailwind_ui_subcategory": "Buttons"
+      "description": "Primary button components with various sizes"
+      "tags": ["beta", "tailwind-ui", "application-ui", "elements"]
+      "code_length": 1576
       "block_type": "component"
     }
   ]
@@ -221,11 +221,11 @@ User: "Search for forms with validation"
 **SQL Query:**
 ```sql
 SELECT 
-  name,
-  description,
-  tailwind_ui_category,
-  tailwind_ui_subcategory,
-  tags,
+  name
+  description
+  tailwind_ui_category
+  tailwind_ui_subcategory
+  tags
   LENGTH(react_template) as code_length
 FROM sections 
 WHERE react_template IS NOT NULL
@@ -239,14 +239,14 @@ LIMIT {limit}
 **Return Format:**
 ```json
 {
-  "category": "application-ui",
-  "tailwind_ui_category": "Forms",
-  "tailwind_ui_subcategory": "Input_Groups",
-  "total_components": 21,
+  "category": "application-ui"
+  "tailwind_ui_category": "Forms"
+  "tailwind_ui_subcategory": "Input_Groups"
+  "total_components": 21
   "components": [
     {
-      "name": "Forms - Input_Groups - WithLabel",
-      "description": "Input field with label",
+      "name": "Forms - Input_Groups - WithLabel"
+      "description": "Input field with label"
       "code_length": 1234
     }
   ]
@@ -275,18 +275,18 @@ User: "Get all Navigation components"
 **SQL Query:**
 ```sql
 SELECT 
-  name,
-  description,
-  category,
-  tailwind_ui_category,
-  tailwind_ui_subcategory,
-  react_template,
-  html_code,
-  dependencies,
-  tags,
-  css_classes,
-  block_type,
-  app_type,
+  name
+  description
+  category
+  tailwind_ui_category
+  tailwind_ui_subcategory
+  react_template
+  html_code
+  dependencies
+  tags
+  css_classes
+  block_type
+  app_type
   LENGTH(react_template) as code_length
 FROM sections 
 WHERE name = ANY(ARRAY[{component_names}])
@@ -298,19 +298,19 @@ WHERE name = ANY(ARRAY[{component_names}])
 {
   "components": [
     {
-      "name": "Elements - Buttons - Example",
-      "description": "Primary button components",
-      "category": "application-ui",
-      "tailwind_ui_category": "Elements",
-      "tailwind_ui_subcategory": "Buttons",
-      "react_template": "// Full React code here...",
-      "html_code": null,
+      "name": "Elements - Buttons - Example"
+      "description": "Primary button components"
+      "category": "application-ui"
+      "tailwind_ui_category": "Elements"
+      "tailwind_ui_subcategory": "Buttons"
+      "react_template": "// Full React code here..."
+      "html_code": null
       "dependencies": {
-        "uses_components": [],
+        "uses_components": []
         "npm_packages": []
-      },
-      "tags": ["beta", "tailwind-ui", "elements"],
-      "css_classes": ["rounded-md", "bg-indigo-600", "px-3", "py-2"],
+      }
+      "tags": ["beta", "tailwind-ui", "elements"]
+      "css_classes": ["rounded-md", "bg-indigo-600", "px-3", "py-2"]
       "code_length": 1576
     }
   ]
@@ -340,8 +340,8 @@ User: "View component Forms - Radio_Groups - SimpleList"
 **SQL Query:**
 ```sql
 SELECT 
-  name,
-  react_template,
+  name
+  react_template
   html_code
 FROM sections 
 WHERE name = '{component_name}'
@@ -351,8 +351,8 @@ WHERE name = '{component_name}'
 **Return Format:**
 ```json
 {
-  "name": "Elements - Buttons - Example",
-  "code": "// Tailwind UI - Application UI - Elements - Buttons\nexport default function Example() {\n  return (\n    <>\n      <button\n        type=\"button\"\n        className=\"rounded-sm bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600\"\n      >\n        Button text\n      </button>\n    </>\n  )\n}",
+  "name": "Elements - Buttons - Example"
+  "code": "// Tailwind UI - Application UI - Elements - Buttons\nexport default function Example() {\n  return (\n    <>\n      <button\n        type=\"button\"\n        className=\"rounded-sm bg-indigo-600 px-2 py-1 text-xs font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600\"\n      >\n        Button text\n      </button>\n    </>\n  )\n}"
   "format": "react"
 }
 ```
@@ -379,12 +379,12 @@ User: "Show code for pricing section"
 **SQL Query:**
 ```sql
 SELECT 
-  name,
-  description,
-  dependencies,
-  tailwind_ui_category,
-  tailwind_ui_subcategory,
-  css_classes,
+  name
+  description
+  dependencies
+  tailwind_ui_category
+  tailwind_ui_subcategory
+  css_classes
   react_template
 FROM sections 
 WHERE name = '{component_name}'
@@ -393,13 +393,13 @@ WHERE name = '{component_name}'
 **Return Format:**
 ```json
 {
-  "component": "Elements - Buttons - Example",
+  "component": "Elements - Buttons - Example"
   "instructions": {
-    "step1": "Copy the component code",
-    "step2": "Paste into your React component file",
-    "step3": "Ensure Tailwind CSS is configured in your project",
-    "dependencies": [],
-    "tailwind_classes": ["rounded-sm", "bg-indigo-600", "px-2", "py-1", "text-xs"],
+    "step1": "Copy the component code"
+    "step2": "Paste into your React component file"
+    "step3": "Ensure Tailwind CSS is configured in your project"
+    "dependencies": []
+    "tailwind_classes": ["rounded-sm", "bg-indigo-600", "px-2", "py-1", "text-xs"]
     "usage_example": "import Example from './components/Example'\n\n<Example />"
   }
 }
@@ -431,8 +431,8 @@ tailwind-ui-mcp/
 ```json
 {
   "dependencies": {
-    "@modelcontextprotocol/sdk": "latest",
-    "@supabase/supabase-js": "^2.x",
+    "@modelcontextprotocol/sdk": "latest"
+    "@supabase/supabase-js": "^2.x"
     "fastmcp": "latest"
   }
 }
@@ -450,10 +450,10 @@ python-dotenv
 {
   "mcpServers": {
     "tailwind-ui": {
-      "command": "node",
-      "args": ["path/to/tailwind-ui-mcp/server.js"],
+      "command": "node"
+      "args": ["path/to/tailwind-ui-mcp/server.js"]
       "env": {
-        "SUPABASE_URL": "https://wsmhiiharnhqupdniwgw.supabase.co",
+        "SUPABASE_URL": "https://wsmhiiharnhqupdniwgw.supabase.co"
         "SUPABASE_SERVICE_KEY": "your-service-role-key-here"
       }
     }
@@ -471,16 +471,16 @@ const { FastMCP } = require('fastmcp');
 const { createClient } = require('@supabase/supabase-js');
 
 const supabase = createClient(
-  process.env.SUPABASE_URL,
+  process.env.SUPABASE_URL
   process.env.SUPABASE_SERVICE_KEY
 );
 
 const mcp = new FastMCP('tailwind-ui');
 
 // Tool 1: List Categories
-mcp.tool('list_tailwind_categories', 
-  'Lists all available Tailwind UI categories with component counts',
-  {},
+mcp.tool('list_tailwind_categories'
+  'Lists all available Tailwind UI categories with component counts'
+  {}
   async () => {
     const { data, error } = await supabase
       .from('sections')
@@ -493,13 +493,13 @@ mcp.tool('list_tailwind_categories',
 );
 
 // Tool 2: Search Components
-mcp.tool('search_tailwind_components',
-  'Search for Tailwind UI components by keyword',
+mcp.tool('search_tailwind_components'
+  'Search for Tailwind UI components by keyword'
   {
-    query: { type: 'string', required: true },
-    category: { type: 'string' },
+    query: { type: 'string', required: true }
+    category: { type: 'string' }
     limit: { type: 'number', default: 20 }
-  },
+  }
   async ({ query, category, limit }) => {
     let dbQuery = supabase
       .from('sections')
@@ -518,24 +518,24 @@ mcp.tool('search_tailwind_components',
 );
 
 // Tool 3: List by Category
-mcp.tool('list_components_in_category',
-  'List all components in a specific category',
+mcp.tool('list_components_in_category'
+  'List all components in a specific category'
   {
-    tailwind_ui_category: { type: 'string' },
-    tailwind_ui_subcategory: { type: 'string' },
+    tailwind_ui_category: { type: 'string' }
+    tailwind_ui_subcategory: { type: 'string' }
     limit: { type: 'number', default: 50 }
-  },
+  }
   async (params) => {
     // Implementation
   }
 );
 
 // Tool 4: View Details
-mcp.tool('view_component_details',
-  'Get complete details for specific components',
+mcp.tool('view_component_details'
+  'Get complete details for specific components'
   {
     component_names: { type: 'array', items: { type: 'string' }, required: true }
-  },
+  }
   async ({ component_names }) => {
     const { data, error } = await supabase
       .from('sections')
@@ -548,12 +548,12 @@ mcp.tool('view_component_details',
 );
 
 // Tool 5: Get Code
-mcp.tool('get_component_code',
-  'Get only the code for a component (ready to copy/paste)',
+mcp.tool('get_component_code'
+  'Get only the code for a component (ready to copy/paste)'
   {
-    component_name: { type: 'string', required: true },
+    component_name: { type: 'string', required: true }
     format: { type: 'string', enum: ['react', 'html'], default: 'react' }
-  },
+  }
   async ({ component_name, format }) => {
     const { data, error } = await supabase
       .from('sections')
@@ -562,19 +562,19 @@ mcp.tool('get_component_code',
       .single();
     
     return {
-      name: data.name,
-      code: format === 'html' ? data.html_code : data.react_template,
+      name: data.name
+      code: format === 'html' ? data.html_code : data.react_template
       format
     };
   }
 );
 
 // Tool 6: Get Instructions
-mcp.tool('get_add_instructions',
-  'Get installation and usage instructions for a component',
+mcp.tool('get_add_instructions'
+  'Get installation and usage instructions for a component'
   {
     component_name: { type: 'string', required: true }
-  },
+  }
   async ({ component_name }) => {
     // Get component details and format instructions
   }
@@ -614,7 +614,7 @@ Returns: Complete code
 ```
 User: "Show all form input components"
 MCP: Calls list_components_in_category(
-  tailwind_ui_category: "Forms",
+  tailwind_ui_category: "Forms"
   tailwind_ui_subcategory: "Input_Groups"
 )
 Returns: All 21 form input components
@@ -666,11 +666,10 @@ to 490 Tailwind UI components stored in my Supabase database.
 
 Database: https://wsmhiiharnhqupdniwgw.supabase.co
 Table: sections
-Key fields: name, category, tailwind_ui_category, tailwind_ui_subcategory, 
+Key fields: name, category, tailwind_ui_category, tailwind_ui_subcategory
 react_template (full code), html_code, tags, dependencies
 
-Create 6 MCP tools:
-1. list_tailwind_categories - List all categories with counts
+Create 6 MCP tools: 1. list_tailwind_categories - List all categories with counts
 2. search_tailwind_components - Search by keyword/tag
 3. list_components_in_category - Browse specific category
 4. view_component_details - Get full component details
@@ -700,9 +699,9 @@ WHERE react_template IS NOT NULL;
 ### Sample Component Query
 ```sql
 -- Get a sample component to test
-SELECT name, 
-       SUBSTRING(react_template, 1, 500) as code_preview,
-       tailwind_ui_category,
+SELECT name
+       SUBSTRING(react_template, 1, 500) as code_preview
+       tailwind_ui_category
        tailwind_ui_subcategory
 FROM sections
 WHERE name = 'Elements - Buttons - Example';

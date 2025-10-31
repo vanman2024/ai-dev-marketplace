@@ -133,7 +133,7 @@ Create `tests/my-first-test.test.ts`:
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
-  process.env.SUPABASE_TEST_URL!,
+  process.env.SUPABASE_TEST_URL!
   process.env.SUPABASE_TEST_ANON_KEY!
 );
 

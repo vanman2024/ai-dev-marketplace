@@ -32,14 +32,14 @@ my-plugin/
 **plugin.json (NO commands/agents/skills fields):**
 ```json
 {
-  "name": "my-plugin",
-  "version": "1.0.0",
-  "description": "Deployment automation",
+  "name": "my-plugin"
+  "version": "1.0.0"
+  "description": "Deployment automation"
   "author": {
-    "name": "Dev Team",
+    "name": "Dev Team"
     "email": "dev@example.com"
-  },
-  "license": "MIT",
+  }
+  "license": "MIT"
   "keywords": ["deployment"]
 }
 ```
@@ -66,16 +66,16 @@ my-plugin/
 **plugin.json (List ONLY custom paths):**
 ```json
 {
-  "name": "my-plugin",
-  "version": "1.0.0",
-  "description": "Deployment automation",
+  "name": "my-plugin"
+  "version": "1.0.0"
+  "description": "Deployment automation"
   "author": {
-    "name": "Dev Team",
+    "name": "Dev Team"
     "email": "dev@example.com"
-  },
-  "license": "MIT",
-  "keywords": ["deployment"],
-  "commands": ["./specialized/advanced-deploy.md"],
+  }
+  "license": "MIT"
+  "keywords": ["deployment"]
+  "commands": ["./specialized/advanced-deploy.md"]
   "agents": ["./custom-agents/reviewer.md"]
 }
 ```
@@ -101,7 +101,7 @@ my-plugin/
 **plugin.json (CAUSES DUPLICATION):**
 ```json
 {
-  "name": "my-plugin",
+  "name": "my-plugin"
   "commands": ["./commands/deploy.md"],     ❌ WRONG
   "agents": ["./agents/orchestrator.md"]    ❌ WRONG
 }
@@ -119,16 +119,16 @@ my-plugin/
 Our `plugin.json.template` defaults to:
 ```json
 {
-  "name": "{{PLUGIN_NAME}}",
-  "version": "{{VERSION}}",
-  "description": "{{DESCRIPTION}}",
+  "name": "{{PLUGIN_NAME}}"
+  "version": "{{VERSION}}"
+  "description": "{{DESCRIPTION}}"
   "author": {
-    "name": "{{AUTHOR_NAME}}",
+    "name": "{{AUTHOR_NAME}}"
     "email": "{{AUTHOR_EMAIL}}"
-  },
-  "homepage": "{{HOMEPAGE_URL}}",
-  "repository": "{{REPOSITORY_URL}}",
-  "license": "{{LICENSE}}",
+  }
+  "homepage": "{{HOMEPAGE_URL}}"
+  "repository": "{{REPOSITORY_URL}}"
+  "license": "{{LICENSE}}"
   "keywords": {{KEYWORDS}}
 }
 ```

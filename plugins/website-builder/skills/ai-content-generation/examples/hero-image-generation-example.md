@@ -11,10 +11,10 @@ Complete example of generating hero images for a landing page using Google Image
 {
   "mcpServers": {
     "content-image-generation": {
-      "command": "uv",
-      "args": ["--directory", "../../mcp-servers/content-image-generation-mcp", "run", "content-image-generation"],
+      "command": "uv"
+      "args": ["--directory", "../../mcp-servers/content-image-generation-mcp", "run", "content-image-generation"]
       "env": {
-        "GOOGLE_CLOUD_PROJECT": "your-project-id",
+        "GOOGLE_CLOUD_PROJECT": "your-project-id"
         "ANTHROPIC_API_KEY": "sk-ant-..."
       }
     }
@@ -27,11 +27,11 @@ Complete example of generating hero images for a landing page using Google Image
 ```typescript
 // Using MCP tool: generate_image_imagen3
 const heroImage = await generate_image_imagen3({
-  prompt: "Modern, clean tech workspace with laptop displaying elegant web dashboard, soft natural lighting, professional photography style, blue and white color scheme, minimalist aesthetic",
-  negative_prompt: "cluttered, messy, dark, unprofessional, cartoon",
-  aspect_ratio: "16:9",
-  quality: "hd",
-  output_format: "webp",
+  prompt: "Modern, clean tech workspace with laptop displaying elegant web dashboard, soft natural lighting, professional photography style, blue and white color scheme, minimalist aesthetic"
+  negative_prompt: "cluttered, messy, dark, unprofessional, cartoon"
+  aspect_ratio: "16:9"
+  quality: "hd"
+  output_format: "webp"
   model: "imagen-4"
 });
 
@@ -57,13 +57,13 @@ console.log(`Estimated cost: $${estimate.total_cost}`);
 ```typescript
 // Generate 3 variations of hero image
 const variations = await batch_generate_images({
-  base_prompt: "Tech startup office space, modern design",
+  base_prompt: "Tech startup office space, modern design"
   variations: [
-    "morning light, team collaboration",
-    "afternoon, focused individual work",
+    "morning light, team collaboration"
+    "afternoon, focused individual work"
     "evening, presentation on large screen"
-  ],
-  aspect_ratio: "16:9",
+  ]
+  aspect_ratio: "16:9"
   quality: "sd",  // Use SD for prototyping
   output_format: "webp"
 });

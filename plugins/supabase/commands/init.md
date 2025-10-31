@@ -1,7 +1,7 @@
 ---
 description: Initialize Supabase in your project - sets up MCP configuration, creates .env, and prepares project for Supabase integration
 argument-hint: [project-name]
-allowed-tools: Task(supabase-project-manager), Read, Write, Edit, Bash
+allowed-tools: Task, Read, Write, Edit, Bash
 ---
 
 **Arguments**: $ARGUMENTS

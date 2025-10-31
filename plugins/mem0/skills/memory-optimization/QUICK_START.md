@@ -24,8 +24,8 @@ memories = memory.search(query, user_id=user_id)
 
 # After (add these 2 parameters)
 memories = memory.search(
-    query,
-    user_id=user_id,
+    query
+    user_id=user_id
     limit=5,  # ← Add this
     filters={"user_id": user_id}  # ← Add this
 )
@@ -38,9 +38,9 @@ memories = memory.search(
 ```python
 # For simple preference lookups
 memories = memory.search(
-    query,
-    user_id=user_id,
-    limit=5,
+    query
+    user_id=user_id
+    limit=5
     rerank=False  # ← Add this for simple queries
 )
 ```
@@ -75,7 +75,7 @@ from mem0.configs.base import MemoryConfig
 
 config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {"model": "text-embedding-3-small"}
     }
 )

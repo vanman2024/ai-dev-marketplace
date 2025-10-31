@@ -34,8 +34,8 @@ const { TokenBucketRateLimiter } = require('../../templates/rate-limiter.js.temp
 
 // Create rate limiter for Pro plan (10 concurrent)
 const limiter = new TokenBucketRateLimiter({
-  capacity: 10,
-  refillRate: 2,
+  capacity: 10
+  refillRate: 2
   queueSize: 100
 });
 
@@ -59,19 +59,19 @@ try {
 ```javascript
 // High priority for real-time requests
 const realtimeRequest = limiter.wrap(
-  async () => makeAPICall(),
+  async () => makeAPICall()
   10  // highest priority
 );
 
 // Normal priority for batch processing
 const batchRequest = limiter.wrap(
-  async () => makeAPICall(),
+  async () => makeAPICall()
   3   // lower priority
 );
 
 // High priority requests are processed first when queue builds up
 await Promise.all([
-  realtimeRequest(),
+  realtimeRequest()
   batchRequest()
 ]);
 ```
@@ -114,9 +114,9 @@ const promClient = require('prom-client');
 const { metrics } = require('../../monitoring/config/metrics');
 
 const limiter = new TokenBucketRateLimiter({
-  capacity: 10,
-  refillRate: 2,
-  queueSize: 100,
+  capacity: 10
+  refillRate: 2
+  queueSize: 100
   metrics: metrics  // Pass Prometheus metrics
 });
 
@@ -166,7 +166,7 @@ async function makeRequestWithAdaptiveLimiting(fn) {
 const { CircuitBreaker } = require('../../templates/rate-limiter.js.template');
 
 const circuitBreaker = new CircuitBreaker({
-  failureThreshold: 5,
+  failureThreshold: 5
   resetTimeout: 60000
 });
 
@@ -236,9 +236,9 @@ limiter.on('queue-full', ({ queueSize }) => {
 setInterval(() => {
   const state = limiter.getState();
   console.log('Rate Limiter State:', {
-    tokens: state.tokens,
-    concurrent: state.concurrent,
-    queueDepth: state.queueDepth,
+    tokens: state.tokens
+    concurrent: state.concurrent
+    queueDepth: state.queueDepth
     utilization: state.utilization
   });
 }, 5000);

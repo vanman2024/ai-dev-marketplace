@@ -14,8 +14,8 @@ This guide covers the most common Row Level Security vulnerabilities in Supabase
 ```sql
 -- ❌ VULNERABLE: Table without RLS
 CREATE TABLE user_profiles (
-  id UUID PRIMARY KEY,
-  user_id UUID REFERENCES auth.users,
+  id UUID PRIMARY KEY
+  user_id UUID REFERENCES auth.users
   private_data TEXT
 );
 -- No ALTER TABLE ... ENABLE ROW LEVEL SECURITY
@@ -272,8 +272,8 @@ WHERE id = 'actual-admin-uuid';
 ```sql
 -- ❌ VULNERABLE: No index on user_id
 CREATE TABLE conversations (
-  id UUID PRIMARY KEY,
-  user_id UUID REFERENCES auth.users,
+  id UUID PRIMARY KEY
+  user_id UUID REFERENCES auth.users
   title TEXT
 );
 -- No index on user_id!
@@ -296,7 +296,7 @@ CREATE POLICY "Users read own conversations"
 # Check for missing indexes
 psql $SUPABASE_DB_URL -c "
   SELECT
-    t.tablename,
+    t.tablename
     c.column_name
   FROM information_schema.columns c
   JOIN pg_tables t ON t.tablename = c.table_name
@@ -425,7 +425,7 @@ CREATE POLICY "Org members access org projects"
 import { createClient } from '@supabase/supabase-js'
 
 const supabase = createClient(
-  'https://xxx.supabase.co',
+  'https://xxx.supabase.co'
   'eyJhbGc...service_role_key'  // ⚠️ NEVER DO THIS
 )
 ```
@@ -451,7 +451,7 @@ git log -p | grep -i "service"
 ```javascript
 // ✅ SECURE: Use anon key in client
 const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_URL!
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!  // ✅ Anon key
 )
 
@@ -577,12 +577,12 @@ CREATE POLICY "Org members access projects"
 ```sql
 -- ❌ VULNERABLE: Cascade bypasses RLS
 CREATE TABLE conversations (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   user_id UUID REFERENCES auth.users
 );
 
 CREATE TABLE messages (
-  id UUID PRIMARY KEY,
+  id UUID PRIMARY KEY
   conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE
   -- ⚠️ If conversation deleted, messages deleted regardless of RLS
 );
@@ -619,7 +619,7 @@ CREATE POLICY "Users see non-deleted conversations"
 
 -- ✅ ALTERNATIVE: Remove CASCADE
 ALTER TABLE messages
-  DROP CONSTRAINT messages_conversation_id_fkey,
+  DROP CONSTRAINT messages_conversation_id_fkey
   ADD CONSTRAINT messages_conversation_id_fkey
     FOREIGN KEY (conversation_id)
     REFERENCES conversations(id)

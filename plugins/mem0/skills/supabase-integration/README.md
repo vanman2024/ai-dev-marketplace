@@ -133,10 +133,10 @@ from mem0 import Memory
 
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "url": os.getenv("SUPABASE_DB_URL"),
-            "table_name": "memories",
+            "url": os.getenv("SUPABASE_DB_URL")
+            "table_name": "memories"
             "embedding_dimension": 1536
         }
     }
@@ -156,15 +156,15 @@ results = memory.search("communication style", user_id="customer-123")
 ```python
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
             "url": os.getenv("SUPABASE_DB_URL")
         }
-    },
+    }
     "graph_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "url": os.getenv("SUPABASE_DB_URL"),
+            "url": os.getenv("SUPABASE_DB_URL")
             "relationship_table": "memory_relationships"
         }
     }
@@ -174,7 +174,7 @@ memory = Memory.from_config(config)
 
 # Relationships are extracted automatically
 memory.add(
-    "John works with Sarah at Acme Corp. Sarah is the project manager.",
+    "John works with Sarah at Acme Corp. Sarah is the project manager."
     user_id="org-456"
 )
 ```
@@ -184,14 +184,14 @@ memory.add(
 ```python
 # Memories scoped to organization
 memory.add(
-    "Company uses AWS for infrastructure",
-    user_id="user-123",
+    "Company uses AWS for infrastructure"
+    user_id="user-123"
     metadata={"org_id": "acme-corp"}
 )
 
 # Search within organization only
 results = memory.search(
-    "infrastructure",
+    "infrastructure"
     filters={"metadata": {"org_id": "acme-corp"}}
 )
 ```

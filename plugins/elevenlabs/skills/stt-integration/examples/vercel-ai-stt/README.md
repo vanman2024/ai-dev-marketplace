@@ -33,13 +33,13 @@ const audioBuffer = await readFile('./audio.mp3');
 const audioData = new Uint8Array(audioBuffer);
 
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-    },
-  },
+      languageCode: 'en'
+    }
+  }
 });
 
 console.log(result.text);
@@ -49,15 +49,15 @@ console.log(result.text);
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
-      numSpeakers: 2,
-    },
-  },
+      languageCode: 'en'
+      diarize: true
+      numSpeakers: 2
+    }
+  }
 });
 
 // Format with speaker labels
@@ -75,18 +75,18 @@ The template provides a complete implementation with helper functions:
 
 ```typescript
 import {
-  transcribeAudio,
-  formatTranscriptWithSpeakers,
-  formatTimestamped,
-  extractSpeakerSegments,
+  transcribeAudio
+  formatTranscriptWithSpeakers
+  formatTimestamped
+  extractSpeakerSegments
 } from '../../templates/vercel-ai-transcribe.ts.template';
 
 // Basic transcription
 const result = await transcribeAudio({
-  audioPath: './interview.mp3',
-  languageCode: 'en',
-  diarize: true,
-  numSpeakers: 2,
+  audioPath: './interview.mp3'
+  languageCode: 'en'
+  diarize: true
+  numSpeakers: 2
 });
 
 // Format for display
@@ -109,14 +109,14 @@ speakers.forEach(segment => {
 import { transcribeBatch } from '../../templates/vercel-ai-transcribe.ts.template';
 
 const audioPaths = [
-  './audio/file1.mp3',
-  './audio/file2.mp3',
-  './audio/file3.mp3',
+  './audio/file1.mp3'
+  './audio/file2.mp3'
+  './audio/file3.mp3'
 ];
 
 const results = await transcribeBatch(audioPaths, {
-  languageCode: 'en',
-  diarize: true,
+  languageCode: 'en'
+  diarize: true
 });
 
 results.forEach((result, index) => {
@@ -131,9 +131,9 @@ import { transcribeWithProgress } from '../../templates/vercel-ai-transcribe.ts.
 
 const result = await transcribeWithProgress(
   {
-    audioPath: './long-audio.mp3',
-    languageCode: 'en',
-  },
+    audioPath: './long-audio.mp3'
+    languageCode: 'en'
+  }
   (progress) => {
     console.log(`Progress: ${Math.round(progress * 100)}%`);
   }
@@ -144,18 +144,18 @@ const result = await transcribeWithProgress(
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
-      numSpeakers: 3,
-      tagAudioEvents: true,
-      timestampsGranularity: 'word',
+      languageCode: 'en'
+      diarize: true
+      numSpeakers: 3
+      tagAudioEvents: true
+      timestampsGranularity: 'word'
       fileFormat: 'other', // or 'pcm_s16le_16' for lowest latency
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -174,9 +174,9 @@ async function processAudioUpload(file: File) {
 
   // Transcribe
   const result = await transcribeAudio({
-    audioPath: tempPath,
-    languageCode: 'en',
-    diarize: true,
+    audioPath: tempPath
+    languageCode: 'en'
+    diarize: true
   });
 
   // Clean up
@@ -200,7 +200,7 @@ export async function POST(request: NextRequest) {
 
   if (!file) {
     return NextResponse.json(
-      { error: 'No audio file provided' },
+      { error: 'No audio file provided' }
       { status: 400 }
     );
   }
@@ -208,19 +208,19 @@ export async function POST(request: NextRequest) {
   try {
     const buffer = await file.arrayBuffer();
     const result = await transcribeAudio({
-      audioBuffer: Buffer.from(buffer),
-      languageCode: language || 'en',
-      diarize: true,
+      audioBuffer: Buffer.from(buffer)
+      languageCode: language || 'en'
+      diarize: true
     });
 
     return NextResponse.json({
-      text: result.text,
-      segments: result.segments,
+      text: result.text
+      segments: result.segments
     });
   } catch (error) {
     console.error('Transcription error:', error);
     return NextResponse.json(
-      { error: 'Transcription failed' },
+      { error: 'Transcription failed' }
       { status: 500 }
     );
   }
@@ -250,8 +250,8 @@ export function AudioTranscriber() {
 
     try {
       const response = await fetch('/api/transcribe', {
-        method: 'POST',
-        body: formData,
+        method: 'POST'
+        body: formData
       });
 
       const data = await response.json();
@@ -301,8 +301,8 @@ import { transcribeAudio } from '../../templates/vercel-ai-transcribe.ts.templat
 
 try {
   const result = await transcribeAudio({
-    audioPath: './audio.mp3',
-    languageCode: 'en',
+    audioPath: './audio.mp3'
+    languageCode: 'en'
   });
 
   if (result.success) {
@@ -332,8 +332,8 @@ import { transcribeAudio } from '../../templates/vercel-ai-transcribe.ts.templat
 describe('Audio Transcription', () => {
   it('should transcribe audio file', async () => {
     const result = await transcribeAudio({
-      audioPath: './test/fixtures/sample.mp3',
-      languageCode: 'en',
+      audioPath: './test/fixtures/sample.mp3'
+      languageCode: 'en'
     });
 
     expect(result.success).toBe(true);
@@ -342,10 +342,10 @@ describe('Audio Transcription', () => {
 
   it('should handle speaker diarization', async () => {
     const result = await transcribeAudio({
-      audioPath: './test/fixtures/interview.mp3',
-      languageCode: 'en',
-      diarize: true,
-      numSpeakers: 2,
+      audioPath: './test/fixtures/interview.mp3'
+      languageCode: 'en'
+      diarize: true
+      numSpeakers: 2
     });
 
     const speakers = extractSpeakerSegments(result);
@@ -361,13 +361,13 @@ describe('Audio Transcription', () => {
 ```typescript
 // For lowest latency with uncompressed audio
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
+  model: elevenlabs.transcription('scribe_v1')
   audio: pcmAudioData, // 16-bit PCM, 16kHz, mono
   providerOptions: {
     elevenlabs: {
-      fileFormat: 'pcm_s16le_16',
-    },
-  },
+      fileFormat: 'pcm_s16le_16'
+    }
+  }
 });
 ```
 
@@ -378,7 +378,7 @@ const result = await transcribe({
 providerOptions: {
   elevenlabs: {
     languageCode: 'en', // Always specify when known
-  },
+  }
 }
 ```
 
@@ -388,10 +388,10 @@ providerOptions: {
 // For simple transcription without diarization
 providerOptions: {
   elevenlabs: {
-    diarize: false,
-    tagAudioEvents: false,
-    timestampsGranularity: 'none',
-  },
+    diarize: false
+    tagAudioEvents: false
+    timestampsGranularity: 'none'
+  }
 }
 ```
 

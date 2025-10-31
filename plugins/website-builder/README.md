@@ -135,8 +135,7 @@ ANTHROPIC_API_KEY=sk-ant-...
 GOOGLE_AI_API_KEY=... # Optional, for Gemini
 ```
 
-3. Available MCP tools:
-   - `generate_image_imagen3` - Generate single image
+3. Available MCP tools: - `generate_image_imagen3` - Generate single image
    - `batch_generate_images` - Generate multiple images
    - `generate_video_veo3` - Generate videos
    - `generate_marketing_content` - Generate text content

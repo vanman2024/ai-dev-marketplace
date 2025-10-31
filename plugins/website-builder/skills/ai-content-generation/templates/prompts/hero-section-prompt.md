@@ -31,11 +31,11 @@ Make it:
 import { mcp__content-image-generation__generate_marketing_content } from 'mcp';
 
 const heroContent = await generate_marketing_content({
-  content_type: 'hero',
-  topic: 'AI-powered project management tool',
-  tone: 'professional',
-  target_audience: 'Software development teams',
-  length: 'short',
+  content_type: 'hero'
+  topic: 'AI-powered project management tool'
+  tone: 'professional'
+  target_audience: 'Software development teams'
+  length: 'short'
   model: 'claude-sonnet-4'
 });
 ```

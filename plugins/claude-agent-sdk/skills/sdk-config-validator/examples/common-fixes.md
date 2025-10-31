@@ -56,8 +56,8 @@ Update tsconfig.json:
 ```json
 {
   "compilerOptions": {
-    "moduleResolution": "node",
-    "esModuleInterop": true,
+    "moduleResolution": "node"
+    "esModuleInterop": true
     "allowSyntheticDefaultImports": true
   }
 }

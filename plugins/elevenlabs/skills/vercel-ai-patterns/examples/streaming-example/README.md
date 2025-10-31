@@ -58,19 +58,19 @@ async function main() {
   const audioBuffer = await readFile('audio.mp3');
 
   const result = await streamingTranscribe(audioBuffer, {
-    language: 'en',
+    language: 'en'
     onProgress: (progress) => {
       console.log(`Progress: ${progress.toFixed(0)}%`);
-    },
+    }
     onChunk: (text, isFinal) => {
       console.log(`Chunk [${isFinal ? 'FINAL' : 'PARTIAL'}]: ${text}`);
-    },
+    }
     onComplete: (fullText) => {
       console.log('\nComplete transcription:', fullText);
-    },
+    }
     onError: (error) => {
       console.error('Error:', error.message);
-    },
+    }
   });
 
   console.log('Final result:', result);
@@ -134,16 +134,16 @@ async function setupClient() {
       console.log('Received chunk:', chunk.text);
       // Update UI with chunk
       appendToTranscript(chunk.text);
-    },
+    }
     onComplete: (text) => {
       console.log('Complete:', text);
       // Finalize UI
       markTranscriptComplete();
-    },
+    }
     onError: (error) => {
       console.error('Error:', error.message);
       showError(error.message);
-    },
+    }
   });
 
   await client.connect();
@@ -278,11 +278,11 @@ export function ProgressTracker() {
       onProgress: (p) => {
         setProgress(p);
         setStatus(`Processing: ${p.toFixed(0)}%`);
-      },
+      }
       onComplete: (text) => {
         setProgress(100);
         setStatus('Complete!');
-      },
+      }
     });
   };
 
@@ -321,11 +321,11 @@ export function LiveTranscript() {
         setTimeout(() => {
           const element = document.getElementById('transcript-container');
           element?.scrollTo({
-            top: element.scrollHeight,
-            behavior: 'smooth',
+            top: element.scrollHeight
+            behavior: 'smooth'
           });
         }, 100);
-      },
+      }
     });
   };
 
@@ -370,27 +370,27 @@ export async function POST(request: NextRequest) {
         onChunk: (text, isFinal) => {
           const chunk = JSON.stringify({ type: 'chunk', text, isFinal });
           controller.enqueue(new TextEncoder().encode(chunk + '\n'));
-        },
+        }
         onComplete: (fullText) => {
           const chunk = JSON.stringify({ type: 'complete', text: fullText });
           controller.enqueue(new TextEncoder().encode(chunk + '\n'));
           controller.close();
-        },
+        }
         onError: (error) => {
           const chunk = JSON.stringify({ type: 'error', message: error.message });
           controller.enqueue(new TextEncoder().encode(chunk + '\n'));
           controller.close();
-        },
+        }
       });
-    },
+    }
   });
 
   return new Response(stream, {
     headers: {
-      'Content-Type': 'text/event-stream',
-      'Cache-Control': 'no-cache',
-      Connection: 'keep-alive',
-    },
+      'Content-Type': 'text/event-stream'
+      'Cache-Control': 'no-cache'
+      Connection: 'keep-alive'
+    }
   });
 }
 ```
@@ -403,8 +403,8 @@ async function consumeStream(file: File) {
   formData.append('audio', file);
 
   const response = await fetch('/api/transcribe-stream', {
-    method: 'POST',
-    body: formData,
+    method: 'POST'
+    body: formData
   });
 
   const reader = response.body?.getReader();
@@ -455,7 +455,7 @@ await streamingTranscribe(audioBuffer, {
   chunkSizeMs: 1000, // 1 second chunks
   onChunk: (text) => {
     // Process chunk
-  },
+  }
 });
 ```
 

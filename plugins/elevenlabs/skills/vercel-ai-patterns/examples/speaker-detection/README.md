@@ -57,7 +57,7 @@ async function basicExample() {
   const audioBuffer = await readFile('meeting.mp3');
 
   const result = await transcribeWithDiarization(audioBuffer, {
-    language: 'en',
+    language: 'en'
     expectedSpeakers: 3, // Hint: 3 speakers in this recording
   });
 
@@ -144,8 +144,8 @@ import { transcribeWithDiarization, generateMeetingSummary } from './lib/diariza
 async function summaryExample() {
   const audioBuffer = await readFile('meeting.mp3');
   const result = await transcribeWithDiarization(audioBuffer, {
-    language: 'en',
-    expectedSpeakers: 3,
+    language: 'en'
+    expectedSpeakers: 3
   });
 
   const summary = generateMeetingSummary(result);
@@ -301,29 +301,29 @@ async function exportExample() {
 ```json
 {
   "metadata": {
-    "duration": 180,
-    "speakers": 3,
-    "segments": 37,
+    "duration": 180
+    "speakers": 3
+    "segments": 37
     "generatedAt": "2025-10-29T12:00:00.000Z"
-  },
+  }
   "speakers": [
     {
-      "speakerId": 0,
-      "totalDuration": 65.2,
-      "segmentCount": 12,
-      "averageSegmentDuration": 5.4,
+      "speakerId": 0
+      "totalDuration": 65.2
+      "segmentCount": 12
+      "averageSegmentDuration": 5.4
       "percentageOfTotal": 36.2
     }
-  ],
+  ]
   "segments": [
     {
-      "speaker": 0,
-      "text": "Hello everyone",
-      "startTime": 5.2,
-      "endTime": 7.8,
+      "speaker": 0
+      "text": "Hello everyone"
+      "startTime": 5.2
+      "endTime": 7.8
       "duration": 2.6
     }
-  ],
+  ]
   "fullText": "Hello everyone..."
 }
 ```
@@ -352,17 +352,17 @@ export async function POST(request: NextRequest) {
     const audioBuffer = Buffer.from(await audioFile.arrayBuffer());
 
     const result = await handleDiarizationRequest(audioBuffer, {
-      language: language || undefined,
-      expectedSpeakers: speakersStr ? parseInt(speakersStr, 10) : undefined,
-      format,
+      language: language || undefined
+      expectedSpeakers: speakersStr ? parseInt(speakersStr, 10) : undefined
+      format
     });
 
     return NextResponse.json(result);
   } catch (error) {
     return NextResponse.json(
       {
-        error: error instanceof Error ? error.message : 'Unknown error',
-      },
+        error: error instanceof Error ? error.message : 'Unknown error'
+      }
       { status: 500 }
     );
   }
@@ -380,8 +380,8 @@ async function transcribeMeeting(audioFile: File) {
   formData.append('format', 'summary');
 
   const response = await fetch('/api/diarize', {
-    method: 'POST',
-    body: formData,
+    method: 'POST'
+    body: formData
   });
 
   const result = await response.json();
@@ -411,8 +411,8 @@ export default function MeetingTranscriber() {
       formData.append('format', 'json');
 
       const response = await fetch('/api/diarize', {
-        method: 'POST',
-        body: formData,
+        method: 'POST'
+        body: formData
       });
 
       const data = await response.json();
@@ -496,9 +496,9 @@ function visualizeSpeakerDominance(speakers: SpeakerStats[]) {
   const total = speakers.reduce((sum, s) => sum + s.totalDuration, 0);
 
   return speakers.map((speaker) => ({
-    speaker: speaker.speakerId,
-    percentage: (speaker.totalDuration / total) * 100,
-    color: getColorForSpeaker(speaker.speakerId),
+    speaker: speaker.speakerId
+    percentage: (speaker.totalDuration / total) * 100
+    color: getColorForSpeaker(speaker.speakerId)
   }));
 }
 ```
@@ -508,11 +508,11 @@ function visualizeSpeakerDominance(speakers: SpeakerStats[]) {
 ```typescript
 function analyzeMeeting(result: DiarizationResult) {
   const insights = {
-    mostActiveSpeaker: result.speakers[0].speakerId,
+    mostActiveSpeaker: result.speakers[0].speakerId
     averageTurnLength:
-      result.segments.reduce((sum, s) => sum + s.duration, 0) / result.segments.length,
-    totalInterruptions: countInterruptions(result.segments),
-    speakerBalance: calculateBalance(result.speakers),
+      result.segments.reduce((sum, s) => sum + s.duration, 0) / result.segments.length
+    totalInterruptions: countInterruptions(result.segments)
+    speakerBalance: calculateBalance(result.speakers)
   };
 
   return insights;

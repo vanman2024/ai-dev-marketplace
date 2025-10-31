@@ -9,15 +9,15 @@ Complete documentation site with search, sidebar navigation, and version control
 import { defineCollection, z } from 'astro:content';
 
 const docs = defineCollection({
-  type: 'content',
+  type: 'content'
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    category: z.enum(['guide', 'reference', 'tutorial', 'api']),
-    order: z.number().default(0),
-    version: z.string().default('1.0'),
-    lastUpdated: z.date(),
-    tags: z.array(z.string()).default([]),
+    title: z.string()
+    description: z.string()
+    category: z.enum(['guide', 'reference', 'tutorial', 'api'])
+    order: z.number().default(0)
+    version: z.string().default('1.0')
+    lastUpdated: z.date()
+    tags: z.array(z.string()).default([])
     related: z.array(z.string()).default([])
   })
 });
@@ -36,7 +36,7 @@ const allDocs = await getCollection('docs');
 const categories = ['guide', 'reference', 'tutorial', 'api'];
 
 const sidebar = categories.map(cat => ({
-  category: cat,
+  category: cat
   docs: allDocs
     .filter(d => d.data.category === cat)
     .sort((a, b) => a.data.order - b.data.order)
@@ -99,8 +99,8 @@ export const GET: APIRoute = async ({ url }) => {
   );
 
   return new Response(JSON.stringify(results.map(r => ({
-    slug: r.slug,
-    title: r.data.title,
+    slug: r.slug
+    title: r.data.title
     description: r.data.description
   }))), {
     headers: { 'Content-Type': 'application/json' }

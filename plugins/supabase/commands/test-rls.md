@@ -1,7 +1,7 @@
 ---
 description: Test RLS policy enforcement - validates Row Level Security policies work correctly
 argument-hint: <table1,table2,...>
-allowed-tools: Task(supabase-security-auditor), Skill(rls-test-patterns)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

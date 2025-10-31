@@ -50,9 +50,7 @@ Think of skills as "a well-organized manual that starts with a table of contents
 
 ## How Agents Invoke Skills
 
-Skills are invoked through **tool calls**, not special skill-invocation tools:
-
-1. **Discovery**: Agent recognizes skill is relevant based on metadata in system prompt
+Skills are invoked through **tool calls**, not special skill-invocation tools: 1. **Discovery**: Agent recognizes skill is relevant based on metadata in system prompt
 2. **Loading**: Agent uses `Read` tool to load `SKILL.md` into context
 3. **Script Execution**: Agent uses `Bash` tool to execute scripts from `skills/*/scripts/*.sh`
 4. **Template Usage**: Agent uses `Read` tool to load templates from `skills/*/templates/*`

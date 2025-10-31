@@ -59,7 +59,7 @@ CREATE TABLE users (
 
 -- ✅ After
 CREATE TABLE users (
-  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid(),
+  id UUID CONSTRAINT pk_users PRIMARY KEY DEFAULT gen_random_uuid()
   email TEXT NOT NULL
 );
 ```
@@ -88,16 +88,15 @@ CREATE POLICY users_select_own ON users
 ```sql
 -- ❌ Before
 CREATE TABLE UserProfile (
-  userId UUID,
+  userId UUID
   firstName TEXT
 );
 
 -- ✅ After
 CREATE TABLE user_profiles (
-  id UUID CONSTRAINT pk_user_profiles PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL,
-  first_name TEXT NOT NULL,
-
+  id UUID CONSTRAINT pk_user_profiles PRIMARY KEY DEFAULT gen_random_uuid()
+  user_id UUID NOT NULL
+  first_name TEXT NOT NULL
   CONSTRAINT fk_user_profiles_users
     FOREIGN KEY (user_id)
     REFERENCES users(id)

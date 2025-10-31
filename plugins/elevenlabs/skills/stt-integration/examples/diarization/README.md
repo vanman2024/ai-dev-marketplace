@@ -29,15 +29,15 @@ import { elevenlabs } from '@ai-sdk/elevenlabs';
 import { experimental_transcribe as transcribe } from 'ai';
 
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
+      languageCode: 'en'
+      diarize: true
       numSpeakers: 2, // Optional: specify for better accuracy
-    },
-  },
+    }
+  }
 });
 
 // Extract speaker-separated transcript
@@ -66,15 +66,15 @@ Perfect for podcasts, interviews, Q&A sessions.
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
+      languageCode: 'en'
+      diarize: true
       numSpeakers: 2, // Host and guest
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -92,15 +92,15 @@ Business meetings, team discussions, conference calls.
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
+      languageCode: 'en'
+      diarize: true
       numSpeakers: 5, // Or null for auto-detect
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -110,16 +110,16 @@ Panel discussions, roundtable conversations, debates.
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
-      numSpeakers: 6,
+      languageCode: 'en'
+      diarize: true
+      numSpeakers: 6
       tagAudioEvents: true, // Capture audience reactions
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -129,15 +129,15 @@ Lectures with Q&A, classroom discussions.
 
 ```typescript
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioData,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioData
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
+      languageCode: 'en'
+      diarize: true
       // Don't specify numSpeakers - let model detect varying student questions
-    },
-  },
+    }
+  }
 });
 ```
 
@@ -147,17 +147,17 @@ The template provides helper functions for working with diarization:
 
 ```typescript
 import {
-  transcribeAudio,
-  extractSpeakerSegments,
-  formatTranscriptWithSpeakers,
+  transcribeAudio
+  extractSpeakerSegments
+  formatTranscriptWithSpeakers
 } from '../../templates/vercel-ai-transcribe.ts.template';
 
 // Transcribe with diarization
 const result = await transcribeAudio({
-  audioPath: './meeting.mp3',
-  languageCode: 'en',
-  diarize: true,
-  numSpeakers: 3,
+  audioPath: './meeting.mp3'
+  languageCode: 'en'
+  diarize: true
+  numSpeakers: 3
 });
 
 // Extract speaker segments
@@ -181,16 +181,16 @@ Replace generic "Speaker 1" with actual names:
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './interview.mp3',
-  languageCode: 'en',
-  diarize: true,
-  numSpeakers: 2,
+  audioPath: './interview.mp3'
+  languageCode: 'en'
+  diarize: true
+  numSpeakers: 2
 });
 
 // Map speakers to names
 const speakerMap = {
-  'Speaker 1': 'Host',
-  'Speaker 2': 'Guest',
+  'Speaker 1': 'Host'
+  'Speaker 2': 'Guest'
 };
 
 const formatted = formatTranscriptWithSpeakers(result)
@@ -210,9 +210,9 @@ const speakers = extractSpeakerSegments(result);
 const stats = speakers.reduce((acc, segment) => {
   if (!acc[segment.speaker]) {
     acc[segment.speaker] = {
-      wordCount: 0,
-      duration: 0,
-      segments: 0,
+      wordCount: 0
+      duration: 0
+      segments: 0
     };
   }
 
@@ -278,17 +278,17 @@ cat ../../templates/diarization-config.json.template
 // ✅ Good - known speaker count
 providerOptions: {
   elevenlabs: {
-    diarize: true,
+    diarize: true
     numSpeakers: 2, // Interview with 2 people
-  },
+  }
 }
 
 // ⚠️ Works but less accurate
 providerOptions: {
   elevenlabs: {
-    diarize: true,
+    diarize: true
     // Let model guess speaker count
-  },
+  }
 }
 ```
 
@@ -303,9 +303,9 @@ providerOptions: {
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './audio.mp3',
-  diarize: true,
-  numSpeakers: 3,
+  audioPath: './audio.mp3'
+  diarize: true
+  numSpeakers: 3
 });
 
 // Check if diarization worked
@@ -360,15 +360,15 @@ console.log(JSON.stringify(speakers, null, 2));
 ```json
 [
   {
-    "speaker": "Speaker 1",
-    "text": "Hello everyone. Welcome to today's meeting.",
-    "startTime": 0.5,
+    "speaker": "Speaker 1"
+    "text": "Hello everyone. Welcome to today's meeting."
+    "startTime": 0.5
     "endTime": 7.2
-  },
+  }
   {
-    "speaker": "Speaker 2",
-    "text": "Thanks. I'll go first.",
-    "startTime": 7.5,
+    "speaker": "Speaker 2"
+    "text": "Thanks. I'll go first."
+    "startTime": 7.5
     "endTime": 10.1
   }
 ]
@@ -405,10 +405,10 @@ bash ../../scripts/transcribe-audio.sh audio.mp3 en --diarize --num-speakers=2
 // Set specific speaker count
 providerOptions: {
   elevenlabs: {
-    diarize: true,
+    diarize: true
     numSpeakers: 3, // Exactly 3 speakers expected
     tagAudioEvents: false, // Disable to reduce false positives
-  },
+  }
 }
 ```
 
@@ -432,9 +432,9 @@ providerOptions: {
 import { writeFile } from 'fs/promises';
 
 const result = await transcribeAudio({
-  audioPath: './meeting.mp3',
-  diarize: true,
-  numSpeakers: 4,
+  audioPath: './meeting.mp3'
+  diarize: true
+  numSpeakers: 4
 });
 
 const formatted = formatTranscriptWithSpeakers(result);

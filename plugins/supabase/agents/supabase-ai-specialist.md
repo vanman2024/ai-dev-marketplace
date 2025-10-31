@@ -160,7 +160,7 @@ If full-text search is needed alongside vector search:
      export async function generateEmbedding(text: string) {
        const openai = new OpenAI({ apiKey: Deno.env.get('OPENAI_API_KEY') })
        const response = await openai.embeddings.create({
-         model: 'text-embedding-3-small',
+         model: 'text-embedding-3-small'
          input: text
        })
        return response.data[0].embedding

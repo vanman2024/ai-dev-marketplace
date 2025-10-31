@@ -101,9 +101,9 @@ bash multi-speaker-dialogue.sh \
 `voices.json`:
 ```json
 {
-  "Narrator": "voice_id_narrator",
-  "Alice": "voice_id_alice",
-  "Bob": "voice_id_bob",
+  "Narrator": "voice_id_narrator"
+  "Alice": "voice_id_alice"
+  "Bob": "voice_id_bob"
   "Charlie": "voice_id_charlie"
 }
 ```
@@ -143,10 +143,10 @@ STYLE=0.4
 **Professional Narration**
 ```json
 {
-  "model": "eleven_multilingual_v2",
+  "model": "eleven_multilingual_v2"
   "voice_settings": {
-    "stability": 0.8,
-    "similarity_boost": 0.75,
+    "stability": 0.8
+    "similarity_boost": 0.75
     "style": 0.0
   }
 }
@@ -155,10 +155,10 @@ STYLE=0.4
 **Character Dialogue**
 ```json
 {
-  "model": "eleven_v3",
+  "model": "eleven_v3"
   "voice_settings": {
-    "stability": 0.4,
-    "similarity_boost": 0.75,
+    "stability": 0.4
+    "similarity_boost": 0.75
     "style": 0.3
   }
 }
@@ -167,10 +167,10 @@ STYLE=0.4
 **Fast Background Voices**
 ```json
 {
-  "model": "eleven_flash_v2_5",
+  "model": "eleven_flash_v2_5"
   "voice_settings": {
-    "stability": 0.5,
-    "similarity_boost": 0.75,
+    "stability": 0.5
+    "similarity_boost": 0.75
     "style": 0.0
   }
 }
@@ -185,13 +185,13 @@ STYLE=0.4
 cat > voice-assignments.json << 'EOF'
 {
   "chapter-01.txt": {
-    "voice_id": "narrator_voice_id",
-    "model": "eleven_multilingual_v2",
+    "voice_id": "narrator_voice_id"
+    "model": "eleven_multilingual_v2"
     "settings": {"stability": 0.8}
-  },
+  }
   "dialogue-01.txt": {
-    "voice_id": "character_voice_id",
-    "model": "eleven_v3",
+    "voice_id": "character_voice_id"
+    "model": "eleven_v3"
     "settings": {"stability": 0.4, "style": 0.3}
   }
 }

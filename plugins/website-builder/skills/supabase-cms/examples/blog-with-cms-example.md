@@ -9,12 +9,12 @@ Complete example showing Astro blog integrated with Supabase CMS backend.
 ```sql
 -- Run in Supabase SQL Editor
 CREATE TABLE posts (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  title TEXT NOT NULL,
-  slug TEXT NOT NULL UNIQUE,
-  content TEXT NOT NULL,
-  status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'published')),
-  published_at TIMESTAMPTZ,
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY
+  title TEXT NOT NULL
+  slug TEXT NOT NULL UNIQUE
+  content TEXT NOT NULL
+  status TEXT DEFAULT 'draft' CHECK (status IN ('draft', 'published'))
+  published_at TIMESTAMPTZ
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -45,7 +45,7 @@ PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 import { createClient } from '@supabase/supabase-js';
 
 export const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
+  import.meta.env.PUBLIC_SUPABASE_URL
   import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 );
 ```

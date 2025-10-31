@@ -216,8 +216,8 @@ mcp = FastMCP(name="MyAssistantServer")
 
 # Server with instructions for LLMs
 mcp = FastMCP(
-    name="HelpfulAssistant",
-    instructions="This server provides data analysis tools. Call get_average() to analyze numerical data.",
+    name="HelpfulAssistant"
+    instructions="This server provides data analysis tools. Call get_average() to analyze numerical data."
     version="1.0.0"
 )
 
@@ -225,16 +225,16 @@ mcp = FastMCP(
 from fastmcp.server.auth import GoogleProvider
 
 auth = GoogleProvider(
-    client_id="your-client-id",
-    client_secret="your-client-secret",
+    client_id="your-client-id"
+    client_secret="your-client-secret"
     base_url="https://myserver.com"
 )
 
 mcp = FastMCP(
-    name="Protected Server",
-    auth=auth,
-    mask_error_details=True,
-    include_tags={"public"},
+    name="Protected Server"
+    auth=auth
+    mask_error_details=True
+    include_tags={"public"}
     exclude_tags={"internal", "deprecated"}
 )
 ```
@@ -254,14 +254,14 @@ from typing import Annotated
 from pydantic import Field
 
 @mcp.tool(
-    name="search_products",
-    description="Search the product catalog",
-    tags={"catalog", "search"},
+    name="search_products"
+    description="Search the product catalog"
+    tags={"catalog", "search"}
     annotations={"readOnlyHint": True}
 )
 def search_products(
-    query: Annotated[str, Field(description="Search query")],
-    category: Annotated[str | None, Field(description="Category")] = None,
+    query: Annotated[str, Field(description="Search query")]
+    category: Annotated[str | None, Field(description="Category")] = None
     max_results: Annotated[int, Field(ge=1, le=100)] = 10
 ) -> list[dict]:
     """Search for products"""
@@ -281,10 +281,10 @@ def get_greeting() -> str:
 
 # Resource with JSON data
 @mcp.resource(
-    uri="data://config",
-    name="ApplicationConfig",
-    mime_type="application/json",
-    tags={"config", "settings"},
+    uri="data://config"
+    name="ApplicationConfig"
+    mime_type="application/json"
+    tags={"config", "settings"}
     annotations={"readOnlyHint": True}
 )
 def get_config() -> dict:
@@ -296,8 +296,8 @@ def get_config() -> dict:
 def get_weather(city: str) -> dict:
     """Weather information for a specific city"""
     return {
-        "city": city.capitalize(),
-        "temperature": 22,
+        "city": city.capitalize()
+        "temperature": 22
         "condition": "Sunny"
     }
 ```
@@ -315,9 +315,9 @@ def analyze_data(data_points: list[float]) -> str:
 
 # Prompt with metadata
 @mcp.prompt(
-    name="analysis_prompt",
-    title="Data Analysis Prompt",
-    description="Analyzes data patterns",
+    name="analysis_prompt"
+    title="Data Analysis Prompt"
+    description="Analyzes data patterns"
     meta={"complexity": "high", "domain": "analytics"}
 )
 def analysis_prompt(dataset: str) -> str:
@@ -412,16 +412,16 @@ def my_tool(x: int) -> str:
 
 # Full configuration
 @mcp.tool(
-    name="my_tool",
-    description="Does something cool",
-    tags={"utility"},
-    enabled=True,
-    exclude_args=["internal_param"],
+    name="my_tool"
+    description="Does something cool"
+    tags={"utility"}
+    enabled=True
+    exclude_args=["internal_param"]
     annotations=ToolAnnotations(
-        title="Tool Title",
-        readOnlyHint=False,
+        title="Tool Title"
+        readOnlyHint=False
         destructiveHint=False
-    ),
+    )
     meta={"version": "2.0"}
 )
 def advanced_tool(x: int, internal_param: str = "default") -> str:
@@ -438,7 +438,7 @@ from mcp.types import TextContent
 def advanced_tool() -> ToolResult:
     """Tool with full output control"""
     return ToolResult(
-        content=[TextContent(text="Human-readable summary")],
+        content=[TextContent(text="Human-readable summary")]
         structured_content={"data": "value", "count": 42}
     )
 ```
@@ -457,8 +457,8 @@ tool.disable()
 from fastmcp.tools.tool import Tool
 
 tool = Tool.from_function(
-    fn=lambda x: x * 2,
-    name="double",
+    fn=lambda x: x * 2
+    name="double"
     description="Double a number"
 )
 mcp.add_tool(tool)
@@ -479,15 +479,15 @@ def get_config() -> dict:
 def get_repo_info(owner: str, repo: str) -> dict:
     """Retrieve GitHub repository information"""
     return {
-        "owner": owner,
-        "name": repo,
-        "full_name": f"{owner}/{repo}",
+        "owner": owner
+        "name": repo
+        "full_name": f"{owner}/{repo}"
         "stars": 120
     }
 
 # Resource with annotations
 @mcp.resource(
-    "repos://{owner}/{repo}/info",
+    "repos://{owner}/{repo}/info"
     annotations={"readOnlyHint": True, "idempotentHint": True}
 )
 def get_repo_info(owner: str, repo: str) -> dict:
@@ -514,16 +514,16 @@ async def read_file(path: str) -> str:
 
 ```python
 from fastmcp.server.middleware import (
-    LoggingMiddleware,
-    TimingMiddleware,
+    LoggingMiddleware
+    TimingMiddleware
     RateLimitMiddleware
 )
 
 mcp = FastMCP(
-    "Server with Middleware",
+    "Server with Middleware"
     middleware=[
-        LoggingMiddleware(),
-        TimingMiddleware(),
+        LoggingMiddleware()
+        TimingMiddleware()
         RateLimitMiddleware(max_requests=100, window_seconds=60)
     ]
 )
@@ -606,7 +606,7 @@ client = Client("my_mcp_server.py")
 # Multi-server configuration
 config = {
     "mcpServers": {
-        "weather": {"url": "https://weather-api.example.com/mcp"},
+        "weather": {"url": "https://weather-api.example.com/mcp"}
         "calendar": {"command": "python", "args": ["./calendar_server.py"]}
     }
 }
@@ -658,10 +658,10 @@ async def sampling_handler(messages, params, context):
     return "Generated response from LLM"
 
 client = Client(
-    "my_mcp_server.py",
-    log_handler=log_handler,
-    progress_handler=progress_handler,
-    sampling_handler=sampling_handler,
+    "my_mcp_server.py"
+    log_handler=log_handler
+    progress_handler=progress_handler
+    sampling_handler=sampling_handler
     timeout=30.0
 )
 ```
@@ -674,7 +674,7 @@ client = Client(
 from fastmcp.client.transports import HttpSseTransport
 
 transport = HttpSseTransport(
-    url="https://api.example.com/mcp",
+    url="https://api.example.com/mcp"
     headers={"Authorization": "Bearer token"}
 )
 
@@ -687,8 +687,8 @@ client = Client(transport=transport)
 from fastmcp.client.transports import StdioTransport
 
 transport = StdioTransport(
-    command="python",
-    args=["server.py"],
+    command="python"
+    args=["server.py"]
     env={"API_KEY": "secret"}
 )
 
@@ -720,9 +720,9 @@ from fastmcp import FastMCP
 from fastmcp.server.auth.providers.google import GoogleProvider
 
 auth = GoogleProvider(
-    client_id="123456789.apps.googleusercontent.com",
-    client_secret="GOCSPX-abc123...",
-    base_url="http://localhost:8000",
+    client_id="123456789.apps.googleusercontent.com"
+    client_secret="GOCSPX-abc123..."
+    base_url="http://localhost:8000"
     required_scopes=["openid", "https://www.googleapis.com/auth/userinfo.email"]
 )
 
@@ -735,7 +735,7 @@ async def get_user_info() -> dict:
     
     token = get_access_token()
     return {
-        "email": token.claims.get("email"),
+        "email": token.claims.get("email")
         "name": token.claims.get("name")
     }
 
@@ -749,8 +749,8 @@ if __name__ == "__main__":
 from fastmcp.server.auth.providers.github import GitHubProvider
 
 auth = GitHubProvider(
-    client_id="Ov23liAbcDefGhiJkLmN",
-    client_secret="github_pat_...",
+    client_id="Ov23liAbcDefGhiJkLmN"
+    client_secret="github_pat_..."
     base_url="http://localhost:8000"
 )
 
@@ -763,10 +763,10 @@ mcp = FastMCP(name="GitHub Secured App", auth=auth)
 from fastmcp.server.auth.providers.azure import AzureProvider
 
 auth = AzureProvider(
-    client_id="835f09b6-0f0f-40cc-85cb-f32c5829a149",
-    client_secret="your-client-secret",
-    tenant_id="08541b6e-646d-43de-a0eb-834e6713d6d5",
-    base_url="http://localhost:8000",
+    client_id="835f09b6-0f0f-40cc-85cb-f32c5829a149"
+    client_secret="your-client-secret"
+    tenant_id="08541b6e-646d-43de-a0eb-834e6713d6d5"
+    base_url="http://localhost:8000"
     required_scopes=["your-scope"]
 )
 
@@ -780,15 +780,15 @@ from fastmcp.server.auth.providers.workos import WorkOSProvider, AuthKitProvider
 
 # WorkOS OAuth
 workos_auth = WorkOSProvider(
-    client_id="client_YOUR_CLIENT_ID",
-    client_secret="YOUR_CLIENT_SECRET",
-    authkit_domain="https://your-app.authkit.app",
+    client_id="client_YOUR_CLIENT_ID"
+    client_secret="YOUR_CLIENT_SECRET"
+    authkit_domain="https://your-app.authkit.app"
     base_url="http://localhost:8000"
 )
 
 # AuthKit (DCR-compliant)
 authkit_auth = AuthKitProvider(
-    authkit_domain="https://your-project-12345.authkit.app",
+    authkit_domain="https://your-project-12345.authkit.app"
     base_url="http://localhost:8000"
 )
 
@@ -801,10 +801,10 @@ mcp = FastMCP("Protected Server", auth=authkit_auth)
 from fastmcp.server.auth.providers.aws import AWSCognitoProvider
 
 auth = AWSCognitoProvider(
-    user_pool_id="eu-central-1_XXXXXXXXX",
-    aws_region="eu-central-1",
-    client_id="your-app-client-id",
-    client_secret="your-app-client-secret",
+    user_pool_id="eu-central-1_XXXXXXXXX"
+    aws_region="eu-central-1"
+    client_id="your-app-client-id"
+    client_secret="your-app-client-secret"
     base_url="http://localhost:8000"
 )
 
@@ -817,10 +817,10 @@ mcp = FastMCP("AWS Secured App", auth=auth)
 from fastmcp.server.auth.providers.auth0 import Auth0Provider
 
 auth = Auth0Provider(
-    config_url="https://.../.well-known/openid-configuration",
-    client_id="tv2ObNgaZAWWhhycr7Bz1LU2mxlnsmsB",
-    client_secret="vPYqbjemq...",
-    audience="https://...",
+    config_url="https://.../.well-known/openid-configuration"
+    client_id="tv2ObNgaZAWWhhycr7Bz1LU2mxlnsmsB"
+    client_secret="vPYqbjemq..."
+    audience="https://..."
     base_url="http://localhost:8000"
 )
 
@@ -838,7 +838,7 @@ access_token = key_pair.create_token(audience="dice-server")
 
 # Create JWT verifier
 auth = JWTVerifier(
-    public_key=key_pair.public_key,
+    public_key=key_pair.public_key
     audience="dice-server"
 )
 
@@ -868,8 +868,8 @@ async with Client("https://fastmcp.cloud/mcp", auth="oauth") as client:
 from fastmcp.client.auth.oauth import OAuth
 
 oauth = OAuth(
-    client_name="My MCP Client",
-    redirect_port=8080,
+    client_name="My MCP Client"
+    redirect_port=8080
     token_storage_cache_dir="~/.my-app/oauth-cache"
 )
 
@@ -893,7 +893,7 @@ def greet(name: str) -> str:
 
 # Add Permit.io authorization
 mcp.add_middleware(PermitMcpMiddleware(
-    permit_pdp_url="http://localhost:7766",
+    permit_pdp_url="http://localhost:7766"
     permit_api_key="your-permit-api-key"
 ))
 ```
@@ -1031,22 +1031,22 @@ fastmcp inspect server.py --format fastmcp -o manifest.json
 
 ```json
 {
-  "$schema": "https://gofastmcp.com/public/schemas/fastmcp.json/v1.json",
+  "$schema": "https://gofastmcp.com/public/schemas/fastmcp.json/v1.json"
   "source": {
-    "path": "server.py",
+    "path": "server.py"
     "entrypoint": "mcp"
-  },
+  }
   "environment": {
-    "dependencies": ["pandas", "matplotlib", "seaborn"],
+    "dependencies": ["pandas", "matplotlib", "seaborn"]
     "python_version": "3.11"
-  },
+  }
   "deployment": {
-    "transport": "http",
-    "port": 8000,
+    "transport": "http"
+    "port": 8000
     "log_level": "INFO"
-  },
+  }
   "metadata": {
-    "name": "My Analysis Server",
+    "name": "My Analysis Server"
     "description": "Data analysis MCP server"
   }
 }
@@ -1097,9 +1097,9 @@ mcp_app = mcp.http_app(path='/mcp')
 
 app = Starlette(
     routes=[
-        Mount("/mcp-server", app=mcp_app),
-    ],
-    lifespan=mcp_app.lifespan,
+        Mount("/mcp-server", app=mcp_app)
+    ]
+    lifespan=mcp_app.lifespan
 )
 ```
 
@@ -1136,9 +1136,9 @@ from fastmcp.server.auth.oauth_proxy import OAuthProxy
 
 # Explicit JWT signing key
 auth = GoogleProvider(
-    client_id="...",
-    client_secret="...",
-    base_url="https://myserver.com",
+    client_id="..."
+    client_secret="..."
+    base_url="https://myserver.com"
     jwt_signing_key="your-base64-encoded-key"  # Required for production
 )
 
@@ -1225,14 +1225,14 @@ spec = httpx.get("https://api.example.com/openapi.json").json()
 
 # Create HTTP client
 client = httpx.AsyncClient(
-    base_url="https://api.example.com",
+    base_url="https://api.example.com"
     headers={"Authorization": "Bearer YOUR_TOKEN"}
 )
 
 # Create MCP server
 mcp = FastMCP.from_openapi(
-    openapi_spec=spec,
-    client=client,
+    openapi_spec=spec
+    client=client
     name="My API Server"
 )
 
@@ -1246,15 +1246,15 @@ if __name__ == "__main__":
 from fastmcp.server.openapi import RouteMap, MCPType
 
 mcp = FastMCP.from_openapi(
-    openapi_spec=spec,
-    client=client,
+    openapi_spec=spec
+    client=client
     route_maps=[
         # GET requests with path params → ResourceTemplates
-        RouteMap(methods=["GET"], pattern=r".*\{.*\}.*", mcp_type=MCPType.RESOURCE_TEMPLATE),
+        RouteMap(methods=["GET"], pattern=r".*\{.*\}.*", mcp_type=MCPType.RESOURCE_TEMPLATE)
         # All other GET → Resources
-        RouteMap(methods=["GET"], pattern=r".*", mcp_type=MCPType.RESOURCE),
+        RouteMap(methods=["GET"], pattern=r".*", mcp_type=MCPType.RESOURCE)
         # Exclude admin routes
-        RouteMap(pattern=r"^/admin/.*", mcp_type=MCPType.EXCLUDE),
+        RouteMap(pattern=r"^/admin/.*", mcp_type=MCPType.EXCLUDE)
     ]
 )
 ```
@@ -1268,13 +1268,13 @@ client = Anthropic()
 
 # Use FastMCP server with Anthropic API
 response = client.messages.create(
-    model="claude-3-5-sonnet-20241022",
-    max_tokens=1024,
+    model="claude-3-5-sonnet-20241022"
+    max_tokens=1024
     mcp=[{
-        "type": "remote",
-        "url": "https://your-server.fastmcp.app/mcp",
+        "type": "remote"
+        "url": "https://your-server.fastmcp.app/mcp"
         "name": "my_server"
-    }],
+    }]
     messages=[{"role": "user", "content": "Roll some dice!"}]
 )
 
@@ -1290,13 +1290,13 @@ client = OpenAI()
 
 # Use FastMCP with Responses API
 resp = client.responses.create(
-    model="gpt-4.1",
+    model="gpt-4.1"
     tools=[{
-        "type": "mcp",
-        "server_label": "dice_server",
-        "server_url": "https://your-server-url.com/mcp/",
+        "type": "mcp"
+        "server_label": "dice_server"
+        "server_url": "https://your-server-url.com/mcp/"
         "require_approval": "never"
-    }],
+    }]
     input="Roll a few dice!"
 )
 
@@ -1312,7 +1312,7 @@ from fastmcp import Client
 # Configure Gemini
 genai.configure(api_key="YOUR_API_KEY")
 model = genai.GenerativeModel(
-    model_name='gemini-2.0-flash-exp',
+    model_name='gemini-2.0-flash-exp'
     tools=Client("server.py")
 )
 
@@ -1412,17 +1412,17 @@ fastmcp run fastmcp.json --project ./my-env
 
 ```python
 FastMCP(
-    name: str,
-    instructions: str | None = None,
-    version: str | None = None,
-    auth: OAuthProvider | TokenVerifier | None = None,
-    lifespan: AsyncContextManager | None = None,
-    tools: list[Tool | Callable] | None = None,
-    include_tags: set[str] | None = None,
-    exclude_tags: set[str] | None = None,
-    on_duplicate_tools: Literal["error", "warn", "replace"] = "error",
-    on_duplicate_resources: Literal["error", "warn", "replace"] = "warn",
-    on_duplicate_prompts: Literal["error", "warn", "replace"] = "replace",
+    name: str
+    instructions: str | None = None
+    version: str | None = None
+    auth: OAuthProvider | TokenVerifier | None = None
+    lifespan: AsyncContextManager | None = None
+    tools: list[Tool | Callable] | None = None
+    include_tags: set[str] | None = None
+    exclude_tags: set[str] | None = None
+    on_duplicate_tools: Literal["error", "warn", "replace"] = "error"
+    on_duplicate_resources: Literal["error", "warn", "replace"] = "warn"
+    on_duplicate_prompts: Literal["error", "warn", "replace"] = "replace"
     include_fastmcp_meta: bool = True
 )
 ```
@@ -1453,11 +1453,11 @@ FastMCP(
 
 ```python
 Client(
-    transport: str | Transport | FastMCP | dict,
-    log_handler: Callable | None = None,
-    progress_handler: Callable | None = None,
-    sampling_handler: Callable | None = None,
-    roots: list | None = None,
+    transport: str | Transport | FastMCP | dict
+    log_handler: Callable | None = None
+    progress_handler: Callable | None = None
+    sampling_handler: Callable | None = None
+    roots: list | None = None
     timeout: float = 30.0
 )
 ```
@@ -1494,13 +1494,13 @@ Client(
 
 ```python
 @mcp.tool(
-    name: str | None = None,
-    description: str | None = None,
-    tags: set[str] | None = None,
-    output_schema: dict | None = None,
-    annotations: ToolAnnotations | None = None,
-    exclude_args: list[str] | None = None,
-    meta: dict | None = None,
+    name: str | None = None
+    description: str | None = None
+    tags: set[str] | None = None
+    output_schema: dict | None = None
+    annotations: ToolAnnotations | None = None
+    exclude_args: list[str] | None = None
+    meta: dict | None = None
     enabled: bool = True
 )
 ```
@@ -1509,12 +1509,12 @@ Client(
 
 ```python
 Tool.from_function(
-    fn: Callable,
-    name: str | None = None,
-    description: str | None = None,
-    tags: set[str] | None = None,
-    enabled: bool = True,
-    annotations: ToolAnnotations | None = None,
+    fn: Callable
+    name: str | None = None
+    description: str | None = None
+    tags: set[str] | None = None
+    enabled: bool = True
+    annotations: ToolAnnotations | None = None
     meta: dict | None = None
 )
 ```
@@ -1525,14 +1525,14 @@ Tool.from_function(
 
 ```python
 @mcp.resource(
-    uri: str,
-    name: str | None = None,
-    title: str | None = None,
-    description: str | None = None,
-    mime_type: str | None = None,
-    tags: set[str] | None = None,
-    enabled: bool = True,
-    annotations: Annotations | None = None,
+    uri: str
+    name: str | None = None
+    title: str | None = None
+    description: str | None = None
+    mime_type: str | None = None
+    tags: set[str] | None = None
+    enabled: bool = True
+    annotations: Annotations | None = None
     meta: dict | None = None
 )
 ```
@@ -1543,11 +1543,11 @@ Tool.from_function(
 
 ```python
 @mcp.prompt(
-    name: str | None = None,
-    title: str | None = None,
-    description: str | None = None,
-    tags: set[str] | None = None,
-    enabled: bool = True,
+    name: str | None = None
+    title: str | None = None
+    description: str | None = None
+    tags: set[str] | None = None
+    enabled: bool = True
     meta: dict | None = None
 )
 ```
@@ -1587,7 +1587,7 @@ main.mount(calendar_server, prefix="calendar")
 # Create proxy to remote server
 async def create_proxy():
     proxy = await FastMCP.as_proxy(
-        "http://remote-server.com/mcp",
+        "http://remote-server.com/mcp"
         name="Remote Proxy"
     )
     proxy.run(transport="stdio")
@@ -1595,8 +1595,8 @@ async def create_proxy():
 # Proxy with authentication
 async def authenticated_proxy():
     proxy = await FastMCP.as_proxy(
-        "https://protected-api.com/mcp",
-        name="Authenticated Proxy",
+        "https://protected-api.com/mcp"
+        name="Authenticated Proxy"
         client_kwargs={"auth": "oauth"}
     )
     proxy.run(transport="stdio")
@@ -1604,7 +1604,7 @@ async def authenticated_proxy():
 # Proxy that adds local tools
 async def enhanced_proxy():
     proxy = await FastMCP.as_proxy(
-        "http://remote-server.com/mcp",
+        "http://remote-server.com/mcp"
         name="Enhanced Proxy"
     )
     
@@ -1627,13 +1627,13 @@ async def generate_summary(content: str, ctx: Context) -> dict:
     
     # Request LLM completion from client
     summary = await ctx.sample(
-        f"Summarize this in 10 words: {content[:200]}",
-        system_prompt="You are a concise summarizer",
+        f"Summarize this in 10 words: {content[:200]}"
+        system_prompt="You are a concise summarizer"
         max_tokens=50
     )
     
     return {
-        "original_length": len(content),
+        "original_length": len(content)
         "summary": summary.text
     }
 ```
@@ -1649,9 +1649,9 @@ async def confirm_delete(file_path: str, ctx: Context) -> dict:
     
     # Request user confirmation
     confirmation = await ctx.elicit(
-        prompt=f"Are you sure you want to delete {file_path}?",
+        prompt=f"Are you sure you want to delete {file_path}?"
         schema={
-            "type": "object",
+            "type": "object"
             "properties": {
                 "confirmed": {"type": "boolean"}
             }
@@ -1674,11 +1674,11 @@ from fastmcp.utilities.mcp_config import MCPConfig
 config = MCPConfig(
     mcp_servers={
         "my_server": {
-            "url": "http://localhost:8000/mcp",
+            "url": "http://localhost:8000/mcp"
             "tool_transformations": {
                 "rename": {
                     "old_tool_name": "new_tool_name"
-                },
+                }
                 "exclude": ["internal_tool", "debug_tool"]
             }
         }
@@ -1716,13 +1716,13 @@ storage = RedisStore(url="redis://localhost:6379")
 
 # Elasticsearch storage
 storage = ElasticsearchStore(
-    hosts=["http://localhost:9200"],
+    hosts=["http://localhost:9200"]
     index_name="mcp-storage"
 )
 
 # DynamoDB storage
 storage = DynamoDBStore(
-    table_name="mcp-storage",
+    table_name="mcp-storage"
     region_name="us-east-1"
 )
 
@@ -1730,9 +1730,9 @@ storage = DynamoDBStore(
 from fastmcp.server.auth.providers.google import GoogleProvider
 
 auth = GoogleProvider(
-    client_id="...",
-    client_secret="...",
-    base_url="https://myserver.com",
+    client_id="..."
+    client_secret="..."
+    base_url="https://myserver.com"
     storage=storage  # Use network storage
 )
 ```
@@ -1746,8 +1746,8 @@ auth = GoogleProvider(
 1. **Start with clear server design:**
    ```python
    mcp = FastMCP(
-       name="Descriptive Name",
-       instructions="Clear usage instructions for LLMs",
+       name="Descriptive Name"
+       instructions="Clear usage instructions for LLMs"
        version="1.0.0"
    )
    ```
@@ -1768,8 +1768,8 @@ auth = GoogleProvider(
        """
        filtered = [x for x in data if x >= threshold]
        return {
-           "count": len(filtered),
-           "average": sum(filtered) / len(filtered) if filtered else 0,
+           "count": len(filtered)
+           "average": sum(filtered) / len(filtered) if filtered else 0
            "values": filtered
        }
    ```
@@ -1786,7 +1786,7 @@ auth = GoogleProvider(
    
    async def test_analyze_data(client):
        result = await client.call_tool(
-           "analyze_data",
+           "analyze_data"
            {"data": [0.3, 0.6, 0.9], "threshold": 0.5}
        )
        assert result.data["count"] == 2
@@ -1795,9 +1795,9 @@ auth = GoogleProvider(
 4. **Use fastmcp.json for configuration:**
    ```json
    {
-     "$schema": "https://gofastmcp.com/public/schemas/fastmcp.json/v1.json",
-     "source": {"path": "server.py", "entrypoint": "mcp"},
-     "environment": {"dependencies": ["pandas", "requests"]},
+     "$schema": "https://gofastmcp.com/public/schemas/fastmcp.json/v1.json"
+     "source": {"path": "server.py", "entrypoint": "mcp"}
+     "environment": {"dependencies": ["pandas", "requests"]}
      "deployment": {"transport": "http", "port": 8000}
    }
    ```
@@ -1858,7 +1858,7 @@ auth = GoogleProvider(
    
    @mcp.tool
    def process_data(
-       value: Annotated[int, Field(ge=0, le=100)],
+       value: Annotated[int, Field(ge=0, le=100)]
        email: Annotated[str, Field(pattern=r'^[\w\.-]+@[\w\.-]+\.\w+$')]
    ) -> dict:
        """Process data with validated inputs"""
@@ -1870,8 +1870,8 @@ auth = GoogleProvider(
    import os
    
    auth = GoogleProvider(
-       client_id=os.getenv("GOOGLE_CLIENT_ID"),
-       client_secret=os.getenv("GOOGLE_CLIENT_SECRET"),
+       client_id=os.getenv("GOOGLE_CLIENT_ID")
+       client_secret=os.getenv("GOOGLE_CLIENT_SECRET")
        base_url=os.getenv("SERVER_BASE_URL")
    )
    ```
@@ -1881,7 +1881,7 @@ auth = GoogleProvider(
    from fastmcp.server.middleware import RateLimitMiddleware
    
    mcp.add_middleware(RateLimitMiddleware(
-       max_requests=100,
+       max_requests=100
        window_seconds=60
    ))
    ```

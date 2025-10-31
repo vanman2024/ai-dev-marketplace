@@ -181,16 +181,16 @@ Customize validation behavior by editing `templates/validation-rules.json`:
 {
   "naming": {
     "tables": {
-      "case": "snake_case",
-      "plural": true,
+      "case": "snake_case"
+      "plural": true
       "max_length": 63
     }
-  },
+  }
   "constraints": {
     "primary_key": {
       "required_on_all_tables": true
     }
-  },
+  }
   "rls": {
     "require_on_public_tables": true
   }
@@ -205,11 +205,11 @@ Define naming patterns in `templates/naming-conventions.json`:
 {
   "constraints": {
     "primary_key": {
-      "pattern": "^pk_[a-z][a-z0-9_]*$",
+      "pattern": "^pk_[a-z][a-z0-9_]*$"
       "template": "pk_{table_name}"
-    },
+    }
     "foreign_key": {
-      "pattern": "^fk_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$",
+      "pattern": "^fk_[a-z][a-z0-9_]*_[a-z][a-z0-9_]*$"
       "template": "fk_{table}_{referenced_table}"
     }
   }

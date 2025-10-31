@@ -112,15 +112,15 @@ You should create production-ready project foundations. Focus on:
    ```json
    {
      "compilerOptions": {
-       "target": "ES2020",
-       "module": "ESNext",
-       "moduleResolution": "node",
-       "esModuleInterop": true,
-       "strict": true,
-       "outDir": "./dist",
+       "target": "ES2020"
+       "module": "ESNext"
+       "moduleResolution": "node"
+       "esModuleInterop": true
+       "strict": true
+       "outDir": "./dist"
        "rootDir": "./src"
-     },
-     "include": ["src/**/*"],
+     }
+     "include": ["src/**/*"]
      "exclude": ["node_modules"]
    }
    ```
@@ -135,8 +135,8 @@ You should create production-ready project foundations. Focus on:
    async function main() {
      try {
        const response = await query({
-         apiKey: process.env.ANTHROPIC_API_KEY,
-         prompt: 'Hello! Tell me about the Claude Agent SDK.',
+         apiKey: process.env.ANTHROPIC_API_KEY
+         prompt: 'Hello! Tell me about the Claude Agent SDK.'
        });
 
        console.log('Response:', response);
@@ -160,7 +160,7 @@ You should create production-ready project foundations. Focus on:
    def main():
        try:
            response = query(
-               api_key=os.getenv('ANTHROPIC_API_KEY'),
+               api_key=os.getenv('ANTHROPIC_API_KEY')
                prompt='Hello! Tell me about the Claude Agent SDK.'
            )
 

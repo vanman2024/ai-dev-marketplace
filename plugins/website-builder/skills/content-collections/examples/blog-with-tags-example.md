@@ -9,13 +9,13 @@ Complete example showing content collections with tag filtering and dynamic rout
 import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
-  type: 'content',
+  type: 'content'
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.date(),
-    tags: z.array(z.string()).default([]),
-  }),
+    title: z.string()
+    description: z.string()
+    pubDate: z.date()
+    tags: z.array(z.string()).default([])
+  })
 });
 
 export const collections = { blog };
@@ -47,7 +47,7 @@ export async function getStaticPaths() {
   const allTags = [...new Set(allPosts.flatMap(post => post.data.tags))];
 
   return allTags.map(tag => ({
-    params: { tag },
+    params: { tag }
     props: {
       posts: allPosts.filter(post =>
         post.data.tags.includes(tag)

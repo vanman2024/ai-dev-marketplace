@@ -75,20 +75,20 @@ class CustomerSupportMemory:
         """
 
         return self.memory.add(
-            content,
-            user_id=customer_id,
+            content
+            user_id=customer_id
             metadata={
-                "type": "profile",
-                "tier": profile_data.get('tier', 'standard'),
+                "type": "profile"
+                "tier": profile_data.get('tier', 'standard')
                 "created_at": datetime.utcnow().isoformat()
             }
         )
 
     def add_customer_issue_history(
-        self,
-        customer_id: str,
-        issue: str,
-        resolution: str,
+        self
+        customer_id: str
+        issue: str
+        resolution: str
         product: str
     ):
         """Store resolved issue for future reference."""
@@ -98,40 +98,40 @@ class CustomerSupportMemory:
         """
 
         return self.memory.add(
-            content,
-            user_id=customer_id,
+            content
+            user_id=customer_id
             metadata={
-                "type": "issue_history",
-                "product": product,
-                "resolved": True,
+                "type": "issue_history"
+                "product": product
+                "resolved": True
                 "resolved_at": datetime.utcnow().isoformat()
             }
         )
 
     # AGENT MEMORY METHODS
     def add_product_knowledge(
-        self,
-        agent_id: str,
-        product: str,
+        self
+        agent_id: str
+        product: str
         knowledge: str
     ):
         """Store product-specific knowledge."""
         content = f"{product}: {knowledge}"
 
         return self.memory.add(
-            content,
-            agent_id=agent_id,
+            content
+            agent_id=agent_id
             metadata={
-                "type": "product_knowledge",
+                "type": "product_knowledge"
                 "product": product
             }
         )
 
     def add_common_issue_solution(
-        self,
-        agent_id: str,
-        issue: str,
-        solution: str,
+        self
+        agent_id: str
+        issue: str
+        solution: str
         product: str = None
     ):
         """Store common issue and its solution."""
@@ -143,38 +143,38 @@ class CustomerSupportMemory:
             content += f"\nProduct: {product}"
 
         return self.memory.add(
-            content,
-            agent_id=agent_id,
+            content
+            agent_id=agent_id
             metadata={
-                "type": "solution",
+                "type": "solution"
                 "product": product
             }
         )
 
     # SESSION MEMORY METHODS
     def add_session_context(
-        self,
-        customer_id: str,
-        session_id: str,
+        self
+        customer_id: str
+        session_id: str
         context: str
     ):
         """Store session-specific context."""
         return self.memory.add(
-            context,
-            user_id=customer_id,
-            run_id=session_id,
+            context
+            user_id=customer_id
+            run_id=session_id
             metadata={
-                "type": "session_context",
+                "type": "session_context"
                 "timestamp": datetime.utcnow().isoformat()
             }
         )
 
     # CONTEXT RETRIEVAL
     def get_support_context(
-        self,
-        customer_id: str,
-        agent_id: str,
-        session_id: str,
+        self
+        customer_id: str
+        agent_id: str
+        session_id: str
         query: str
     ) -> dict:
         """
@@ -185,29 +185,29 @@ class CustomerSupportMemory:
         """
         # Customer history
         customer_context = self.memory.search(
-            query,
-            user_id=customer_id,
+            query
+            user_id=customer_id
             limit=5
         )
 
         # Agent knowledge
         agent_context = self.memory.search(
-            query,
-            agent_id=agent_id,
+            query
+            agent_id=agent_id
             limit=5
         )
 
         # Current session
         session_context = self.memory.search(
-            query,
-            user_id=customer_id,
-            run_id=session_id,
+            query
+            user_id=customer_id
+            run_id=session_id
             limit=3
         )
 
         return {
-            "customer": customer_context.get('results', []),
-            "agent": agent_context.get('results', []),
+            "customer": customer_context.get('results', [])
+            "agent": agent_context.get('results', [])
             "session": session_context.get('results', [])
         }
 ```
@@ -224,9 +224,9 @@ class SupportTicketHandler:
         self.memory_manager = CustomerSupportMemory()
 
     def create_ticket(
-        self,
-        customer_id: str,
-        issue_description: str,
+        self
+        customer_id: str
+        issue_description: str
         product: str
     ) -> str:
         """
@@ -239,18 +239,18 @@ class SupportTicketHandler:
 
         # Store initial issue in session memory
         self.memory_manager.add_session_context(
-            customer_id=customer_id,
-            session_id=session_id,
+            customer_id=customer_id
+            session_id=session_id
             context=f"New issue: {issue_description} (Product: {product})"
         )
 
         return session_id
 
     def handle_ticket(
-        self,
-        customer_id: str,
-        agent_id: str,
-        session_id: str,
+        self
+        customer_id: str
+        agent_id: str
+        session_id: str
         customer_message: str
     ) -> str:
         """
@@ -261,9 +261,9 @@ class SupportTicketHandler:
         """
         # Get comprehensive context
         context = self.memory_manager.get_support_context(
-            customer_id=customer_id,
-            agent_id=agent_id,
-            session_id=session_id,
+            customer_id=customer_id
+            agent_id=agent_id
+            session_id=session_id
             query=customer_message
         )
 
@@ -272,31 +272,31 @@ class SupportTicketHandler:
 
         # Store current message in session
         self.memory_manager.add_session_context(
-            customer_id=customer_id,
-            session_id=session_id,
+            customer_id=customer_id
+            session_id=session_id
             context=f"Customer: {customer_message}"
         )
 
         # Generate response (LLM call would go here)
         response = self._generate_response(
-            customer_message,
+            customer_message
             context_summary
         )
 
         # Store response in session
         self.memory_manager.add_session_context(
-            customer_id=customer_id,
-            session_id=session_id,
+            customer_id=customer_id
+            session_id=session_id
             context=f"Agent: {response}"
         )
 
         return response
 
     def resolve_ticket(
-        self,
-        customer_id: str,
-        session_id: str,
-        resolution: str,
+        self
+        customer_id: str
+        session_id: str
+        resolution: str
         product: str
     ):
         """
@@ -312,18 +312,18 @@ class SupportTicketHandler:
 
         # Store resolution in customer history
         self.memory_manager.add_customer_issue_history(
-            customer_id=customer_id,
-            issue=issue,
-            resolution=resolution,
+            customer_id=customer_id
+            issue=issue
+            resolution=resolution
             product=product
         )
 
         # If common issue, add to agent knowledge
         if self._is_common_issue(issue):
             self.memory_manager.add_common_issue_solution(
-                agent_id="support_agent",
-                issue=issue,
-                solution=resolution,
+                agent_id="support_agent"
+                issue=issue
+                solution=resolution
                 product=product
             )
 
@@ -387,41 +387,41 @@ agent_id = "support_agent_v2"
 
 # Set up customer profile
 ticket_handler.memory_manager.add_customer_profile(
-    customer_id=customer_id,
+    customer_id=customer_id
     profile_data={
-        "name": "Alice Johnson",
-        "tier": "premium",
-        "comm_pref": "email",
+        "name": "Alice Johnson"
+        "tier": "premium"
+        "comm_pref": "email"
         "timezone": "America/Los_Angeles"
     }
 )
 
 # Add agent knowledge
 ticket_handler.memory_manager.add_product_knowledge(
-    agent_id=agent_id,
-    product="CloudSync Pro",
+    agent_id=agent_id
+    product="CloudSync Pro"
     knowledge="Supports Windows, Mac, Linux. Max 10GB file size."
 )
 
 ticket_handler.memory_manager.add_common_issue_solution(
-    agent_id=agent_id,
-    issue="Sync fails with large files",
-    solution="Split files into smaller chunks or use compression",
+    agent_id=agent_id
+    issue="Sync fails with large files"
+    solution="Split files into smaller chunks or use compression"
     product="CloudSync Pro"
 )
 
 # Create ticket
 session_id = ticket_handler.create_ticket(
-    customer_id=customer_id,
-    issue_description="Unable to sync 15GB video file",
+    customer_id=customer_id
+    issue_description="Unable to sync 15GB video file"
     product="CloudSync Pro"
 )
 
 # Handle conversation
 response = ticket_handler.handle_ticket(
-    customer_id=customer_id,
-    agent_id=agent_id,
-    session_id=session_id,
+    customer_id=customer_id
+    agent_id=agent_id
+    session_id=session_id
     customer_message="I'm trying to sync a large video file but it keeps failing"
 )
 
@@ -429,9 +429,9 @@ print(f"Agent response: {response}")
 
 # Resolve ticket
 ticket_handler.resolve_ticket(
-    customer_id=customer_id,
-    session_id=session_id,
-    resolution="Advised customer to compress file or split into chunks. Issue resolved.",
+    customer_id=customer_id
+    session_id=session_id
+    resolution="Advised customer to compress file or split into chunks. Issue resolved."
     product="CloudSync Pro"
 )
 ```
@@ -472,8 +472,8 @@ customer_cache = TTLCache(maxsize=1000, ttl=300)  # 5 min TTL
 def get_customer_profile(customer_id: str):
     """Cached customer profile retrieval."""
     return memory_manager.memory.search(
-        "profile",
-        user_id=customer_id,
+        "profile"
+        user_id=customer_id
         filters={"metadata.type": "profile"}
     )
 ```
@@ -485,14 +485,14 @@ def get_customer_profile(customer_id: str):
 def optimized_agent_search(query: str, product: str):
     """Product-specific agent knowledge search."""
     return memory.search(
-        query,
-        agent_id="support_agent",
+        query
+        agent_id="support_agent"
         filters={
             "AND": [
-                {"metadata.type": "solution"},
+                {"metadata.type": "solution"}
                 {"metadata.product": product}
             ]
-        },
+        }
         limit=3  # Only need top 3 matches
     )
 ```

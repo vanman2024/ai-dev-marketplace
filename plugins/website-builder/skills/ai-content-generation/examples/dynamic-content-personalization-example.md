@@ -15,13 +15,13 @@ export async function getStaticPaths() {
   const pages = await Promise.all(
     audiences.map(async (audience) => {
       const content = await generateMarketingContent({
-        prompt: `Write landing page hero copy for ${audience} audience. Professional, engaging, benefit-focused.`,
-        model: 'gemini-2.0-flash-exp',
+        prompt: `Write landing page hero copy for ${audience} audience. Professional, engaging, benefit-focused.`
+        model: 'gemini-2.0-flash-exp'
         max_tokens: 200
       });
 
       return {
-        params: { audience },
+        params: { audience }
         props: { content, audience }
       };
     })
@@ -49,16 +49,16 @@ export async function generateVariants(basePrompt: string, count: number = 3) {
   const variants = await Promise.all(
     Array.from({ length: count }, (_, i) =>
       generateMarketingContent({
-        prompt: `${basePrompt}. Variant ${i + 1}, different tone and approach.`,
-        model: 'gemini-2.0-flash-exp',
-        max_tokens: 150,
+        prompt: `${basePrompt}. Variant ${i + 1}, different tone and approach.`
+        model: 'gemini-2.0-flash-exp'
+        max_tokens: 150
         temperature: 0.8 + (i * 0.1)
       })
     )
   );
 
   return variants.map((content, i) => ({
-    id: `variant-${i}`,
+    id: `variant-${i}`
     content
   }));
 }
@@ -77,8 +77,8 @@ export const POST: APIRoute = async ({ request }) => {
   const prompt = `Professional illustration featuring: ${userPreferences.industry}, ${userPreferences.style} style, ${userPreferences.colors} color palette`;
 
   const image = await generateImageImagen3({
-    prompt,
-    aspect_ratio: '1:1',
+    prompt
+    aspect_ratio: '1:1'
     quality: 'sd'
   });
 

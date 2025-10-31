@@ -57,7 +57,7 @@ returning id;
 -- 5. Add participants
 insert into conversation_participants (conversation_id, user_id)
 values
-    ('<conv-id>', auth.uid()),
+    ('<conv-id>', auth.uid())
     ('<conv-id>', '<other-user-id>');
 
 -- 6. Send message
@@ -67,9 +67,9 @@ values ('<conv-id>', auth.uid(), 'Hello team!');
 -- 7. Upload document for RAG
 insert into documents (title, content, created_by, collection_id)
 values (
-    'Product Requirements',
-    'Our AI product needs...',
-    auth.uid(),
+    'Product Requirements'
+    'Our AI product needs...'
+    auth.uid()
     '<collection-id>'
 )
 returning id;
@@ -77,15 +77,15 @@ returning id;
 -- 8. Create document chunks with embeddings
 insert into document_chunks (document_id, content, chunk_index, embedding)
 values (
-    '<doc-id>',
-    'Our AI product needs real-time chat',
-    0,
+    '<doc-id>'
+    'Our AI product needs real-time chat'
+    0
     '<embedding-vector>'
 );
 
 -- 9. Perform semantic search
 select * from search_documents(
-    '<query-embedding>'::vector(384),
+    '<query-embedding>'::vector(384)
     0.7,  -- similarity threshold
     10,   -- max results
     '<collection-id>'
@@ -93,21 +93,21 @@ select * from search_documents(
 
 -- 10. Track API usage
 insert into api_usage (
-    user_id,
-    organization_id,
-    endpoint,
-    model_name,
-    tokens_input,
-    tokens_output,
+    user_id
+    organization_id
+    endpoint
+    model_name
+    tokens_input
+    tokens_output
     cost_usd
 )
 values (
-    auth.uid(),
-    '<org-id>',
-    '/chat/completions',
-    'gpt-4',
-    1500,
-    500,
+    auth.uid()
+    '<org-id>'
+    '/chat/completions'
+    'gpt-4'
+    1500
+    500
     0.06
 );
 ```
@@ -120,30 +120,27 @@ values (
 -- Get user's complete dashboard data
 select
     -- User info
-    u.email,
-    up.full_name,
-    up.avatar_url,
-
+    u.email
+    up.full_name
+    up.avatar_url
     -- Organization membership
     (
         select jsonb_agg(jsonb_build_object(
-            'id', o.id,
-            'name', o.name,
+            'id', o.id
+            'name', o.name
             'role', om.role
         ))
         from organizations o
         join organization_members om on om.organization_id = o.id
         where om.user_id = u.id
-    ) as organizations,
-
+    ) as organizations
     -- Conversation count
     (
         select count(distinct c.id)
         from conversations c
         join conversation_participants cp on cp.conversation_id = c.id
         where cp.user_id = u.id
-    ) as conversation_count,
-
+    ) as conversation_count
     -- Unread messages
     (
         select count(*)
@@ -152,21 +149,19 @@ select
         where cp.user_id = u.id
           and m.created_at > coalesce(cp.last_read_at, '1970-01-01'::timestamp)
           and m.user_id != u.id
-    ) as unread_count,
-
+    ) as unread_count
     -- Document count
     (
         select count(*)
         from documents d
         where d.created_by = u.id
           and d.deleted_at is null
-    ) as document_count,
-
+    ) as document_count
     -- Usage this month
     (
         select jsonb_build_object(
-            'tokens', sum(tokens_used),
-            'cost_usd', sum(cost_usd),
+            'tokens', sum(tokens_used)
+            'cost_usd', sum(cost_usd)
             'requests', count(*)
         )
         from api_usage
@@ -184,15 +179,12 @@ where u.id = auth.uid();
 ```sql
 -- Get organization-wide analytics
 select
-    o.name,
-    o.plan_type,
-
+    o.name
+    o.plan_type
     -- Member count
-    (select count(*) from organization_members where organization_id = o.id) as member_count,
-
+    (select count(*) from organization_members where organization_id = o.id) as member_count
     -- Team count
-    (select count(*) from teams where organization_id = o.id) as team_count,
-
+    (select count(*) from teams where organization_id = o.id) as team_count
     -- Total conversations
     (
         select count(*)
@@ -200,8 +192,7 @@ select
         join conversation_participants cp on cp.conversation_id = c.id
         join organization_members om on om.user_id = cp.user_id
         where om.organization_id = o.id
-    ) as total_conversations,
-
+    ) as total_conversations
     -- Total documents
     (
         select count(*)
@@ -209,21 +200,20 @@ select
         join organization_members om on om.user_id = d.created_by
         where om.organization_id = o.id
           and d.deleted_at is null
-    ) as total_documents,
-
+    ) as total_documents
     -- Usage this month
     (
         select jsonb_build_object(
-            'tokens', sum(tokens_used),
-            'cost_usd', sum(cost_usd),
-            'requests', count(*),
+            'tokens', sum(tokens_used)
+            'cost_usd', sum(cost_usd)
+            'requests', count(*)
             'by_user', jsonb_object_agg(u.email, user_usage)
         )
         from (
             select
-                user_id,
+                user_id
                 jsonb_build_object(
-                    'tokens', sum(tokens_used),
+                    'tokens', sum(tokens_used)
                     'cost', sum(cost_usd)
                 ) as user_usage
             from api_usage
@@ -243,26 +233,23 @@ where o.id = '<org-id>';
 ```sql
 -- Hybrid search across user's documents
 select
-    dc.id as chunk_id,
-    d.id as document_id,
-    d.title,
-    dc.content,
-    dc.chunk_index,
-
+    dc.id as chunk_id
+    d.id as document_id
+    d.title
+    dc.content
+    dc.chunk_index
     -- Semantic similarity
-    1 - (dc.embedding <=> '<query-embedding>'::vector(384)) as semantic_score,
-
+    1 - (dc.embedding <=> '<query-embedding>'::vector(384)) as semantic_score
     -- Keyword relevance
     ts_rank_cd(
-        to_tsvector('english', dc.content),
+        to_tsvector('english', dc.content)
         plainto_tsquery('english', '<search-query>')
-    ) as keyword_score,
-
+    ) as keyword_score
     -- Combined score
     (
         (1 - (dc.embedding <=> '<query-embedding>'::vector(384))) * 0.7 +
         ts_rank_cd(
-            to_tsvector('english', dc.content),
+            to_tsvector('english', dc.content)
             plainto_tsquery('english', '<search-query>')
         ) * 0.3
     ) as combined_score
@@ -301,7 +288,7 @@ create index idx_messages_conv_created on messages(conversation_id, created_at d
 
 -- Document search
 create index idx_documents_org_created on documents(
-    (select organization_id from organization_members where user_id = documents.created_by limit 1),
+    (select organization_id from organization_members where user_id = documents.created_by limit 1)
     created_at desc
 );
 
@@ -407,8 +394,8 @@ select aggregate_usage_summary('month');
 ```sql
 -- Check for missing indexes
 select
-    schemaname,
-    tablename,
+    schemaname
+    tablename
     indexname
 from pg_indexes
 where schemaname = 'public'
@@ -416,8 +403,8 @@ order by tablename, indexname;
 
 -- Check table sizes
 select
-    schemaname,
-    tablename,
+    schemaname
+    tablename
     pg_size_pretty(pg_total_relation_size(schemaname||'.'||tablename)) as size
 from pg_tables
 where schemaname = 'public'
@@ -425,9 +412,9 @@ order by pg_total_relation_size(schemaname||'.'||tablename) desc;
 
 -- Check RLS policies
 select
-    schemaname,
-    tablename,
-    policyname,
+    schemaname
+    tablename
+    policyname
     cmd
 from pg_policies
 where schemaname = 'public'

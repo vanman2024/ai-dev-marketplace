@@ -21,10 +21,10 @@ supabase migration new add_users_table
 # Step 2: Write your SQL
 cat > supabase/migrations/20250126_add_users_table.sql << 'EOF'
 CREATE TABLE users (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email TEXT UNIQUE NOT NULL,
-  username TEXT UNIQUE NOT NULL,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+  email TEXT UNIQUE NOT NULL
+  username TEXT UNIQUE NOT NULL
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
   updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
@@ -118,9 +118,9 @@ jobs:
             const report = fs.readFileSync('validation-report.md', 'utf8');
 
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: context.issue.number
+              owner: context.repo.owner
+              repo: context.repo.repo
               body: '## Schema Validation Report\n\n' + report
             });
 ```
@@ -334,16 +334,15 @@ supabase migration new add_blog_posts
 ```sql
 -- Create blog_posts table
 CREATE TABLE blog_posts (
-  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-  title TEXT NOT NULL,
-  slug TEXT UNIQUE NOT NULL,
-  content TEXT NOT NULL,
-  published_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-
-  CONSTRAINT ck_blog_posts_title_length CHECK (length(title) > 0),
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+  user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE
+  title TEXT NOT NULL
+  slug TEXT UNIQUE NOT NULL
+  content TEXT NOT NULL
+  published_at TIMESTAMPTZ
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+  CONSTRAINT ck_blog_posts_title_length CHECK (length(title) > 0)
   CONSTRAINT ck_blog_posts_slug_format CHECK (slug ~ '^[a-z0-9-]+$')
 );
 

@@ -70,8 +70,7 @@ Goal: Document integration
 Actions:
 - Mark all todos complete
 - Display MCP configuration
-- Show available MCP tools:
-  - generate_image_imagen3 (Google Imagen 3/4 image generation)
+- Show available MCP tools: - generate_image_imagen3 (Google Imagen 3/4 image generation)
   - batch_generate_images (batch image generation)
   - generate_video_veo3 (Google Veo 2/3 video generation)
   - generate_marketing_content (Claude/Gemini content generation)

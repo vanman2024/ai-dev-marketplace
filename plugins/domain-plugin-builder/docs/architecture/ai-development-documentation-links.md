@@ -96,11 +96,11 @@ user_prefs = user_memory.search("preferences", user_id="john")
 
 # Claude Memory Tool for task tracking
 response = client.messages.create(
-    model="claude-sonnet-4-5",
+    model="claude-sonnet-4-5"
     messages=[{
-        "role": "user", 
+        "role": "user"
         "content": f"User context: {user_prefs}\n\nTask: Build dashboard"
-    }],
+    }]
     tools=[{"type": "memory_20250818", "name": "memory"}],  # For progress
     betas=["context-management-2025-06-27"]
 )

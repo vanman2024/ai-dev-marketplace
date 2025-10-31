@@ -321,12 +321,12 @@ on public.messages(created_at desc, user_id, conversation_id);
 ```sql
 -- Find unused indexes
 select
-    schemaname,
-    tablename,
-    indexname,
-    idx_scan as scans,
-    idx_tup_read as tuples_read,
-    idx_tup_fetch as tuples_fetched,
+    schemaname
+    tablename
+    indexname
+    idx_scan as scans
+    idx_tup_read as tuples_read
+    idx_tup_fetch as tuples_fetched
     pg_size_pretty(pg_relation_size(indexrelid)) as size
 from pg_stat_user_indexes
 where schemaname = 'public'
@@ -335,10 +335,10 @@ order by pg_relation_size(indexrelid) desc;
 
 -- Find most used indexes
 select
-    schemaname,
-    tablename,
-    indexname,
-    idx_scan,
+    schemaname
+    tablename
+    indexname
+    idx_scan
     pg_size_pretty(pg_relation_size(indexrelid)) as size
 from pg_stat_user_indexes
 where schemaname = 'public'
@@ -351,9 +351,9 @@ limit 20;
 ```sql
 -- Total index size per table
 select
-    tablename,
-    pg_size_pretty(pg_total_relation_size(tablename::regclass)) as total_size,
-    pg_size_pretty(pg_relation_size(tablename::regclass)) as table_size,
+    tablename
+    pg_size_pretty(pg_total_relation_size(tablename::regclass)) as total_size
+    pg_size_pretty(pg_relation_size(tablename::regclass)) as table_size
     pg_size_pretty(
         pg_total_relation_size(tablename::regclass) -
         pg_relation_size(tablename::regclass)
@@ -427,10 +427,10 @@ on public.document_chunks using hnsw (embedding vector_cosine_ops);
 ```sql
 -- Check for index bloat
 select
-    schemaname,
-    tablename,
-    indexname,
-    pg_size_pretty(pg_relation_size(indexrelid)) as size,
+    schemaname
+    tablename
+    indexname
+    pg_size_pretty(pg_relation_size(indexrelid)) as size
     idx_scan
 from pg_stat_user_indexes
 where schemaname = 'public'

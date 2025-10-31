@@ -1,7 +1,7 @@
 ---
 description: Complete AI setup - pgvector, embeddings, schemas, RLS, validation (parallel multi-agent)
 argument-hint: [--app-type=chat|rag|multi-tenant]
-allowed-tools: Task(supabase-ai-specialist), Task(supabase-architect), Task(supabase-security-specialist), Task(supabase-schema-validator), Task(supabase-security-auditor), Task(supabase-tester)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

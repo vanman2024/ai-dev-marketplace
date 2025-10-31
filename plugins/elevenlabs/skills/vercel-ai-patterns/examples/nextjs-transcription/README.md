@@ -74,7 +74,7 @@ Create `components/AudioUploader.tsx`:
 import { useState } from 'react';
 
 export default function AudioUploader({
-  onTranscribe,
+  onTranscribe
 }: {
   onTranscribe: (file: File) => Promise<void>;
 }) {
@@ -158,8 +158,8 @@ export default function Home() {
       formData.append('audio', file);
 
       const response = await fetch('/api/transcribe', {
-        method: 'POST',
-        body: formData,
+        method: 'POST'
+        body: formData
       });
 
       if (!response.ok) {
@@ -304,12 +304,12 @@ Increase timeout in `next.config.js`:
 ```javascript
 module.exports = {
   api: {
-    responseLimit: false,
+    responseLimit: false
     bodyParser: {
-      sizeLimit: '100mb',
-    },
-  },
-  serverComponentsExternalPackages: ['@ai-sdk/elevenlabs'],
+      sizeLimit: '100mb'
+    }
+  }
+  serverComponentsExternalPackages: ['@ai-sdk/elevenlabs']
 };
 ```
 
@@ -321,9 +321,9 @@ Add CORS headers in API route:
 export async function OPTIONS() {
   return new NextResponse(null, {
     headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    },
+      'Access-Control-Allow-Origin': '*'
+      'Access-Control-Allow-Methods': 'POST, OPTIONS'
+    }
   });
 }
 ```

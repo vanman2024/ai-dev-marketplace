@@ -302,8 +302,8 @@ pipeline {
             sh 'supabase stop'
             junit 'junit.xml'
             publishHTML([
-                reportDir: 'coverage',
-                reportFiles: 'index.html',
+                reportDir: 'coverage'
+                reportFiles: 'index.html'
                 reportName: 'Coverage Report'
             ])
         }

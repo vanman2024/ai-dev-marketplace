@@ -13,33 +13,33 @@ This example demonstrates how to build a multi-tenant content management system 
 ```sql
 -- Organizations table
 CREATE TABLE IF NOT EXISTS organizations (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  name TEXT NOT NULL,
-  slug TEXT NOT NULL UNIQUE,
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY
+  name TEXT NOT NULL
+  slug TEXT NOT NULL UNIQUE
   created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
 -- User-organization relationship
 CREATE TABLE IF NOT EXISTS user_organizations (
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-  role TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),
-  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE
+  role TEXT NOT NULL DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member'))
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
   PRIMARY KEY (user_id, organization_id)
 );
 
 -- Posts with organization isolation
 CREATE TABLE IF NOT EXISTS posts (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-  title TEXT NOT NULL,
-  slug TEXT NOT NULL,
-  content TEXT NOT NULL,
-  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived')),
-  author_id UUID REFERENCES auth.users(id),
-  published_at TIMESTAMPTZ,
-  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
-  updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY
+  organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+  title TEXT NOT NULL
+  slug TEXT NOT NULL
+  content TEXT NOT NULL
+  status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'published', 'archived'))
+  author_id UUID REFERENCES auth.users(id)
+  published_at TIMESTAMPTZ
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
+  updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
   UNIQUE(organization_id, slug)
 );
 
@@ -108,11 +108,11 @@ export async function getUserOrganizations() {
   const { data, error } = await supabase
     .from('user_organizations')
     .select(`
-      organization_id,
-      role,
+      organization_id
+      role
       organizations (
-        id,
-        name,
+        id
+        name
         slug
       )
     `);
@@ -149,7 +149,7 @@ export async function getOrganizationPosts(organizationId: string) {
 }
 
 export async function createOrganizationPost(
-  organizationId: string,
+  organizationId: string
   postData: {
     title: string;
     slug: string;
@@ -163,9 +163,9 @@ export async function createOrganizationPost(
   const { data, error } = await supabase
     .from('posts')
     .insert({
-      organization_id: organizationId,
-      author_id: user.id,
-      ...postData,
+      organization_id: organizationId
+      author_id: user.id
+      ...postData
       status: 'draft'
     })
     .select()
@@ -176,13 +176,13 @@ export async function createOrganizationPost(
 }
 
 export async function publishOrganizationPost(
-  postId: string,
+  postId: string
   organizationId: string
 ) {
   const { data, error } = await supabase
     .from('posts')
     .update({
-      status: 'published',
+      status: 'published'
       published_at: new Date().toISOString()
     })
     .eq('id', postId)
@@ -292,7 +292,7 @@ describe('Multi-tenant Isolation', () => {
 
     // Sign in as user in org A
     await supabase.auth.signInWithPassword({
-      email: 'user-org-a@example.com',
+      email: 'user-org-a@example.com'
       password: 'password'
     });
 
@@ -310,7 +310,7 @@ describe('Multi-tenant Isolation', () => {
     const supabase = createClient(url, anonKey);
 
     await supabase.auth.signInWithPassword({
-      email: 'user-org-a@example.com',
+      email: 'user-org-a@example.com'
       password: 'password'
     });
 

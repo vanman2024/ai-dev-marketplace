@@ -1,7 +1,7 @@
 ---
 description: Validate database schema integrity - checks constraints, indexes, naming conventions
 argument-hint: [schema-file.sql|--live]
-allowed-tools: Task(supabase-schema-validator), Skill(schema-validation)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

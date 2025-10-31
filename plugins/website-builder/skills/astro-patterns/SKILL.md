@@ -1,8 +1,7 @@
 ---
 name: astro-patterns
 description: Astro best practices, routing patterns, component architecture, and static site generation techniques. Use when building Astro websites, setting up routing, designing component architecture, configuring static site generation, optimizing build performance, implementing content strategies, or when user mentions Astro patterns, routing, component design, SSG, static sites, or Astro best practices.
-allowed-tools:
-  - Read
+allowed-tools: - Read
   - Write
   - Edit
   - Bash
@@ -340,8 +339,8 @@ import BlogLayout from '@/layouts/BlogLayout.astro';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
+    params: { slug: post.slug }
+    props: { post }
   }));
 }
 
@@ -394,9 +393,9 @@ export interface Props {
 }
 
 const {
-  title,
-  description,
-  href,
+  title
+  description
+  href
   variant = 'default'
 } = Astro.props;
 ---
@@ -419,11 +418,11 @@ export const GET: APIRoute = async ({ request }) => {
   const posts = await getCollection('blog');
 
   return new Response(JSON.stringify(posts), {
-    status: 200,
+    status: 200
     headers: {
-      'Content-Type': 'application/json',
-      'Cache-Control': 'public, max-age=3600',
-    },
+      'Content-Type': 'application/json'
+      'Cache-Control': 'public, max-age=3600'
+    }
   });
 };
 ```

@@ -88,9 +88,9 @@ jobs:
             `;
 
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: context.issue.number
+              owner: context.repo.owner
+              repo: context.repo.repo
               body: body
             });
 
@@ -152,9 +152,9 @@ jobs:
             const coverage = fs.readFileSync('coverage-audit.md', 'utf8');
 
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: context.issue.number
+              owner: context.repo.owner
+              repo: context.repo.repo
               body: `## 🔍 RLS Coverage Report\n\n${coverage}`
             });
 
@@ -567,10 +567,10 @@ jobs:
             const audit = fs.readFileSync('weekly-audit.md', 'utf8');
 
             github.rest.issues.create({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              title: `🔴 Weekly Security Audit: Issues Detected`,
-              body: `## Security Issues Found\n\n${audit}`,
+              owner: context.repo.owner
+              repo: context.repo.repo
+              title: `🔴 Weekly Security Audit: Issues Detected`
+              body: `## Security Issues Found\n\n${audit}`
               labels: ['security', 'priority-high']
             });
 

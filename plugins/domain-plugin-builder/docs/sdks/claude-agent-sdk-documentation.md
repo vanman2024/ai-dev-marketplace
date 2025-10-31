@@ -50,9 +50,9 @@ import { query } from "@anthropic-ai/claude-agent-sdk";
 
 // Simple agent query
 for await (const message of query({
-  prompt: "Build a web scraper for product prices",
+  prompt: "Build a web scraper for product prices"
   options: {
-    allowedTools: ["Bash", "Web", "Code"],
+    allowedTools: ["Bash", "Web", "Code"]
     maxTurns: 10
   }
 })) {
@@ -66,10 +66,10 @@ import { query } from "@anthropic-ai/claude-agent-sdk";
 
 // Query with Skills enabled
 for await (const message of query({
-  prompt: "Process this PDF and extract key information",
+  prompt: "Process this PDF and extract key information"
   options: {
     settingSources: ["user", "project"], // Required to load Skills
-    allowedTools: ["Skill", "Read", "Write"],
+    allowedTools: ["Skill", "Read", "Write"]
     cwd: "/path/to/project" // Must contain .claude/skills/
   }
 })) {
@@ -83,14 +83,14 @@ import { query } from "@anthropic-ai/claude-agent-sdk";
 
 const options = {
   subagents: [{
-    name: "data-analyst",
-    description: "Analyze data and generate insights",
+    name: "data-analyst"
+    description: "Analyze data and generate insights"
     systemPrompt: "You are an expert data analyst..."
   }]
 };
 
 for await (const message of query({
-  prompt: "Analyze this sales data",
+  prompt: "Analyze this sales data"
   options
 })) {
   console.log(message);

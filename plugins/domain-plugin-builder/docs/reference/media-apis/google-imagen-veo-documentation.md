@@ -53,13 +53,13 @@ POST https://{LOCATION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locat
     {
       "prompt": "A majestic cat wearing a crown, digital art"
     }
-  ],
+  ]
   "parameters": {
-    "sampleCount": 2,
-    "aspectRatio": "16:9",
-    "addWatermark": false,
-    "enhancePrompt": true,
-    "safetySetting": "block_medium_and_above",
+    "sampleCount": 2
+    "aspectRatio": "16:9"
+    "addWatermark": false
+    "enhancePrompt": true
+    "safetySetting": "block_medium_and_above"
     "personGeneration": "allow_adult"
   }
 }
@@ -70,7 +70,7 @@ POST https://{LOCATION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locat
 {
   "predictions": [
     {
-      "bytesBase64Encoded": "iVBORw0KGg...",
+      "bytesBase64Encoded": "iVBORw0KGg..."
       "mimeType": "image/png"
     }
   ]
@@ -87,21 +87,21 @@ POST https://{LOCATION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locat
 {
   "instances": [
     {
-      "prompt": "Generate an image in glowing style [1] based on the following caption: A church in the mountain.",
+      "prompt": "Generate an image in glowing style [1] based on the following caption: A church in the mountain."
       "referenceImages": [
         {
-          "referenceType": "REFERENCE_TYPE_STYLE",
-          "referenceId": 1,
+          "referenceType": "REFERENCE_TYPE_STYLE"
+          "referenceId": 1
           "referenceImage": {
             "bytesBase64Encoded": "BASE64_REFERENCE_IMAGE"
-          },
+          }
           "styleImageConfig": {
             "styleDescription": "glowing style"
           }
         }
       ]
     }
-  ],
+  ]
   "parameters": {
     "sampleCount": 2
   }
@@ -116,22 +116,22 @@ POST https://{LOCATION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locat
 {
   "instances": [
     {
-      "prompt": "A pencil style sketch of a man with short hair [1]",
+      "prompt": "A pencil style sketch of a man with short hair [1]"
       "referenceImages": [
         {
-          "referenceType": "REFERENCE_TYPE_SUBJECT",
-          "referenceId": 1,
+          "referenceType": "REFERENCE_TYPE_SUBJECT"
+          "referenceId": 1
           "referenceImage": {
             "bytesBase64Encoded": "BASE64_REFERENCE_IMAGE"
-          },
+          }
           "subjectImageConfig": {
-            "subjectDescription": "man with short hair",
+            "subjectDescription": "man with short hair"
             "subjectType": "SUBJECT_TYPE_PERSON"
           }
         }
       ]
     }
-  ],
+  ]
   "parameters": {
     "sampleCount": 2
   }
@@ -144,8 +144,8 @@ POST https://{LOCATION}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locat
 
 ```json
 {
-  "prompt": "A futuristic cityscape at sunset",
-  "negativePrompt": "blurry, low quality, distorted, cartoon, text, watermark",
+  "prompt": "A futuristic cityscape at sunset"
+  "negativePrompt": "blurry, low quality, distorted, cartoon, text, watermark"
   "numberofImages": 2
 }
 ```
@@ -172,11 +172,11 @@ vertexai.init(project=PROJECT_ID, location="us-central1")
 model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-002")
 
 images = model.generate_images(
-    prompt="A majestic lion standing on a cliff overlooking a savanna",
-    number_of_images=1,
-    language="en",
-    aspect_ratio="16:9",
-    safety_filter_level="block_some",
+    prompt="A majestic lion standing on a cliff overlooking a savanna"
+    number_of_images=1
+    language="en"
+    aspect_ratio="16:9"
+    safety_filter_level="block_some"
     person_generation="allow_adult"
 )
 
@@ -259,8 +259,8 @@ banana_model = VideoGenerationModel.from_pretrained("veo-2-banana")
 
 # Generate video
 videos = nano_model.generate_videos(
-    prompt="A product rotating on a white background, professional lighting",
-    number_of_videos=1,
+    prompt="A product rotating on a white background, professional lighting"
+    number_of_videos=1
     duration_seconds=5
 )
 
@@ -309,7 +309,7 @@ overlooking the city skyline
 
 #### 3. Action Sequence
 ```
-She presents quarterly results with animated gestures, pausing thoughtfully, 
+She presents quarterly results with animated gestures, pausing thoughtfully
 then turns to camera with confident smile
 ```
 
@@ -385,7 +385,7 @@ sounds, professional atmosphere.
 
 #### Executive Presentation
 ```
-Professional 45-year-old woman executive with shoulder-length black hair, 
+Professional 45-year-old woman executive with shoulder-length black hair
 wearing navy blazer, stands in glass-walled boardroom at golden hour. She 
 presents quarterly results with animated gestures, maintaining eye contact. 
 Medium shot with slow dolly-in, professional three-point lighting, warm color 
@@ -483,15 +483,15 @@ def generate_hero_background(theme, industry):
     """Generate hero section background image"""
     prompt = f"""
     Professional {industry} hero image, {theme} aesthetic, high-quality 
-    digital art, modern and clean, suitable for website hero section, 
+    digital art, modern and clean, suitable for website hero section
     16:9 aspect ratio, no text, no watermark
     """
     
     model = ImageGenerationModel.from_pretrained("imagen-3.0-fast-generate-001")
     images = model.generate_images(
-        prompt=prompt,
-        aspect_ratio="16:9",
-        number_of_images=1,
+        prompt=prompt
+        aspect_ratio="16:9"
+        number_of_images=1
         safety_filter_level="block_some"
     )
     
@@ -504,15 +504,15 @@ def generate_hero_background(theme, industry):
 def generate_product_image(product_name, style="professional white background"):
     """Generate product showcase image"""
     prompt = f"""
-    {product_name} product photography, {style}, studio lighting, 
-    high-quality commercial photography, 4:3 aspect ratio, sharp focus, 
+    {product_name} product photography, {style}, studio lighting
+    high-quality commercial photography, 4:3 aspect ratio, sharp focus
     professional presentation
     """
     
     model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
     images = model.generate_images(
-        prompt=prompt,
-        aspect_ratio="4:3",
+        prompt=prompt
+        aspect_ratio="4:3"
         number_of_images=3,  # Generate variations
         enhancePrompt=True
     )
@@ -526,16 +526,16 @@ def generate_product_image(product_name, style="professional white background"):
 def generate_team_member_image(role, attributes):
     """Generate consistent team member images"""
     prompt = f"""
-    Professional headshot of {role}, {attributes}, business attire, 
-    office background, friendly and approachable expression, 
+    Professional headshot of {role}, {attributes}, business attire
+    office background, friendly and approachable expression
     professional corporate photography, 1:1 aspect ratio, high-quality
     """
     
     model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
     images = model.generate_images(
-        prompt=prompt,
-        aspect_ratio="1:1",
-        person_generation="allow_adult",
+        prompt=prompt
+        aspect_ratio="1:1"
+        person_generation="allow_adult"
         safety_filter_level="block_medium_and_above"
     )
     
@@ -552,13 +552,13 @@ def generate_branded_images(prompts, brand_style_image):
     generated_images = []
     for prompt in prompts:
         images = model.generate_images(
-            prompt=f"Generate in brand style [1]: {prompt}",
+            prompt=f"Generate in brand style [1]: {prompt}"
             reference_images=[{
-                "referenceType": "REFERENCE_TYPE_STYLE",
-                "referenceId": 1,
-                "referenceImage": {"bytesBase64Encoded": brand_style_image},
+                "referenceType": "REFERENCE_TYPE_STYLE"
+                "referenceId": 1
+                "referenceImage": {"bytesBase64Encoded": brand_style_image}
                 "styleImageConfig": {"styleDescription": "brand visual identity"}
-            }],
+            }]
             number_of_images=1
         )
         generated_images.append(images[0])
@@ -583,8 +583,8 @@ def generate_product_demo_video(product_name, key_features):
     
     model = VideoGenerationModel.from_pretrained("veo-2-banana")
     videos = model.generate_videos(
-        prompt=prompt,
-        duration_seconds=8,
+        prompt=prompt
+        duration_seconds=8
         number_of_videos=1
     )
     
@@ -604,14 +604,14 @@ def generate_social_media_post(content_type, message):
         style = "clean professional design"
     
     prompt = f"""
-    {message}, {style}, modern aesthetic, eye-catching, 
+    {message}, {style}, modern aesthetic, eye-catching
     suitable for social media, {aspect_ratio} format
     """
     
     model = ImageGenerationModel.from_pretrained("imagen-3.0-fast-generate-001")
     images = model.generate_images(
-        prompt=prompt,
-        aspect_ratio=aspect_ratio,
+        prompt=prompt
+        aspect_ratio=aspect_ratio
         number_of_images=3  # A/B testing variations
     )
     

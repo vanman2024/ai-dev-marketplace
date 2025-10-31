@@ -168,15 +168,15 @@ async function testRLS() {
     .select('*');
 
   console.assert(
-    anonData?.length === 0 || anonError !== null,
+    anonData?.length === 0 || anonError !== null
     'Anonymous access should be denied'
   );
 
   // Test 2: User1 can see their data
   console.log('Test 2: User1 authentication');
   const { data: { user: user1 } } = await supabase.auth.signInWithPassword({
-    email: USER1_EMAIL,
-    password: USER1_PASSWORD,
+    email: USER1_EMAIL
+    password: USER1_PASSWORD
   });
 
   const { data: user1Data } = await supabase
@@ -185,21 +185,21 @@ async function testRLS() {
     .eq('user_id', user1!.id);
 
   console.assert(
-    user1Data?.every(conv => conv.user_id === user1!.id),
+    user1Data?.every(conv => conv.user_id === user1!.id)
     'User1 should only see their own conversations'
   );
 
   // Test 3: User1 cannot see User2's data
   console.log('Test 3: User isolation');
   const { data: { user: user2 } } = await supabase.auth.signInWithPassword({
-    email: USER2_EMAIL,
-    password: USER2_PASSWORD,
+    email: USER2_EMAIL
+    password: USER2_PASSWORD
   });
 
   // Sign back in as user1
   await supabase.auth.signInWithPassword({
-    email: USER1_EMAIL,
-    password: USER1_PASSWORD,
+    email: USER1_EMAIL
+    password: USER1_PASSWORD
   });
 
   const { data: crossUserData } = await supabase
@@ -208,7 +208,7 @@ async function testRLS() {
     .eq('user_id', user2!.id);  // Try to get user2's data
 
   console.assert(
-    crossUserData?.length === 0,
+    crossUserData?.length === 0
     'User1 should not see User2\'s conversations'
   );
 
@@ -217,14 +217,14 @@ async function testRLS() {
   const { data: insertData, error: insertError } = await supabase
     .from('conversations')
     .insert({
-      user_id: user1!.id,
-      title: 'RLS Test Conversation',
+      user_id: user1!.id
+      title: 'RLS Test Conversation'
     })
     .select()
     .single();
 
   console.assert(
-    insertError === null && insertData !== null,
+    insertError === null && insertData !== null
     'User1 should be able to insert their own data'
   );
 
@@ -234,11 +234,11 @@ async function testRLS() {
     .from('conversations')
     .insert({
       user_id: user2!.id,  // Wrong user_id
-      title: 'Should Fail',
+      title: 'Should Fail'
     });
 
   console.assert(
-    invalidInsertError !== null,
+    invalidInsertError !== null
     'User1 should not be able to insert data for User2'
   );
 
@@ -250,7 +250,7 @@ async function testRLS() {
     .eq('id', insertData!.id);
 
   console.assert(
-    updateError === null,
+    updateError === null
     'User1 should be able to update their own data'
   );
 
@@ -262,7 +262,7 @@ async function testRLS() {
     .eq('id', insertData!.id);
 
   console.assert(
-    deleteError === null,
+    deleteError === null
     'User1 should be able to delete their own data'
   );
 
@@ -287,8 +287,8 @@ async function testMultiTenantRLS() {
 
   // User1 in Org A
   const { data: { user: user1 } } = await supabase.auth.signInWithPassword({
-    email: 'user1@orga.com',
-    password: 'pass',
+    email: 'user1@orga.com'
+    password: 'pass'
   });
 
   // Create organization A
@@ -300,17 +300,17 @@ async function testMultiTenantRLS() {
 
   // Add user1 to org A
   await supabase.from('org_members').insert({
-    organization_id: orgA!.id,
-    user_id: user1!.id,
-    role: 'admin',
+    organization_id: orgA!.id
+    user_id: user1!.id
+    role: 'admin'
   });
 
   // User1 creates a project in Org A
   const { data: projectA } = await supabase
     .from('projects')
     .insert({
-      organization_id: orgA!.id,
-      name: 'Project A',
+      organization_id: orgA!.id
+      name: 'Project A'
     })
     .select()
     .single();
@@ -319,8 +319,8 @@ async function testMultiTenantRLS() {
 
   // User2 in Org B
   const { data: { user: user2 } } = await supabase.auth.signInWithPassword({
-    email: 'user2@orgb.com',
-    password: 'pass',
+    email: 'user2@orgb.com'
+    password: 'pass'
   });
 
   const { data: orgB } = await supabase
@@ -330,9 +330,9 @@ async function testMultiTenantRLS() {
     .single();
 
   await supabase.from('org_members').insert({
-    organization_id: orgB!.id,
-    user_id: user2!.id,
-    role: 'member',
+    organization_id: orgB!.id
+    user_id: user2!.id
+    role: 'member'
   });
 
   // User2 should NOT see Org A's projects
@@ -342,7 +342,7 @@ async function testMultiTenantRLS() {
     .eq('organization_id', orgA!.id);
 
   console.assert(
-    crossOrgProjects?.length === 0,
+    crossOrgProjects?.length === 0
     'User2 should not see Org A projects'
   );
 
@@ -351,11 +351,11 @@ async function testMultiTenantRLS() {
     .from('projects')
     .insert({
       organization_id: orgA!.id,  // Wrong org
-      name: 'Should Fail',
+      name: 'Should Fail'
     });
 
   console.assert(
-    invalidOrgError !== null,
+    invalidOrgError !== null
     'User2 should not create projects in Org A'
   );
 
@@ -462,8 +462,8 @@ const { data: conv } = await supabase
 await supabase
   .from('conversation_participants')
   .insert({
-    conversation_id: conv.id,
-    user_id: user2.id,
+    conversation_id: conv.id
+    user_id: user2.id
   });
 
 // Sign in as User2
@@ -484,7 +484,7 @@ console.assert(sharedConv !== null, 'User2 should see shared conversation');
 ```typescript
 // Set user role to 'viewer' (read-only)
 await supabaseAdmin.auth.admin.updateUserById(user.id, {
-  app_metadata: { role: 'viewer' },
+  app_metadata: { role: 'viewer' }
 });
 
 // Sign in as viewer
@@ -499,7 +499,7 @@ console.assert(createError !== null, 'Viewer should not create articles');
 
 // Change role to 'editor'
 await supabaseAdmin.auth.admin.updateUserById(user.id, {
-  app_metadata: { role: 'editor' },
+  app_metadata: { role: 'editor' }
 });
 
 // Refresh session to get new JWT
@@ -524,7 +524,7 @@ console.assert(createError2 === null, 'Editor should create articles');
 -- Or use SQL (advanced):
 INSERT INTO auth.users (id, email, encrypted_password, email_confirmed_at, created_at)
 VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', 'user1@test.com', crypt('password123', gen_salt('bf')), NOW(), NOW()),
+  ('550e8400-e29b-41d4-a716-446655440000', 'user1@test.com', crypt('password123', gen_salt('bf')), NOW(), NOW())
   ('660f8400-e29b-41d4-a716-446655440001', 'user2@test.com', crypt('password456', gen_salt('bf')), NOW(), NOW());
 ```
 
@@ -533,7 +533,7 @@ VALUES
 ```sql
 -- User1's conversations
 INSERT INTO conversations (id, user_id, title) VALUES
-  ('c1111111-1111-1111-1111-111111111111', '550e8400-e29b-41d4-a716-446655440000', 'User1 Chat 1'),
+  ('c1111111-1111-1111-1111-111111111111', '550e8400-e29b-41d4-a716-446655440000', 'User1 Chat 1')
   ('c2222222-2222-2222-2222-222222222222', '550e8400-e29b-41d4-a716-446655440000', 'User1 Chat 2');
 
 -- User2's conversations

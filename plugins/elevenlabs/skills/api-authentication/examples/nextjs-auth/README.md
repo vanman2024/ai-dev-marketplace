@@ -69,9 +69,9 @@ export async function generateSpeech(text: string, voiceId?: string): Promise<Bu
   const voice = voiceId || process.env.ELEVENLABS_DEFAULT_VOICE_ID!;
 
   const audio = await client.generate({
-    voice,
-    text,
-    model_id: process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1',
+    voice
+    text
+    model_id: process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1'
   });
 
   const chunks: Uint8Array[] = [];
@@ -96,13 +96,13 @@ export async function textToSpeechAction(text: string, voiceId?: string) {
   try {
     const audio = await generateSpeech(text, voiceId);
     return {
-      success: true,
-      audio: audio.toString('base64'),
+      success: true
+      audio: audio.toString('base64')
     };
   } catch (error) {
     return {
-      success: false,
-      error: error instanceof Error ? error.message : 'Unknown error',
+      success: false
+      error: error instanceof Error ? error.message : 'Unknown error'
     };
   }
 }
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
 
     if (!text) {
       return NextResponse.json(
-        { error: 'Text is required' },
+        { error: 'Text is required' }
         { status: 400 }
       );
     }
@@ -131,14 +131,14 @@ export async function POST(request: NextRequest) {
 
     return new NextResponse(audio, {
       headers: {
-        'Content-Type': 'audio/mpeg',
-        'Content-Disposition': 'attachment; filename=speech.mp3',
-      },
+        'Content-Type': 'audio/mpeg'
+        'Content-Disposition': 'attachment; filename=speech.mp3'
+      }
     });
   } catch (error) {
     console.error('TTS error:', error);
     return NextResponse.json(
-      { error: 'Text-to-speech generation failed' },
+      { error: 'Text-to-speech generation failed' }
       { status: 500 }
     );
   }
@@ -171,7 +171,7 @@ export default function Home() {
       if (result.success && result.audio) {
         // Convert base64 to audio blob
         const audioBlob = new Blob(
-          [Uint8Array.from(atob(result.audio), c => c.charCodeAt(0))],
+          [Uint8Array.from(atob(result.audio), c => c.charCodeAt(0))]
           { type: 'audio/mpeg' }
         );
 
@@ -256,9 +256,9 @@ Best for external API calls:
 ```typescript
 // Client-side fetch
 const response = await fetch('/api/tts', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ text: 'Hello world!' }),
+  method: 'POST'
+  headers: { 'Content-Type': 'application/json' }
+  body: JSON.stringify({ text: 'Hello world!' })
 });
 
 const blob = await response.blob();

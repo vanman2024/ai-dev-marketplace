@@ -132,8 +132,8 @@ Scripts and dependencies:
 ```json
 {
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro check && astro build",
+    "dev": "astro dev"
+    "build": "astro check && astro build"
     "preview": "astro preview"
   }
 }
@@ -191,13 +191,13 @@ import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    pubDate: z.date(),
-    author: z.string(),
-    image: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-  }),
+    title: z.string()
+    description: z.string()
+    pubDate: z.date()
+    author: z.string()
+    image: z.string().optional()
+    tags: z.array(z.string()).default([])
+  })
 });
 
 export const collections = { blog };

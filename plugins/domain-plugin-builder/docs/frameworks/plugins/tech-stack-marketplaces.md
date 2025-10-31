@@ -271,38 +271,38 @@ ai-tech-stack-1-marketplace/           ← CURATED COLLECTION (lightweight)
 
 marketplace.json (150 lines):
 {
-  "name": "ai-tech-stack-1",
-  "description": "TypeScript + Next.js + Vercel AI SDK + Supabase + Mem0",
+  "name": "ai-tech-stack-1"
+  "description": "TypeScript + Next.js + Vercel AI SDK + Supabase + Mem0"
   "plugins": [
     {
-      "name": "vercel-ai-sdk",
+      "name": "vercel-ai-sdk"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/vercel-ai-sdk"
       }
-    },
+    }
     {
-      "name": "mem0-integration",
+      "name": "mem0-integration"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/mem0-integration"
       }
-    },
+    }
     {
-      "name": "supabase-backend",
+      "name": "supabase-backend"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/supabase-backend"
       }
-    },
+    }
     {
-      "name": "nextjs-frontend",
+      "name": "nextjs-frontend"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/nextjs-frontend"
       }
     }
@@ -377,73 +377,73 @@ Create `.claude-plugin/marketplace.json` that references plugins from master rep
 
 ```json
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "ai-tech-stack-1",
-  "version": "1.0.0",
-  "description": "Production-ready AI tech stack: TypeScript + Next.js + Vercel AI SDK + Supabase + Mem0",
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json"
+  "name": "ai-tech-stack-1"
+  "version": "1.0.0"
+  "description": "Production-ready AI tech stack: TypeScript + Next.js + Vercel AI SDK + Supabase + Mem0"
   "owner": {
-    "name": "Your Name",
+    "name": "Your Name"
     "email": "your@email.com"
-  },
+  }
   "plugins": [
     {
-      "name": "vercel-ai-sdk",
-      "description": "Modular Vercel AI SDK with feature bundles",
-      "version": "1.0.0",
+      "name": "vercel-ai-sdk"
+      "description": "Modular Vercel AI SDK with feature bundles"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/vercel-ai-sdk"
-      },
-      "category": "ai-sdk",
+      }
+      "category": "ai-sdk"
       "keywords": ["vercel", "ai", "sdk", "streaming", "rag"]
-    },
+    }
     {
-      "name": "mem0-integration",
-      "description": "Mem0 memory management integration",
-      "version": "1.0.0",
+      "name": "mem0-integration"
+      "description": "Mem0 memory management integration"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/mem0-integration"
-      },
-      "category": "integration",
+      }
+      "category": "integration"
       "keywords": ["mem0", "memory", "context"]
-    },
+    }
     {
-      "name": "supabase-backend",
-      "description": "Supabase backend setup and integration",
-      "version": "1.0.0",
+      "name": "supabase-backend"
+      "description": "Supabase backend setup and integration"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/supabase-backend"
-      },
-      "category": "backend",
+      }
+      "category": "backend"
       "keywords": ["supabase", "database", "auth", "storage"]
-    },
+    }
     {
-      "name": "nextjs-frontend",
-      "description": "Next.js frontend with React and TypeScript",
-      "version": "1.0.0",
+      "name": "nextjs-frontend"
+      "description": "Next.js frontend with React and TypeScript"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/nextjs-frontend"
-      },
-      "category": "frontend",
+      }
+      "category": "frontend"
       "keywords": ["nextjs", "react", "typescript", "frontend"]
-    },
+    }
     {
-      "name": "shadcn-ui",
-      "description": "Shadcn UI component library",
-      "version": "1.0.0",
+      "name": "shadcn-ui"
+      "description": "Shadcn UI component library"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/shadcn-ui"
-      },
-      "category": "ui",
+      }
+      "category": "ui"
       "keywords": ["shadcn", "ui", "components", "tailwind"]
     }
   ]
@@ -759,23 +759,23 @@ Include alternative plugins in your marketplace for flexibility:
 {
   "plugins": [
     {
-      "name": "vercel-ai-sdk",
-      "description": "AI SDK (Recommended for full-stack apps)",
+      "name": "vercel-ai-sdk"
+      "description": "AI SDK (Recommended for full-stack apps)"
       "source": {"source": "github", "repo": "...", "path": "plugins/vercel-ai-sdk"}
-    },
+    }
     {
-      "name": "openai-sdk-direct",
-      "description": "AI SDK Alternative: Direct OpenAI integration",
+      "name": "openai-sdk-direct"
+      "description": "AI SDK Alternative: Direct OpenAI integration"
       "source": {"source": "github", "repo": "...", "path": "plugins/openai-sdk-direct"}
-    },
+    }
     {
-      "name": "supabase-backend",
-      "description": "Backend (Recommended for rapid development)",
+      "name": "supabase-backend"
+      "description": "Backend (Recommended for rapid development)"
       "source": {"source": "github", "repo": "...", "path": "plugins/supabase-backend"}
-    },
+    }
     {
-      "name": "postgres-backend",
-      "description": "Backend Alternative: Self-hosted PostgreSQL",
+      "name": "postgres-backend"
+      "description": "Backend Alternative: Self-hosted PostgreSQL"
       "source": {"source": "github", "repo": "...", "path": "plugins/postgres-backend"}
     }
   ]
@@ -794,12 +794,12 @@ Pin specific plugin versions in your tech stack:
 {
   "plugins": [
     {
-      "name": "vercel-ai-sdk",
-      "version": "1.2.0",
+      "name": "vercel-ai-sdk"
+      "version": "1.2.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
-        "path": "plugins/vercel-ai-sdk",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
+        "path": "plugins/vercel-ai-sdk"
         "ref": "v1.2.0"
       }
     }
@@ -936,7 +936,7 @@ Actions:
 ```markdown
 ---
 description: Add streaming capability to your app
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), mcp__context7__*
+allowed-tools: Task, Read(*), Write(*), Bash(*), mcp__context7__*
 ---
 
 Phase 1: Fetch Latest Streaming Documentation
@@ -1421,7 +1421,7 @@ plugins/your-extension/
 │   {
 │     "mcpServers": {
 │       "your-extension": {
-│         "command": "python",
+│         "command": "python"
 │         "args": ["-m", "your-extension-mcp"]
 │       }
 │     }
@@ -1718,62 +1718,61 @@ mkdir .claude-plugin
 
 ```json
 {
-  "name": "ai-tech-stack-marketing-automation",
-  "version": "1.0.0",
-  "description": "Complete marketing automation: AI Stack 1 + Imagen + Veo",
+  "name": "ai-tech-stack-marketing-automation"
+  "version": "1.0.0"
+  "description": "Complete marketing automation: AI Stack 1 + Imagen + Veo"
   "plugins": [
     // Foundation (95%)
     {
-      "name": "vercel-ai-sdk",
+      "name": "vercel-ai-sdk"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/vercel-ai-sdk"
       }
-    },
+    }
     {
-      "name": "mem0-integration",
+      "name": "mem0-integration"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/mem0-integration"
       }
-    },
+    }
     {
-      "name": "supabase-backend",
+      "name": "supabase-backend"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/supabase-backend"
       }
-    },
+    }
     {
-      "name": "nextjs-frontend",
+      "name": "nextjs-frontend"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/nextjs-frontend"
       }
-    },
-    
+    }
     // Extensions (5%)
     {
-      "name": "google-imagen",
-      "description": "Image generation extension",
-      "category": "extension",
+      "name": "google-imagen"
+      "description": "Image generation extension"
+      "category": "extension"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/google-imagen"
       }
-    },
+    }
     {
-      "name": "google-veo",
-      "description": "Video generation extension",
-      "category": "extension",
+      "name": "google-veo"
+      "description": "Video generation extension"
+      "category": "extension"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/google-veo"
       }
     }

@@ -55,7 +55,7 @@ TEST_USER_2_PASSWORD="test-password-456"
 
 INSERT INTO auth.users (email, encrypted_password, email_confirmed_at)
 VALUES
-  ('test1@example.com', crypt('test-password-123', gen_salt('bf')), NOW()),
+  ('test1@example.com', crypt('test-password-123', gen_salt('bf')), NOW())
   ('test2@example.com', crypt('test-password-456', gen_salt('bf')), NOW());
 ```
 
@@ -200,9 +200,9 @@ jobs:
         with:
           script: |
             github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
+              issue_number: context.issue.number
+              owner: context.repo.owner
+              repo: context.repo.repo
               body: '❌ RLS security tests failed. Review test results artifact.'
             })
 ```
@@ -309,8 +309,8 @@ After deploying to production:
 ```sql
 -- View slow queries (in Supabase Dashboard > Logs > Postgres)
 SELECT
-  query,
-  mean_exec_time,
+  query
+  mean_exec_time
   calls
 FROM pg_stat_statements
 WHERE query LIKE '%FROM public.%'
@@ -323,9 +323,9 @@ LIMIT 10;
 ```sql
 -- If you have audit logging:
 SELECT
-  user_id,
-  table_name,
-  operation,
+  user_id
+  table_name
+  operation
   COUNT(*) as failed_attempts
 FROM audit.access_denied_log
 WHERE created_at > NOW() - INTERVAL '24 hours'

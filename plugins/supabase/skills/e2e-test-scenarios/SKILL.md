@@ -131,8 +131,8 @@ Test vector search and semantic operations:
      const queryEmbedding = await generateEmbedding('machine learning');
 
      const { data } = await supabase.rpc('match_documents', {
-       query_embedding: queryEmbedding,
-       match_threshold: 0.7,
+       query_embedding: queryEmbedding
+       match_threshold: 0.7
        match_count: 5
      });
 
@@ -178,8 +178,8 @@ Test realtime subscriptions and presence:
 
      const subscription = supabase
        .channel('test-channel')
-       .on('postgres_changes',
-         { event: 'INSERT', schema: 'public', table: 'messages' },
+       .on('postgres_changes'
+         { event: 'INSERT', schema: 'public', table: 'messages' }
          (payload) => updates.push(payload)
        )
        .subscribe();
@@ -330,7 +330,7 @@ afterAll(async () => {
 ```typescript
 // Create test users with factories
 const user = await createTestUser({
-  email: 'test@example.com',
+  email: 'test@example.com'
   metadata: { role: 'admin' }
 });
 
@@ -369,7 +369,7 @@ const posts = await createTestPosts(user.id, 5);
 test('authenticated user CRUD operations', async () => {
   // 1. Sign up user
   const { user } = await supabase.auth.signUp({
-    email: 'test@example.com',
+    email: 'test@example.com'
     password: 'test123'
   });
 
@@ -407,8 +407,8 @@ test('document RAG workflow', async () => {
   // 3. Store in database
   await supabase.from('document_chunks').insert(
     chunks.map((chunk, i) => ({
-      content: chunk,
-      embedding: embeddings[i],
+      content: chunk
+      embedding: embeddings[i]
       document_id: doc.id
     }))
   );
@@ -418,7 +418,7 @@ test('document RAG workflow', async () => {
   const queryEmbedding = await generateEmbedding(query);
 
   const { data } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding,
+    query_embedding: queryEmbedding
     match_count: 5
   });
 

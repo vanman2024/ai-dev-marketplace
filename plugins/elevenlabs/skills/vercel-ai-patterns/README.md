@@ -157,8 +157,8 @@ import { experimental_transcribe as transcribe } from 'ai';
 import { elevenlabs } from '@ai-sdk/elevenlabs';
 
 const { text } = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioBuffer,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioBuffer
 });
 ```
 
@@ -167,20 +167,20 @@ const { text } = await transcribe({
 ```typescript
 // 1. Transcribe voice input
 const { text: userMessage } = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: voiceInput,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: voiceInput
 });
 
 // 2. Generate LLM response
 const { text: aiResponse } = await generateText({
-  model: openai('gpt-4'),
-  prompt: userMessage,
+  model: openai('gpt-4')
+  prompt: userMessage
 });
 
 // 3. Optionally synthesize speech response
 const { audio: responseAudio } = await experimental_generateSpeech({
-  model: elevenlabs.speech('eleven_multilingual_v2'),
-  text: aiResponse,
+  model: elevenlabs.speech('eleven_multilingual_v2')
+  text: aiResponse
 });
 ```
 
@@ -188,15 +188,15 @@ const { audio: responseAudio } = await experimental_generateSpeech({
 
 ```typescript
 const { text, segments } = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: meetingRecording,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: meetingRecording
   providerOptions: {
     elevenlabs: {
-      diarize: true,
-      numSpeakers: 3,
-      timestampsGranularity: 'word',
-    },
-  },
+      diarize: true
+      numSpeakers: 3
+      timestampsGranularity: 'word'
+    }
+  }
 });
 
 // segments contains speaker labels and timestamps
@@ -211,8 +211,8 @@ segments?.forEach(segment => {
 import { experimental_transcribeStream } from 'ai';
 
 const stream = await experimental_transcribeStream({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioStream,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioStream
 });
 
 for await (const chunk of stream) {
@@ -257,8 +257,8 @@ ElevenLabs scribe_v1 supports 30+ languages:
 ```typescript
 try {
   const { text } = await transcribe({
-    model: elevenlabs.transcription('scribe_v1'),
-    audio: audioFile,
+    model: elevenlabs.transcription('scribe_v1')
+    audio: audioFile
   });
 } catch (error) {
   if (error.name === 'AI_NoTranscriptGeneratedError') {
@@ -344,9 +344,9 @@ TRANSCRIPTION_TIMEOUT=60000          # 60 seconds
 module.exports = {
   api: {
     bodyParser: {
-      sizeLimit: '10mb',
-    },
-  },
+      sizeLimit: '10mb'
+    }
+  }
 };
 ```
 

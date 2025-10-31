@@ -1,7 +1,7 @@
 ---
 description: Add authentication - OAuth providers, email auth, RLS policies with parallel validation
 argument-hint: [provider1,provider2,...] (e.g., google,github,discord)
-allowed-tools: Task(supabase-security-specialist), Task(supabase-schema-validator), Task(supabase-security-auditor), Task(supabase-tester)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

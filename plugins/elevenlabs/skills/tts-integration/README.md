@@ -174,9 +174,9 @@ Voice settings control the synthesis characteristics:
 **For Consistency** (narration, audiobooks):
 ```json
 {
-  "stability": 0.8,
-  "similarity_boost": 0.75,
-  "style": 0.0,
+  "stability": 0.8
+  "similarity_boost": 0.75
+  "style": 0.0
   "use_speaker_boost": true
 }
 ```
@@ -184,9 +184,9 @@ Voice settings control the synthesis characteristics:
 **For Expressiveness** (character dialogue, advertisements):
 ```json
 {
-  "stability": 0.4,
-  "similarity_boost": 0.75,
-  "style": 0.3,
+  "stability": 0.4
+  "similarity_boost": 0.75
+  "style": 0.3
   "use_speaker_boost": true
 }
 ```
@@ -194,9 +194,9 @@ Voice settings control the synthesis characteristics:
 **For Natural Speech** (e-learning, IVR):
 ```json
 {
-  "stability": 0.6,
-  "similarity_boost": 0.8,
-  "style": 0.0,
+  "stability": 0.6
+  "similarity_boost": 0.8
+  "style": 0.0
   "use_speaker_boost": true
 }
 ```

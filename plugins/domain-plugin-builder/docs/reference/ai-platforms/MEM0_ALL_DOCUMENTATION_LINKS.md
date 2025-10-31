@@ -443,16 +443,16 @@ uv pip install -e .
   "mcp": {
     "inputs": [
       {
-        "type": "promptString",
-        "id": "apiKey",
-        "description": "Mem0 API Key",
+        "type": "promptString"
+        "id": "apiKey"
+        "description": "Mem0 API Key"
         "password": true
       }
-    ],
+    ]
     "servers": {
       "mem0-memory": {
-        "command": "npx",
-        "args": ["-y", "@mem0/mcp"],
+        "command": "npx"
+        "args": ["-y", "@mem0/mcp"]
         "env": {
           "MEM0_API_KEY": "${input:apiKey}"
         }
@@ -467,8 +467,8 @@ uv pip install -e .
 {
   "mcpServers": {
     "mem0-mcp": {
-      "command": "npx",
-      "args": ["-y", "@mem0/mcp"],
+      "command": "npx"
+      "args": ["-y", "@mem0/mcp"]
       "env": {
         "MEM0_API_KEY": "YOUR-API-KEY-HERE"
       }
@@ -689,8 +689,8 @@ from crewai import Crew
 from mem0 import Memory
 
 crew = Crew(
-    agents=agents,
-    memory=True,
+    agents=agents
+    memory=True
     memory_config={"provider": "mem0"}
 )
 ```
@@ -701,8 +701,8 @@ from mem0.proxy.main import Mem0
 
 client = Mem0(api_key="m0-xxx")
 chat_completion = client.chat.completions.create(
-    messages=messages,
-    model="gpt-4o",
+    messages=messages
+    model="gpt-4o"
     user_id=user_id
 )
 ```

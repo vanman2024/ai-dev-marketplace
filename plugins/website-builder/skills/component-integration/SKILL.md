@@ -1,8 +1,7 @@
 ---
 name: component-integration
 description: React, MDX, and Tailwind CSS integration patterns for Astro websites. Use when adding React components, configuring MDX content, setting up Tailwind styling, integrating component libraries, building interactive UI elements, or when user mentions React integration, MDX setup, Tailwind configuration, component patterns, or UI frameworks.
-allowed-tools:
-  - Read
+allowed-tools: - Read
   - Write
   - Edit
   - Bash
@@ -280,23 +279,23 @@ import { Alert } from '@/components/Alert';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 const buttonVariants = cva(
-  'rounded-md font-medium transition-colors',
+  'rounded-md font-medium transition-colors'
   {
     variants: {
       variant: {
-        primary: 'bg-blue-600 text-white hover:bg-blue-700',
-        secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
-      },
+        primary: 'bg-blue-600 text-white hover:bg-blue-700'
+        secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300'
+      }
       size: {
-        sm: 'px-3 py-1.5 text-sm',
-        md: 'px-4 py-2 text-base',
-        lg: 'px-6 py-3 text-lg',
-      },
-    },
+        sm: 'px-3 py-1.5 text-sm'
+        md: 'px-4 py-2 text-base'
+        lg: 'px-6 py-3 text-lg'
+      }
+    }
     defaultVariants: {
-      variant: 'primary',
-      size: 'md',
-    },
+      variant: 'primary'
+      size: 'md'
+    }
   }
 );
 

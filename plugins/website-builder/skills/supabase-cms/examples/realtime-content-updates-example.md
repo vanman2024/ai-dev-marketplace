@@ -33,12 +33,12 @@ export function subscribeToContentChanges(
   const channel = supabase
     .channel('content-changes')
     .on(
-      'postgres_changes',
+      'postgres_changes'
       {
-        event: '*',
-        schema: 'public',
+        event: '*'
+        schema: 'public'
         table: 'posts'
-      },
+      }
       (payload) => {
         console.log('Content change detected:', payload);
         callback(payload);
@@ -80,12 +80,12 @@ export function RealtimePostList() {
     const channel = supabase
       .channel('posts-changes')
       .on(
-        'postgres_changes',
+        'postgres_changes'
         {
-          event: '*',
-          schema: 'public',
+          event: '*'
+          schema: 'public'
           table: 'posts'
-        },
+        }
         handleRealtimeUpdate
       )
       .subscribe();
@@ -184,13 +184,13 @@ export function CollaborativeEditor({ postId }: { postId: string }) {
     const contentChannel = supabase
       .channel(`post-${postId}`)
       .on(
-        'postgres_changes',
+        'postgres_changes'
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'posts',
+          event: 'UPDATE'
+          schema: 'public'
+          table: 'posts'
           filter: `id=eq.${postId}`
-        },
+        }
         (payload) => {
           // Only update if change came from another user
           if (payload.new.content !== content) {
@@ -204,9 +204,9 @@ export function CollaborativeEditor({ postId }: { postId: string }) {
     const presenceChannel = supabase.channel(`presence-${postId}`, {
       config: {
         presence: {
-          key: postId,
-        },
-      },
+          key: postId
+        }
+      }
     });
 
     presenceChannel
@@ -230,10 +230,10 @@ export function CollaborativeEditor({ postId }: { postId: string }) {
           if (user) {
             await presenceChannel.track({
               user: {
-                id: user.id,
-                name: user.email,
-              },
-              online_at: new Date().toISOString(),
+                id: user.id
+                name: user.email
+              }
+              online_at: new Date().toISOString()
             });
           }
         }
@@ -266,7 +266,7 @@ export function CollaborativeEditor({ postId }: { postId: string }) {
     const { error } = await supabase
       .from('posts')
       .update({
-        content,
+        content
         updated_at: new Date().toISOString()
       })
       .eq('id', postId);
@@ -330,13 +330,13 @@ export function LiveNotifications() {
     const channel = supabase
       .channel('new-published-posts')
       .on(
-        'postgres_changes',
+        'postgres_changes'
         {
-          event: 'UPDATE',
-          schema: 'public',
-          table: 'posts',
+          event: 'UPDATE'
+          schema: 'public'
+          table: 'posts'
           filter: 'status=eq.published'
-        },
+        }
         (payload) => {
           // Only notify when status changes to published
           if (payload.new.status === 'published' && payload.old.status !== 'published') {
@@ -353,9 +353,9 @@ export function LiveNotifications() {
 
   function addNotification(message: string) {
     const notification = {
-      id: crypto.randomUUID(),
-      message,
-      timestamp: new Date().toISOString(),
+      id: crypto.randomUUID()
+      message
+      timestamp: new Date().toISOString()
     };
 
     setNotifications((prev) => [notification, ...prev.slice(0, 4)]);

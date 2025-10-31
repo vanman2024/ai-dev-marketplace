@@ -151,12 +151,12 @@ interface GreetResult {
 }
 
 mcp.tool<GreetParams, GreetResult>('greet', {
-  description: 'Greet someone by name',
+  description: 'Greet someone by name'
   parameters: {
-    type: 'object',
+    type: 'object'
     properties: {
       name: { type: 'string', description: 'Name to greet' }
-    },
+    }
     required: ['name']
   }
 }, async ({ name }) => {
@@ -175,7 +175,7 @@ mcp.resource<Settings>('config://settings', {
   description: 'Get server settings'
 }, async () => {
   return {
-    version: '1.0.0',
+    version: '1.0.0'
     environment: process.env.NODE_ENV || 'development'
   };
 });

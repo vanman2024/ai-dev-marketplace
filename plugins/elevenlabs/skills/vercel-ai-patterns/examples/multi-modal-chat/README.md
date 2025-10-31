@@ -72,8 +72,8 @@ export async function POST(request: NextRequest) {
   const { messages } = await request.json();
 
   const result = await streamText({
-    model: openai('gpt-4o'),
-    messages,
+    model: openai('gpt-4o')
+    messages
   });
 
   return result.toAIStreamResponse();
@@ -164,9 +164,9 @@ import { elevenlabs } from '@ai-sdk/elevenlabs';
 
 const synthesizeResponse = async (text: string) => {
   const { audio } = await generateSpeech({
-    model: elevenlabs.speech('eleven_multilingual_v2'),
-    text,
-    voice: 'Rachel',
+    model: elevenlabs.speech('eleven_multilingual_v2')
+    text
+    voice: 'Rachel'
   });
 
   // Play audio
@@ -186,9 +186,9 @@ const [conversationContext, setConversationContext] = useState<
 
 // Update on each message
 setConversationContext((prev) => [
-  ...prev,
-  { role: 'user', content: userMessage },
-  { role: 'assistant', content: aiResponse },
+  ...prev
+  { role: 'user', content: userMessage }
+  { role: 'assistant', content: aiResponse }
 ]);
 ```
 
@@ -384,8 +384,8 @@ Implement rate limiting:
 import { Ratelimit } from '@upstash/ratelimit';
 
 const ratelimit = new Ratelimit({
-  redis: /* ... */,
-  limiter: Ratelimit.slidingWindow(10, '1 m'),
+  redis: /* ... */
+  limiter: Ratelimit.slidingWindow(10, '1 m')
 });
 ```
 

@@ -58,7 +58,7 @@ memories = memory.search(query)
 ```python
 # Filtered to specific user
 memories = memory.search(
-    query,
+    query
     filters={"user_id": user_id}
 )
 ```

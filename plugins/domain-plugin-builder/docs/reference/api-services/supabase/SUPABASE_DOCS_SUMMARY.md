@@ -171,18 +171,18 @@ PostgreSQL (Supabase) + Realtime
 ```python
 # Create campaign
 campaign = await supabase.table("campaigns").insert({
-    "name": "Summer Job Fair",
-    "campaign_type": "job_recruitment",
-    "budget": 2000.00,
+    "name": "Summer Job Fair"
+    "campaign_type": "job_recruitment"
+    "budget": 2000.00
     "status": "draft"
 }).execute()
 
 # Subscribe to changes
 channel = supabase.channel("campaign-updates")
 await channel.on_postgres_changes(
-    event="*",
-    schema="public",
-    table="campaigns",
+    event="*"
+    schema="public"
+    table="campaigns"
     callback=handle_campaign_changes
 ).subscribe()
 ```
@@ -193,15 +193,15 @@ await channel.on_postgres_changes(
 # Upload image
 with open("banner.png", "rb") as f:
     response = await supabase.storage.from_("campaign-assets").upload(
-        file=f,
+        file=f
         path=f"campaigns/{campaign_id}/banner.png"
     )
 
 # Store metadata
 await supabase.table("content_assets").insert({
-    "campaign_id": campaign_id,
-    "filename": "banner.png",
-    "storage_path": response.path,
+    "campaign_id": campaign_id
+    "filename": "banner.png"
+    "storage_path": response.path
     "asset_type": "image"
 }).execute()
 ```
@@ -214,7 +214,7 @@ embedding = await generate_embedding(campaign_text)
 
 # Find similar via vector search
 similar = await supabase.rpc("match_campaigns", {
-    "query_embedding": embedding,
+    "query_embedding": embedding
     "match_threshold": 0.8
 }).execute()
 
@@ -230,20 +230,20 @@ await supabase.table("campaigns").update({
 ```python
 # Create post record
 post = await supabase.table("social_posts").insert({
-    "campaign_id": campaign_id,
-    "platform": "linkedin",
-    "content": post_text,
-    "status": "scheduled",
+    "campaign_id": campaign_id
+    "platform": "linkedin"
+    "content": post_text
+    "status": "scheduled"
     "scheduled_at": datetime.now()
 }).execute()
 
 # Subscribe to status updates
 channel = supabase.channel("post-tracking")
 await channel.on_postgres_changes(
-    event="UPDATE",
-    schema="public",
-    table="social_posts",
-    filter=f"campaign_id=eq.{campaign_id}",
+    event="UPDATE"
+    schema="public"
+    table="social_posts"
+    filter=f"campaign_id=eq.{campaign_id}"
     callback=lambda p: print(f"Post status: {p['new']['status']}")
 ).subscribe()
 ```

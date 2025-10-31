@@ -109,8 +109,8 @@ const anthropic = new Anthropic({
 });
 
 const message = await anthropic.messages.create({
-  model: "claude-4-sonnet-20250514",
-  max_tokens: 1024,
+  model: "claude-4-sonnet-20250514"
+  max_tokens: 1024
   messages: [
     { role: "user", content: "Hello, Claude!" }
   ]

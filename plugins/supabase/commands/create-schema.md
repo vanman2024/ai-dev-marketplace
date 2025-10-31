@@ -1,7 +1,7 @@
 ---
 description: Generate database schema for AI applications - creates tables, relationships, indexes based on app type
 argument-hint: <schema-type> [chat|rag|multi-tenant|complete]
-allowed-tools: Task(supabase-architect), Skill(schema-patterns)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

@@ -36,13 +36,13 @@ try {
   const result = await errorHandler.executeWithRetry(
     async () => {
       return await elevenLabs.textToSpeech({
-        text: "Hello world",
+        text: "Hello world"
         voice_id: "21m00Tcm4TlvDq8ikWAM"
       });
-    },
+    }
     {
       context: {
-        method: 'text-to-speech',
+        method: 'text-to-speech'
         model: 'eleven_multilingual_v2'
       }
     }
@@ -76,7 +76,7 @@ const errorHandler = new ErrorHandler({ logger });
 // Override default retry config for specific error category
 errorHandler.retryConfigs[ErrorCategory.RATE_LIMIT] = {
   maxRetries: 10,              // More retries for rate limits
-  strategy: 'exponential',
+  strategy: 'exponential'
   initialDelay: 2000,          // Start with 2s
   maxDelay: 60000,             // Cap at 60s
   jitter: true,                // Add randomness
@@ -92,14 +92,14 @@ await errorHandler.executeWithRetry(makeAPICall);
 ```javascript
 // Add context for better debugging
 await errorHandler.executeWithRetry(
-  async () => makeAPICall(),
+  async () => makeAPICall()
   {
-    maxRetries: 5,
+    maxRetries: 5
     context: {
-      method: 'text-to-speech',
-      model: 'eleven_turbo_v2',
-      userId: 'user-123',
-      requestId: 'req-456',
+      method: 'text-to-speech'
+      model: 'eleven_turbo_v2'
+      userId: 'user-123'
+      requestId: 'req-456'
       voice: 'Sarah'
     }
   }
@@ -107,11 +107,11 @@ await errorHandler.executeWithRetry(
 
 // Context appears in all log messages:
 // {
-//   "level": "error",
-//   "message": "Request failed",
-//   "method": "text-to-speech",
-//   "model": "eleven_turbo_v2",
-//   "userId": "user-123",
+//   "level": "error"
+//   "message": "Request failed"
+//   "method": "text-to-speech"
+//   "model": "eleven_turbo_v2"
+//   "userId": "user-123"
 //   "requestId": "req-456"
 // }
 ```
@@ -133,7 +133,7 @@ const circuitBreaker = new CircuitBreaker({
 
 // Create error handler with circuit breaker
 const errorHandler = new ErrorHandler({
-  logger,
+  logger
   circuitBreaker
 });
 
@@ -156,15 +156,15 @@ const result = await errorHandler.executeWithFallback(
   // Primary: Generate new audio
   async () => {
     return await elevenLabs.textToSpeech({
-      text: "Hello world",
+      text: "Hello world"
       voice_id: "21m00Tcm4TlvDq8ikWAM"
     });
-  },
+  }
   // Fallback: Return cached audio
   async () => {
     console.log('Using cached audio');
     return await cache.get('cached-audio-key');
-  },
+  }
   {
     context: { method: 'text-to-speech' }
   }
@@ -179,8 +179,8 @@ async function makeRequestWithFallbacks(text) {
   try {
     return await errorHandler.executeWithRetry(
       async () => elevenLabs.textToSpeech({
-        text,
-        voice_id: "premium_voice",
+        text
+        voice_id: "premium_voice"
         model_id: "eleven_multilingual_v2"
       })
     );
@@ -192,8 +192,8 @@ async function makeRequestWithFallbacks(text) {
   try {
     return await errorHandler.executeWithRetry(
       async () => elevenLabs.textToSpeech({
-        text,
-        voice_id: "standard_voice",
+        text
+        voice_id: "standard_voice"
         model_id: "eleven_turbo_v2"
       })
     );
@@ -224,11 +224,11 @@ app.post('/api/text-to-speech', async (req, res) => {
 
     res.status(errorResponse.statusCode).json(errorResponse);
     // {
-    //   "error": true,
-    //   "message": "Request rate limit exceeded. Please try again in a moment.",
-    //   "category": "rate_limit",
-    //   "statusCode": 429,
-    //   "retryable": true,
+    //   "error": true
+    //   "message": "Request rate limit exceeded. Please try again in a moment."
+    //   "category": "rate_limit"
+    //   "statusCode": 429
+    //   "retryable": true
     //   "timestamp": "2025-10-29T12:00:00.000Z"
     // }
   }
@@ -257,12 +257,12 @@ const winston = require('winston');
 
 const logger = winston.createLogger({
   format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
+    winston.format.timestamp()
+    winston.format.errors({ stack: true })
     winston.format.json()
-  ),
+  )
   transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'error.log', level: 'error' })
     new winston.transports.File({ filename: 'combined.log' })
   ]
 });
@@ -271,15 +271,15 @@ const errorHandler = new ErrorHandler({ logger });
 
 // All errors are logged with full context:
 // {
-//   "timestamp": "2025-10-29T12:00:00.000Z",
-//   "level": "error",
-//   "message": "Request failed",
-//   "error": "Rate limit exceeded",
-//   "category": "rate_limit",
-//   "attempt": 3,
-//   "maxRetries": 5,
-//   "statusCode": 429,
-//   "method": "text-to-speech",
+//   "timestamp": "2025-10-29T12:00:00.000Z"
+//   "level": "error"
+//   "message": "Request failed"
+//   "error": "Rate limit exceeded"
+//   "category": "rate_limit"
+//   "attempt": 3
+//   "maxRetries": 5
+//   "statusCode": 429
+//   "method": "text-to-speech"
 //   "model": "eleven_turbo_v2"
 // }
 ```
@@ -289,8 +289,8 @@ const errorHandler = new ErrorHandler({ logger });
 ```javascript
 // Track error patterns
 const errorStats = {
-  byCategory: {},
-  byStatusCode: {},
+  byCategory: {}
+  byStatusCode: {}
   total: 0
 };
 
@@ -318,7 +318,7 @@ setInterval(() => {
 const { metrics } = require('../../monitoring/config/metrics');
 
 const errorHandler = new ErrorHandler({
-  logger,
+  logger
   metrics  // Automatic metric collection
 });
 
@@ -338,8 +338,8 @@ setInterval(() => {
   if (cbState.state === 'OPEN') {
     // Trigger alert
     alertManager.send({
-      severity: 'critical',
-      message: 'Circuit breaker is OPEN',
+      severity: 'critical'
+      message: 'Circuit breaker is OPEN'
       failures: cbState.failures
     });
   }
@@ -365,7 +365,7 @@ async function testRetryLogic() {
         throw error;
       }
       return { success: true };
-    },
+    }
     { maxRetries: 5 }
   );
 

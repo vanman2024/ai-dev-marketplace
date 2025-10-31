@@ -35,19 +35,19 @@ Result: Users see org memories + their personal memories
 ```sql
 -- Organizations table
 CREATE TABLE organizations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name TEXT NOT NULL,
-    slug TEXT UNIQUE NOT NULL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    name TEXT NOT NULL
+    slug TEXT UNIQUE NOT NULL
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Organization members table
 CREATE TABLE org_members (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-    user_id TEXT NOT NULL,
-    role TEXT NOT NULL CHECK (role IN ('owner', 'admin', 'member', 'viewer')),
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    org_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+    user_id TEXT NOT NULL
+    role TEXT NOT NULL CHECK (role IN ('owner', 'admin', 'member', 'viewer'))
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(org_id, user_id)
 );
 
@@ -64,9 +64,9 @@ Memories use `metadata->>'org_id'` for organization scoping:
 -- Example memory with organization context
 INSERT INTO memories (user_id, memory, metadata, embedding)
 VALUES (
-    'alice-123',
-    'Company uses AWS for all infrastructure',
-    '{"org_id": "acme-corp", "category": "infrastructure"}'::jsonb,
+    'alice-123'
+    'Company uses AWS for all infrastructure'
+    '{"org_id": "acme-corp", "category": "infrastructure"}'::jsonb
     '[...]'::vector
 );
 ```
@@ -137,7 +137,7 @@ class MultiTenantMemoryClient:
 
         self.memory = Memory.from_config({
             "vector_store": {
-                "provider": "postgres",
+                "provider": "postgres"
                 "config": {
                     "url": os.getenv("SUPABASE_DB_URL")
                 }
@@ -147,7 +147,7 @@ class MultiTenantMemoryClient:
     def add_personal_memory(self, content: str) -> dict:
         """Add personal memory (not shared with org)"""
         return self.memory.add(
-            content,
+            content
             user_id=self.user_id
         )
 
@@ -161,7 +161,7 @@ class MultiTenantMemoryClient:
             metadata["categories"] = categories
 
         return self.memory.add(
-            content,
+            content
             user_id=self.user_id,  # Track who added it
             metadata=metadata
         )
@@ -169,9 +169,9 @@ class MultiTenantMemoryClient:
     def search_personal(self, query: str, limit: int = 10) -> List[dict]:
         """Search only personal memories"""
         return self.memory.search(
-            query,
-            user_id=self.user_id,
-            filters={"metadata": {"org_id": None}},
+            query
+            user_id=self.user_id
+            filters={"metadata": {"org_id": None}}
             limit=limit
         )
 
@@ -181,8 +181,8 @@ class MultiTenantMemoryClient:
             return []
 
         return self.memory.search(
-            query,
-            filters={"metadata": {"org_id": self.org_id}},
+            query
+            filters={"metadata": {"org_id": self.org_id}}
             limit=limit
         )
 
@@ -192,8 +192,8 @@ class MultiTenantMemoryClient:
         org = self.search_org(query, limit=limit // 2)
 
         return {
-            "personal": personal,
-            "organization": org,
+            "personal": personal
+            "organization": org
             "total": len(personal) + len(org)
         }
 ```
@@ -203,7 +203,7 @@ class MultiTenantMemoryClient:
 ```python
 # Alice in Acme Corp
 alice = MultiTenantMemoryClient(
-    user_id="alice-123",
+    user_id="alice-123"
     org_id="acme-corp"
 )
 
@@ -212,13 +212,13 @@ alice.add_personal_memory("My personal API key is XYZ")
 
 # Add org memory (shared with team)
 alice.add_org_memory(
-    "Company AWS account is 123456789",
+    "Company AWS account is 123456789"
     categories=["infrastructure", "aws"]
 )
 
 # Bob in same org can see org memory
 bob = MultiTenantMemoryClient(
-    user_id="bob-456",
+    user_id="bob-456"
     org_id="acme-corp"
 )
 
@@ -232,7 +232,7 @@ personal_results = bob.search_personal("API key")
 
 # Dan in different org can't see Acme Corp memories
 dan = MultiTenantMemoryClient(
-    user_id="dan-789",
+    user_id="dan-789"
     org_id="globex-inc"
 )
 
@@ -294,13 +294,13 @@ class HierarchicalMemoryClient(MultiTenantMemoryClient):
             raise ValueError("Team ID required")
 
         metadata = {
-            "org_id": self.org_id,
+            "org_id": self.org_id
             "team_id": self.team_id
         }
 
         return self.memory.add(
-            content,
-            user_id=self.user_id,
+            content
+            user_id=self.user_id
             metadata=metadata
         )
 
@@ -310,21 +310,21 @@ class HierarchicalMemoryClient(MultiTenantMemoryClient):
             return []
 
         return self.memory.search(
-            query,
+            query
             filters={
                 "metadata": {
-                    "org_id": self.org_id,
+                    "org_id": self.org_id
                     "team_id": self.team_id
                 }
-            },
+            }
             limit=limit
         )
 
     def search_hierarchy(self, query: str, limit: int = 30) -> dict:
         """Search across personal, team, and org levels"""
         return {
-            "personal": self.search_personal(query, limit=limit // 3),
-            "team": self.search_team(query, limit=limit // 3),
+            "personal": self.search_personal(query, limit=limit // 3)
+            "team": self.search_team(query, limit=limit // 3)
             "organization": self.search_org(query, limit=limit // 3)
         }
 ```
@@ -334,8 +334,8 @@ class HierarchicalMemoryClient(MultiTenantMemoryClient):
 ```python
 # Allow specific memories to be shared across orgs
 def share_memory_cross_org(
-    memory_id: str,
-    source_org_id: str,
+    memory_id: str
+    source_org_id: str
     target_org_ids: List[str]
 ):
     """Share memory with other organizations"""
@@ -382,15 +382,15 @@ CREATE INDEX idx_memories_metadata_gin ON memories USING gin(metadata);
 ```python
 # Efficient: Uses indexes
 memories = memory.search(
-    query="AWS",
-    filters={"metadata": {"org_id": "acme-corp"}},
+    query="AWS"
+    filters={"metadata": {"org_id": "acme-corp"}}
     limit=10
 )
 
 # Less efficient: No index on other metadata fields
 memories = memory.search(
-    query="AWS",
-    filters={"metadata": {"custom_field": "value"}},
+    query="AWS"
+    filters={"metadata": {"custom_field": "value"}}
     limit=10
 )
 ```
@@ -402,10 +402,10 @@ memories = memory.search(
 ```sql
 -- Memory count per organization
 SELECT
-    metadata->>'org_id' as org_id,
-    COUNT(*) as memory_count,
-    COUNT(DISTINCT user_id) as unique_contributors,
-    MIN(created_at) as first_memory,
+    metadata->>'org_id' as org_id
+    COUNT(*) as memory_count
+    COUNT(DISTINCT user_id) as unique_contributors
+    MIN(created_at) as first_memory
     MAX(created_at) as latest_memory
 FROM memories
 WHERE metadata->>'org_id' IS NOT NULL
@@ -418,8 +418,8 @@ ORDER BY memory_count DESC;
 ```sql
 -- Top contributors per org
 SELECT
-    metadata->>'org_id' as org_id,
-    user_id,
+    metadata->>'org_id' as org_id
+    user_id
     COUNT(*) as contribution_count
 FROM memories
 WHERE metadata->>'org_id' = 'acme-corp'

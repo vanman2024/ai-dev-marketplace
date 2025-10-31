@@ -210,9 +210,9 @@ mcp = FastMCP("Ayrshare Social Media")
 
 @mcp.tool()
 async def post_to_social(
-    post: str,
-    platforms: list[str],
-    media_urls: list[str] = None,
+    post: str
+    platforms: list[str]
+    media_urls: list[str] = None
     schedule_date: str = None
 ) -> dict:
     """Publish post to multiple social media platforms."""
@@ -221,7 +221,7 @@ async def post_to_social(
 
 @mcp.tool()
 async def schedule_campaign(
-    posts: list[dict],
+    posts: list[dict]
     calendar: dict
 ) -> dict:
     """Schedule multiple posts across platforms."""
@@ -230,7 +230,7 @@ async def schedule_campaign(
 
 @mcp.tool()
 async def get_post_analytics(
-    post_id: str,
+    post_id: str
     platforms: list[str]
 ) -> dict:
     """Get analytics for published posts."""
@@ -265,11 +265,11 @@ export async function publishPost(data: {
   scheduleDate?: string
 }) {
   const response = await fetch(`${BASE_URL}/post`, {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'Authorization': `Bearer ${AYRSHARE_API_KEY}`,
+      'Authorization': `Bearer ${AYRSHARE_API_KEY}`
       'Content-Type': 'application/json'
-    },
+    }
     body: JSON.stringify(data)
   })
   

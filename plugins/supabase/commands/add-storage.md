@@ -1,7 +1,7 @@
 ---
 description: Configure Supabase Storage - creates buckets, sets up RLS policies for file access
 argument-hint: <bucket-name> [public|private]
-allowed-tools: Task(supabase-database-executor)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

@@ -72,24 +72,24 @@ memories = memory.search(query)
 
 # ✅ GOOD: Filtered search
 memories = memory.search(
-    query,
+    query
     filters={
-        "user_id": user_id,
+        "user_id": user_id
         "categories": ["preferences", "profile"]
-    },
+    }
     limit=5
 )
 
 # ✅ BETTER: Multiple filter conditions
 memories = memory.search(
-    query,
+    query
     filters={
         "AND": [
-            {"user_id": user_id},
-            {"agent_id": "support_v2"},
+            {"user_id": user_id}
+            {"agent_id": "support_v2"}
             {"created_after": "2025-01-01"}
         ]
-    },
+    }
     limit=5
 )
 ```
@@ -117,8 +117,8 @@ from mem0 import MemoryClient
 # Disable reranking for fast, simple queries
 memory = MemoryClient(api_key=api_key)
 memories = memory.search(
-    query,
-    user_id=user_id,
+    query
+    user_id=user_id
     rerank=False  # 2x faster, slightly lower accuracy
 )
 
@@ -129,7 +129,7 @@ from mem0.configs.base import MemoryConfig
 # Use lightweight reranker
 config = MemoryConfig(
     reranker={
-        "provider": "cohere",
+        "provider": "cohere"
         "config": {
             "model": "rerank-english-v3.0",  # Fast model
             "top_n": 5  # Rerank only top results
@@ -172,7 +172,7 @@ async def get_user_context(user_id: str, queries: list[str]):
 
 # Usage
 contexts = await get_user_context(
-    "user_123",
+    "user_123"
     ["preferences", "recent activity", "goals"]
 )
 ```
@@ -195,8 +195,8 @@ import hashlib
 def get_user_preferences(user_id: str) -> list:
     """Cache user preferences for 5 minutes"""
     return memory.search(
-        "user preferences",
-        user_id=user_id,
+        "user preferences"
+        user_id=user_id
         limit=5
     )
 
@@ -235,7 +235,7 @@ def get_user_context_cached(user_id: str, query: str) -> list:
 
     # Cache result (5 minute TTL)
     redis_client.setex(
-        cache_key,
+        cache_key
         300,  # 5 minutes
         json.dumps(result)
     )
@@ -288,7 +288,7 @@ from mem0.configs.base import MemoryConfig
 # ❌ EXPENSIVE: Large model for simple data
 config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
             "model": "text-embedding-3-large",  # 3072 dims, $0.13/1M tokens
         }
@@ -298,7 +298,7 @@ config = MemoryConfig(
 # ✅ OPTIMIZED: Appropriate model
 config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
             "model": "text-embedding-3-small",  # 1536 dims, $0.02/1M tokens
         }
@@ -402,16 +402,16 @@ bash scripts/suggest-vector-db.sh
 ```python
 config = MemoryConfig(
     vector_store={
-        "provider": "qdrant",
+        "provider": "qdrant"
         "config": {
-            "collection_name": "memories",
-            "host": "localhost",
-            "port": 6333,
+            "collection_name": "memories"
+            "host": "localhost"
+            "port": 6333
             "on_disk": True,  # Reduce memory usage
             "hnsw_config": {
                 "m": 16,  # Balance between speed and accuracy
                 "ef_construct": 200,  # Higher = better quality
-            },
+            }
             "quantization_config": {
                 "scalar": {
                     "type": "int8",  # Reduce storage by 4x
@@ -443,13 +443,13 @@ from mem0.configs.base import MemoryConfig
 
 config = MemoryConfig(
     vector_store={
-        "provider": "qdrant",
+        "provider": "qdrant"
         "config": {
-            "host": "localhost",
-            "port": 6333,
-            "grpc_port": 6334,
+            "host": "localhost"
+            "port": 6333
+            "grpc_port": 6334
             "prefer_grpc": True,  # Faster protocol
-            "timeout": 5,
+            "timeout": 5
             "connection_pool_size": 50,  # Reuse connections
         }
     }
@@ -551,7 +551,7 @@ Move old memories to cheaper storage:
 # Use cheaper embeddings for archived memories
 archived_config = MemoryConfig(
     embedder={
-        "provider": "openai",
+        "provider": "openai"
         "config": {
             "model": "text-embedding-ada-002",  # Cheaper
         }

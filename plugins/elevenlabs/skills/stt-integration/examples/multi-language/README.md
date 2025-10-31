@@ -81,7 +81,7 @@ Best for unknown or mixed-language content.
 import { transcribeAudio } from '../../templates/vercel-ai-transcribe.ts.template';
 
 const result = await transcribeAudio({
-  audioPath: './unknown-language.mp3',
+  audioPath: './unknown-language.mp3'
   // No languageCode - automatic detection
 });
 
@@ -97,9 +97,9 @@ bash ../../scripts/transcribe-audio.sh unknown-language.mp3
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './audio-spanish.mp3',
-  languageCode: 'es',
-  diarize: true,
+  audioPath: './audio-spanish.mp3'
+  languageCode: 'es'
+  diarize: true
 });
 
 console.log(formatTranscriptWithSpeakers(result));
@@ -109,10 +109,10 @@ console.log(formatTranscriptWithSpeakers(result));
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './interview-japanese.mp3',
-  languageCode: 'ja',
-  diarize: true,
-  numSpeakers: 2,
+  audioPath: './interview-japanese.mp3'
+  languageCode: 'ja'
+  diarize: true
+  numSpeakers: 2
 });
 
 console.log(formatTranscriptWithSpeakers(result));
@@ -122,8 +122,8 @@ console.log(formatTranscriptWithSpeakers(result));
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './audio-arabic.mp3',
-  languageCode: 'ar',
+  audioPath: './audio-arabic.mp3'
+  languageCode: 'ar'
 });
 
 // Arabic text (RTL)
@@ -134,8 +134,8 @@ console.log(result.text);
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './audio-chinese.mp3',
-  languageCode: 'zh',
+  audioPath: './audio-chinese.mp3'
+  languageCode: 'zh'
   timestampsGranularity: 'character', // Character-level for Chinese
 });
 
@@ -148,16 +148,16 @@ console.log(result.text);
 import { transcribeBatch } from '../../templates/vercel-ai-transcribe.ts.template';
 
 const files = [
-  { path: './audio-en.mp3', language: 'en' },
-  { path: './audio-es.mp3', language: 'es' },
-  { path: './audio-ja.mp3', language: 'ja' },
-  { path: './audio-ar.mp3', language: 'ar' },
+  { path: './audio-en.mp3', language: 'en' }
+  { path: './audio-es.mp3', language: 'es' }
+  { path: './audio-ja.mp3', language: 'ja' }
+  { path: './audio-ar.mp3', language: 'ar' }
 ];
 
 for (const file of files) {
   const result = await transcribeAudio({
-    audioPath: file.path,
-    languageCode: file.language,
+    audioPath: file.path
+    languageCode: file.language
   });
 
   console.log(`\n=== ${file.language.toUpperCase()} ===`);
@@ -177,9 +177,9 @@ bash ../../scripts/batch-transcribe.sh ./audio-multilingual/ --pattern="*.mp3"
 ```typescript
 // For better timestamps in character-based languages
 const result = await transcribeAudio({
-  audioPath: './audio-chinese.mp3',
-  languageCode: 'zh',
-  timestampsGranularity: 'character',
+  audioPath: './audio-chinese.mp3'
+  languageCode: 'zh'
+  timestampsGranularity: 'character'
 });
 ```
 
@@ -187,8 +187,8 @@ const result = await transcribeAudio({
 
 ```typescript
 const result = await transcribeAudio({
-  audioPath: './audio-arabic.mp3',
-  languageCode: 'ar',
+  audioPath: './audio-arabic.mp3'
+  languageCode: 'ar'
 });
 
 // Text will be in correct RTL format
@@ -200,8 +200,8 @@ const result = await transcribeAudio({
 ```typescript
 // Use high-quality audio for tonal accuracy
 const result = await transcribeAudio({
-  audioPath: './audio-mandarin.mp3',
-  languageCode: 'zh',
+  audioPath: './audio-mandarin.mp3'
+  languageCode: 'zh'
   fileFormat: 'pcm_s16le_16', // Best quality for tonal languages
 });
 ```
@@ -219,7 +219,7 @@ When to use auto-detection vs. specified language:
 ```typescript
 // Let model detect language
 const result = await transcribeAudio({
-  audioPath: './user-upload.mp3',
+  audioPath: './user-upload.mp3'
   // No languageCode
 });
 ```
@@ -233,7 +233,7 @@ const result = await transcribeAudio({
 ```typescript
 // Specify for better accuracy
 const result = await transcribeAudio({
-  audioPath: './spanish-podcast.mp3',
+  audioPath: './spanish-podcast.mp3'
   languageCode: 'es', // Known Spanish content
 });
 ```
@@ -266,13 +266,13 @@ mal - Malayalam    urd - Urdu         fas - Persian
 ```typescript
 // ✅ Better accuracy
 const result = await transcribeAudio({
-  audioPath: './french-audio.mp3',
+  audioPath: './french-audio.mp3'
   languageCode: 'fr', // Known French
 });
 
 // ⚠️ Works but less accurate
 const result = await transcribeAudio({
-  audioPath: './french-audio.mp3',
+  audioPath: './french-audio.mp3'
   // Auto-detect (slower, less accurate)
 });
 ```
@@ -294,8 +294,8 @@ timestampsGranularity: 'character'
 import { writeFile } from 'fs/promises';
 
 const result = await transcribeAudio({
-  audioPath: './audio-japanese.mp3',
-  languageCode: 'ja',
+  audioPath: './audio-japanese.mp3'
+  languageCode: 'ja'
 });
 
 // Save with UTF-8 encoding
@@ -310,8 +310,8 @@ await writeFile('transcript.txt', result.text, 'utf-8');
 async function generateMultilingualSubtitles(videoPath: string, languages: string[]) {
   for (const lang of languages) {
     const result = await transcribeAudio({
-      audioPath: videoPath,
-      languageCode: lang,
+      audioPath: videoPath
+      languageCode: lang
     });
 
     const srt = formatAsSRT(result.segments);
@@ -327,8 +327,8 @@ await generateMultilingualSubtitles('./video.mp4', ['en', 'es', 'fr', 'ja']);
 ```typescript
 // Step 1: Transcribe in original language
 const transcription = await transcribeAudio({
-  audioPath: './spanish-audio.mp3',
-  languageCode: 'es',
+  audioPath: './spanish-audio.mp3'
+  languageCode: 'es'
 });
 
 // Step 2: Translate to target languages
@@ -343,15 +343,15 @@ const transcription = await transcribeAudio({
 ```typescript
 async function analyzeLanguageLearning(audioPath: string, expectedLanguage: string) {
   const result = await transcribeAudio({
-    audioPath,
-    languageCode: expectedLanguage,
+    audioPath
+    languageCode: expectedLanguage
   });
 
   // Check pronunciation, grammar, etc.
   return {
-    transcription: result.text,
-    wordCount: result.text.split(' ').length,
-    duration: result.duration,
+    transcription: result.text
+    wordCount: result.text.split(' ').length
+    duration: result.duration
     // Add language analysis
   };
 }
@@ -365,7 +365,7 @@ async function analyzeLanguageLearning(audioPath: string, expectedLanguage: stri
 ```typescript
 // Instead of auto-detect
 const result = await transcribeAudio({
-  audioPath: './audio.mp3',
+  audioPath: './audio.mp3'
   languageCode: 'ja', // Specify Japanese
 });
 ```
@@ -410,15 +410,15 @@ async function validateLanguage(audioPath: string, expectedLang: string) {
 
   // Try with specified language
   const specifiedResult = await transcribeAudio({
-    audioPath,
-    languageCode: expectedLang,
+    audioPath
+    languageCode: expectedLang
   });
 
   // Compare results
   return {
-    autoDetected: autoResult.text,
-    specified: specifiedResult.text,
-    match: autoResult.text.length > 0 && specifiedResult.text.length > 0,
+    autoDetected: autoResult.text
+    specified: specifiedResult.text
+    match: autoResult.text.length > 0 && specifiedResult.text.length > 0
   };
 }
 ```
@@ -433,14 +433,14 @@ async function compareLanguageAccuracy(audioPath: string, languages: string[]) {
     const start = Date.now();
 
     const result = await transcribeAudio({
-      audioPath,
-      languageCode: lang,
+      audioPath
+      languageCode: lang
     });
 
     results[lang] = {
-      text: result.text,
-      wordCount: result.text.split(/\s+/).length,
-      processingTime: Date.now() - start,
+      text: result.text
+      wordCount: result.text.split(/\s+/).length
+      processingTime: Date.now() - start
     };
   }
 

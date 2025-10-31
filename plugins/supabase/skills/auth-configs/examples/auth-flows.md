@@ -53,15 +53,15 @@ export function SignUp() {
     setError(null)
 
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email
+      password
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/auth/callback`
         data: {
           // Optional user metadata
-          full_name: 'User Name',
-        },
-      },
+          full_name: 'User Name'
+        }
+      }
     })
 
     if (error) {
@@ -127,8 +127,8 @@ export function SignIn() {
     setError(null)
 
     const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
+      email
+      password
     })
 
     if (error) {
@@ -196,7 +196,7 @@ export default async function DashboardPage() {
 
   // Check authentication
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser()
 
   if (!user) {
@@ -233,7 +233,7 @@ export async function updateProfile(formData: FormData) {
 
   // Verify authentication
   const {
-    data: { user },
+    data: { user }
   } = await supabase.auth.getUser()
 
   if (!user) {
@@ -312,11 +312,11 @@ export default function SignUpPage() {
 
     // Sign up
     const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+      email
+      password
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
+        emailRedirectTo: `${window.location.origin}/auth/callback`
+      }
     })
 
     if (error) {
@@ -392,7 +392,7 @@ export default function ForgotPasswordPage() {
     setMessage(null)
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: `${window.location.origin}/reset-password`
     })
 
     if (error) {
@@ -452,7 +452,7 @@ export default function ResetPasswordPage() {
     }
 
     const { error } = await supabase.auth.updateUser({
-      password,
+      password
     })
 
     if (error) {
@@ -518,10 +518,10 @@ export default function MagicLinkPage() {
     setError(null)
 
     const { error } = await supabase.auth.signInWithOtp({
-      email,
+      email
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
+        emailRedirectTo: `${window.location.origin}/auth/callback`
+      }
     })
 
     if (error) {
@@ -582,11 +582,11 @@ export function OAuthButtons() {
 
   const handleOAuth = async (provider: Provider) => {
     const { error } = await supabase.auth.signInWithOAuth({
-      provider,
+      provider
       options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-        scopes: provider === 'github' ? 'user:email read:user' : undefined,
-      },
+        redirectTo: `${window.location.origin}/auth/callback`
+        scopes: provider === 'github' ? 'user:email read:user' : undefined
+      }
     })
 
     if (error) {
@@ -651,7 +651,7 @@ import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
 export default function DashboardLayout({
-  children,
+  children
 }: {
   children: React.ReactNode
 }) {
@@ -662,7 +662,7 @@ export default function DashboardLayout({
   useEffect(() => {
     const checkAuth = async () => {
       const {
-        data: { user },
+        data: { user }
       } = await supabase.auth.getUser()
 
       if (!user) {
@@ -707,7 +707,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const {
-      data: { subscription },
+      data: { subscription }
     } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === 'SIGNED_IN') {
         router.push('/dashboard')

@@ -39,11 +39,11 @@ export async function POST(request: NextRequest) {
 
     // Extract transcription result
     const {
-      request_id,
-      text,
-      segments,
-      status,
-      error,
+      request_id
+      text
+      segments
+      status
+      error
     } = body;
 
     if (status === 'completed') {
@@ -97,11 +97,11 @@ async function transcribeWithWebhook(audioPath: string, webhookUrl: string) {
   formData.append('webhook_url', webhookUrl);
 
   const response = await fetch('https://api.elevenlabs.io/v1/audio-to-text', {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'xi-api-key': apiKey,
-    },
-    body: formData,
+      'xi-api-key': apiKey
+    }
+    body: formData
   });
 
   const result = await response.json();
@@ -110,7 +110,7 @@ async function transcribeWithWebhook(audioPath: string, webhookUrl: string) {
 
 // Submit transcription
 const requestId = await transcribeWithWebhook(
-  './long-audio.mp3',
+  './long-audio.mp3'
   'https://your-domain.com/api/transcription-webhook'
 );
 
@@ -123,20 +123,20 @@ console.log('Transcription submitted:', requestId);
 
 ```json
 {
-  "request_id": "req_abc123xyz",
-  "status": "completed",
-  "text": "Full transcription text here...",
+  "request_id": "req_abc123xyz"
+  "status": "completed"
+  "text": "Full transcription text here..."
   "segments": [
     {
-      "type": "word",
-      "text": "Hello",
-      "start_time": 0.5,
-      "end_time": 1.2,
+      "type": "word"
+      "text": "Hello"
+      "start_time": 0.5
+      "end_time": 1.2
       "speaker": "Speaker 1"
     }
-  ],
-  "duration": 120.5,
-  "language": "en",
+  ]
+  "duration": 120.5
+  "language": "en"
   "completed_at": "2025-10-29T10:30:00Z"
 }
 ```
@@ -145,12 +145,12 @@ console.log('Transcription submitted:', requestId);
 
 ```json
 {
-  "request_id": "req_abc123xyz",
-  "status": "failed",
+  "request_id": "req_abc123xyz"
+  "status": "failed"
   "error": {
-    "code": "audio_format_unsupported",
+    "code": "audio_format_unsupported"
     "message": "The audio format is not supported"
-  },
+  }
   "failed_at": "2025-10-29T10:30:00Z"
 }
 ```
@@ -179,10 +179,10 @@ app.post('/webhook/transcription', async (req, res) => {
   if (status === 'completed') {
     // Store in database
     await db.transcriptions.update(request_id, {
-      status: 'completed',
-      text,
-      segments,
-      completed_at: new Date(),
+      status: 'completed'
+      text
+      segments
+      completed_at: new Date()
     });
 
     // Notify via WebSocket
@@ -191,9 +191,9 @@ app.post('/webhook/transcription', async (req, res) => {
     res.json({ received: true });
   } else if (status === 'failed') {
     await db.transcriptions.update(request_id, {
-      status: 'failed',
-      error: error.message,
-      failed_at: new Date(),
+      status: 'failed'
+      error: error.message
+      failed_at: new Date()
     });
 
     io.to(request_id).emit('transcription:failed', { error: error.message });
@@ -225,8 +225,8 @@ app.listen(3000, () => {
 import crypto from 'crypto';
 
 function validateWebhookSignature(
-  signature: string,
-  body: any,
+  signature: string
+  body: any
   secret: string
 ): boolean {
   const hmac = crypto.createHmac('sha256', secret);
@@ -235,7 +235,7 @@ function validateWebhookSignature(
 
   // Constant-time comparison to prevent timing attacks
   return crypto.timingSafeEqual(
-    Buffer.from(signature),
+    Buffer.from(signature)
     Buffer.from(expectedSignature)
   );
 }
@@ -274,7 +274,7 @@ import rateLimit from 'express-rate-limit';
 const webhookLimiter = rateLimit({
   windowMs: 1 * 60 * 1000, // 1 minute
   max: 100, // Max 100 requests per minute
-  message: 'Too many webhook requests',
+  message: 'Too many webhook requests'
 });
 
 app.post('/webhook/transcription', webhookLimiter, async (req, res) => {
@@ -288,19 +288,19 @@ app.post('/webhook/transcription', webhookLimiter, async (req, res) => {
 
 ```sql
 CREATE TABLE transcriptions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  request_id VARCHAR(255) UNIQUE NOT NULL,
-  user_id UUID NOT NULL,
-  audio_filename VARCHAR(255) NOT NULL,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  request_id VARCHAR(255) UNIQUE NOT NULL
+  user_id UUID NOT NULL
+  audio_filename VARCHAR(255) NOT NULL
   status VARCHAR(50) NOT NULL, -- pending, completed, failed
-  text TEXT,
-  segments JSONB,
-  error TEXT,
-  submitted_at TIMESTAMP DEFAULT NOW(),
-  completed_at TIMESTAMP,
-  webhook_url VARCHAR(500),
-  INDEX idx_request_id (request_id),
-  INDEX idx_user_id (user_id),
+  text TEXT
+  segments JSONB
+  error TEXT
+  submitted_at TIMESTAMP DEFAULT NOW()
+  completed_at TIMESTAMP
+  webhook_url VARCHAR(500)
+  INDEX idx_request_id (request_id)
+  INDEX idx_user_id (user_id)
   INDEX idx_status (status)
 );
 ```
@@ -310,28 +310,28 @@ CREATE TABLE transcriptions (
 ```typescript
 // Save initial request
 async function saveTranscriptionRequest(
-  userId: string,
-  requestId: string,
-  audioFilename: string,
+  userId: string
+  requestId: string
+  audioFilename: string
   webhookUrl: string
 ) {
   await db.query(
     `INSERT INTO transcriptions (user_id, request_id, audio_filename, status, webhook_url)
-     VALUES ($1, $2, $3, $4, $5)`,
+     VALUES ($1, $2, $3, $4, $5)`
     [userId, requestId, audioFilename, 'pending', webhookUrl]
   );
 }
 
 // Update when webhook received
 async function updateTranscription(
-  requestId: string,
-  text: string,
+  requestId: string
+  text: string
   segments: any[]
 ) {
   await db.query(
     `UPDATE transcriptions
      SET status = $1, text = $2, segments = $3, completed_at = NOW()
-     WHERE request_id = $4`,
+     WHERE request_id = $4`
     ['completed', text, JSON.stringify(segments), requestId]
   );
 }
@@ -341,7 +341,7 @@ async function getUserTranscriptions(userId: string) {
   const result = await db.query(
     `SELECT * FROM transcriptions
      WHERE user_id = $1
-     ORDER BY submitted_at DESC`,
+     ORDER BY submitted_at DESC`
     [userId]
   );
   return result.rows;
@@ -371,9 +371,9 @@ app.post('/webhook/transcription', async (req, res) => {
   if (status === 'completed') {
     // Emit to clients watching this transcription
     io.to(request_id).emit('transcription:update', {
-      status: 'completed',
-      text,
-      segments,
+      status: 'completed'
+      text
+      segments
     });
   }
 
@@ -408,16 +408,16 @@ Handle webhook failures with retry:
 ```typescript
 // Exponential backoff for retries
 async function retryWebhook(
-  webhookUrl: string,
-  payload: any,
+  webhookUrl: string
+  payload: any
   maxRetries = 3
 ) {
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const response = await fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
+        method: 'POST'
+        headers: { 'Content-Type': 'application/json' }
+        body: JSON.stringify(payload)
       });
 
       if (response.ok) {
@@ -446,9 +446,9 @@ app.post('/webhook/transcription', async (req, res) => {
 
   // Log to monitoring service
   logger.info('Webhook received', {
-    request_id,
-    status,
-    timestamp: new Date().toISOString(),
+    request_id
+    status
+    timestamp: new Date().toISOString()
   });
 
   // Track metrics
@@ -482,22 +482,22 @@ ngrok http 3000
 // Test your webhook handler
 async function testWebhook() {
   const mockPayload = {
-    request_id: 'test_req_123',
-    status: 'completed',
-    text: 'This is a test transcription.',
+    request_id: 'test_req_123'
+    status: 'completed'
+    text: 'This is a test transcription.'
     segments: [
-      { type: 'word', text: 'This', start_time: 0.0, end_time: 0.5 },
-      { type: 'word', text: 'is', start_time: 0.5, end_time: 0.8 },
-    ],
-    duration: 2.0,
-    language: 'en',
-    completed_at: new Date().toISOString(),
+      { type: 'word', text: 'This', start_time: 0.0, end_time: 0.5 }
+      { type: 'word', text: 'is', start_time: 0.5, end_time: 0.8 }
+    ]
+    duration: 2.0
+    language: 'en'
+    completed_at: new Date().toISOString()
   };
 
   const response = await fetch('http://localhost:3000/webhook/transcription', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(mockPayload),
+    method: 'POST'
+    headers: { 'Content-Type': 'application/json' }
+    body: JSON.stringify(mockPayload)
   });
 
   console.log('Test response:', await response.json());

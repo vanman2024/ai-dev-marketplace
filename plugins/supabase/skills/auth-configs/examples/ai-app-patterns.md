@@ -24,21 +24,21 @@ Each conversation belongs to a specific user with row-level security.
 ```sql
 -- Conversations table
 CREATE TABLE conversations (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  title TEXT,
-  model TEXT DEFAULT 'gpt-4',
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+  title TEXT
+  model TEXT DEFAULT 'gpt-4'
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Messages table
 CREATE TABLE messages (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
-  role TEXT CHECK (role IN ('user', 'assistant', 'system')),
-  content TEXT,
-  tokens_used INTEGER,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE
+  role TEXT CHECK (role IN ('user', 'assistant', 'system'))
+  content TEXT
+  tokens_used INTEGER
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -96,9 +96,9 @@ export async function createConversation(title: string, model: string = 'gpt-4')
   const { data, error } = await supabase
     .from('conversations')
     .insert({
-      user_id: user.id,
-      title,
-      model,
+      user_id: user.id
+      title
+      model
     })
     .select()
     .single()
@@ -108,7 +108,7 @@ export async function createConversation(title: string, model: string = 'gpt-4')
 }
 
 export async function sendMessage(
-  conversationId: string,
+  conversationId: string
   message: string
 ) {
   const supabase = createClient()
@@ -117,9 +117,9 @@ export async function sendMessage(
   const { error: insertError } = await supabase
     .from('messages')
     .insert({
-      conversation_id: conversationId,
-      role: 'user',
-      content: message,
+      conversation_id: conversationId
+      role: 'user'
+      content: message
     })
 
   if (insertError) throw insertError
@@ -138,10 +138,10 @@ export async function sendMessage(
   const { error: responseError } = await supabase
     .from('messages')
     .insert({
-      conversation_id: conversationId,
-      role: 'assistant',
-      content: aiResponse.content,
-      tokens_used: aiResponse.tokens,
+      conversation_id: conversationId
+      role: 'assistant'
+      content: aiResponse.content
+      tokens_used: aiResponse.tokens
     })
 
   if (responseError) throw responseError
@@ -152,22 +152,22 @@ export async function sendMessage(
 async function callAIAPI(messages: any[]) {
   // Your AI API integration
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
+      'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+      'Content-Type': 'application/json'
+    }
     body: JSON.stringify({
-      model: 'gpt-4',
-      messages,
-    }),
+      model: 'gpt-4'
+      messages
+    })
   })
 
   const data = await response.json()
 
   return {
-    content: data.choices[0].message.content,
-    tokens: data.usage.total_tokens,
+    content: data.choices[0].message.content
+    tokens: data.usage.total_tokens
   }
 }
 ```
@@ -185,12 +185,12 @@ Users upload documents that are embedded and searchable only by them.
 ```sql
 -- User documents
 CREATE TABLE documents (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  title TEXT,
-  content TEXT,
-  file_url TEXT,
-  metadata JSONB,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+  title TEXT
+  content TEXT
+  file_url TEXT
+  metadata JSONB
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -199,11 +199,11 @@ CREATE EXTENSION IF NOT EXISTS vector;
 
 -- Document chunks with embeddings
 CREATE TABLE document_chunks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  document_id UUID REFERENCES documents(id) ON DELETE CASCADE,
-  content TEXT,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  document_id UUID REFERENCES documents(id) ON DELETE CASCADE
+  content TEXT
   embedding vector(1536), -- OpenAI ada-002 dimension
-  metadata JSONB,
+  metadata JSONB
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -243,11 +243,11 @@ import { createClient } from '@/lib/supabase'
 import OpenAI from 'openai'
 
 const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
 })
 
 export async function uploadDocument(
-  file: File,
+  file: File
   title: string
 ) {
   const supabase = createClient()
@@ -278,10 +278,10 @@ export async function uploadDocument(
   const { data: document, error } = await supabase
     .from('documents')
     .insert({
-      user_id: user.id,
-      title,
-      content: text,
-      file_url: publicUrl,
+      user_id: user.id
+      title
+      content: text
+      file_url: publicUrl
     })
     .select()
     .single()
@@ -308,14 +308,14 @@ async function chunkAndEmbedDocument(documentId: string, text: string) {
   // Generate embeddings
   for (const chunk of chunks) {
     const embedding = await openai.embeddings.create({
-      model: 'text-embedding-ada-002',
-      input: chunk,
+      model: 'text-embedding-ada-002'
+      input: chunk
     })
 
     await supabase.from('document_chunks').insert({
-      document_id: documentId,
-      content: chunk,
-      embedding: embedding.data[0].embedding,
+      document_id: documentId
+      content: chunk
+      embedding: embedding.data[0].embedding
     })
   }
 }
@@ -329,15 +329,15 @@ export async function queryDocuments(query: string, limit: number = 5) {
 
   // Generate query embedding
   const queryEmbedding = await openai.embeddings.create({
-    model: 'text-embedding-ada-002',
-    input: query,
+    model: 'text-embedding-ada-002'
+    input: query
   })
 
   // Search for similar chunks (only from user's documents)
   const { data: chunks, error } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding.data[0].embedding,
-    match_threshold: 0.78,
-    match_count: limit,
+    query_embedding: queryEmbedding.data[0].embedding
+    match_threshold: 0.78
+    match_count: limit
   })
 
   if (error) throw error
@@ -360,22 +360,22 @@ async function extractTextFromFile(file: File): Promise<string> {
 ```sql
 -- Create function for similarity search
 CREATE OR REPLACE FUNCTION match_documents(
-  query_embedding vector(1536),
-  match_threshold float,
+  query_embedding vector(1536)
+  match_threshold float
   match_count int
 )
 RETURNS TABLE (
-  id uuid,
-  document_id uuid,
-  content text,
+  id uuid
+  document_id uuid
+  content text
   similarity float
 )
 LANGUAGE sql STABLE
 AS $$
   SELECT
-    document_chunks.id,
-    document_chunks.document_id,
-    document_chunks.content,
+    document_chunks.id
+    document_chunks.document_id
+    document_chunks.content
     1 - (document_chunks.embedding <=> query_embedding) AS similarity
   FROM document_chunks
   JOIN documents ON documents.id = document_chunks.document_id
@@ -397,39 +397,39 @@ $$;
 ```sql
 -- Organizations
 CREATE TABLE organizations (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  name TEXT NOT NULL,
-  plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro', 'enterprise')),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  name TEXT NOT NULL
+  plan TEXT DEFAULT 'free' CHECK (plan IN ('free', 'pro', 'enterprise'))
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Organization members
 CREATE TABLE organization_members (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  role TEXT DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member')),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+  role TEXT DEFAULT 'member' CHECK (role IN ('owner', 'admin', 'member'))
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   UNIQUE(organization_id, user_id)
 );
 
 -- AI model access based on plan
 CREATE TABLE ai_models (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  name TEXT NOT NULL,
-  provider TEXT NOT NULL,
-  required_plan TEXT DEFAULT 'free' CHECK (required_plan IN ('free', 'pro', 'enterprise')),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  name TEXT NOT NULL
+  provider TEXT NOT NULL
+  required_plan TEXT DEFAULT 'free' CHECK (required_plan IN ('free', 'pro', 'enterprise'))
   rate_limit INTEGER DEFAULT 100 -- requests per day
 );
 
 -- Organization AI usage
 CREATE TABLE ai_usage (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-  user_id UUID REFERENCES auth.users(id),
-  model_id UUID REFERENCES ai_models(id),
-  tokens_used INTEGER,
-  cost DECIMAL(10, 4),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE
+  user_id UUID REFERENCES auth.users(id)
+  model_id UUID REFERENCES ai_models(id)
+  tokens_used INTEGER
+  cost DECIMAL(10, 4)
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -475,8 +475,8 @@ BEGIN
   -- Fetch user's organizations
   SELECT jsonb_agg(
     jsonb_build_object(
-      'id', o.id,
-      'role', om.role,
+      'id', o.id
+      'role', om.role
       'plan', o.plan
     )
   )
@@ -507,14 +507,14 @@ GRANT EXECUTE ON FUNCTION custom_access_token_hook TO supabase_auth_admin;
 ```sql
 -- API Keys table
 CREATE TABLE api_keys (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
   key_hash TEXT NOT NULL UNIQUE, -- Store hashed version
-  name TEXT,
-  last_used_at TIMESTAMP WITH TIME ZONE,
-  expires_at TIMESTAMP WITH TIME ZONE,
-  is_active BOOLEAN DEFAULT true,
-  scopes TEXT[] DEFAULT ARRAY['read', 'write'],
+  name TEXT
+  last_used_at TIMESTAMP WITH TIME ZONE
+  expires_at TIMESTAMP WITH TIME ZONE
+  is_active BOOLEAN DEFAULT true
+  scopes TEXT[] DEFAULT ARRAY['read', 'write']
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -558,10 +558,10 @@ export async function generateAPIKey(name: string, expiresInDays?: number) {
 
   // Store hashed key
   const { error } = await supabase.from('api_keys').insert({
-    user_id: user.id,
-    key_hash: keyHash,
-    name,
-    expires_at: expiresAt,
+    user_id: user.id
+    key_hash: keyHash
+    name
+    expires_at: expiresAt
   })
 
   if (error) throw error
@@ -569,7 +569,7 @@ export async function generateAPIKey(name: string, expiresInDays?: number) {
   // Return plaintext key (only time it's shown)
   return {
     apiKey, // Show to user ONCE
-    expiresAt,
+    expiresAt
   }
 }
 
@@ -616,8 +616,8 @@ export async function validateAPIKey(apiKey: string) {
 import { createClient } from '@/lib/supabase'
 
 export async function checkRateLimit(
-  userId: string,
-  model: string,
+  userId: string
+  model: string
   limit: number = 100
 ): Promise<boolean> {
   const supabase = createClient()
@@ -634,20 +634,20 @@ export async function checkRateLimit(
 }
 
 export async function trackUsage(
-  userId: string,
-  organizationId: string,
-  modelId: string,
-  tokensUsed: number,
+  userId: string
+  organizationId: string
+  modelId: string
+  tokensUsed: number
   cost: number
 ) {
   const supabase = createClient()
 
   await supabase.from('ai_usage').insert({
-    user_id: userId,
-    organization_id: organizationId,
-    model_id: modelId,
-    tokens_used: tokensUsed,
-    cost,
+    user_id: userId
+    organization_id: organizationId
+    model_id: modelId
+    tokens_used: tokensUsed
+    cost
   })
 }
 ```
@@ -661,11 +661,11 @@ export async function trackUsage(
 ```sql
 -- Conversation permissions
 CREATE TABLE conversation_permissions (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE,
-  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
-  permission TEXT DEFAULT 'read' CHECK (permission IN ('read', 'write', 'admin')),
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4()
+  conversation_id UUID REFERENCES conversations(id) ON DELETE CASCADE
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE
+  permission TEXT DEFAULT 'read' CHECK (permission IN ('read', 'write', 'admin'))
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
   UNIQUE(conversation_id, user_id)
 );
 

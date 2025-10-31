@@ -139,27 +139,27 @@ Create `.claude-plugin/marketplace.json` in your repository root:
 
 ```json
 {
-  "name": "company-tools",
+  "name": "company-tools"
   "owner": {
-    "name": "DevTools Team",
+    "name": "DevTools Team"
     "email": "devtools@company.com"
-  },
+  }
   "plugins": [
     {
-      "name": "code-formatter",
-      "source": "./plugins/formatter",
-      "description": "Automatic code formatting on save",
-      "version": "2.1.0",
+      "name": "code-formatter"
+      "source": "./plugins/formatter"
+      "description": "Automatic code formatting on save"
+      "version": "2.1.0"
       "author": {
         "name": "DevTools Team"
       }
-    },
+    }
     {
-      "name": "deployment-tools",
+      "name": "deployment-tools"
       "source": {
-        "source": "github",
+        "source": "github"
         "repo": "company/deploy-plugin"
-      },
+      }
       "description": "Deployment automation tools"
     }
   ]
@@ -229,7 +229,7 @@ For plugins in the same repository:
 
 ```json
 {
-  "name": "my-plugin",
+  "name": "my-plugin"
   "source": "./plugins/my-plugin"
 }
 ```
@@ -238,9 +238,9 @@ For plugins in the same repository:
 
 ```json
 {
-  "name": "github-plugin",
+  "name": "github-plugin"
   "source": {
-    "source": "github",
+    "source": "github"
     "repo": "owner/plugin-repo"
   }
 }
@@ -250,9 +250,9 @@ For plugins in the same repository:
 
 ```json
 {
-  "name": "git-plugin",
+  "name": "git-plugin"
   "source": {
-    "source": "url",
+    "source": "url"
     "url": "https://gitlab.com/team/plugin.git"
   }
 }
@@ -264,45 +264,45 @@ Plugin entries can override default component locations and provide additional m
 
 ```json
 {
-  "name": "enterprise-tools",
+  "name": "enterprise-tools"
   "source": {
-    "source": "github",
+    "source": "github"
     "repo": "company/enterprise-plugin"
-  },
-  "description": "Enterprise workflow automation tools",
-  "version": "2.1.0",
+  }
+  "description": "Enterprise workflow automation tools"
+  "version": "2.1.0"
   "author": {
-    "name": "Enterprise Team",
+    "name": "Enterprise Team"
     "email": "enterprise@company.com"
-  },
-  "homepage": "https://docs.company.com/plugins/enterprise-tools",
-  "repository": "https://github.com/company/enterprise-plugin",
-  "license": "MIT",
-  "keywords": ["enterprise", "workflow", "automation"],
-  "category": "productivity",
+  }
+  "homepage": "https://docs.company.com/plugins/enterprise-tools"
+  "repository": "https://github.com/company/enterprise-plugin"
+  "license": "MIT"
+  "keywords": ["enterprise", "workflow", "automation"]
+  "category": "productivity"
   "commands": [
-    "./commands/core/",
-    "./commands/enterprise/",
+    "./commands/core/"
+    "./commands/enterprise/"
     "./commands/experimental/preview.md"
-  ],
+  ]
   "agents": [
-    "./agents/security-reviewer.md",
+    "./agents/security-reviewer.md"
     "./agents/compliance-checker.md"
-  ],
+  ]
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Write|Edit"
         "hooks": [{"type": "command", "command": "${CLAUDE_PLUGIN_ROOT}/scripts/validate.sh"}]
       }
     ]
-  },
+  }
   "mcpServers": {
     "enterprise-db": {
-      "command": "${CLAUDE_PLUGIN_ROOT}/servers/db-server",
+      "command": "${CLAUDE_PLUGIN_ROOT}/servers/db-server"
       "args": ["--config", "${CLAUDE_PLUGIN_ROOT}/config.json"]
     }
-  },
+  }
   "strict": false
 }
 ```
@@ -318,13 +318,13 @@ Set up automatic marketplace installation for team projects by specifying requir
   "extraKnownMarketplaces": {
     "team-tools": {
       "source": {
-        "source": "github",
+        "source": "github"
         "repo": "your-org/claude-plugins"
       }
-    },
+    }
     "project-specific": {
       "source": {
-        "source": "git",
+        "source": "git"
         "url": "https://git.company.com/project-plugins.git"
       }
     }

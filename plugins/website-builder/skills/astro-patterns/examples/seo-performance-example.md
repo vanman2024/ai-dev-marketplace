@@ -100,15 +100,15 @@ import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://example.com',
+  site: 'https://example.com'
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/admin/'),
+      filter: (page) => !page.includes('/admin/')
       customPages: [
         'https://example.com/external-page'
-      ],
-      changefreq: 'weekly',
-      priority: 0.7,
+      ]
+      changefreq: 'weekly'
+      priority: 0.7
       lastmod: new Date()
     })
   ]
@@ -126,16 +126,16 @@ export async function GET(context) {
   const posts = await getCollection('blog');
 
   return rss({
-    title: 'My Blog',
-    description: 'A blog about web development',
-    site: context.site,
+    title: 'My Blog'
+    description: 'A blog about web development'
+    site: context.site
     items: posts.map(post => ({
-      title: post.data.title,
-      pubDate: post.data.date,
-      description: post.data.description,
-      link: `/blog/${post.slug}/`,
-    })),
-    customData: `<language>en-us</language>`,
+      title: post.data.title
+      pubDate: post.data.date
+      description: post.data.description
+      link: `/blog/${post.slug}/`
+    }))
+    customData: `<language>en-us</language>`
   });
 }
 ```
@@ -146,26 +146,26 @@ export async function GET(context) {
 // astro.config.mjs
 export default defineConfig({
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'auto'
     format: 'directory'
-  },
+  }
   vite: {
     build: {
-      cssCodeSplit: true,
+      cssCodeSplit: true
       rollupOptions: {
         output: {
           manualChunks: {
-            'react-vendor': ['react', 'react-dom'],
+            'react-vendor': ['react', 'react-dom']
           }
         }
       }
     }
-  },
+  }
   image: {
     service: {
       entrypoint: 'astro/assets/services/sharp'
     }
-  },
+  }
   compressHTML: true
 });
 ```
@@ -217,12 +217,12 @@ import { prefetch } from 'astro:prefetch';
 ```astro
 ---
 const schema = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.data.title,
-  "datePublished": post.data.date,
+  "@context": "https://schema.org"
+  "@type": "BlogPosting"
+  "headline": post.data.title
+  "datePublished": post.data.date
   "author": {
-    "@type": "Person",
+    "@type": "Person"
     "name": post.data.author
   }
 };

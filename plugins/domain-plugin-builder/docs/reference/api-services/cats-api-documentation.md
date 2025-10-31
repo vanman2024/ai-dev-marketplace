@@ -553,10 +553,10 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 **Unlinked:**
 ```json
 {
-  "linked": false,
-  "name": "Company Name",
+  "linked": false
+  "name": "Company Name"
   "location": {
-    "city": "City",
+    "city": "City"
     "state": "State"
   }
 }
@@ -565,7 +565,7 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 **Linked:**
 ```json
 {
-  "linked": true,
+  "linked": true
   "company_id": 465
 }
 ```
@@ -574,8 +574,8 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 **Unlinked:**
 ```json
 {
-  "linked": false,
-  "name": "Supervisor Name",
+  "linked": false
+  "name": "Supervisor Name"
   "phone": "+1234567890"
 }
 ```
@@ -583,7 +583,7 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 **Linked:**
 ```json
 {
-  "linked": true,
+  "linked": true
   "contact_id": 6864
 }
 ```
@@ -620,15 +620,15 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 ```json
 {
   "and": [
-    {"field": "first_name", "filter": "exactly", "value": "Scott"},
-    {"field": "last_name", "filter": "exactly", "value": "Summers"},
-    {"not": {"field": "middle_name", "filter": "exactly", "value": "Joseph"}},
+    {"field": "first_name", "filter": "exactly", "value": "Scott"}
+    {"field": "last_name", "filter": "exactly", "value": "Summers"}
+    {"not": {"field": "middle_name", "filter": "exactly", "value": "Joseph"}}
     {
       "or": [
-        {"field": "title", "filter": "contains", "value": "team leader"},
+        {"field": "title", "filter": "contains", "value": "team leader"}
         {"field": "title", "filter": "contains", "value": "squad leader"}
       ]
-    },
+    }
     {"not": {"field": "key_skills", "filter": "contains", "value": "subtlety"}}
   ]
 }
@@ -641,7 +641,7 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 ### DataItem Object
 ```json
 {
-  "id": 5019,
+  "id": 5019
   "type": "candidate"
 }
 ```
@@ -652,10 +652,10 @@ if ($signature !== 'HMAC-SHA256 ' . $hash) {
 ```json
 {
   "_links": {
-    "self": {"href": "/candidates/749"},
-    "owner": {"href": "/users/5459"},
+    "self": {"href": "/candidates/749"}
+    "owner": {"href": "/users/5459"}
     "activities": {"href": "/candidates/749/activities"}
-  },
+  }
   "_embedded": {
     "custom_fields": [
       {"id": 170911, "value": "marquise"}

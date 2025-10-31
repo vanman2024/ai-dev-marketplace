@@ -39,43 +39,43 @@ const documents = await loadDocuments()
 
 // 2. Chunk documents
 const chunks = await chunkDocuments(documents, {
-  chunkSize: 1000,
-  overlap: 200,
+  chunkSize: 1000
+  overlap: 200
   strategy: 'semantic'
 })
 
 // 3. Generate embeddings
 const embeddings = await embedMany({
-  model: openai.embedding('text-embedding-3-small'),
+  model: openai.embedding('text-embedding-3-small')
   values: chunks.map(c => c.text)
 })
 
 // 4. Store in vector DB
 await vectorDB.upsert(chunks.map((chunk, i) => ({
-  id: chunk.id,
-  embedding: embeddings.embeddings[i],
+  id: chunk.id
+  embedding: embeddings.embeddings[i]
   metadata: chunk.metadata
 })))
 
 // 5. Retrieve relevant chunks
 const query = await embed({
-  model: openai.embedding('text-embedding-3-small'),
+  model: openai.embedding('text-embedding-3-small')
   value: userQuestion
 })
 
 const results = await vectorDB.query({
-  vector: query.embedding,
+  vector: query.embedding
   topK: 5
 })
 
 // 6. Generate response with context
 const response = await generateText({
-  model: openai('gpt-4o'),
+  model: openai('gpt-4o')
   messages: [
     {
-      role: 'system',
+      role: 'system'
       content: `Answer based on this context:\n\n${results.map(r => r.text).join('\n\n')}`
-    },
+    }
     { role: 'user', content: userQuestion }
   ]
 })
@@ -158,11 +158,11 @@ const index = pinecone.index('knowledge-base')
 // Upsert embeddings
 await index.upsert([
   {
-    id: 'doc-1-chunk-1',
-    values: embedding,
+    id: 'doc-1-chunk-1'
+    values: embedding
     metadata: {
-      text: chunk.text,
-      source: chunk.source,
+      text: chunk.text
+      source: chunk.source
       timestamp: Date.now()
     }
   }
@@ -170,8 +170,8 @@ await index.upsert([
 
 // Query
 const results = await index.query({
-  vector: queryEmbedding,
-  topK: 5,
+  vector: queryEmbedding
+  topK: 5
   includeMetadata: true
 })
 ```
@@ -204,13 +204,13 @@ const results = await index.query({
 async function semanticSearch(query: string, topK: number = 5) {
   // Embed query
   const { embedding } = await embed({
-    model: openai.embedding('text-embedding-3-small'),
+    model: openai.embedding('text-embedding-3-small')
     value: query
   })
 
   // Search vector DB
   const results = await vectorDB.query({
-    vector: embedding,
+    vector: embedding
     topK
   })
 
@@ -247,17 +247,17 @@ async function hybridSearch(query: string, topK: number = 10) {
 async function rerankResults(query: string, results: any[]) {
   // Use cross-encoder or LLM for re-ranking
   const reranked = await generateObject({
-    model: openai('gpt-4o'),
+    model: openai('gpt-4o')
     schema: z.object({
       rankedIds: z.array(z.string())
-    }),
+    })
     messages: [
       {
-        role: 'system',
+        role: 'system'
         content: 'Rank these documents by relevance to the query.'
-      },
+      }
       {
-        role: 'user',
+        role: 'user'
         content: `Query: ${query}\n\nDocuments: ${JSON.stringify(results)}`
       }
     ]
@@ -330,12 +330,12 @@ async function rerankResults(query: string, results: any[]) {
 const context = retrievedChunks.map(chunk => chunk.text).join('\n\n')
 
 const response = await generateText({
-  model: openai('gpt-4o'),
+  model: openai('gpt-4o')
   messages: [
     {
-      role: 'system',
+      role: 'system'
       content: `Answer based on this context. If the answer is not in the context, say so.\n\nContext:\n${context}`
-    },
+    }
     { role: 'user', content: query }
   ]
 })
@@ -375,9 +375,9 @@ const response = await generateText({
 ```typescript
 // Generate multiple query variations
 const variations = await generateText({
-  model: openai('gpt-4o'),
+  model: openai('gpt-4o')
   messages: [{
-    role: 'user',
+    role: 'user'
     content: `Generate 3 variations of this query: "${query}"`
   }]
 })
@@ -430,10 +430,10 @@ async function getEmbedding(text: string) {
 ```typescript
 // Track RAG metrics
 metrics.record({
-  operation: 'rag_query',
-  latency: Date.now() - startTime,
-  chunksRetrieved: results.length,
-  vectorDBCalls: 1,
+  operation: 'rag_query'
+  latency: Date.now() - startTime
+  chunksRetrieved: results.length
+  vectorDBCalls: 1
   embeddingCost: calculateCost(query.length)
 })
 ```

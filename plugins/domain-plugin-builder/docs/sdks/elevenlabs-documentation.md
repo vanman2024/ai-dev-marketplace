@@ -94,13 +94,13 @@ npm install @ai-sdk/elevenlabs
 import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
 
 const client = new ElevenLabsClient({
-  apiKey: process.env.ELEVENLABS_API_KEY,
+  apiKey: process.env.ELEVENLABS_API_KEY
 });
 
 const audio = await client.textToSpeech.convert({
-  text: "Hello world!",
-  voice_id: "JBFqnCBsd6RMkjVDRZzb",
-  model_id: "eleven_flash_v2_5",
+  text: "Hello world!"
+  voice_id: "JBFqnCBsd6RMkjVDRZzb"
+  model_id: "eleven_flash_v2_5"
 });
 ```
 
@@ -111,15 +111,15 @@ import { elevenlabs } from '@ai-sdk/elevenlabs';
 import { experimental_transcribe as transcribe } from 'ai';
 
 const result = await transcribe({
-  model: elevenlabs.transcription('scribe_v1'),
-  audio: audioFile,
+  model: elevenlabs.transcription('scribe_v1')
+  audio: audioFile
   providerOptions: {
     elevenlabs: {
-      languageCode: 'en',
-      diarize: true,
-      timestampsGranularity: 'word',
-    },
-  },
+      languageCode: 'en'
+      diarize: true
+      timestampsGranularity: 'word'
+    }
+  }
 });
 ```
 

@@ -40,8 +40,8 @@ export async function POST(request: Request) {
 
   if (!text) {
     return new Response(JSON.stringify({ error: 'Text required' }), {
-      status: 400,
-      headers: { 'Content-Type': 'application/json' },
+      status: 400
+      headers: { 'Content-Type': 'application/json' }
     });
   }
 
@@ -50,7 +50,7 @@ export async function POST(request: Request) {
     return await streamSpeech(text, voiceId);
   } catch (error) {
     return new Response(
-      JSON.stringify({ error: 'Speech generation failed' }),
+      JSON.stringify({ error: 'Speech generation failed' })
       { status: 500, headers: { 'Content-Type': 'application/json' } }
     );
   }
@@ -66,8 +66,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export const config = {
-  matcher: '/api/tts/:path*',
-  runtime: 'edge',
+  matcher: '/api/tts/:path*'
+  runtime: 'edge'
 };
 
 export function middleware(request: NextRequest) {
@@ -130,13 +130,13 @@ export default {
 
     try {
       const client = new ElevenLabsClient({
-        apiKey: env.ELEVENLABS_API_KEY,
+        apiKey: env.ELEVENLABS_API_KEY
       });
 
       const audio = await client.generate({
-        voice: voiceId || '21m00Tcm4TlvDq8ikWAM',
-        text,
-        model_id: 'eleven_monolingual_v1',
+        voice: voiceId || '21m00Tcm4TlvDq8ikWAM'
+        text
+        model_id: 'eleven_monolingual_v1'
       });
 
       // Stream response
@@ -150,23 +150,23 @@ export default {
           } catch (error) {
             controller.error(error);
           }
-        },
+        }
       });
 
       return new Response(stream, {
         headers: {
-          'Content-Type': 'audio/mpeg',
-          'Cache-Control': 'public, max-age=3600',
-        },
+          'Content-Type': 'audio/mpeg'
+          'Cache-Control': 'public, max-age=3600'
+        }
       });
     } catch (error) {
       console.error('TTS error:', error);
       return Response.json(
-        { error: 'Speech generation failed' },
+        { error: 'Speech generation failed' }
         { status: 500 }
       );
     }
-  },
+  }
 };
 ```
 
@@ -207,9 +207,9 @@ async function handler(req: Request): Promise<Response> {
 
     try {
       const audio = await client.generate({
-        voice: voiceId || "21m00Tcm4TlvDq8ikWAM",
-        text,
-        model_id: "eleven_monolingual_v1",
+        voice: voiceId || "21m00Tcm4TlvDq8ikWAM"
+        text
+        model_id: "eleven_monolingual_v1"
       });
 
       const stream = new ReadableStream({
@@ -222,18 +222,18 @@ async function handler(req: Request): Promise<Response> {
           } catch (error) {
             controller.error(error);
           }
-        },
+        }
       });
 
       return new Response(stream, {
         headers: {
-          "Content-Type": "audio/mpeg",
-          "Cache-Control": "public, max-age=3600",
-        },
+          "Content-Type": "audio/mpeg"
+          "Cache-Control": "public, max-age=3600"
+        }
       });
     } catch (error) {
       return Response.json(
-        { error: "Speech generation failed" },
+        { error: "Speech generation failed" }
         { status: 500 }
       );
     }
@@ -265,11 +265,11 @@ const stream = new ReadableStream({
       controller.enqueue(chunk);
     }
     controller.close();
-  },
+  }
 });
 
 return new Response(stream, {
-  headers: { 'Content-Type': 'audio/mpeg' },
+  headers: { 'Content-Type': 'audio/mpeg' }
 });
 
 // ✗ Bad: Buffer entire response
@@ -297,9 +297,9 @@ if (!response) {
 
   response = new Response(audio, {
     headers: {
-      'Content-Type': 'audio/mpeg',
-      'Cache-Control': 'public, max-age=86400',
-    },
+      'Content-Type': 'audio/mpeg'
+      'Cache-Control': 'public, max-age=86400'
+    }
   });
 
   // Store in cache
@@ -328,7 +328,7 @@ try {
 
   if (error.message.includes('429')) {
     return Response.json(
-      { error: 'Rate limit exceeded' },
+      { error: 'Rate limit exceeded' }
       { status: 429, headers: { 'Retry-After': '60' } }
     );
   }

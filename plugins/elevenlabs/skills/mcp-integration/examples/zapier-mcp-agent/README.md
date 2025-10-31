@@ -119,15 +119,15 @@ See `agent.ts` for full implementation:
 import { ElevenLabsAgent } from '@elevenlabs/agents';
 
 const agent = new ElevenLabsAgent({
-  apiKey: process.env.ELEVENLABS_API_KEY!,
-  agentId: 'your-agent-id',
+  apiKey: process.env.ELEVENLABS_API_KEY!
+  agentId: 'your-agent-id'
   mcpServers: [
     {
-      name: 'zapier-mcp',
-      url: process.env.ZAPIER_MCP_URL!,
-      approvalMode: 'fine_grained',
-    },
-  ],
+      name: 'zapier-mcp'
+      url: process.env.ZAPIER_MCP_URL!
+      approvalMode: 'fine_grained'
+    }
+  ]
 });
 
 // Handle tool approval requests
@@ -148,8 +148,8 @@ from elevenlabs import ElevenLabs
 client = ElevenLabs(api_key=os.getenv("ELEVENLABS_API_KEY"))
 
 agent_config = {
-    "name": "Zapier Assistant",
-    "mcp_servers": ["zapier-mcp"],
+    "name": "Zapier Assistant"
+    "mcp_servers": ["zapier-mcp"]
     "approval_mode": "fine_grained"
 }
 

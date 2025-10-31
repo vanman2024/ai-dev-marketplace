@@ -28,8 +28,8 @@ bash ../../scripts/transcribe-audio.sh audio.mp3 en --output=transcription.txt
 import { transcribeAudio } from '../../templates/vercel-ai-transcribe.ts.template';
 
 const result = await transcribeAudio({
-  audioPath: './audio.mp3',
-  languageCode: 'en',
+  audioPath: './audio.mp3'
+  languageCode: 'en'
 });
 
 console.log(result.text);
@@ -41,7 +41,7 @@ console.log(result.text);
 from templates.vercel_ai_transcribe import transcribe_audio, TranscriptionConfig
 
 config = TranscriptionConfig(
-    audio_path="./audio.mp3",
+    audio_path="./audio.mp3"
     language_code="en"
 )
 

@@ -188,7 +188,7 @@ This builder uses Context7 MCP for fetching SDK/Framework documentation:
   "mcpServers": {
     "context7": {
       "tools": [
-        "resolve-library-id",
+        "resolve-library-id"
         "get-library-docs"
       ]
     }
@@ -217,9 +217,9 @@ Add to marketplace.json:
 
 ```json
 {
-  "name": "domain-plugin-builder",
-  "path": "plugins/domain-plugin-builder",
-  "status": "meta-tooling",
+  "name": "domain-plugin-builder"
+  "path": "plugins/domain-plugin-builder"
+  "status": "meta-tooling"
   "description": "Builds domain-specific plugins"
 }
 ```

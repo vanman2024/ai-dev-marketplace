@@ -196,7 +196,7 @@ Provide the agent with:
 ---
 description: User-facing description of what command does
 argument-hint: <arg1> [optional-arg]
-allowed-tools: Task(*), Read(*), AskUserQuestion(*)
+allowed-tools: Task, Read(*), AskUserQuestion(*)
 ---
 
 **Arguments**: $ARGUMENTS
@@ -253,16 +253,16 @@ Phase 4: Summary
 ```json
 {
   "PreToolUse": [{
-    "name": "cost-tracker",
+    "name": "cost-tracker"
     "hooks": [{
-      "type": "command",
+      "type": "command"
       "command": "${CLAUDE_PLUGIN_ROOT}/scripts/track-cost.sh"
     }]
-  }],
+  }]
   "PostToolUse": [{
-    "name": "auto-save",
+    "name": "auto-save"
     "hooks": [{
-      "type": "command",
+      "type": "command"
       "command": "${CLAUDE_PLUGIN_ROOT}/scripts/save-state.sh"
     }]
   }]

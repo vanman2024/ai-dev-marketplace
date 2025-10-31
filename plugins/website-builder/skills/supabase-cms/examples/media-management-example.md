@@ -13,20 +13,20 @@ This example demonstrates how to implement a complete media management system wi
 ```sql
 -- Media metadata table
 CREATE TABLE IF NOT EXISTS media (
-  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
-  filename TEXT NOT NULL,
-  storage_path TEXT NOT NULL UNIQUE,
-  url TEXT NOT NULL,
-  mime_type TEXT NOT NULL,
-  size_bytes INTEGER NOT NULL,
-  alt_text TEXT,
-  caption TEXT,
-  width INTEGER,
-  height INTEGER,
-  tags TEXT[],
-  uploaded_by UUID REFERENCES auth.users(id),
-  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE,
-  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL,
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY
+  filename TEXT NOT NULL
+  storage_path TEXT NOT NULL UNIQUE
+  url TEXT NOT NULL
+  mime_type TEXT NOT NULL
+  size_bytes INTEGER NOT NULL
+  alt_text TEXT
+  caption TEXT
+  width INTEGER
+  height INTEGER
+  tags TEXT[]
+  uploaded_by UUID REFERENCES auth.users(id)
+  organization_id UUID REFERENCES organizations(id) ON DELETE CASCADE
+  created_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
   updated_at TIMESTAMPTZ DEFAULT NOW() NOT NULL
 );
 
@@ -112,11 +112,11 @@ interface UploadOptions {
 }
 
 export async function uploadMedia({
-  file,
-  alt_text,
-  caption,
-  tags = [],
-  organizationId,
+  file
+  alt_text
+  caption
+  tags = []
+  organizationId
   onProgress
 }: UploadOptions) {
   // Generate unique filename
@@ -138,7 +138,7 @@ export async function uploadMedia({
   const { data: uploadData, error: uploadError } = await supabase.storage
     .from('media')
     .upload(filePath, file, {
-      cacheControl: '3600',
+      cacheControl: '3600'
       upsert: false
     });
 
@@ -156,17 +156,17 @@ export async function uploadMedia({
   const { data: mediaData, error: dbError } = await supabase
     .from('media')
     .insert({
-      filename: file.name,
-      storage_path: filePath,
-      url: urlData.publicUrl,
-      mime_type: file.type,
-      size_bytes: file.size,
-      alt_text,
-      caption,
-      tags,
-      width,
-      height,
-      uploaded_by: user?.id,
+      filename: file.name
+      storage_path: filePath
+      url: urlData.publicUrl
+      mime_type: file.type
+      size_bytes: file.size
+      alt_text
+      caption
+      tags
+      width
+      height
+      uploaded_by: user?.id
       organization_id: organizationId
     })
     .select()
@@ -275,7 +275,7 @@ export async function getMediaById(id: string) {
 }
 
 export async function updateMedia(
-  id: string,
+  id: string
   updates: {
     alt_text?: string;
     caption?: string;
@@ -285,7 +285,7 @@ export async function updateMedia(
   const { data, error } = await supabase
     .from('media')
     .update({
-      ...updates,
+      ...updates
       updated_at: new Date().toISOString()
     })
     .eq('id', id)
@@ -328,7 +328,7 @@ export async function deleteMedia(id: string) {
 ```typescript
 // src/lib/supabase/image-transform.ts
 export function getTransformedImageUrl(
-  publicUrl: string,
+  publicUrl: string
   options: {
     width?: number;
     height?: number;
@@ -354,11 +354,11 @@ export function getTransformedImageUrl(
 
 export function getResponsiveImageUrls(publicUrl: string) {
   return {
-    small: getTransformedImageUrl(publicUrl, { width: 640, quality: 80 }),
-    medium: getTransformedImageUrl(publicUrl, { width: 1024, quality: 85 }),
-    large: getTransformedImageUrl(publicUrl, { width: 1920, quality: 90 }),
-    webp: getTransformedImageUrl(publicUrl, { width: 1024, format: 'webp' }),
-    avif: getTransformedImageUrl(publicUrl, { width: 1024, format: 'avif' }),
+    small: getTransformedImageUrl(publicUrl, { width: 640, quality: 80 })
+    medium: getTransformedImageUrl(publicUrl, { width: 1024, quality: 85 })
+    large: getTransformedImageUrl(publicUrl, { width: 1920, quality: 90 })
+    webp: getTransformedImageUrl(publicUrl, { width: 1024, format: 'webp' })
+    avif: getTransformedImageUrl(publicUrl, { width: 1024, format: 'avif' })
   };
 }
 ```
@@ -384,8 +384,8 @@ export function MediaUploader({ organizationId }: { organizationId?: string }) {
     try {
       for (const file of Array.from(files)) {
         const media = await uploadMedia({
-          file,
-          organizationId,
+          file
+          organizationId
           onProgress: setProgress
         });
 
@@ -459,8 +459,8 @@ export function MediaGallery({ organizationId }: { organizationId?: string }) {
   async function loadMedia() {
     setIsLoading(true);
     const { media: data } = await getMedia({
-      organizationId,
-      tags: selectedTags.length > 0 ? selectedTags : undefined,
+      organizationId
+      tags: selectedTags.length > 0 ? selectedTags : undefined
       limit: 50
     });
     setMedia(data || []);
@@ -554,8 +554,8 @@ export function MediaGallery({ organizationId }: { organizationId?: string }) {
 4. Test media upload:
    ```typescript
    const media = await uploadMedia({
-     file: selectedFile,
-     alt_text: 'Test image',
+     file: selectedFile
+     alt_text: 'Test image'
      tags: ['test']
    });
    ```

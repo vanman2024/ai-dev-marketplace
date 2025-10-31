@@ -10,22 +10,22 @@ Common patterns and use cases for pgvector semantic search in Supabase.
 // Generate embedding for query
 const queryText = "machine learning algorithms";
 const { data: embeddingData } = await openai.embeddings.create({
-    model: "text-embedding-3-small",
+    model: "text-embedding-3-small"
     input: queryText
 });
 const queryEmbedding = embeddingData.data[0].embedding;
 
 // Search documents
 const { data, error } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding,
-    match_threshold: 0.78,
+    query_embedding: queryEmbedding
+    match_threshold: 0.78
     match_count: 10
 });
 
 console.log(data);
 // [
-//   { id: 1, content: "...", similarity: 0.92 },
-//   { id: 5, content: "...", similarity: 0.87 },
+//   { id: 1, content: "...", similarity: 0.92 }
+//   { id: 5, content: "...", similarity: 0.87 }
 //   ...
 // ]
 ```
@@ -35,15 +35,15 @@ console.log(data);
 ```javascript
 // Search only user's documents
 const { data } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding,
-    match_threshold: 0.7,
+    query_embedding: queryEmbedding
+    match_threshold: 0.7
     match_count: 20
 }).eq('user_id', userId);
 
 // Search by category
 const { data } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding,
-    match_threshold: 0.75,
+    query_embedding: queryEmbedding
+    match_threshold: 0.75
     match_count: 15
 }).contains('metadata', { category: 'technical' });
 ```
@@ -53,8 +53,8 @@ const { data } = await supabase.rpc('match_documents', {
 ```javascript
 // Search with multiple queries, merge results
 const queries = [
-    "artificial intelligence",
-    "neural networks",
+    "artificial intelligence"
+    "neural networks"
     "deep learning"
 ];
 
@@ -62,8 +62,8 @@ const allResults = await Promise.all(
     queries.map(async (query) => {
         const embedding = await generateEmbedding(query);
         const { data } = await supabase.rpc('match_documents', {
-            query_embedding: embedding,
-            match_threshold: 0.75,
+            query_embedding: embedding
+            match_threshold: 0.75
             match_count: 5
         });
         return data;
@@ -88,7 +88,7 @@ async function multiQueryRRF(queries, k = 60) {
     for (const query of queries) {
         const embedding = await generateEmbedding(query);
         const { data } = await supabase.rpc('match_documents', {
-            query_embedding: embedding,
+            query_embedding: embedding
             match_threshold: 0.0, // Get all results
             match_count: 50
         });
@@ -112,8 +112,8 @@ async function multiQueryRRF(queries, k = 60) {
 
 // Usage
 const results = await multiQueryRRF([
-    "natural language processing",
-    "NLP techniques",
+    "natural language processing"
+    "NLP techniques"
     "text analysis methods"
 ]);
 ```
@@ -126,9 +126,9 @@ const queryText = "PostgreSQL performance optimization";
 const queryEmbedding = await generateEmbedding(queryText);
 
 const { data } = await supabase.rpc('documents_hybrid_search', {
-    query_text: queryText,
-    query_embedding: queryEmbedding,
-    match_count: 10,
+    query_text: queryText
+    query_embedding: queryEmbedding
+    match_count: 10
     full_text_weight: 1.0,    // Keyword importance
     semantic_weight: 1.0       // Semantic importance
 });
@@ -136,12 +136,12 @@ const { data } = await supabase.rpc('documents_hybrid_search', {
 console.log(data);
 // [
 //   {
-//     id: 1,
-//     content: "...",
+//     id: 1
+//     content: "..."
 //     similarity: 0.85,      // Semantic score
 //     fts_rank: 0.12,        // Keyword score
 //     hybrid_score: 0.47     // Combined RRF score
-//   },
+//   }
 //   ...
 // ]
 ```
@@ -151,7 +151,7 @@ console.log(data);
 ```javascript
 // First pass: broad semantic search
 const { data: candidates } = await supabase.rpc('match_documents', {
-    query_embedding: queryEmbedding,
+    query_embedding: queryEmbedding
     match_threshold: 0.6,  // Lower threshold
     match_count: 50         // Get more candidates
 });
@@ -186,8 +186,8 @@ async function documentQA(question, userId) {
 
     // 2. Find relevant context
     const { data: context } = await supabase.rpc('match_documents', {
-        query_embedding: queryEmbedding,
-        match_threshold: 0.75,
+        query_embedding: queryEmbedding
+        match_threshold: 0.75
         match_count: 5
     }).eq('user_id', userId);
 
@@ -197,12 +197,12 @@ async function documentQA(question, userId) {
 
     // 4. Generate answer
     const completion = await openai.chat.completions.create({
-        model: "gpt-4",
+        model: "gpt-4"
         messages: [{ role: "user", content: prompt }]
     });
 
     return {
-        answer: completion.choices[0].message.content,
+        answer: completion.choices[0].message.content
         sources: context.map(doc => ({ id: doc.id, content: doc.content }))
     };
 }
@@ -221,14 +221,14 @@ async function findDuplicates(documents, threshold = 0.95) {
 
     for (let i = 0; i < documents.length; i++) {
         const { data } = await supabase.rpc('match_documents', {
-            query_embedding: documents[i].embedding,
-            match_threshold: threshold,
+            query_embedding: documents[i].embedding
+            match_threshold: threshold
             match_count: 10
         }).neq('id', documents[i].id); // Exclude self
 
         if (data.length > 0) {
             duplicates.push({
-                original: documents[i],
+                original: documents[i]
                 duplicates: data
             });
         }
@@ -260,8 +260,8 @@ async function recommendSimilarContent(documentId, count = 5) {
 
     // Find similar documents
     const { data: similar } = await supabase.rpc('match_documents', {
-        query_embedding: doc.embedding,
-        match_threshold: 0.7,
+        query_embedding: doc.embedding
+        match_threshold: 0.7
         match_count: count + 1 // +1 to exclude self
     })
     .neq('id', documentId)
@@ -286,7 +286,7 @@ async function clusterDocuments(documents, numClusters = 5) {
 
     // 3. Assign cluster labels
     return documents.map((doc, i) => ({
-        ...doc,
+        ...doc
         cluster: clusters[i]
     }));
 }
@@ -309,8 +309,8 @@ async function getClusterRepresentatives(clusteredDocs) {
 
         // Find document closest to centroid
         const { data } = await supabase.rpc('match_documents', {
-            query_embedding: centroid,
-            match_threshold: 0.0,
+            query_embedding: centroid
+            match_threshold: 0.0
             match_count: 1
         });
 
@@ -331,8 +331,8 @@ async function multiModalSearch(query, types = ['text', 'code', 'image']) {
 
     for (const type of types) {
         const { data } = await supabase.rpc('match_documents', {
-            query_embedding: queryEmbedding,
-            match_threshold: 0.7,
+            query_embedding: queryEmbedding
+            match_threshold: 0.7
             match_count: 10
         }).eq('content_type', type);
 
@@ -361,7 +361,7 @@ async function batchEmbed(texts, batchSize = 100) {
         const batch = texts.slice(i, i + batchSize);
 
         const { data } = await openai.embeddings.create({
-            model: "text-embedding-3-small",
+            model: "text-embedding-3-small"
             input: batch
         });
 
@@ -390,7 +390,7 @@ async function getCachedEmbedding(text) {
 
     // Generate if not cached
     const { data } = await openai.embeddings.create({
-        model: "text-embedding-3-small",
+        model: "text-embedding-3-small"
         input: text
     });
 
@@ -414,8 +414,8 @@ async function paginatedSearch(query, page = 1, pageSize = 20) {
 
     // Get all results up to current page
     const { data } = await supabase.rpc('match_documents', {
-        query_embedding: queryEmbedding,
-        match_threshold: 0.7,
+        query_embedding: queryEmbedding
+        match_threshold: 0.7
         match_count: page * pageSize
     });
 
@@ -424,10 +424,10 @@ async function paginatedSearch(query, page = 1, pageSize = 20) {
     const end = start + pageSize;
 
     return {
-        results: data.slice(start, end),
-        page,
-        pageSize,
-        total: data.length,
+        results: data.slice(start, end)
+        page
+        pageSize
+        total: data.length
         hasMore: data.length === page * pageSize
     };
 }
@@ -443,15 +443,15 @@ async function compareDistanceMetrics(query) {
 
     const results = {
         cosine: await supabase.rpc('match_documents_cosine', {
-            query_embedding: embedding,
+            query_embedding: embedding
             match_count: 10
-        }),
+        })
         innerProduct: await supabase.rpc('match_documents_ip', {
-            query_embedding: embedding,
+            query_embedding: embedding
             match_count: 10
-        }),
+        })
         euclidean: await supabase.rpc('match_documents_l2', {
-            query_embedding: embedding,
+            query_embedding: embedding
             match_count: 10
         })
     };
@@ -471,8 +471,8 @@ async function analyzeQueryPerformance(query, iterations = 10) {
         const start = performance.now();
 
         await supabase.rpc('match_documents', {
-            query_embedding: embedding,
-            match_threshold: 0.7,
+            query_embedding: embedding
+            match_threshold: 0.7
             match_count: 10
         });
 
@@ -480,9 +480,9 @@ async function analyzeQueryPerformance(query, iterations = 10) {
     }
 
     return {
-        avg: times.reduce((a, b) => a + b) / times.length,
-        min: Math.min(...times),
-        max: Math.max(...times),
+        avg: times.reduce((a, b) => a + b) / times.length
+        min: Math.min(...times)
+        max: Math.max(...times)
         median: times.sort()[Math.floor(times.length / 2)]
     };
 }
@@ -495,8 +495,8 @@ async function analyzeQueryPerformance(query, iterations = 10) {
 ```javascript
 async function robustSearch(query, options = {}) {
     const {
-        maxRetries = 3,
-        fallbackThreshold = 0.5,
+        maxRetries = 3
+        fallbackThreshold = 0.5
         minResults = 5
     } = options;
 
@@ -507,8 +507,8 @@ async function robustSearch(query, options = {}) {
         try {
             const embedding = await generateEmbedding(query);
             const { data, error } = await supabase.rpc('match_documents', {
-                query_embedding: embedding,
-                match_threshold: threshold,
+                query_embedding: embedding
+                match_threshold: threshold
                 match_count: 20
             });
 
@@ -529,8 +529,8 @@ async function robustSearch(query, options = {}) {
 
             if (attempt === maxRetries) {
                 return {
-                    success: false,
-                    error: error.message,
+                    success: false
+                    error: error.message
                     data: []
                 };
             }

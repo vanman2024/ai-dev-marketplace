@@ -117,9 +117,9 @@ Or test manually:
 ```typescript
 // In your app
 const { data, error } = await supabase.auth.signInWithOAuth({
-  provider: 'google',
+  provider: 'google'
   options: {
-    redirectTo: 'http://localhost:3000/auth/callback',
+    redirectTo: 'http://localhost:3000/auth/callback'
   }
 })
 ```
@@ -270,10 +270,10 @@ bash /path/to/skills/auth-configs/scripts/test-auth-flow.sh google
 
      const handleLogin = async () => {
        await supabase.auth.signInWithOAuth({
-         provider,
+         provider
          options: {
-           redirectTo: `${window.location.origin}/auth/callback`,
-         },
+           redirectTo: `${window.location.origin}/auth/callback`
+         }
        })
      }
 
@@ -374,7 +374,7 @@ Enable debug logging:
 const supabase = createClientComponentClient({
   auth: {
     debug: true, // Enable debug logs
-  },
+  }
 })
 ```
 
@@ -392,8 +392,8 @@ Response should show provider configuration:
 ```json
 {
   "external": {
-    "google": true,
-    "github": true,
+    "google": true
+    "github": true
     "discord": true
   }
 }

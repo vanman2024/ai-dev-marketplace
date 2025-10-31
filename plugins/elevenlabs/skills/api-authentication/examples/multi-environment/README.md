@@ -72,13 +72,13 @@ ELEVENLABS_CACHE_TTL=3600
 // lib/config.ts
 export const config = {
   elevenlabs: {
-    apiKey: process.env.ELEVENLABS_API_KEY!,
-    voiceId: process.env.ELEVENLABS_DEFAULT_VOICE_ID!,
-    modelId: process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1',
-    timeout: parseInt(process.env.ELEVENLABS_TIMEOUT || '30000'),
-    debug: process.env.ELEVENLABS_DEBUG === 'true',
-    environment: process.env.NODE_ENV || 'development',
-  },
+    apiKey: process.env.ELEVENLABS_API_KEY!
+    voiceId: process.env.ELEVENLABS_DEFAULT_VOICE_ID!
+    modelId: process.env.ELEVENLABS_DEFAULT_MODEL_ID || 'eleven_monolingual_v1'
+    timeout: parseInt(process.env.ELEVENLABS_TIMEOUT || '30000')
+    debug: process.env.ELEVENLABS_DEBUG === 'true'
+    environment: process.env.NODE_ENV || 'development'
+  }
 };
 
 // Environment-specific behavior
@@ -364,8 +364,8 @@ if (process.env.NODE_ENV === 'production') {
 ```typescript
 // Check all required variables
 const required = [
-  'ELEVENLABS_API_KEY',
-  'ELEVENLABS_DEFAULT_VOICE_ID',
+  'ELEVENLABS_API_KEY'
+  'ELEVENLABS_DEFAULT_VOICE_ID'
 ];
 
 for (const key of required) {

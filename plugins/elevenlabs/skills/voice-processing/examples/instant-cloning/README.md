@@ -107,7 +107,7 @@ curl -X POST "https://api.elevenlabs.io/v1/text-to-speech/${VOICE_ID}" \
   -H "xi-api-key: ${ELEVEN_API_KEY}" \
   -H "Content-Type: application/json" \
   -d '{
-    "text": "Hello! This is my cloned voice using instant voice cloning. How does it sound?",
+    "text": "Hello! This is my cloned voice using instant voice cloning. How does it sound?"
     "model_id": "eleven_monolingual_v1"
   }' \
   --output test_output.mp3

@@ -222,8 +222,8 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = streamText({
-    model: openai('gpt-4'),
-    messages,
+    model: openai('gpt-4')
+    messages
   });
 
   return result.toDataStreamResponse();
@@ -257,8 +257,8 @@ export default function Chat() {
 import { streamText } from 'ai';
 
 const result = streamText({ // ✅ Stream
-  model: openai('gpt-4'),
-  prompt: 'Write a story',
+  model: openai('gpt-4')
+  prompt: 'Write a story'
 });
 
 // For UI hooks
@@ -295,8 +295,8 @@ npx tsc --noEmit
 ```json
 {
   "compilerOptions": {
-    "module": "ESNext",
-    "moduleResolution": "bundler",
+    "module": "ESNext"
+    "moduleResolution": "bundler"
     "esModuleInterop": true
   }
 }
@@ -318,7 +318,7 @@ Error: Invalid organization ID
 import { createOpenAI } from '@ai-sdk/openai';
 
 const openai = createOpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.OPENAI_API_KEY
   // organization: 'org-...' // Optional, remove if causing issues
 });
 ```
@@ -333,7 +333,7 @@ Error: Prompt exceeds maximum context length
 **Fix:** Claude 3.5 Sonnet supports 200K tokens. Reduce prompt or use truncation:
 ```typescript
 const result = await generateText({
-  model: anthropic('claude-3-5-sonnet-20241022'),
+  model: anthropic('claude-3-5-sonnet-20241022')
   prompt: truncatePrompt(longPrompt, 180000), // Leave buffer
 });
 ```
@@ -352,10 +352,10 @@ import { google } from '@ai-sdk/google';
 const result = await generateText({
   model: google('gemini-1.5-pro', {
     safetySettings: [
-      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' },
-    ],
-  }),
-  prompt: 'Your prompt',
+      { category: 'HARM_CATEGORY_HARASSMENT', threshold: 'BLOCK_NONE' }
+    ]
+  })
+  prompt: 'Your prompt'
 });
 ```
 

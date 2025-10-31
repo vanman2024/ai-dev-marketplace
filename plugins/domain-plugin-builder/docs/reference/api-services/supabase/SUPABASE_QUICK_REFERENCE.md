@@ -77,9 +77,9 @@ async def main():
 ```python
 channel = supabase.channel("db-changes")
 await channel.on_postgres_changes(
-    event="*",
-    schema="public",
-    table="campaigns",
+    event="*"
+    schema="public"
+    table="campaigns"
     callback=lambda payload: print(payload)
 ).subscribe()
 ```
@@ -104,9 +104,9 @@ event="*"
 
 ```python
 await channel.on_postgres_changes(
-    event="UPDATE",
-    schema="public",
-    table="campaigns",
+    event="UPDATE"
+    schema="public"
+    table="campaigns"
     filter="status=eq.active",  # Only active campaigns
     callback=handle_changes
 ).subscribe()
@@ -261,15 +261,15 @@ async def create_campaign_with_assets(campaign_data: dict, asset_files: list):
         # Upload to storage
         with open(file, "rb") as f:
             storage_response = await supabase.storage.from_("campaign-assets").upload(
-                file=f,
+                file=f
                 path=f"campaigns/{campaign_id}/{os.path.basename(file)}"
             )
         
         # Store metadata
         await supabase.table("content_assets").insert({
-            "campaign_id": campaign_id,
-            "filename": os.path.basename(file),
-            "storage_path": storage_response.path,
+            "campaign_id": campaign_id
+            "filename": os.path.basename(file)
+            "storage_path": storage_response.path
             "asset_type": "image"
         }).execute()
     
@@ -284,10 +284,10 @@ async def monitor_campaign_performance(campaign_id: int):
     
     # Listen to post updates
     await channel.on_postgres_changes(
-        event="*",
-        schema="public",
-        table="social_posts",
-        filter=f"campaign_id=eq.{campaign_id}",
+        event="*"
+        schema="public"
+        table="social_posts"
+        filter=f"campaign_id=eq.{campaign_id}"
         callback=lambda p: print(f"Post updated: {p}")
     ).subscribe()
     
@@ -318,8 +318,8 @@ async def categorize_campaign(campaign_id: int, campaign_text: str):
     
     # Find similar campaigns via vector search
     similar = await supabase.rpc("match_campaigns", {
-        "query_embedding": embedding,
-        "match_threshold": 0.8,
+        "query_embedding": embedding
+        "match_threshold": 0.8
         "match_count": 5
     }).execute()
     

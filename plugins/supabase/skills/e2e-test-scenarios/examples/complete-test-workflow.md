@@ -168,7 +168,7 @@ describe('Semantic Search', () => {
   test('should find relevant documents', async () => {
     // Insert test documents with embeddings
     const documents = [
-      { content: 'machine learning tutorial', embedding: [...] },
+      { content: 'machine learning tutorial', embedding: [...] }
       { content: 'cooking recipes', embedding: [...] }
     ];
 
@@ -178,8 +178,8 @@ describe('Semantic Search', () => {
     const queryEmbedding = [...]; // ML-related embedding
 
     const { data } = await supabase.rpc('match_documents', {
-      query_embedding: queryEmbedding,
-      match_threshold: 0.7,
+      query_embedding: queryEmbedding
+      match_threshold: 0.7
       match_count: 5
     });
 
@@ -211,8 +211,8 @@ describe('Realtime Subscriptions', () => {
 
     const channel = supabase
       .channel('test-channel')
-      .on('postgres_changes',
-        { event: 'INSERT', schema: 'public', table: 'messages' },
+      .on('postgres_changes'
+        { event: 'INSERT', schema: 'public', table: 'messages' }
         (payload) => receivedEvents.push(payload)
       )
       .subscribe();
@@ -255,13 +255,13 @@ describe('Complete User Workflow', () => {
     // 1. User signup
     const email = testHelpers.randomEmail();
     const { data: user } = await supabase.auth.signUp({
-      email,
+      email
       password: 'Test123!'
     });
 
     // 2. Login
     await supabase.auth.signInWithPassword({
-      email,
+      email
       password: 'Test123!'
     });
 

@@ -279,7 +279,7 @@ WHERE id IN (SELECT id FROM ground_truth);
 ```sql
 -- Check index size
 SELECT
-    pg_size_pretty(pg_relation_size('documents')) AS table_size,
+    pg_size_pretty(pg_relation_size('documents')) AS table_size
     pg_size_pretty(pg_relation_size('documents_embedding_idx')) AS index_size;
 
 -- Typical ratios:

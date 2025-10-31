@@ -9,12 +9,12 @@ This guide covers the most frequently used Row Level Security patterns for AI ap
 **Schema:**
 ```sql
 CREATE TABLE user_profiles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    full_name TEXT,
-    avatar_url TEXT,
-    preferences JSONB,
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    full_name TEXT
+    avatar_url TEXT
+    preferences JSONB
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(user_id)
 );
 ```
@@ -42,8 +42,8 @@ const { data: profile } = await supabase
 const { data, error } = await supabase
   .from('user_profiles')
   .insert({
-    user_id: user.id,
-    full_name: 'John Doe',
+    user_id: user.id
+    full_name: 'John Doe'
     preferences: { theme: 'dark' }
   });
 ```
@@ -57,17 +57,17 @@ const { data, error } = await supabase
 **Schema:**
 ```sql
 CREATE TABLE organizations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name TEXT NOT NULL,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    name TEXT NOT NULL
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE org_members (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
     role TEXT NOT NULL DEFAULT 'member',  -- 'admin', 'editor', 'member'
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(organization_id, user_id)
 );
 
@@ -75,10 +75,10 @@ CREATE TABLE org_members (
 CREATE INDEX idx_org_members_user_org ON org_members(user_id, organization_id);
 
 CREATE TABLE projects (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
-    name TEXT NOT NULL,
-    description TEXT,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    organization_id UUID NOT NULL REFERENCES organizations(id) ON DELETE CASCADE
+    name TEXT NOT NULL
+    description TEXT
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
@@ -112,11 +112,11 @@ const { data: projects } = await supabase
 **Schema:**
 ```sql
 CREATE TABLE articles (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    title TEXT NOT NULL,
-    content TEXT,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    title TEXT NOT NULL
+    content TEXT
     status TEXT DEFAULT 'draft',  -- 'draft', 'published'
-    author_id UUID REFERENCES auth.users(id),
+    author_id UUID REFERENCES auth.users(id)
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 ```
@@ -146,8 +146,8 @@ const { data: articles } = await supabase
 const { data, error } = await supabase
   .from('articles')
   .insert({
-    title: 'New Article',
-    content: 'Content here...',
+    title: 'New Article'
+    content: 'Content here...'
     author_id: user.id
   });
 // ✓ Success if user role is 'editor' or 'admin'
@@ -163,20 +163,20 @@ const { data, error } = await supabase
 **Schema:**
 ```sql
 CREATE TABLE conversations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    title TEXT,
-    model TEXT DEFAULT 'gpt-4',
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    title TEXT
+    model TEXT DEFAULT 'gpt-4'
+    created_at TIMESTAMPTZ DEFAULT NOW()
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE messages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    conversation_id UUID NOT NULL REFERENCES conversations(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    conversation_id UUID NOT NULL REFERENCES conversations(id) ON DELETE CASCADE
     role TEXT NOT NULL,  -- 'user', 'assistant', 'system'
-    content TEXT NOT NULL,
-    metadata JSONB,
+    content TEXT NOT NULL
+    metadata JSONB
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -195,7 +195,7 @@ bash scripts/apply-rls-policies.sh ai-chat conversations messages
 const { data: conversation } = await supabase
   .from('conversations')
   .insert({
-    user_id: user.id,
+    user_id: user.id
     title: 'New Chat'
   })
   .select()
@@ -205,8 +205,8 @@ const { data: conversation } = await supabase
 const { data: message } = await supabase
   .from('messages')
   .insert({
-    conversation_id: conversation.id,
-    role: 'user',
+    conversation_id: conversation.id
+    role: 'user'
     content: 'Hello, AI!'
   });
 
@@ -232,21 +232,21 @@ CREATE EXTENSION IF NOT EXISTS vector;
 **Schema:**
 ```sql
 CREATE TABLE documents (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    source_url TEXT,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
+    title TEXT NOT NULL
+    content TEXT NOT NULL
+    source_url TEXT
     processing_status TEXT DEFAULT 'pending',  -- 'pending', 'processing', 'completed'
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE document_embeddings (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE
     content TEXT NOT NULL,  -- Chunk of original document
     embedding vector(1536),  -- OpenAI ada-002 dimension
-    metadata JSONB,
+    metadata JSONB
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
@@ -267,9 +267,9 @@ bash scripts/apply-rls-policies.sh embeddings documents document_embeddings
 const { data: doc } = await supabase
   .from('documents')
   .insert({
-    user_id: user.id,
-    title: 'My Knowledge Base',
-    content: 'Full document content...',
+    user_id: user.id
+    title: 'My Knowledge Base'
+    content: 'Full document content...'
     processing_status: 'pending'
   })
   .select()
@@ -284,8 +284,8 @@ const { data: chunks } = await supabaseAdmin
 // Semantic search (uses RLS-secured function)
 const { data: results } = await supabase
   .rpc('search_embeddings', {
-    query_embedding: queryVector,
-    match_threshold: 0.7,
+    query_embedding: queryVector
+    match_threshold: 0.7
     match_count: 5
   });
 // Returns only results from user's own documents
@@ -300,19 +300,19 @@ const { data: results } = await supabase
 **Schema:**
 ```sql
 CREATE TABLE documents (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    owner_id UUID NOT NULL REFERENCES auth.users(id),
-    title TEXT NOT NULL,
-    content TEXT,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    owner_id UUID NOT NULL REFERENCES auth.users(id)
+    title TEXT NOT NULL
+    content TEXT
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE document_shares (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
-    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid()
+    document_id UUID NOT NULL REFERENCES documents(id) ON DELETE CASCADE
+    user_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE
     permission TEXT NOT NULL DEFAULT 'view',  -- 'view', 'edit', 'admin'
-    created_at TIMESTAMPTZ DEFAULT NOW(),
+    created_at TIMESTAMPTZ DEFAULT NOW()
     UNIQUE(document_id, user_id)
 );
 

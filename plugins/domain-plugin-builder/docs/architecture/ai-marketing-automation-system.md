@@ -161,10 +161,10 @@ aiplatform.init(project=PROJECT_ID, location=LOCATION)
 
 @mcp.tool()
 async def generate_image_imagen3(
-    prompt: str,
-    model: str = "imagen-3.0-fast-generate-001",
-    aspect_ratio: str = "1:1",
-    negative_prompt: str = "",
+    prompt: str
+    model: str = "imagen-3.0-fast-generate-001"
+    aspect_ratio: str = "1:1"
+    negative_prompt: str = ""
     style: str = "default"
 ) -> dict:
     """
@@ -172,7 +172,7 @@ async def generate_image_imagen3(
     
     Args:
         prompt: Image description
-        model: imagen-3.0-generate-001, imagen-3.0-fast-generate-001, 
+        model: imagen-3.0-generate-001, imagen-3.0-fast-generate-001
                imagegeneration@006 (Imagen 4), imagegeneration@002 (Imagen 4 Fast)
         aspect_ratio: 1:1, 16:9, 9:16, 4:3, 3:4
         negative_prompt: What to exclude
@@ -188,13 +188,13 @@ async def generate_image_imagen3(
     
     instances = [
         {
-            "prompt": prompt,
+            "prompt": prompt
         }
     ]
     
     parameters = {
-        "sampleCount": 1,
-        "aspectRatio": aspect_ratio,
+        "sampleCount": 1
+        "aspectRatio": aspect_ratio
     }
     
     if negative_prompt:
@@ -209,37 +209,37 @@ async def generate_image_imagen3(
     
     # Calculate cost
     cost_map = {
-        "imagen-3.0-generate-001": 0.04,
-        "imagen-3.0-fast-generate-001": 0.02,
+        "imagen-3.0-generate-001": 0.04
+        "imagen-3.0-fast-generate-001": 0.02
         "imagegeneration@006": 0.04,  # Imagen 4
         "imagegeneration@002": 0.02,  # Imagen 4 Fast
     }
     cost = cost_map.get(model, 0.04)
     
     return {
-        "url": image_url,
-        "cost": cost,
-        "model": model,
+        "url": image_url
+        "cost": cost
+        "model": model
         "aspect_ratio": aspect_ratio
     }
 
 
 @mcp.tool()
 async def generate_video_veo3(
-    prompt: str,
-    duration: int = 5,
-    include_audio: bool = False,
+    prompt: str
+    duration: int = 5
+    include_audio: bool = False
     model: str = "veo-3-fast-video-only"
 ) -> dict:
     """
     Generate a video using Veo 2/3.
     
     Args:
-        prompt: Video description (8 components: subject, setting, action, 
+        prompt: Video description (8 components: subject, setting, action
                 camera, lighting, style, mood, technical)
         duration: Video length in seconds (max 10)
         include_audio: Whether to generate synchronized audio
-        model: veo-3-fast-video-only, veo-3-fast-video-audio, 
+        model: veo-3-fast-video-only, veo-3-fast-video-audio
                veo-3-video-only, veo-3-video-audio
     
     Returns:
@@ -252,12 +252,12 @@ async def generate_video_veo3(
     
     instances = [
         {
-            "prompt": prompt,
+            "prompt": prompt
         }
     ]
     
     parameters = {
-        "duration": duration,
+        "duration": duration
     }
     
     response = endpoint.predict(instances=instances, parameters=parameters)
@@ -266,28 +266,28 @@ async def generate_video_veo3(
     
     # Calculate cost per second
     cost_per_second = {
-        "veo-3-fast-video-only": 0.10,
-        "veo-3-fast-video-audio": 0.15,
-        "veo-3-video-only": 0.20,
-        "veo-3-video-audio": 0.40,
-        "veo-2": 0.50,
+        "veo-3-fast-video-only": 0.10
+        "veo-3-fast-video-audio": 0.15
+        "veo-3-video-only": 0.20
+        "veo-3-video-audio": 0.40
+        "veo-2": 0.50
     }
     
     cost = cost_per_second.get(model, 0.10) * duration
     
     return {
-        "url": video_url,
-        "cost": cost,
-        "duration": duration,
-        "has_audio": include_audio,
+        "url": video_url
+        "cost": cost
+        "duration": duration
+        "has_audio": include_audio
         "model": model
     }
 
 
 @mcp.tool()
 async def batch_generate_images(
-    prompts: list[str],
-    model: str = "imagen-3.0-fast-generate-001",
+    prompts: list[str]
+    model: str = "imagen-3.0-fast-generate-001"
     aspect_ratio: str = "1:1"
 ) -> dict:
     """
@@ -308,16 +308,16 @@ async def batch_generate_images(
     # Fast models support 200 req/min
     for prompt in prompts:
         result = await generate_image_imagen3(
-            prompt=prompt,
-            model=model,
+            prompt=prompt
+            model=model
             aspect_ratio=aspect_ratio
         )
         images.append(result)
         total_cost += result["cost"]
     
     return {
-        "images": images,
-        "total_cost": total_cost,
+        "images": images
+        "total_cost": total_cost
         "count": len(images)
     }
 
@@ -334,8 +334,8 @@ name = "google-vertex-ai-mcp"
 version = "1.0.0"
 description = "MCP server for Google Vertex AI (Imagen 3/4, Veo 2/3)"
 dependencies = [
-    "fastmcp>=2.0.0",
-    "google-cloud-aiplatform>=1.38.0",
+    "fastmcp>=2.0.0"
+    "google-cloud-aiplatform>=1.38.0"
 ]
 
 [project.scripts]
@@ -382,74 +382,70 @@ export async function POST(req: Request) {
   const { product, industry, targetAudience, budget } = await req.json()
   
   const result = await streamText({
-    model: anthropic('claude-sonnet-4-20250514'),
-    
+    model: anthropic('claude-sonnet-4-20250514')
     tools: {
       // Wrap MCP tools for Vercel AI SDK
       generateImages: tool({
-        description: 'Generate images using Imagen 3/4 via MCP',
+        description: 'Generate images using Imagen 3/4 via MCP'
         parameters: z.object({
-          prompts: z.array(z.string()),
-          model: z.string().default('imagen-3.0-fast-generate-001'),
+          prompts: z.array(z.string())
+          model: z.string().default('imagen-3.0-fast-generate-001')
           aspectRatio: z.string().default('1:1')
-        }),
+        })
         execute: async ({ prompts, model, aspectRatio }) => {
           // Call MCP server tool
           const result = await callMCPTool('google-vertex-ai', 'batch_generate_images', {
-            prompts,
-            model,
+            prompts
+            model
             aspect_ratio: aspectRatio
           })
           
           return {
-            images: result.images,
-            count: result.count,
+            images: result.images
+            count: result.count
             cost: result.total_cost
           }
         }
-      }),
-      
+      })
       generateVideos: tool({
-        description: 'Generate videos using Veo 3 via MCP',
+        description: 'Generate videos using Veo 3 via MCP'
         parameters: z.object({
-          prompt: z.string(),
-          duration: z.number().max(10),
+          prompt: z.string()
+          duration: z.number().max(10)
           includeAudio: z.boolean()
-        }),
+        })
         execute: async ({ prompt, duration, includeAudio }) => {
           const model = includeAudio 
             ? 'veo-3-fast-video-audio' 
             : 'veo-3-fast-video-only'
           
           const result = await callMCPTool('google-vertex-ai', 'generate_video_veo3', {
-            prompt,
-            duration,
-            include_audio: includeAudio,
+            prompt
+            duration
+            include_audio: includeAudio
             model
           })
           
           return {
-            video: result.url,
-            cost: result.cost,
+            video: result.url
+            cost: result.cost
             duration: result.duration
           }
         }
-      }),
-      
+      })
       // Other tools from AI Tech Stack 1 (Supabase, etc.)
       saveToDatabase: tool({
-        description: 'Save generation results to Supabase',
+        description: 'Save generation results to Supabase'
         parameters: z.object({
           data: z.any()
-        }),
+        })
         execute: async ({ data }) => {
           // Use Supabase MCP server from AI Tech Stack 1
           return await callMCPTool('supabase', 'insert', data)
         }
       })
-    },
-    
-    prompt: `Generate complete product launch for "${product}"...`,
+    }
+    prompt: `Generate complete product launch for "${product}"...`
     maxTokens: 4096
   })
   
@@ -808,10 +804,10 @@ analytics-dashboard-mcp/     # Custom analytics tools
 **Input:**
 ```python
 website_config = {
-    "business_name": "Acme SaaS",
-    "industry": "Project Management",
-    "pages": ["home", "features", "pricing", "about", "blog", "contact"],
-    "brand_colors": ["#FF6B35", "#004E89"],
+    "business_name": "Acme SaaS"
+    "industry": "Project Management"
+    "pages": ["home", "features", "pricing", "about", "blog", "contact"]
+    "brand_colors": ["#FF6B35", "#004E89"]
     "tone": "Professional, Modern, Accessible"
 }
 ```
@@ -853,11 +849,11 @@ website_config = {
 **Input:**
 ```python
 landing_page_config = {
-    "campaign": "Product Launch",
+    "campaign": "Product Launch"
     "variants": 3,  # A/B/C testing
-    "images_per_page": 3,
-    "include_video": True,
-    "cta": "Start Free Trial",
+    "images_per_page": 3
+    "include_video": True
+    "cta": "Start Free Trial"
     "social_proof": True
 }
 ```
@@ -886,10 +882,10 @@ landing_page_config = {
 **Input:**
 ```python
 social_config = {
-    "platforms": ["Instagram", "LinkedIn", "Twitter", "TikTok"],
+    "platforms": ["Instagram", "LinkedIn", "Twitter", "TikTok"]
     "posts_per_platform": 30,  # 1 month
-    "include_videos": True,
-    "hashtag_research": True,
+    "include_videos": True
+    "hashtag_research": True
     "scheduling": True
 }
 ```
@@ -921,9 +917,9 @@ social_config = {
 **Input:**
 ```python
 email_config = {
-    "sequences": ["Welcome", "Nurture", "Conversion", "Retention"],
-    "emails_per_sequence": 5,
-    "personalized_images": True,
+    "sequences": ["Welcome", "Nurture", "Conversion", "Retention"]
+    "emails_per_sequence": 5
+    "personalized_images": True
     "subject_line_variants": 3
 }
 ```
@@ -951,10 +947,10 @@ email_config = {
 **Input:**
 ```python
 ad_config = {
-    "platforms": ["Google Ads", "Facebook", "LinkedIn"],
-    "ad_sets_per_platform": 10,
-    "sizes": ["square", "vertical", "horizontal"],
-    "copy_variants": 3,
+    "platforms": ["Google Ads", "Facebook", "LinkedIn"]
+    "ad_sets_per_platform": 10
+    "sizes": ["square", "vertical", "horizontal"]
+    "copy_variants": 3
     "budget_optimization": True
 }
 ```
@@ -983,10 +979,10 @@ ad_config = {
 **Input:**
 ```python
 strategy_config = {
-    "business_goals": ["Increase signups by 50%", "Reduce churn by 20%"],
-    "target_audience": "B2B SaaS buyers, 25-45, decision makers",
-    "budget": "$10,000/month",
-    "timeline": "Q1 2026",
+    "business_goals": ["Increase signups by 50%", "Reduce churn by 20%"]
+    "target_audience": "B2B SaaS buyers, 25-45, decision makers"
+    "budget": "$10,000/month"
+    "timeline": "Q1 2026"
     "competitors": ["Competitor1.com", "Competitor2.com"]
 }
 ```
@@ -1020,9 +1016,9 @@ strategy_config = {
 ```python
 blog_config = {
     "topics": 20,  # Generated from keyword research
-    "words_per_post": 2000,
-    "seo_optimized": True,
-    "featured_images": True,
+    "words_per_post": 2000
+    "seo_optimized": True
+    "featured_images": True
     "internal_linking": True
 }
 ```
@@ -1096,76 +1092,76 @@ blog_config = {
 async def generate_complete_marketing(product_config):
     # 1. Initialize context
     context = await load_full_context({
-        "brand": mem0.get_brand_guidelines(),
-        "competitors": await analyze_competitors(),
-        "market": await search_market_trends(),
+        "brand": mem0.get_brand_guidelines()
+        "competitors": await analyze_competitors()
+        "market": await search_market_trends()
         "product": await db.get_product_details()
     })
     
     # 2. Generate website
     website = await generate_website({
-        "context": context,
+        "context": context
         "images": await imagen.batch_generate([
-            "hero background",
-            "feature icons (6)",
-            "product gallery (8)",
-            "team photos (4)",
+            "hero background"
+            "feature icons (6)"
+            "product gallery (8)"
+            "team photos (4)"
             "blog headers (5)"
-        ]),
+        ])
         "videos": await veo.generate([
-            "product demo (8 sec)",
+            "product demo (8 sec)"
             "testimonial (5 sec)"
-        ]),
+        ])
         "content": await gemini.generate_content()
     })
     
     # 3. Generate landing pages
     landing_pages = await generate_landing_pages({
-        "context": context,
-        "variants": 3,
-        "images": await imagen.batch_generate(...),
+        "context": context
+        "variants": 3
+        "images": await imagen.batch_generate(...)
         "copy": await gemini.generate_variants()
     })
     
     # 4. Generate social content
     social = await generate_social_content({
-        "context": context,
-        "platforms": ["Instagram", "LinkedIn", "Twitter", "TikTok"],
-        "posts": 120,
-        "images": await imagen.batch_generate(...),
+        "context": context
+        "platforms": ["Instagram", "LinkedIn", "Twitter", "TikTok"]
+        "posts": 120
+        "images": await imagen.batch_generate(...)
         "videos": await veo.batch_generate(...)
     })
     
     # 5. Generate email sequences
     emails = await generate_email_sequences({
-        "context": context,
-        "sequences": 4,
-        "emails_per_sequence": 5,
+        "context": context
+        "sequences": 4
+        "emails_per_sequence": 5
         "images": await imagen.generate(...)
     })
     
     # 6. Generate ad campaigns
     ads = await generate_ad_campaigns({
-        "context": context,
-        "platforms": ["Google", "Facebook", "LinkedIn"],
-        "images": await imagen.batch_generate(...),
+        "context": context
+        "platforms": ["Google", "Facebook", "LinkedIn"]
+        "images": await imagen.batch_generate(...)
         "videos": await veo.batch_generate(...)
     })
     
     # 7. Generate strategy
     strategy = await generate_strategy({
-        "context": context,
-        "goals": product_config.goals,
+        "context": context
+        "goals": product_config.goals
         "budget": product_config.budget
     })
     
     # 8. Deploy everything
     deployment = await deploy_to_production({
-        "website": website,
-        "landing_pages": landing_pages,
-        "social": social,
-        "emails": emails,
-        "ads": ads,
+        "website": website
+        "landing_pages": landing_pages
+        "social": social
+        "emails": emails
+        "ads": ads
         "strategy": strategy
     })
     
@@ -1187,10 +1183,10 @@ memory = Memory()
 
 # Add brand guidelines
 memory.add({
-    "user_id": "acme_saas",
+    "user_id": "acme_saas"
     "messages": [
         {
-            "role": "system",
+            "role": "system"
             "content": """
             Brand Guidelines:
             - Name: Acme SaaS
@@ -1230,9 +1226,9 @@ async def analyze_competitor(url: str):
     """Scrape competitor website for analysis"""
     page_content = await scrape_website(url)
     return {
-        "messaging": extract_messaging(page_content),
-        "features": extract_features(page_content),
-        "pricing": extract_pricing(page_content),
+        "messaging": extract_messaging(page_content)
+        "features": extract_features(page_content)
+        "pricing": extract_pricing(page_content)
         "design": analyze_design(page_content)
     }
 
@@ -1257,35 +1253,27 @@ async def get_keywords(topic: str):
 # Load MASSIVE context
 full_context = {
     # Brand guidelines: ~5,000 tokens
-    "brand": mem0.get_brand_guidelines(),
-    
+    "brand": mem0.get_brand_guidelines()
     # Complete product catalog: ~50,000 tokens
-    "products": await db.get_all_products(),
-    
+    "products": await db.get_all_products()
     # Competitor analysis: ~100,000 tokens
     "competitors": await analyze_competitors([
-        "competitor1.com",
-        "competitor2.com",
-        "competitor3.com",
-        "competitor4.com",
+        "competitor1.com"
+        "competitor2.com"
+        "competitor3.com"
+        "competitor4.com"
         "competitor5.com"
-    ]),
-    
+    ])
     # Market research: ~200,000 tokens
-    "market_data": await comprehensive_market_research(),
-    
+    "market_data": await comprehensive_market_research()
     # Historical performance: ~50,000 tokens
-    "analytics": await get_campaign_analytics(),
-    
+    "analytics": await get_campaign_analytics()
     # User feedback: ~30,000 tokens
-    "feedback": mem0.get_all_user_feedback(),
-    
+    "feedback": mem0.get_all_user_feedback()
     # Design system: ~20,000 tokens
-    "design_system": load_design_tokens(),
-    
+    "design_system": load_design_tokens()
     # SEO data: ~30,000 tokens
-    "seo": await get_seo_insights(),
-    
+    "seo": await get_seo_insights()
     # Content examples: ~100,000 tokens
     "examples": load_successful_content_examples()
 }
@@ -1294,7 +1282,7 @@ full_context = {
 
 # Generate with full context
 result = await gemini.generate({
-    "context": full_context,
+    "context": full_context
     "task": "Generate complete marketing campaign"
 })
 ```
@@ -1383,8 +1371,8 @@ result = await gemini.generate({
 **Monday 9:30 AM** - Run automation:
 ```python
 launch = await generate_complete_marketing({
-    "product": "AI-powered task manager",
-    "target": "Remote teams",
+    "product": "AI-powered task manager"
+    "target": "Remote teams"
     "budget": "$5k/month"
 })
 ```
@@ -1468,9 +1456,9 @@ launch = await generate_complete_marketing({
 **AI Automation:**
 ```python
 global_launch = await generate_multi_market_launch({
-    "markets": ["US", "UK", "DE", "FR", "ES", "JP", "CN", "IN"],
-    "localize_content": True,
-    "cultural_adaptation": True,
+    "markets": ["US", "UK", "DE", "FR", "ES", "JP", "CN", "IN"]
+    "localize_content": True
+    "cultural_adaptation": True
     "local_seo": True
 })
 ```
@@ -1721,27 +1709,27 @@ The plugin's `plugin.json` **references** this external MCP server.
 
 ```json
 {
-  "name": "ai-marketing-automation",
-  "version": "1.0.0",
-  "description": "Generate complete marketing campaigns with websites, content, and media using Imagen 3/4, Veo 2/3, and Claude/Gemini",
+  "name": "ai-marketing-automation"
+  "version": "1.0.0"
+  "description": "Generate complete marketing campaigns with websites, content, and media using Imagen 3/4, Veo 2/3, and Claude/Gemini"
   "author": {
-    "name": "YourName",
+    "name": "YourName"
     "email": "your@email.com"
-  },
-  "homepage": "https://github.com/yourname/ai-marketing-automation",
-  "repository": "https://github.com/yourname/ai-marketing-automation",
-  "license": "MIT",
+  }
+  "homepage": "https://github.com/yourname/ai-marketing-automation"
+  "repository": "https://github.com/yourname/ai-marketing-automation"
+  "license": "MIT"
   "keywords": [
-    "marketing",
-    "automation",
-    "imagen",
-    "veo",
-    "ai",
-    "content-generation",
-    "website-builder",
-    "social-media",
-    "campaign-management",
-    "vercel",
+    "marketing"
+    "automation"
+    "imagen"
+    "veo"
+    "ai"
+    "content-generation"
+    "website-builder"
+    "social-media"
+    "campaign-management"
+    "vercel"
     "next.js"
   ]
 }
@@ -1757,26 +1745,26 @@ The plugin's `plugin.json` **references** this external MCP server.
 {
   "mcpServers": {
     "marketing-automation": {
-      "command": "uv",
+      "command": "uv"
       "args": [
-        "run",
-        "--with",
-        "fastmcp[all]",
-        "--with",
-        "google-cloud-aiplatform",
-        "--with",
-        "anthropic",
-        "--with",
-        "mem0ai",
-        "--directory",
-        "../marketing-automation-mcp-server",
+        "run"
+        "--with"
+        "fastmcp[all]"
+        "--with"
+        "google-cloud-aiplatform"
+        "--with"
+        "anthropic"
+        "--with"
+        "mem0ai"
+        "--directory"
+        "../marketing-automation-mcp-server"
         "src/server.py"
-      ],
+      ]
       "env": {
-        "GOOGLE_CLOUD_PROJECT": "${GOOGLE_CLOUD_PROJECT}",
-        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}",
-        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}",
-        "VERCEL_TOKEN": "${VERCEL_TOKEN}",
+        "GOOGLE_CLOUD_PROJECT": "${GOOGLE_CLOUD_PROJECT}"
+        "GOOGLE_APPLICATION_CREDENTIALS": "${GOOGLE_APPLICATION_CREDENTIALS}"
+        "ANTHROPIC_API_KEY": "${ANTHROPIC_API_KEY}"
+        "VERCEL_TOKEN": "${VERCEL_TOKEN}"
         "MEM0_API_KEY": "${MEM0_API_KEY}"
       }
     }
@@ -1799,27 +1787,27 @@ version = "1.0.0"
 description = "FastMCP server for AI marketing automation"
 requires-python = ">=3.10"
 dependencies = [
-    "fastmcp[all]>=2.0.0",
-    "google-cloud-aiplatform>=1.40.0",
-    "anthropic>=0.40.0",
-    "mem0ai>=0.1.0",
-    "httpx>=0.27.0",
-    "pydantic>=2.0.0",
-    "python-dotenv>=1.0.0",
+    "fastmcp[all]>=2.0.0"
+    "google-cloud-aiplatform>=1.40.0"
+    "anthropic>=0.40.0"
+    "mem0ai>=0.1.0"
+    "httpx>=0.27.0"
+    "pydantic>=2.0.0"
+    "python-dotenv>=1.0.0"
 ]
 
 [project.optional-dependencies]
 dev = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.23.0",
-    "black>=24.0.0",
-    "ruff>=0.3.0",
+    "pytest>=8.0.0"
+    "pytest-asyncio>=0.23.0"
+    "black>=24.0.0"
+    "ruff>=0.3.0"
 ]
 
 [tool.uv]
 dev-dependencies = [
-    "pytest>=8.0.0",
-    "pytest-asyncio>=0.23.0",
+    "pytest>=8.0.0"
+    "pytest-asyncio>=0.23.0"
 ]
 ```
 
@@ -1843,7 +1831,7 @@ mcp = FastMCP("AI Marketing Automation")
 
 # Initialize AI clients
 aiplatform.init(
-    project=os.getenv("GOOGLE_CLOUD_PROJECT"),
+    project=os.getenv("GOOGLE_CLOUD_PROJECT")
     location="us-central1"
 )
 anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
@@ -1851,11 +1839,11 @@ memory = Memory()
 
 @mcp.tool()
 async def generate_website(
-    product_name: str,
-    industry: str,
-    target_audience: str,
-    pages: List[str] = ["home", "features", "pricing", "about"],
-    style: str = "modern",
+    product_name: str
+    industry: str
+    target_audience: str
+    pages: List[str] = ["home", "features", "pricing", "about"]
+    style: str = "modern"
     quality_tier: str = "fast"
 ) -> dict:
     """
@@ -1877,11 +1865,11 @@ async def generate_website(
 
 @mcp.tool()
 async def generate_social_campaign(
-    product_name: str,
-    platforms: List[str],
-    duration_days: int = 30,
-    posts_per_day: int = 1,
-    include_videos: bool = True,
+    product_name: str
+    platforms: List[str]
+    duration_days: int = 30
+    posts_per_day: int = 1
+    include_videos: bool = True
     quality_tier: str = "fast"
 ) -> dict:
     """
@@ -1902,7 +1890,7 @@ async def generate_social_campaign(
 
 @mcp.tool()
 async def launch_complete_product(
-    product_config: dict,
+    product_config: dict
     budget: str = "balanced"
 ) -> dict:
     """
@@ -1927,8 +1915,8 @@ async def launch_complete_product(
 
 @mcp.tool()
 async def deploy_to_vercel(
-    project_path: str,
-    project_name: str,
+    project_path: str
+    project_name: str
     production: bool = False
 ) -> dict:
     """
@@ -1946,7 +1934,7 @@ async def deploy_to_vercel(
 
 @mcp.tool()
 async def store_brand_context(
-    brand_name: str,
+    brand_name: str
     guidelines: dict
 ) -> dict:
     """
@@ -2041,22 +2029,22 @@ if __name__ == "__main__":
 ```json
 {
   "product": {
-    "name": "TaskFlow Pro",
-    "industry": "Project Management SaaS",
-    "target_audience": "Remote teams, 10-50 people",
+    "name": "TaskFlow Pro"
+    "industry": "Project Management SaaS"
+    "target_audience": "Remote teams, 10-50 people"
     "features": [
-      "Task management",
-      "Team collaboration",
+      "Task management"
+      "Team collaboration"
       "Time tracking"
     ]
-  },
+  }
   "marketing": {
-    "campaign_types": ["product_launch", "free_trial"],
-    "platforms": ["linkedin", "twitter", "instagram"],
+    "campaign_types": ["product_launch", "free_trial"]
+    "platforms": ["linkedin", "twitter", "instagram"]
     "duration_days": 30
-  },
+  }
   "deployment": {
-    "auto_deploy": true,
+    "auto_deploy": true
     "domain": "taskflowpro.com"
   }
 }
@@ -2086,14 +2074,14 @@ if __name__ == "__main__":
 ```python
 # Good prompt structure
 prompt = f"""
-{subject} in {style}, {lighting}, {composition},
-{quality_markers}, {aspect_ratio} aspect ratio,
+{subject} in {style}, {lighting}, {composition}
+{quality_markers}, {aspect_ratio} aspect ratio
 {brand_context}
 """
 
 # Example
 prompt = """
-Professional SaaS dashboard screenshot, modern UI design, 
+Professional SaaS dashboard screenshot, modern UI design
 bright clean lighting, centered composition, high-quality 
 digital interface, 16:9 aspect ratio, using brand colors 
 #FF6B35 and #004E89, minimalist aesthetic
@@ -2152,7 +2140,7 @@ images = await imagen.batch_generate(
 ```python
 # Cache brand context (Gemini 2.5)
 cached_context = await gemini.cache_context({
-    "brand_guidelines": ...,
+    "brand_guidelines": ...
     "ttl": "1 hour"
 })
 # 90% cost reduction on input tokens
@@ -2171,10 +2159,10 @@ cached_context = await gemini.cache_context({
 ```python
 def validate_output(asset):
     checks = {
-        "brand_colors": verify_colors(asset),
-        "resolution": check_resolution(asset),
-        "safety": run_safety_check(asset),
-        "quality_score": calculate_quality(asset),
+        "brand_colors": verify_colors(asset)
+        "resolution": check_resolution(asset)
+        "safety": run_safety_check(asset)
+        "quality_score": calculate_quality(asset)
         "brand_alignment": check_brand_alignment(asset)
     }
     return all(checks.values())
@@ -2314,9 +2302,7 @@ def validate_output(asset):
 
 ## � Deployment Options
 
-This system can be deployed in **three different ways**, all using the same core MCP server tools:
-
-### **Option 1: Claude Code Plugin** (Developer Experience)
+This system can be deployed in **three different ways**, all using the same core MCP server tools: ### **Option 1: Claude Code Plugin** (Developer Experience)
 
 **Best for:** Developers building products locally in VS Code
 
@@ -2456,83 +2442,78 @@ export async function POST(req: Request) {
   
   // Use Vercel AI SDK with streaming + tool calling
   const result = await streamText({
-    model: anthropic('claude-sonnet-4-20250514'),
-    
+    model: anthropic('claude-sonnet-4-20250514')
     // Define tools that call your MCP server or direct APIs
     tools: {
       generateImages: tool({
-        description: 'Generate images using Imagen 3/4',
+        description: 'Generate images using Imagen 3/4'
         parameters: z.object({
-          prompts: z.array(z.string()),
-          quality: z.enum(['fast', 'balanced', 'premium']),
+          prompts: z.array(z.string())
+          quality: z.enum(['fast', 'balanced', 'premium'])
           aspectRatio: z.enum(['1:1', '16:9', '9:16', '4:3', '3:4'])
-        }),
+        })
         execute: async ({ prompts, quality, aspectRatio }) => {
           // Call Imagen API
           const images = await generateImagesWithImagen({
-            prompts,
-            quality,
+            prompts
+            quality
             aspectRatio
           })
           return { images, count: images.length, cost: calculateCost(images) }
         }
-      }),
-      
+      })
       generateVideos: tool({
-        description: 'Generate videos using Veo 3',
+        description: 'Generate videos using Veo 3'
         parameters: z.object({
-          prompt: z.string(),
-          duration: z.number().max(10),
+          prompt: z.string()
+          duration: z.number().max(10)
           includeAudio: z.boolean()
-        }),
+        })
         execute: async ({ prompt, duration, includeAudio }) => {
           const video = await generateVideoWithVeo({
-            prompt,
-            duration,
+            prompt
+            duration
             includeAudio
           })
           return { video, cost: duration * (includeAudio ? 0.40 : 0.20) }
         }
-      }),
-      
+      })
       generateContent: tool({
-        description: 'Generate marketing copy with Gemini',
+        description: 'Generate marketing copy with Gemini'
         parameters: z.object({
-          contentType: z.enum(['website', 'social', 'email', 'ad']),
+          contentType: z.enum(['website', 'social', 'email', 'ad'])
           context: z.string()
-        }),
+        })
         execute: async ({ contentType, context }) => {
           const content = await generateContentWithGemini({
-            contentType,
-            context,
+            contentType
+            context
             brandGuidelines: await getBrandContext(userId)
           })
           return content
         }
-      }),
-      
+      })
       deployToVercel: tool({
-        description: 'Deploy generated site to Vercel',
+        description: 'Deploy generated site to Vercel'
         parameters: z.object({
-          projectFiles: z.record(z.string()),
-          projectName: z.string(),
+          projectFiles: z.record(z.string())
+          projectName: z.string()
           production: z.boolean()
-        }),
+        })
         execute: async ({ projectFiles, projectName, production }) => {
           const deployment = await deployToVercel({
-            projectFiles,
-            projectName,
+            projectFiles
+            projectName
             production
           })
           return {
-            url: deployment.url,
-            previewUrl: deployment.previewUrl,
+            url: deployment.url
+            previewUrl: deployment.previewUrl
             status: 'deployed'
           }
         }
       })
-    },
-    
+    }
     // Orchestration prompt
     prompt: `
       Generate a complete product launch for "${product}" in the ${industry} industry.
@@ -2548,19 +2529,17 @@ export async function POST(req: Request) {
       5. Deploy to Vercel
       
       Use the tools in order and stream progress updates.
-    `,
-    
+    `
     // Maximum tokens for complex orchestration
-    maxTokens: 4096,
-    
+    maxTokens: 4096
     // Streaming options
     onFinish: async ({ usage, text }) => {
       // Log usage and costs to database
       await logGeneration({
-        userId,
-        product,
-        tokens: usage.totalTokens,
-        cost: calculateTotalCost(usage),
+        userId
+        product
+        tokens: usage.totalTokens
+        cost: calculateTotalCost(usage)
         timestamp: new Date()
       })
     }
@@ -2586,9 +2565,9 @@ export default function Home() {
   })
   
   const [formData, setFormData] = useState({
-    product: '',
-    industry: '',
-    targetAudience: '',
+    product: ''
+    industry: ''
+    targetAudience: ''
     budget: 'balanced'
   })
   
@@ -2597,7 +2576,7 @@ export default function Home() {
     
     // Send to AI with streaming
     await append({
-      role: 'user',
+      role: 'user'
       content: JSON.stringify(formData)
     })
   }

@@ -44,19 +44,19 @@ Actions (ONLY if mode = spec-driven):
 - Write auto-detected config to .ai-stack-config.json:
   !{bash cat > .ai-stack-config.json << 'EOF'
 {
-  "appName": "$ARGUMENTS",
-  "mode": "spec-driven",
-  "appType": "[detected from spec]",
-  "backend": ["[detected features]"],
-  "database": ["[detected features]"],
-  "auth": ["[detected from spec]"],
+  "appName": "$ARGUMENTS"
+  "mode": "spec-driven"
+  "appType": "[detected from spec]"
+  "backend": ["[detected features]"]
+  "database": ["[detected features]"]
+  "auth": ["[detected from spec]"]
   "aiArchitecture": {
-    "claudeAgentSDK": "[detected bool]",
-    "mcpServers": ["[detected servers]"],
-    "mem0": "[detected bool]",
+    "claudeAgentSDK": "[detected bool]"
+    "mcpServers": ["[detected servers]"]
+    "mem0": "[detected bool]"
     "vercelAISDK": "[detected bool]"
-  },
-  "phase": 1,
+  }
+  "phase": 1
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF
@@ -78,13 +78,13 @@ Actions (ONLY if mode = interactive):
 - Write config to .ai-stack-config.json:
   !{bash cat > .ai-stack-config.json << 'EOF'
 {
-  "appName": "$ARGUMENTS",
-  "mode": "interactive",
-  "appType": "[from answers]",
-  "backend": ["[features from answers]"],
-  "database": ["[features from answers]"],
-  "auth": ["[from answers]"],
-  "phase": 1,
+  "appName": "$ARGUMENTS"
+  "mode": "interactive"
+  "appType": "[from answers]"
+  "backend": ["[features from answers]"]
+  "database": ["[features from answers]"]
+  "auth": ["[from answers]"]
+  "phase": 1
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF

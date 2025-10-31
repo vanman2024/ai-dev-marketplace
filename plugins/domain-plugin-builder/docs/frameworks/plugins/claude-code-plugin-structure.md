@@ -70,16 +70,16 @@ my-plugin/
 
 ```json
 {
-  "name": "plugin-name",
-  "version": "1.2.0",
-  "description": "Brief plugin description",
+  "name": "plugin-name"
+  "version": "1.2.0"
+  "description": "Brief plugin description"
   "author": {
-    "name": "Author Name",
+    "name": "Author Name"
     "email": "author@example.com"
-  },
-  "homepage": "https://docs.example.com/plugin",
-  "repository": "https://github.com/author/plugin",
-  "license": "MIT",
+  }
+  "homepage": "https://docs.example.com/plugin"
+  "repository": "https://github.com/author/plugin"
+  "license": "MIT"
   "keywords": ["keyword1", "keyword2"]
 }
 ```
@@ -118,10 +118,10 @@ my-plugin/
 
 ```json
 {
-  "name": "my-plugin",
+  "name": "my-plugin"
   // DON'T include if using default directories!
   // ONLY use for additional custom locations:
-  "commands": ["./custom-location/special.md"],
+  "commands": ["./custom-location/special.md"]
   "agents": ["./specialized/ai-agent.md"]
 }
 ```
@@ -139,7 +139,7 @@ my-plugin/
 
 ```json
 {
-  "name": "my-plugin",
+  "name": "my-plugin"
   "commands": ["./advanced-commands/deploy.md"]
   // Note: NO agents field because they're in default agents/ directory
 }
@@ -174,7 +174,7 @@ Use in hooks, MCP servers, scripts to ensure correct paths:
   "hooks": {
     "PostToolUse": [{
       "hooks": [{
-        "type": "command",
+        "type": "command"
         "command": "${CLAUDE_PLUGIN_ROOT}/scripts/process.sh"
       }]
     }]
@@ -249,8 +249,8 @@ hello-plugin/
 **plugin.json**:
 ```json
 {
-  "name": "hello-plugin",
-  "version": "1.0.0",
+  "name": "hello-plugin"
+  "version": "1.0.0"
   "description": "Simple greeting plugin"
 }
 ```
@@ -267,11 +267,11 @@ hello-plugin/
 
 ```json
 {
-  "name": "my-marketplace",
-  "owner": {"name": "Organization"},
+  "name": "my-marketplace"
+  "owner": {"name": "Organization"}
   "plugins": [{
-    "name": "my-plugin",
-    "source": "./my-plugin",
+    "name": "my-plugin"
+    "source": "./my-plugin"
     "description": "Plugin description"
   }]
 }

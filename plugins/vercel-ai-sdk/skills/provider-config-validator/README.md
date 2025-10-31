@@ -194,9 +194,9 @@ import { handleProviderError } from './utils/errorHandler';
 
 const result = await handleProviderError(
   () => generateText({
-    model: openai('gpt-4'),
-    prompt: 'Hello',
-  }),
+    model: openai('gpt-4')
+    prompt: 'Hello'
+  })
   { provider: 'openai' }
 );
 ```

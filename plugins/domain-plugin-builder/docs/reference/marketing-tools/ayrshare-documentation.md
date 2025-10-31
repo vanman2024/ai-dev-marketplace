@@ -158,12 +158,12 @@ All API responses are in JSON format:
 
 ```json
 {
-  "status": "success",
-  "id": "eIT96IYEodNuzU4oMmwG",
-  "refId": "9abf1426d6ce9122ef11c72bd",
+  "status": "success"
+  "id": "eIT96IYEodNuzU4oMmwG"
+  "refId": "9abf1426d6ce9122ef11c72bd"
   "postIds": {
-    "facebook": "123456789_987654321",
-    "twitter": "1234567890123456789",
+    "facebook": "123456789_987654321"
+    "twitter": "1234567890123456789"
     "linkedin": "urn:li:share:1234567890"
   }
 }
@@ -238,14 +238,14 @@ curl -H "Authorization: Bearer 2MPXPKQ-S03M5LS-GR5RX5G-AZCK8EA" \
 ```javascript
 // Premium Plan (single user)
 const headers = {
-  'Authorization': `Bearer ${API_KEY}`,
+  'Authorization': `Bearer ${API_KEY}`
   'Content-Type': 'application/json'
 };
 
 // Business/Enterprise Plan (multiple users)
 const headers = {
-  'Authorization': `Bearer ${API_KEY}`,
-  'Profile-Key': `${PROFILE_KEY}`,
+  'Authorization': `Bearer ${API_KEY}`
+  'Profile-Key': `${PROFILE_KEY}`
   'Content-Type': 'application/json'
 };
 ```
@@ -264,9 +264,9 @@ The Post API allows you to publish posts to 13 social networks with extensive cu
 
 ```json
 {
-  "post": "Hello, world! 🚀",
-  "platforms": ["facebook", "twitter", "instagram", "linkedin"],
-  "mediaUrls": ["https://example.com/image.jpg"],
+  "post": "Hello, world! 🚀"
+  "platforms": ["facebook", "twitter", "instagram", "linkedin"]
+  "mediaUrls": ["https://example.com/image.jpg"]
   "scheduleDate": "2025-12-01T10:00:00Z"
 }
 ```
@@ -291,9 +291,9 @@ Schedule posts for future publication:
 
 ```json
 {
-  "post": "Hello, world!",
-  "mediaUrls": ["https://img.ayrshare.com/012/gb.jpg"],
-  "platforms": ["facebook", "instagram"],
+  "post": "Hello, world!"
+  "mediaUrls": ["https://img.ayrshare.com/012/gb.jpg"]
+  "platforms": ["facebook", "instagram"]
   "scheduleDate": "2023-07-08T12:30:00Z"
 }
 ```
@@ -318,8 +318,8 @@ Automatically add relevant hashtags to posts:
 
 ```json
 {
-  "post": "Check out our new product!",
-  "platforms": ["twitter", "instagram"],
+  "post": "Check out our new product!"
+  "platforms": ["twitter", "instagram"]
   "autoHashtag": {
     "max": 3,          // Integer 1-10, default 2
     "position": "auto" // "auto" or "end"
@@ -342,8 +342,8 @@ Automatically repost content multiple times:
 
 ```json
 {
-  "post": "The most important things are the hardest to say - Stephen King",
-  "platforms": ["twitter", "facebook"],
+  "post": "The most important things are the hardest to say - Stephen King"
+  "platforms": ["twitter", "facebook"]
   "autoRepost": {
     "repeat": 3,                        // Min 1, Max 10
     "days": 5,                          // Min 2 days between reposts
@@ -368,8 +368,8 @@ Automatically add first comment immediately after publishing:
 
 ```json
 {
-  "post": "Check out our new product launch! 🚀",
-  "platforms": ["facebook", "linkedin", "twitter"],
+  "post": "Check out our new product launch! 🚀"
+  "platforms": ["facebook", "linkedin", "twitter"]
   "firstComment": {
     "comment": "My first comment",     // Required
     "mediaUrls": ["https://..."]       // Facebook, LinkedIn, Twitter only
@@ -392,9 +392,9 @@ For posts requiring approval before publication:
 
 ```json
 {
-  "post": "Pending approval post",
-  "platforms": ["facebook", "linkedin"],
-  "requiresApproval": true,
+  "post": "Pending approval post"
+  "platforms": ["facebook", "linkedin"]
+  "requiresApproval": true
   "notes": "need approval by John Smith" // Optional
 }
 ```
@@ -414,14 +414,14 @@ Customize content for each platform:
 ```json
 {
   "post": {
-    "instagram": "Great IG pic!",
-    "facebook": "Great FB pic!",
+    "instagram": "Great IG pic!"
+    "facebook": "Great FB pic!"
     "default": "Great default pic!"
-  },
-  "platforms": ["instagram", "facebook", "linkedin"],
+  }
+  "platforms": ["instagram", "facebook", "linkedin"]
   "mediaUrls": {
-    "instagram": "https://img.ayrshare.com/012/gb.jpg",
-    "linkedin": "https://img.ayrshare.com/012/gb.jpg",
+    "instagram": "https://img.ayrshare.com/012/gb.jpg"
+    "linkedin": "https://img.ayrshare.com/012/gb.jpg"
     "default": "https://img.ayrshare.com/012/gb.jpg"
   }
 }
@@ -440,8 +440,8 @@ Prevent duplicate posts from accidental retries:
 
 ```json
 {
-  "post": "Hello, world!",
-  "platforms": ["twitter"],
+  "post": "Hello, world!"
+  "platforms": ["twitter"]
   "idempotencyKey": "Unique Key"
 }
 ```
@@ -459,7 +459,7 @@ Add formatting to posts:
 
 ```json
 {
-  "post": "<var>Hello</var>, how about a little <b>bold text</b> and <i>italics text</i> and an x<sub>2</sub>?",
+  "post": "<var>Hello</var>, how about a little <b>bold text</b> and <i>italics text</i> and an x<sub>2</sub>?"
   "platforms": ["twitter"]
 }
 ```
@@ -481,7 +481,7 @@ For line breaks in posts:
 
 ```json
 {
-  "post": "This is a new\u2063\nline.",
+  "post": "This is a new\u2063\nline."
   "platforms": ["twitter"]
 }
 ```
@@ -496,8 +496,8 @@ Automatically shorten URLs in posts:
 
 ```json
 {
-  "post": "Hello, world with a link https://www.ayrshare.com",
-  "platforms": ["linkedin"],
+  "post": "Hello, world with a link https://www.ayrshare.com"
+  "platforms": ["linkedin"]
   "shortenLinks": true
 }
 ```
@@ -510,8 +510,8 @@ Integrate Unsplash images directly:
 
 ```json
 {
-  "post": "Hello, world!",
-  "platforms": ["instagram"],
+  "post": "Hello, world!"
+  "platforms": ["instagram"]
   "unsplash": "random"                  // Random image
   // OR
   "unsplash": "money"                   // Search-based image
@@ -570,7 +570,7 @@ If URL doesn't end in known video extension (`.mp4`):
 
 ```json
 {
-  "mediaUrls": ["https://example.com/video?id=123"],
+  "mediaUrls": ["https://example.com/video?id=123"]
   "isVideo": true
 }
 ```
@@ -583,8 +583,8 @@ Post media without text:
 
 ```json
 {
-  "post": "",
-  "mediaUrls": ["https://example.com/image.jpg"],
+  "post": ""
+  "mediaUrls": ["https://example.com/image.jpg"]
   "platforms": ["facebook", "instagram"]
 }
 ```
@@ -666,7 +666,7 @@ Get analytics for a post by Ayrshare ID.
 ```json
 POST /analytics/post
 {
-  "id": "eIT96IYEodNuzU4oMmwG",
+  "id": "eIT96IYEodNuzU4oMmwG"
   "platforms": ["facebook", "twitter", "instagram"]
 }
 ```
@@ -687,7 +687,7 @@ Get analytics by social network post ID.
 ```json
 POST /analytics/social
 {
-  "id": "123456789_987654321",
+  "id": "123456789_987654321"
   "platform": "facebook"
 }
 ```
@@ -759,9 +759,9 @@ Add a comment to a post.
 ```json
 POST /comments
 {
-  "id": "eIT96IYEodNuzU4oMmwG",
-  "comment": "Thank you for your feedback!",
-  "platform": "facebook",
+  "id": "eIT96IYEodNuzU4oMmwG"
+  "comment": "Thank you for your feedback!"
+  "platform": "facebook"
   "mediaUrls": ["https://example.com/image.jpg"]
 }
 ```
@@ -776,7 +776,7 @@ Delete a comment.
 ```json
 DELETE /comments
 {
-  "id": "comment_id",
+  "id": "comment_id"
   "platform": "facebook"
 }
 ```
@@ -789,8 +789,8 @@ Reply to a comment.
 ```json
 POST /comments/reply
 {
-  "commentId": "comment_id",
-  "reply": "We appreciate your support!",
+  "commentId": "comment_id"
+  "reply": "We appreciate your support!"
   "platform": "instagram"
 }
 ```
@@ -892,8 +892,8 @@ Upload media to Ayrshare's media library.
 ```json
 POST /media/upload
 {
-  "file": "base64_encoded_file_data",
-  "fileName": "product-image.jpg",
+  "file": "base64_encoded_file_data"
+  "fileName": "product-image.jpg"
   "contentType": "image/jpeg"
 }
 ```
@@ -975,8 +975,8 @@ POST /profiles/create
 **Response**:
 ```json
 {
-  "status": "success",
-  "profileKey": "AX1XGG-9jK3M5LS-GR5RX5G-LLCK8EA",
+  "status": "success"
+  "profileKey": "AX1XGG-9jK3M5LS-GR5RX5G-LLCK8EA"
   "refId": "client-abc-001"
 }
 ```
@@ -1053,7 +1053,7 @@ Register a webhook endpoint.
 ```json
 POST /webhooks/register
 {
-  "url": "https://yourapp.com/webhooks/ayrshare",
+  "url": "https://yourapp.com/webhooks/ayrshare"
   "events": ["post.published", "post.failed", "comment.received"]
 }
 ```
@@ -1092,14 +1092,14 @@ Ayrshare signs webhook payloads with HMAC-SHA256:
 
 ```json
 {
-  "event": "post.published",
-  "timestamp": "2025-01-15T10:30:00Z",
+  "event": "post.published"
+  "timestamp": "2025-01-15T10:30:00Z"
   "data": {
-    "id": "eIT96IYEodNuzU4oMmwG",
-    "status": "success",
-    "platforms": ["facebook", "twitter"],
+    "id": "eIT96IYEodNuzU4oMmwG"
+    "status": "success"
+    "platforms": ["facebook", "twitter"]
     "postIds": {
-      "facebook": "123456789_987654321",
+      "facebook": "123456789_987654321"
       "twitter": "1234567890123456789"
     }
   }
@@ -1268,25 +1268,25 @@ Get available Facebook ad accounts associated with the authenticated profile.
 **Example Response**:
 ```json
 {
-  "status": "success",
+  "status": "success"
   "adAccounts": [
     {
-      "accountId": "274948345",
-      "name": "John Smith",
-      "status": "Active",
-      "currency": "USD",
-      "balance": 7.84,
-      "amountSpent": 191.33,
+      "accountId": "274948345"
+      "name": "John Smith"
+      "status": "Active"
+      "currency": "USD"
+      "balance": 7.84
+      "amountSpent": 191.33
       "metrics": {
-        "spend": 191.33,
-        "impressions": 24994,
-        "reach": 20410,
-        "clicks": 622,
-        "ctr": 2.488597,
+        "spend": 191.33
+        "impressions": 24994
+        "reach": 20410
+        "clicks": 622
+        "ctr": 2.488597
         "cpm": 7.655037
       }
     }
-  ],
+  ]
   "count": 1
 }
 ```
@@ -1300,16 +1300,16 @@ Boost a post by transforming it into a Facebook ad.
 **Request Body**:
 ```json
 {
-  "postId": "eIT96IYEodNuzU4oMmwG",
-  "adAccountId": "274948345",
-  "budget": 100,
-  "duration": 7,
-  "goal": "REACH",
+  "postId": "eIT96IYEodNuzU4oMmwG"
+  "adAccountId": "274948345"
+  "budget": 100
+  "duration": 7
+  "goal": "REACH"
   "audience": {
-    "ageMin": 18,
-    "ageMax": 65,
-    "genders": [1, 2],
-    "locations": ["United States"],
+    "ageMin": 18
+    "ageMax": 65
+    "genders": [1, 2]
+    "locations": ["United States"]
     "interests": ["marketing", "social media"]
   }
 }
@@ -1396,9 +1396,9 @@ Update an existing Facebook ad.
 **Request Body**:
 ```json
 {
-  "adId": "ad_123456",
-  "budget": 150,
-  "duration": 10,
+  "adId": "ad_123456"
+  "budget": 150
+  "duration": 10
   "status": "ACTIVE"
 }
 ```
@@ -1905,11 +1905,11 @@ const BASE_URL = 'https://api.ayrshare.com/api';
 
 async function publishPost(postData) {
   const response = await fetch(`${BASE_URL}/post`, {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'Authorization': `Bearer ${API_KEY}`,
+      'Authorization': `Bearer ${API_KEY}`
       'Content-Type': 'application/json'
-    },
+    }
     body: JSON.stringify(postData)
   });
   
@@ -1918,8 +1918,8 @@ async function publishPost(postData) {
 
 // Usage
 const post = {
-  post: "Hello, world! 🚀",
-  platforms: ["facebook", "twitter", "instagram"],
+  post: "Hello, world! 🚀"
+  platforms: ["facebook", "twitter", "instagram"]
   mediaUrls: ["https://example.com/image.jpg"]
 };
 
@@ -1936,13 +1936,13 @@ BASE_URL = 'https://api.ayrshare.com/api'
 
 def publish_post(post_data):
     headers = {
-        'Authorization': f'Bearer {API_KEY}',
+        'Authorization': f'Bearer {API_KEY}'
         'Content-Type': 'application/json'
     }
     
     response = requests.post(
-        f'{BASE_URL}/post',
-        headers=headers,
+        f'{BASE_URL}/post'
+        headers=headers
         json=post_data
     )
     
@@ -1950,8 +1950,8 @@ def publish_post(post_data):
 
 # Usage
 post = {
-    "post": "Hello, world! 🚀",
-    "platforms": ["facebook", "twitter", "instagram"],
+    "post": "Hello, world! 🚀"
+    "platforms": ["facebook", "twitter", "instagram"]
     "mediaUrls": ["https://example.com/image.jpg"]
 }
 
@@ -1965,12 +1965,12 @@ const fetch = require('node-fetch');
 
 async function publishPostWithCompression(postData) {
   const response = await fetch(`${BASE_URL}/post`, {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${API_KEY}`
+      'Content-Type': 'application/json'
       'Accept-Encoding': 'deflate, gzip, br'
-    },
+    }
     body: JSON.stringify(postData)
   });
   
@@ -1992,9 +1992,9 @@ async function distributeContent(posts, platforms) {
   
   for (const post of posts) {
     const result = await publishPost({
-      post: post.text,
-      platforms: platforms,
-      mediaUrls: post.images,
+      post: post.text
+      platforms: platforms
+      mediaUrls: post.images
       scheduleDate: post.scheduledTime
     });
     
@@ -2016,10 +2016,10 @@ async function scheduleContentCalendar(calendar) {
   for (const day of calendar) {
     for (const post of day.posts) {
       const result = await publishPost({
-        post: post.content,
-        platforms: post.platforms,
-        mediaUrls: post.media,
-        scheduleDate: post.date,
+        post: post.content
+        platforms: post.platforms
+        mediaUrls: post.media
+        scheduleDate: post.date
         autoHashtag: true
       });
       
@@ -2038,14 +2038,14 @@ async function scheduleContentCalendar(calendar) {
 ```javascript
 async function distributeVideo(videoUrl, caption) {
   const videoPlatforms = [
-    "facebook", "instagram", "tiktok", 
+    "facebook", "instagram", "tiktok"
     "youtube", "twitter", "linkedin"
   ];
   
   return await publishPost({
-    post: caption,
-    platforms: videoPlatforms,
-    mediaUrls: [videoUrl],
+    post: caption
+    platforms: videoPlatforms
+    mediaUrls: [videoUrl]
     isVideo: true
   });
 }
@@ -2059,15 +2059,15 @@ async function distributeVideo(videoUrl, caption) {
 async function publishPlatformOptimized(content) {
   return await publishPost({
     post: {
-      "instagram": content.instagram.text,
-      "facebook": content.facebook.text,
-      "twitter": content.twitter.text,
+      "instagram": content.instagram.text
+      "facebook": content.facebook.text
+      "twitter": content.twitter.text
       "default": content.default.text
-    },
-    platforms: ["instagram", "facebook", "twitter", "linkedin"],
+    }
+    platforms: ["instagram", "facebook", "twitter", "linkedin"]
     mediaUrls: {
-      "instagram": content.instagram.image,
-      "facebook": content.facebook.image,
+      "instagram": content.instagram.image
+      "facebook": content.facebook.image
       "default": content.default.image
     }
   });
@@ -2081,9 +2081,9 @@ async function publishPlatformOptimized(content) {
 ```javascript
 async function createEvergreenPost(content) {
   return await publishPost({
-    post: content.text,
-    platforms: content.platforms,
-    mediaUrls: content.images,
+    post: content.text
+    platforms: content.platforms
+    mediaUrls: content.images
     autoRepost: {
       repeat: 4,      // Repost 4 times
       days: 30,       // Every 30 days
@@ -2100,13 +2100,13 @@ async function createEvergreenPost(content) {
 ```javascript
 async function getPostAnalytics(postId) {
   const response = await fetch(`${BASE_URL}/analytics/post`, {
-    method: 'POST',
+    method: 'POST'
     headers: {
-      'Authorization': `Bearer ${API_KEY}`,
+      'Authorization': `Bearer ${API_KEY}`
       'Content-Type': 'application/json'
-    },
+    }
     body: JSON.stringify({
-      id: postId,
+      id: postId
       platforms: ["facebook", "twitter", "instagram"]
     })
   });
@@ -2299,48 +2299,48 @@ If building custom MCP server:
 {
   "tools": [
     {
-      "name": "post_to_social",
-      "description": "Publish post to multiple social media platforms",
+      "name": "post_to_social"
+      "description": "Publish post to multiple social media platforms"
       "inputSchema": {
-        "type": "object",
+        "type": "object"
         "properties": {
-          "post": { "type": "string" },
-          "platforms": { "type": "array" },
-          "mediaUrls": { "type": "array" },
+          "post": { "type": "string" }
+          "platforms": { "type": "array" }
+          "mediaUrls": { "type": "array" }
           "scheduleDate": { "type": "string" }
         }
       }
-    },
+    }
     {
-      "name": "schedule_campaign",
-      "description": "Schedule multiple posts across platforms",
+      "name": "schedule_campaign"
+      "description": "Schedule multiple posts across platforms"
       "inputSchema": {
-        "type": "object",
+        "type": "object"
         "properties": {
-          "posts": { "type": "array" },
+          "posts": { "type": "array" }
           "calendar": { "type": "object" }
         }
       }
-    },
+    }
     {
-      "name": "get_post_analytics",
-      "description": "Get analytics for published posts",
+      "name": "get_post_analytics"
+      "description": "Get analytics for published posts"
       "inputSchema": {
-        "type": "object",
+        "type": "object"
         "properties": {
-          "postId": { "type": "string" },
+          "postId": { "type": "string" }
           "platforms": { "type": "array" }
         }
       }
-    },
+    }
     {
-      "name": "manage_comments",
-      "description": "View, add, or delete comments on posts",
+      "name": "manage_comments"
+      "description": "View, add, or delete comments on posts"
       "inputSchema": {
-        "type": "object",
+        "type": "object"
         "properties": {
-          "action": { "enum": ["view", "add", "delete"] },
-          "postId": { "type": "string" },
+          "action": { "enum": ["view", "add", "delete"] }
+          "postId": { "type": "string" }
           "comment": { "type": "string" }
         }
       }

@@ -23,7 +23,7 @@ Read: templates/agents/agent-example.md
 ---
 name: complexity-analyzer
 description: Analyzes code complexity and suggests improvements
-tools: Read,Grep,Bash
+tools: Read, Grep, Bash
 model: claude-sonnet-4-5-20250929
 color: purple
 ---
@@ -70,16 +70,7 @@ allowed-tools: Read(*), Bash(*)
 
 User input: $ARGUMENTS
 
-Task(
-  subagent_type="complexity-analyzer",
-  description="Analyze code complexity",
-  prompt="Analyze complexity in: $ARGUMENTS
-
-  Generate report with:
-  - Cyclomatic complexity
-  - Lines of code metrics
-  - Improvement suggestions"
-)
+Task
 ```
 
 4. **Validate the command**
@@ -182,12 +173,12 @@ mkdir -p multiagent-testing/{commands,agents,skills,docs}
 4. **Create manifest**
 ```json
 {
-  "name": "multiagent-testing",
-  "version": "1.0.0",
-  "description": "Comprehensive testing tools for multiagent projects",
+  "name": "multiagent-testing"
+  "version": "1.0.0"
+  "description": "Comprehensive testing tools for multiagent projects"
   "components": {
-    "commands": 3,
-    "agents": 2,
+    "commands": 3
+    "agents": 2
     "skills": 1
   }
 }

@@ -83,9 +83,9 @@ jobs:
 
             // Find existing comment
             const { data: comments } = await github.rest.issues.listComments({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
+              owner: context.repo.owner
+              repo: context.repo.repo
+              issue_number: context.issue.number
             });
 
             const botComment = comments.find(comment =>
@@ -98,17 +98,17 @@ jobs:
             if (botComment) {
               // Update existing comment
               await github.rest.issues.updateComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                comment_id: botComment.id,
+                owner: context.repo.owner
+                repo: context.repo.repo
+                comment_id: botComment.id
                 body: commentBody
               });
             } else {
               // Create new comment
               await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
+                owner: context.repo.owner
+                repo: context.repo.repo
+                issue_number: context.issue.number
                 body: commentBody
               });
             }
@@ -340,12 +340,12 @@ pipeline {
             steps {
                 script {
                     def hasErrors = sh(
-                        script: 'grep -q "ERROR" validation-report.md',
+                        script: 'grep -q "ERROR" validation-report.md'
                         returnStatus: true
                     ) == 0
 
                     def hasWarnings = sh(
-                        script: 'grep -q "WARNING" validation-report.md',
+                        script: 'grep -q "WARNING" validation-report.md'
                         returnStatus: true
                     ) == 0
 
@@ -364,22 +364,22 @@ pipeline {
             archiveArtifacts artifacts: 'validation-report.md', allowEmptyArchive: true
 
             publishHTML([
-                reportDir: '.',
-                reportFiles: 'validation-report.md',
-                reportName: 'Schema Validation Report',
+                reportDir: '.'
+                reportFiles: 'validation-report.md'
+                reportName: 'Schema Validation Report'
                 keepAll: true
             ])
         }
 
         failure {
             emailext(
-                subject: "Schema Validation Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}",
+                subject: "Schema Validation Failed: ${env.JOB_NAME} - ${env.BUILD_NUMBER}"
                 body: """
                     Schema validation failed.
 
                     Check the validation report at:
                     ${env.BUILD_URL}Schema_20Validation_20Report
-                """,
+                """
                 to: "${env.CHANGE_AUTHOR_EMAIL}"
             )
         }
@@ -574,12 +574,12 @@ jobs:
   with:
     payload: |
       {
-        "text": "❌ Schema validation failed for ${{ github.repository }}",
+        "text": "❌ Schema validation failed for ${{ github.repository }}"
         "blocks": [
           {
-            "type": "section",
+            "type": "section"
             "text": {
-              "type": "mrkdwn",
+              "type": "mrkdwn"
               "text": "*Schema Validation Failed*\n\nRepository: ${{ github.repository }}\nBranch: ${{ github.ref }}\nCommit: ${{ github.sha }}"
             }
           }

@@ -182,7 +182,7 @@ class MyCallbacks:
 async def main():
     callbacks = MyCallbacks()
     async with FastMCPClient(
-        "http://localhost:8000",
+        "http://localhost:8000"
         callbacks=callbacks
     ) as client:
         await client.call_tool("greet", {"name": "World"})

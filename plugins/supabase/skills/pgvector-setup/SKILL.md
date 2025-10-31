@@ -69,8 +69,8 @@ This skill provides complete pgvector setup for Supabase databases, enabling vec
    ```sql
    -- See templates/match-function.sql for complete example
    create or replace function match_documents(
-     query_embedding vector(1536),
-     match_threshold float,
+     query_embedding vector(1536)
+     match_threshold float
      match_count int
    ) returns setof documents ...
    ```
@@ -78,8 +78,8 @@ This skill provides complete pgvector setup for Supabase databases, enabling vec
 2. Query from application:
    ```javascript
    const { data } = await supabase.rpc('match_documents', {
-     query_embedding: embedding,
-     match_threshold: 0.78,
+     query_embedding: embedding
+     match_threshold: 0.78
      match_count: 10
    });
    ```
@@ -102,10 +102,10 @@ For combining keyword and semantic search:
 3. Use the hybrid search function:
    ```sql
    select * from hybrid_search(
-     'search query text',
-     query_embedding,
-     match_count := 10,
-     full_text_weight := 1.0,
+     'search query text'
+     query_embedding
+     match_count := 10
+     full_text_weight := 1.0
      semantic_weight := 1.0
    );
    ```

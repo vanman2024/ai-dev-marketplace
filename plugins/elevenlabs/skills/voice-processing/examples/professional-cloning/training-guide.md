@@ -67,7 +67,7 @@ Create scripts covering various styles:
 **Conversational**
 ```
 "Hey, how's it going? I wanted to tell you about something interesting
-I learned today. You know how we were talking about voice cloning? Well,
+I learned today. You know how we were talking about voice cloning? Well
 the technology has really come a long way..."
 ```
 
@@ -94,7 +94,7 @@ that exceeded our projected targets."
 
 **Technical**
 ```
-"The audio processing pipeline utilizes a sample rate of 44.1 kilohertz,
+"The audio processing pipeline utilizes a sample rate of 44.1 kilohertz
 with 24-bit depth encoding. The compression algorithm employs variable
 bitrate encoding for optimal quality."
 ```

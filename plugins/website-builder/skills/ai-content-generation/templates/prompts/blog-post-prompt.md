@@ -30,11 +30,11 @@ Include:
 
 ```typescript
 const blogPost = await generate_marketing_content({
-  content_type: 'blog_post',
-  topic: 'Getting started with Astro and Supabase',
-  tone: 'informative',
-  target_audience: 'Web developers new to Astro',
-  length: 'medium',
+  content_type: 'blog_post'
+  topic: 'Getting started with Astro and Supabase'
+  tone: 'informative'
+  target_audience: 'Web developers new to Astro'
+  length: 'medium'
   model: 'gemini-2.0-pro'
 });
 ```

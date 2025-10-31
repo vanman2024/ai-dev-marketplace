@@ -112,7 +112,7 @@ app.post('/mcp', async (req, res) => {
 
     case 'tools/call':
       const result = await mcpServer.callTool(
-        params.name,
+        params.name
         params.arguments
       );
       res.json({ result });
@@ -149,7 +149,7 @@ async def mcp_endpoint(request: dict):
 
     elif method == "tools/call":
         result = await mcp.call_tool(
-            params["name"],
+            params["name"]
             params.get("arguments", {})
         )
         return {"result": result}
@@ -167,28 +167,28 @@ if __name__ == "__main__":
 
 ```typescript
 {
-  name: "customer_lookup",
-  description: "Look up customer information by ID or email",
+  name: "customer_lookup"
+  description: "Look up customer information by ID or email"
   inputSchema: {
-    type: "object",
+    type: "object"
     properties: {
       customerId: {
-        type: "string",
+        type: "string"
         description: "Customer ID"
-      },
+      }
       email: {
-        type: "string",
+        type: "string"
         description: "Customer email address"
       }
-    },
+    }
     required: []
-  },
+  }
   outputSchema: {
-    type: "object",
+    type: "object"
     properties: {
-      id: { type: "string" },
-      name: { type: "string" },
-      email: { type: "string" },
+      id: { type: "string" }
+      name: { type: "string" }
+      email: { type: "string" }
       orders: { type: "array" }
     }
   }
@@ -205,15 +205,15 @@ async function customerLookup(args: {
   // Your business logic here
   const customer = await db.customers.findOne({
     $or: [
-      { id: args.customerId },
+      { id: args.customerId }
       { email: args.email }
     ]
   });
 
   return {
-    id: customer.id,
-    name: customer.name,
-    email: customer.email,
+    id: customer.id
+    name: customer.name
+    email: customer.email
     orders: customer.orders
   };
 }
@@ -225,13 +225,13 @@ async function customerLookup(args: {
 
 ```json
 {
-  "name": "customer_lookup",
-  "description": "Look up customer by ID or email",
+  "name": "customer_lookup"
+  "description": "Look up customer by ID or email"
   "inputSchema": {
-    "customerId": "string (optional)",
+    "customerId": "string (optional)"
     "email": "string (optional)"
-  },
-  "riskLevel": "low",
+  }
+  "riskLevel": "low"
   "approval": "auto_approved"
 }
 ```
@@ -240,14 +240,14 @@ async function customerLookup(args: {
 
 ```json
 {
-  "name": "order_create",
-  "description": "Create a new order for customer",
+  "name": "order_create"
+  "description": "Create a new order for customer"
   "inputSchema": {
-    "customerId": "string (required)",
-    "items": "array (required)",
+    "customerId": "string (required)"
+    "items": "array (required)"
     "total": "number (required)"
-  },
-  "riskLevel": "medium",
+  }
+  "riskLevel": "medium"
   "approval": "requires_approval"
 }
 ```
@@ -256,9 +256,9 @@ async function customerLookup(args: {
 
 ```json
 {
-  "name": "customer_delete",
-  "description": "Delete customer account (DISABLED)",
-  "riskLevel": "critical",
+  "name": "customer_delete"
+  "description": "Delete customer account (DISABLED)"
+  "riskLevel": "critical"
   "approval": "disabled"
 }
 ```
@@ -308,7 +308,7 @@ import Joi from 'joi';
 
 const toolSchemas = {
   customer_lookup: Joi.object({
-    customerId: Joi.string().uuid(),
+    customerId: Joi.string().uuid()
     email: Joi.string().email()
   }).or('customerId', 'email')
 };
@@ -330,8 +330,8 @@ function validateToolInput(toolName: string, args: any) {
 curl -X POST http://localhost:3000/mcp \
   -H "Content-Type: application/json" \
   -d '{
-    "jsonrpc": "2.0",
-    "id": 1,
+    "jsonrpc": "2.0"
+    "id": 1
     "method": "tools/list"
   }'
 ```
@@ -343,11 +343,11 @@ curl -X POST http://localhost:3000/mcp \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_TOKEN" \
   -d '{
-    "jsonrpc": "2.0",
-    "id": 2,
-    "method": "tools/call",
+    "jsonrpc": "2.0"
+    "id": 2
+    "method": "tools/call"
     "params": {
-      "name": "customer_lookup",
+      "name": "customer_lookup"
       "arguments": {
         "email": "customer@example.com"
       }

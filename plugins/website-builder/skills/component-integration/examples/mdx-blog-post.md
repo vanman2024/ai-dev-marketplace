@@ -19,11 +19,11 @@ import react from '@astrojs/react';
 export default defineConfig({
   integrations: [
     mdx({
-      syntaxHighlight: 'shiki',
-      shikiConfig: { theme: 'github-dark' },
-      remarkPlugins: [],
-      rehypePlugins: [],
-    }),
+      syntaxHighlight: 'shiki'
+      shikiConfig: { theme: 'github-dark' }
+      remarkPlugins: []
+      rehypePlugins: []
+    })
     react()
   ]
 });
@@ -45,16 +45,16 @@ interface CalloutProps {
 
 export function Callout({ type = 'info', title, children }: CalloutProps) {
   const styles = {
-    info: 'bg-blue-50 border-blue-500 text-blue-900',
-    warning: 'bg-yellow-50 border-yellow-500 text-yellow-900',
-    error: 'bg-red-50 border-red-500 text-red-900',
+    info: 'bg-blue-50 border-blue-500 text-blue-900'
+    warning: 'bg-yellow-50 border-yellow-500 text-yellow-900'
+    error: 'bg-red-50 border-red-500 text-red-900'
     success: 'bg-green-50 border-green-500 text-green-900'
   };
 
   const icons = {
-    info: '💡',
-    warning: '⚠️',
-    error: '❌',
+    info: '💡'
+    warning: '⚠️'
+    error: '❌'
     success: '✅'
   };
 
@@ -89,10 +89,10 @@ export function CodeSandbox({ id, title, height = 500 }: CodeSandboxProps) {
       <iframe
         src={`https://codesandbox.io/embed/${id}?fontsize=14&hidenavigation=1&theme=dark`}
         style={{
-          width: '100%',
-          height: `${height}px`,
-          border: 0,
-          borderRadius: '4px',
+          width: '100%'
+          height: `${height}px`
+          border: 0
+          borderRadius: '4px'
           overflow: 'hidden'
         }}
         title={title || 'CodeSandbox'}
@@ -168,8 +168,8 @@ export function TableOfContents() {
     // Extract headings from the document
     const elements = document.querySelectorAll('h2, h3, h4');
     const headingData: Heading[] = Array.from(elements).map((element) => ({
-      id: element.id,
-      text: element.textContent || '',
+      id: element.id
+      text: element.textContent || ''
       level: parseInt(element.tagName.charAt(1))
     }));
     setHeadings(headingData);
@@ -182,7 +182,7 @@ export function TableOfContents() {
             setActiveId(entry.target.id);
           }
         });
-      },
+      }
       { rootMargin: '-100px 0px -80% 0px' }
     );
 
@@ -386,15 +386,15 @@ MDX gives you the best of both worlds: the simplicity of Markdown and the power 
 import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
-  type: 'content',
+  type: 'content'
   schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    author: z.string(),
-    date: z.string().transform((str) => new Date(str)),
-    tags: z.array(z.string()).optional(),
-    draft: z.boolean().default(false),
-  }),
+    title: z.string()
+    description: z.string()
+    author: z.string()
+    date: z.string().transform((str) => new Date(str))
+    tags: z.array(z.string()).optional()
+    draft: z.boolean().default(false)
+  })
 });
 
 export const collections = { blog };
@@ -462,8 +462,8 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
   return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
+    params: { slug: post.slug }
+    props: { post }
   }));
 }
 

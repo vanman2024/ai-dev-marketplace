@@ -121,7 +121,7 @@ import { Counter } from '@/components/Counter';
 // Server-side data fetching
 const posts = await fetch('https://api.example.com/posts').then(r => r.json());
 const config = {
-  theme: 'dark',
+  theme: 'dark'
   maxCount: 100
 };
 ---
@@ -153,15 +153,15 @@ interface CardProps {
 }
 
 export function Card({
-  title,
-  description,
-  children,
-  variant = 'default',
+  title
+  description
+  children
+  variant = 'default'
   onClick
 }: CardProps) {
   const variantClasses = {
-    default: 'bg-white border border-gray-200',
-    outlined: 'bg-transparent border-2 border-gray-300',
+    default: 'bg-white border border-gray-200'
+    outlined: 'bg-transparent border-2 border-gray-300'
     elevated: 'bg-white shadow-lg'
   };
 
@@ -338,9 +338,9 @@ interface ButtonProps {
 }
 
 export function Button({
-  label,
-  onClick,
-  variant = 'primary',
+  label
+  onClick
+  variant = 'primary'
   disabled = false
 }: ButtonProps) {
   return <button onClick={onClick} disabled={disabled}>{label}</button>;

@@ -1,7 +1,7 @@
 ---
 description: Validate Supabase setup - MCP connectivity, configuration, security, schema (parallel validation)
 argument-hint: [--production] [--suite=all|mcp|schema|security|performance]
-allowed-tools: Task(supabase-validator), Task(supabase-schema-validator), Task(supabase-security-auditor), Task(supabase-tester)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

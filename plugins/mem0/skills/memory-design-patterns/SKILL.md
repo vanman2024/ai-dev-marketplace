@@ -27,13 +27,13 @@ Mem0 provides three distinct memory scopes, each serving different purposes:
 ```python
 # Add user-level memory
 memory.add(
-    "User prefers concise responses without technical jargon",
+    "User prefers concise responses without technical jargon"
     user_id="customer_bob"
 )
 
 # Search user memories
 user_context = memory.search(
-    "communication style",
+    "communication style"
     user_id="customer_bob"
 )
 ```
@@ -57,13 +57,13 @@ user_context = memory.search(
 ```python
 # Add agent-level memory
 memory.add(
-    "When handling refund requests, always check order date first",
+    "When handling refund requests, always check order date first"
     agent_id="support_agent_v2"
 )
 
 # Search agent memories
 agent_context = memory.search(
-    "refund process",
+    "refund process"
     agent_id="support_agent_v2"
 )
 ```
@@ -87,13 +87,13 @@ agent_context = memory.search(
 ```python
 # Add session-level memory
 memory.add(
-    "Current issue: payment failed with error code 402",
+    "Current issue: payment failed with error code 402"
     run_id="session_12345_20250115"
 )
 
 # Search session memories
 session_context = memory.search(
-    "current issue",
+    "current issue"
     run_id="session_12345_20250115"
 )
 ```
@@ -162,10 +162,10 @@ from mem0.configs.base import MemoryConfig
 
 config = MemoryConfig(
     graph_store={
-        "provider": "neo4j",
+        "provider": "neo4j"
         "config": {
-            "url": "bolt://localhost:7687",
-            "username": "neo4j",
+            "url": "bolt://localhost:7687"
+            "username": "neo4j"
             "password": "password"
         }
     }
@@ -253,9 +253,9 @@ agent_memories = memory.search(query, agent_id=agent_id)
 
 # Weighted merge
 context = merge_contexts(
-    session=session_memories,
-    user=user_memories,
-    agent=agent_memories,
+    session=session_memories
+    user=user_memories
+    agent=agent_memories
     weights={"session": 0.4, "user": 0.35, "agent": 0.25}
 )
 ```
@@ -281,10 +281,10 @@ bash scripts/analyze-memory-performance.sh <project_name>
 2. **Use Filters to Reduce Search Space**:
    ```python
    memories = memory.search(
-       query,
+       query
        filters={
            "AND": [
-               {"user_id": "alex"},
+               {"user_id": "alex"}
                {"agent_id": "support_agent"}
            ]
        }
@@ -349,7 +349,7 @@ bash scripts/analyze-memory-costs.sh <user_id> <date_range>
 ```python
 # Always scope by user_id or org_id
 memories = memory.search(
-    query,
+    query
     filters={"user_id": current_user_id}
 )
 

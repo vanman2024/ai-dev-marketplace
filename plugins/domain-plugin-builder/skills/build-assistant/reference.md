@@ -103,7 +103,7 @@
 ```yaml
 name: agent-identifier
 description: Brief purpose description
-tools: Read,Write,Bash
+tools: Read, Write, Bash
 model: claude-sonnet-4-5-20250929
 color: blue
 ```
@@ -143,12 +143,12 @@ allowed-tools: Read, Write, Bash  # Restrict tools when active
 
 ```json
 {
-  "name": "plugin-identifier",
-  "version": "1.0.0",
-  "description": "Plugin purpose and capabilities",
+  "name": "plugin-identifier"
+  "version": "1.0.0"
+  "description": "Plugin purpose and capabilities"
   "components": {
-    "commands": 0,
-    "agents": 0,
+    "commands": 0
+    "agents": 0
     "skills": 0
   }
 }

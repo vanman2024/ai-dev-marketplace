@@ -198,9 +198,9 @@ const memories = await memory.search({ query, user_id });
 
 // Use in context
 const result = await streamText({
-  model: claude('claude-sonnet-4'),
+  model: claude('claude-sonnet-4')
   messages: [
-    { role: 'system', content: `Context: ${memories}` },
+    { role: 'system', content: `Context: ${memories}` }
     { role: 'user', content: query }
   ]
 });
@@ -217,11 +217,11 @@ from mem0 import Memory
 # Configure Mem0 to use Supabase
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "host": os.getenv("SUPABASE_DB_HOST"),
-            "database": "postgres",
-            "user": "postgres",
+            "host": os.getenv("SUPABASE_DB_HOST")
+            "database": "postgres"
+            "user": "postgres"
             "password": os.getenv("SUPABASE_DB_PASSWORD")
         }
     }

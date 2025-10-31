@@ -54,9 +54,9 @@ const ws = new WebSocket(`wss://api.elevenlabs.io/v1/text-to-speech/${voiceId}/s
 
 ws.on('open', () => {
     const config = {
-        text: 'Hello, this is streaming text-to-speech!',
+        text: 'Hello, this is streaming text-to-speech!'
         voice_settings: {
-            stability: 0.5,
+            stability: 0.5
             similarity_boost: 0.75
         }
     };
@@ -94,11 +94,11 @@ ws.on('close', () => {
 
 ```json
 {
-  "optimize_streaming_latency": 4,
+  "optimize_streaming_latency": 4
   "voice_settings": {
-    "stability": 0.5,
-    "similarity_boost": 0.75,
-    "style": 0.0,
+    "stability": 0.5
+    "similarity_boost": 0.75
+    "style": 0.0
     "use_speaker_boost": true
   }
 }
@@ -156,11 +156,11 @@ async def stream_tts():
     async with websockets.connect(uri) as websocket:
         # Send configuration
         config = {
-            "text": "Hello from Python streaming TTS!",
+            "text": "Hello from Python streaming TTS!"
             "voice_settings": {
-                "stability": 0.5,
+                "stability": 0.5
                 "similarity_boost": 0.75
-            },
+            }
             "optimize_streaming_latency": 3
         }
 
@@ -192,8 +192,8 @@ const contextIds = [];
 
 // First message
 const request1 = {
-    text: "Hello, how are you?",
-    voice_settings: { /* ... */ },
+    text: "Hello, how are you?"
+    voice_settings: { /* ... */ }
     next_text: "I'm doing great, thanks for asking!"
 };
 
@@ -202,8 +202,8 @@ ws.send(JSON.stringify(request1));
 
 // Later messages use previous context
 const request2 = {
-    text: "I'm doing great, thanks for asking!",
-    voice_settings: { /* ... */ },
+    text: "I'm doing great, thanks for asking!"
+    voice_settings: { /* ... */ }
     previous_request_ids: contextIds
 };
 ```
@@ -217,8 +217,8 @@ const chunks = longText.match(/.{1,500}/g);
 
 for (let i = 0; i < chunks.length; i++) {
     const chunk = {
-        text: chunks[i],
-        voice_settings: { /* ... */ },
+        text: chunks[i]
+        voice_settings: { /* ... */ }
         flush: (i === chunks.length - 1)  // Flush on last chunk
     };
 
@@ -344,8 +344,8 @@ const botResponse = "The weather is sunny with a high of 75 degrees.";
 
 // Stream response immediately
 streamTTS(botResponse, {
-    model: 'eleven_flash_v2_5',
-    optimize_streaming_latency: 4,
+    model: 'eleven_flash_v2_5'
+    optimize_streaming_latency: 4
     voice_settings: { stability: 0.5 }
 });
 ```
@@ -358,7 +358,7 @@ const characterDialogue = "Well done, brave warrior! You've defeated the dragon!
 
 streamTTS(characterDialogue, {
     model: 'eleven_v3',  // More expressive for character
-    optimize_streaming_latency: 2,
+    optimize_streaming_latency: 2
     voice_settings: {
         stability: 0.4,  // More expressive
         style: 0.3       // Character personality
@@ -373,10 +373,10 @@ streamTTS(characterDialogue, {
 const narration = "And the ball is passed to Johnson, he's making a run...";
 
 streamTTS(narration, {
-    model: 'eleven_turbo_v2_5',
-    optimize_streaming_latency: 3,
+    model: 'eleven_turbo_v2_5'
+    optimize_streaming_latency: 3
     voice_settings: {
-        stability: 0.6,
+        stability: 0.6
         similarity_boost: 0.75
     }
 });
@@ -400,9 +400,9 @@ Track streaming performance:
 
 ```javascript
 const metrics = {
-    firstChunkTime: 0,
-    totalChunks: 0,
-    totalBytes: 0,
+    firstChunkTime: 0
+    totalChunks: 0
+    totalBytes: 0
     startTime: Date.now()
 };
 

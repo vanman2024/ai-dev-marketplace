@@ -45,63 +45,63 @@ import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: ['class'],
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: ['class']
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}']
   theme: {
     container: {
-      center: true,
-      padding: '2rem',
+      center: true
+      padding: '2rem'
       screens: {
-        '2xl': '1400px',
-      },
-    },
+        '2xl': '1400px'
+      }
+    }
     extend: {
       colors: {
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
+        border: 'hsl(var(--border))'
+        input: 'hsl(var(--input))'
+        ring: 'hsl(var(--ring))'
+        background: 'hsl(var(--background))'
+        foreground: 'hsl(var(--foreground))'
         primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
+          DEFAULT: 'hsl(var(--primary))'
+          foreground: 'hsl(var(--primary-foreground))'
+        }
         secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
+          DEFAULT: 'hsl(var(--secondary))'
+          foreground: 'hsl(var(--secondary-foreground))'
+        }
         destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
+          DEFAULT: 'hsl(var(--destructive))'
+          foreground: 'hsl(var(--destructive-foreground))'
+        }
         muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
+          DEFAULT: 'hsl(var(--muted))'
+          foreground: 'hsl(var(--muted-foreground))'
+        }
         accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
+          DEFAULT: 'hsl(var(--accent))'
+          foreground: 'hsl(var(--accent-foreground))'
+        }
         popover: {
-          DEFAULT: 'hsl(var(--popover))',
-          foreground: 'hsl(var(--popover-foreground))',
-        },
+          DEFAULT: 'hsl(var(--popover))'
+          foreground: 'hsl(var(--popover-foreground))'
+        }
         card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
-      },
+          DEFAULT: 'hsl(var(--card))'
+          foreground: 'hsl(var(--card-foreground))'
+        }
+      }
       borderRadius: {
-        lg: 'var(--radius)',
-        md: 'calc(var(--radius) - 2px)',
-        sm: 'calc(var(--radius) - 4px)',
-      },
+        lg: 'var(--radius)'
+        md: 'calc(var(--radius) - 2px)'
+        sm: 'calc(var(--radius) - 4px)'
+      }
       fontFamily: {
-        sans: ['Inter', ...defaultTheme.fontFamily.sans],
-      },
-    },
-  },
-  plugins: [require('tailwindcss-animate')],
+        sans: ['Inter', ...defaultTheme.fontFamily.sans]
+      }
+    }
+  }
+  plugins: [require('tailwindcss-animate')]
 };
 ```
 
@@ -165,9 +165,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Button } from '@/components/ui/button';
 
 const products = [
-  { id: 1, name: 'Product 1', description: 'Amazing product', price: '$99' },
-  { id: 2, name: 'Product 2', description: 'Great value', price: '$149' },
-  { id: 3, name: 'Product 3', description: 'Best seller', price: '$199' },
+  { id: 1, name: 'Product 1', description: 'Amazing product', price: '$99' }
+  { id: 2, name: 'Product 2', description: 'Great value', price: '$149' }
+  { id: 3, name: 'Product 3', description: 'Best seller', price: '$199' }
 ];
 ---
 
@@ -209,21 +209,21 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
+  Dialog
+  DialogContent
+  DialogDescription
+  DialogHeader
+  DialogTitle
+  DialogTrigger
+  DialogFooter
 } from '@/components/ui/dialog';
 
 export function ContactForm() {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
+    name: ''
+    email: ''
+    message: ''
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -231,9 +231,9 @@ export function ContactForm() {
 
     // Submit form data
     const response = await fetch('/api/contact', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
+      method: 'POST'
+      headers: { 'Content-Type': 'application/json' }
+      body: JSON.stringify(formData)
     });
 
     if (response.ok) {
@@ -321,22 +321,22 @@ import { ContactForm } from '@/components/ContactForm';
 ```typescript
 // src/components/UsersTable.tsx
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
+  Table
+  TableBody
+  TableCaption
+  TableCell
+  TableHead
+  TableHeader
+  TableRow
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenu
+  DropdownMenuContent
+  DropdownMenuItem
+  DropdownMenuLabel
+  DropdownMenuSeparator
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 
 interface User {
@@ -592,7 +592,7 @@ Ensure Tailwind is processing the component files:
 // tailwind.config.mjs
 export default {
   content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}',
+    './src/**/*.{astro,html,js,jsx,md,mdx,ts,tsx}'
     './components/**/*.{js,jsx,ts,tsx}' // Add this
   ]
 };

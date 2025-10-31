@@ -404,8 +404,8 @@ Add `.mcp.json` for Context7 integration:
 {
   "mcpServers": {
     "context7": {
-      "command": "npx",
-      "args": ["-y", "@uptime-tools/context7"],
+      "command": "npx"
+      "args": ["-y", "@uptime-tools/context7"]
       "disabled": false
     }
   }

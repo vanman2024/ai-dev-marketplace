@@ -57,10 +57,10 @@ from supabase import create_client, Client
 from supabase.lib.client_options import ClientOptions
 
 supabase: Client = create_client(
-    url,
-    key,
+    url
+    key
     options=ClientOptions(
-        postgrest_client_timeout=10,
+        postgrest_client_timeout=10
         storage_client_timeout=10
     )
 )
@@ -155,9 +155,9 @@ response = (
 response = (
     supabase.table("campaigns")
     .insert({
-        "name": "Summer Job Fair",
-        "campaign_type": "job_recruitment",
-        "budget": 2000.00,
+        "name": "Summer Job Fair"
+        "campaign_type": "job_recruitment"
+        "budget": 2000.00
         "status": "draft"
     })
     .execute()
@@ -170,8 +170,8 @@ response = (
 response = (
     supabase.table("campaigns")
     .insert([
-        {"name": "Campaign 1", "campaign_type": "job_recruitment"},
-        {"name": "Campaign 2", "campaign_type": "product_launch"},
+        {"name": "Campaign 1", "campaign_type": "job_recruitment"}
+        {"name": "Campaign 2", "campaign_type": "product_launch"}
         {"name": "Campaign 3", "campaign_type": "event_promotion"}
     ])
     .execute()
@@ -246,8 +246,8 @@ async def setup_realtime():
     
     channel = supabase.channel("db-changes")
     await channel.on_postgres_changes(
-        event="*",
-        schema="public",
+        event="*"
+        schema="public"
         callback=handle_changes
     ).subscribe()
 ```
@@ -260,9 +260,9 @@ def handle_campaign_changes(payload):
 
 channel = supabase.channel("campaign-changes")
 await channel.on_postgres_changes(
-    event="*",
-    schema="public",
-    table="campaigns",
+    event="*"
+    schema="public"
+    table="campaigns"
     callback=handle_campaign_changes
 ).subscribe()
 ```
@@ -272,9 +272,9 @@ await channel.on_postgres_changes(
 ```python
 channel = supabase.channel("new-campaigns")
 await channel.on_postgres_changes(
-    event="INSERT",
-    schema="public",
-    table="campaigns",
+    event="INSERT"
+    schema="public"
+    table="campaigns"
     callback=lambda payload: print("New campaign:", payload)
 ).subscribe()
 ```
@@ -284,9 +284,9 @@ await channel.on_postgres_changes(
 ```python
 channel = supabase.channel("updated-campaigns")
 await channel.on_postgres_changes(
-    event="UPDATE",
-    schema="public",
-    table="campaigns",
+    event="UPDATE"
+    schema="public"
+    table="campaigns"
     callback=lambda payload: print("Campaign updated:", payload)
 ).subscribe()
 ```
@@ -296,9 +296,9 @@ await channel.on_postgres_changes(
 ```python
 channel = supabase.channel("deleted-campaigns")
 await channel.on_postgres_changes(
-    event="DELETE",
-    schema="public",
-    table="campaigns",
+    event="DELETE"
+    schema="public"
+    table="campaigns"
     callback=lambda payload: print("Campaign deleted:", payload)
 ).subscribe()
 ```
@@ -308,10 +308,10 @@ await channel.on_postgres_changes(
 ```python
 channel = supabase.channel("active-campaigns")
 await channel.on_postgres_changes(
-    event="UPDATE",
-    schema="public",
-    table="campaigns",
-    filter="status=eq.active",
+    event="UPDATE"
+    schema="public"
+    table="campaigns"
+    filter="status=eq.active"
     callback=lambda payload: print("Campaign activated:", payload)
 ).subscribe()
 ```
@@ -323,17 +323,17 @@ channel = supabase.channel("multi-listener")
 
 # Listen to campaigns
 await channel.on_postgres_changes(
-    event="*",
-    schema="public",
-    table="campaigns",
+    event="*"
+    schema="public"
+    table="campaigns"
     callback=lambda p: print("Campaign change:", p)
 )
 
 # Listen to content assets
 await channel.on_postgres_changes(
-    event="INSERT",
-    schema="public",
-    table="content_assets",
+    event="INSERT"
+    schema="public"
+    table="content_assets"
     callback=lambda p: print("New asset:", p)
 )
 
@@ -348,12 +348,12 @@ channel = supabase.channel("notifications")
 def on_subscribe(status, err):
     if status == RealtimeSubscribeStates.SUBSCRIBED:
         asyncio.create_task(channel.send_broadcast(
-            "campaign-update",
+            "campaign-update"
             {"campaign_id": 1, "message": "Campaign published!"}
         ))
 
 await channel.on_broadcast(
-    event="campaign-update",
+    event="campaign-update"
     callback=lambda payload: print("Broadcast:", payload)
 ).subscribe(on_subscribe)
 ```
@@ -408,7 +408,7 @@ alter table campaigns replica identity full;
 
 ```python
 response = supabase.auth.sign_up({
-    "email": "user@example.com",
+    "email": "user@example.com"
     "password": "secure_password"
 })
 ```
@@ -417,7 +417,7 @@ response = supabase.auth.sign_up({
 
 ```python
 response = supabase.auth.sign_in_with_password({
-    "email": "user@example.com",
+    "email": "user@example.com"
     "password": "secure_password"
 })
 ```
@@ -472,10 +472,10 @@ channel = supabase.channel('secure-channel').subscribe()
 
 ```python
 response = supabase.storage.create_bucket(
-    "campaign-assets",
+    "campaign-assets"
     options={
-        "public": False,
-        "allowed_mime_types": ["image/png", "image/jpeg"],
+        "public": False
+        "allowed_mime_types": ["image/png", "image/jpeg"]
         "file_size_limit": 10485760  # 10MB
     }
 )
@@ -489,8 +489,8 @@ with open("./assets/banner.png", "rb") as f:
         supabase.storage
         .from_("campaign-assets")
         .upload(
-            file=f,
-            path="banners/summer-2024.png",
+            file=f
+            path="banners/summer-2024.png"
             file_options={"cache-control": "3600", "upsert": "false"}
         )
     )
@@ -515,10 +515,10 @@ response = (
     supabase.storage
     .from_("campaign-assets")
     .list(
-        "banners",
+        "banners"
         {
-            "limit": 100,
-            "offset": 0,
+            "limit": 100
+            "offset": 0
             "sortBy": {"column": "name", "order": "desc"}
         }
     )
@@ -542,7 +542,7 @@ response = (
     supabase.storage
     .from_("campaign-assets")
     .create_signed_url(
-        "banners/summer-2024.png",
+        "banners/summer-2024.png"
         60  # Valid for 60 seconds
     )
 )
@@ -587,8 +587,8 @@ def verify_api_key(x_api_key: str = Header(...)) -> bool:
 
 @app.post("/campaigns")
 async def create_campaign(
-    campaign_data: dict,
-    supabase: Client = Depends(get_supabase_client),
+    campaign_data: dict
+    supabase: Client = Depends(get_supabase_client)
     verified: bool = Depends(verify_api_key)
 ):
     try:
@@ -599,8 +599,8 @@ async def create_campaign(
 
 @app.get("/campaigns/{campaign_id}")
 async def get_campaign(
-    campaign_id: int,
-    supabase: Client = Depends(get_supabase_client),
+    campaign_id: int
+    supabase: Client = Depends(get_supabase_client)
     verified: bool = Depends(verify_api_key)
 ):
     try:
@@ -629,11 +629,11 @@ async def create_campaign(name: str, campaign_type: str, budget: float) -> dict:
     """Create a new marketing campaign"""
     async with httpx.AsyncClient() as client:
         response = await client.post(
-            "https://your-fastapi-server.com/campaigns",
-            headers={"X-API-Key": os.environ.get("MCP_API_KEY")},
+            "https://your-fastapi-server.com/campaigns"
+            headers={"X-API-Key": os.environ.get("MCP_API_KEY")}
             json={
-                "name": name,
-                "campaign_type": campaign_type,
+                "name": name
+                "campaign_type": campaign_type
                 "budget": budget
             }
         )
@@ -644,7 +644,7 @@ async def get_campaign(campaign_id: int) -> dict:
     """Get campaign details"""
     async with httpx.AsyncClient() as client:
         response = await client.get(
-            f"https://your-fastapi-server.com/campaigns/{campaign_id}",
+            f"https://your-fastapi-server.com/campaigns/{campaign_id}"
             headers={"X-API-Key": os.environ.get("MCP_API_KEY")}
         )
         return response.json()
@@ -671,8 +671,8 @@ class CacheManager:
     async def set(self, key: str, value: dict, ttl: int = 3600):
         """Set cached value with TTL"""
         await self.redis.setex(
-            key,
-            ttl,
+            key
+            ttl
             json.dumps(value)
         )
     
@@ -751,12 +751,12 @@ from supabase import create_client, Client
 from supabase.lib.client_options import ClientOptions
 
 supabase: Client = create_client(
-    url,
-    key,
+    url
+    key
     options=ClientOptions(
-        postgrest_client_timeout=10,
-        storage_client_timeout=10,
-        auto_refresh_token=True,
+        postgrest_client_timeout=10
+        storage_client_timeout=10
+        auto_refresh_token=True
         persist_session=True
     )
 )
@@ -811,9 +811,9 @@ class MarketingAutomationDB:
         """Subscribe to real-time campaign changes"""
         channel = self.supabase.channel("campaign-updates")
         await channel.on_postgres_changes(
-            event="*",
-            schema="public",
-            table="campaigns",
+            event="*"
+            schema="public"
+            table="campaigns"
             callback=callback
         ).subscribe()
     
@@ -825,8 +825,8 @@ class MarketingAutomationDB:
                 self.supabase.storage
                 .from_("campaign-assets")
                 .upload(
-                    file=f,
-                    path=f"assets/{asset_data['filename']}",
+                    file=f
+                    path=f"assets/{asset_data['filename']}"
                     file_options={"cache-control": "3600"}
                 )
             )
@@ -843,9 +843,9 @@ async def main():
     
     # Create campaign
     campaign = await db.create_campaign({
-        "name": "Summer Job Fair 2024",
-        "campaign_type": "job_recruitment",
-        "budget": 2000.00,
+        "name": "Summer Job Fair 2024"
+        "campaign_type": "job_recruitment"
+        "budget": 2000.00
         "status": "draft"
     })
     print(f"Created campaign: {campaign}")

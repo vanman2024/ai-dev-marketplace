@@ -42,9 +42,9 @@ export function createRotatingClient(config: RotationConfig): ElevenLabsClient {
 
 // Usage
 const client = createRotatingClient({
-  primaryKey: process.env.ELEVENLABS_API_KEY_PRIMARY!,
-  secondaryKey: process.env.ELEVENLABS_API_KEY_SECONDARY,
-  rotationDate: new Date('2024-12-01T00:00:00Z'),
+  primaryKey: process.env.ELEVENLABS_API_KEY_PRIMARY!
+  secondaryKey: process.env.ELEVENLABS_API_KEY_SECONDARY
+  rotationDate: new Date('2024-12-01T00:00:00Z')
 });
 ```
 
@@ -132,20 +132,20 @@ export class ScheduledKeyManager {
 // Usage
 const keyManager = new ScheduledKeyManager([
   {
-    key: process.env.ELEVENLABS_API_KEY_Q1!,
-    validFrom: new Date('2024-01-01'),
-    validUntil: new Date('2024-04-01'),
-  },
+    key: process.env.ELEVENLABS_API_KEY_Q1!
+    validFrom: new Date('2024-01-01')
+    validUntil: new Date('2024-04-01')
+  }
   {
-    key: process.env.ELEVENLABS_API_KEY_Q2!,
-    validFrom: new Date('2024-04-01'),
-    validUntil: new Date('2024-07-01'),
-  },
+    key: process.env.ELEVENLABS_API_KEY_Q2!
+    validFrom: new Date('2024-04-01')
+    validUntil: new Date('2024-07-01')
+  }
   {
-    key: process.env.ELEVENLABS_API_KEY_Q3!,
-    validFrom: new Date('2024-07-01'),
-    validUntil: new Date('2024-10-01'),
-  },
+    key: process.env.ELEVENLABS_API_KEY_Q3!
+    validFrom: new Date('2024-07-01')
+    validUntil: new Date('2024-10-01')
+  }
 ]);
 
 const client = keyManager.createClient();
@@ -182,9 +182,9 @@ console.log('Next rotation:', keyManager.getNextRotation());
    ```typescript
    // Update config to use both keys
    const client = createRotatingClient({
-     primaryKey: process.env.ELEVENLABS_API_KEY_PRIMARY!,
-     secondaryKey: process.env.ELEVENLABS_API_KEY_SECONDARY!,
-     rotationDate: new Date('2024-12-01T00:00:00Z'),
+     primaryKey: process.env.ELEVENLABS_API_KEY_PRIMARY!
+     secondaryKey: process.env.ELEVENLABS_API_KEY_SECONDARY!
+     rotationDate: new Date('2024-12-01T00:00:00Z')
    });
    ```
 
@@ -235,12 +235,12 @@ interface KeyConfig {
 
 function getKeyConfig(): KeyConfig {
   return {
-    current: process.env.ELEVENLABS_API_KEY!,
-    previous: process.env.ELEVENLABS_API_KEY_PREVIOUS,
-    next: process.env.ELEVENLABS_API_KEY_NEXT,
+    current: process.env.ELEVENLABS_API_KEY!
+    previous: process.env.ELEVENLABS_API_KEY_PREVIOUS
+    next: process.env.ELEVENLABS_API_KEY_NEXT
     switchDate: process.env.ELEVENLABS_KEY_SWITCH_DATE
       ? new Date(process.env.ELEVENLABS_KEY_SWITCH_DATE)
-      : undefined,
+      : undefined
   };
 }
 
@@ -300,9 +300,9 @@ class KeyRotationManager:
         results = {}
 
         for name, key in [
-            ("current", self.current_key),
-            ("previous", self.previous_key),
-            ("next", self.next_key),
+            ("current", self.current_key)
+            ("previous", self.previous_key)
+            ("next", self.next_key)
         ]:
             if key:
                 try:
@@ -340,10 +340,10 @@ export class KeyMonitor {
 
   trackRequest(keyId: string, success: boolean) {
     const existing = this.metrics.get(keyId) || {
-      keyId,
-      requestCount: 0,
-      lastUsed: new Date(),
-      errors: 0,
+      keyId
+      requestCount: 0
+      lastUsed: new Date()
+      errors: 0
     };
 
     existing.requestCount++;
@@ -370,20 +370,20 @@ export const keyMonitor = new KeyMonitor();
 ```typescript
 // lib/rotation-alerts.ts
 export async function sendRotationAlert(
-  type: 'upcoming' | 'completed' | 'failed',
+  type: 'upcoming' | 'completed' | 'failed'
   details: { oldKey: string; newKey: string; date: Date }
 ) {
   // Send to monitoring service (e.g., Slack, PagerDuty, email)
   const message = {
-    upcoming: `API key rotation scheduled for ${details.date}`,
-    completed: `API key rotated successfully at ${details.date}`,
-    failed: `API key rotation failed at ${details.date}`,
+    upcoming: `API key rotation scheduled for ${details.date}`
+    completed: `API key rotated successfully at ${details.date}`
+    failed: `API key rotation failed at ${details.date}`
   }[type];
 
   // Example: Send to Slack
   await fetch(process.env.SLACK_WEBHOOK_URL!, {
-    method: 'POST',
-    body: JSON.stringify({ text: message }),
+    method: 'POST'
+    body: JSON.stringify({ text: message })
   });
 }
 ```

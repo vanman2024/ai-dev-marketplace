@@ -27,8 +27,8 @@ This plugin requires the Supabase MCP server to be configured in your `.mcp.json
 {
   "mcpServers": {
     "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=${SUPABASE_PROJECT_REF}",
+      "type": "http"
+      "url": "https://mcp.supabase.com/mcp?project_ref=${SUPABASE_PROJECT_REF}"
       "headers": {
         "Authorization": "Bearer ${SUPABASE_ACCESS_TOKEN}"
       }
@@ -125,9 +125,7 @@ This creates a complete AI application setup including:
 
 ### Skills
 
-Each skill provides scripts, templates, and examples that agents use via Bash/Read tools:
-
-1. **pgvector-setup** - Vector search configuration
+Each skill provides scripts, templates, and examples that agents use via Bash/Read tools: 1. **pgvector-setup** - Vector search configuration
    - Scripts: `setup-pgvector.sh`, `create-indexes.sh`, `setup-hybrid-search.sh`, `test-vector-search.sh`
    - Templates: Embedding tables, HNSW/IVFFlat indexes, hybrid search queries
    - Use: Setting up vector search, RAG systems, semantic search

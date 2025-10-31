@@ -47,7 +47,7 @@ import os
 # Initialize Mem0 client
 memory = Memory.from_config({
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
             "url": os.getenv("SUPABASE_DB_URL")
         }
@@ -74,32 +74,32 @@ def get_user_preferences(user_id: str):
 # User Alice adds her preferences
 alice_id = "alice-123"
 memory.add(
-    "I prefer dark mode and concise responses",
+    "I prefer dark mode and concise responses"
     user_id=alice_id
 )
 
 memory.add(
-    "I'm allergic to peanuts",
+    "I'm allergic to peanuts"
     user_id=alice_id
 )
 
 # User Bob adds his preferences
 bob_id = "bob-456"
 memory.add(
-    "I prefer detailed explanations with examples",
+    "I prefer detailed explanations with examples"
     user_id=bob_id
 )
 
 # Alice searches her memories - only sees her own
 alice_results = memory.search(
-    "preferences",
+    "preferences"
     user_id=alice_id
 )
 # Returns: ["I prefer dark mode...", "I'm allergic to peanuts"]
 
 # Bob searches - completely isolated from Alice
 bob_results = memory.search(
-    "preferences",
+    "preferences"
     user_id=bob_id
 )
 # Returns: ["I prefer detailed explanations..."]
@@ -185,8 +185,8 @@ CREATE INDEX idx_memories_user_category ON memories(user_id, categories);
 ```python
 # Efficient: Uses user_id index
 memories = memory.search(
-    query="preferences",
-    user_id=alice_id,
+    query="preferences"
+    user_id=alice_id
     limit=10
 )
 
@@ -216,7 +216,7 @@ def get_user_memories_cached(user_id: str):
 
     # Cache for 5 minutes
     redis_client.setex(
-        cache_key,
+        cache_key
         300,  # 5 minutes
         json.dumps(memories)
     )
@@ -235,10 +235,10 @@ def invalidate_user_cache(user_id: str):
 ```sql
 -- User memory statistics
 SELECT
-    user_id,
-    COUNT(*) as memory_count,
-    AVG(LENGTH(memory)) as avg_memory_length,
-    MIN(created_at) as first_memory,
+    user_id
+    COUNT(*) as memory_count
+    AVG(LENGTH(memory)) as avg_memory_length
+    MIN(created_at) as first_memory
     MAX(created_at) as latest_memory
 FROM memories
 GROUP BY user_id
@@ -250,9 +250,9 @@ ORDER BY memory_count DESC;
 ```sql
 -- Check for suspicious cross-user access attempts
 SELECT
-    timestamp,
-    user_id,
-    operation,
+    timestamp
+    user_id
+    operation
     metadata->>'attempted_user_id' as attempted_access
 FROM memory_history
 WHERE operation = 'access_denied'
@@ -272,7 +272,7 @@ import { Memory } from 'mem0'
 export default async function handler(req, res) {
   // Get user from session
   const supabase = createClient(
-    process.env.SUPABASE_URL!,
+    process.env.SUPABASE_URL!
     process.env.SUPABASE_ANON_KEY!
   )
 
@@ -287,7 +287,7 @@ export default async function handler(req, res) {
   // Initialize Mem0 with user context
   const memory = new Memory({
     vectorStore: {
-      provider: 'postgres',
+      provider: 'postgres'
       config: {
         url: process.env.SUPABASE_DB_URL
       }
@@ -296,7 +296,7 @@ export default async function handler(req, res) {
 
   // Search only this user's memories
   const results = await memory.search(req.body.query, {
-    userId: user.id,
+    userId: user.id
     limit: 10
   })
 
@@ -317,13 +317,13 @@ app = FastAPI()
 security = HTTPBearer()
 
 supabase = create_client(
-    os.getenv("SUPABASE_URL"),
+    os.getenv("SUPABASE_URL")
     os.getenv("SUPABASE_ANON_KEY")
 )
 
 memory = Memory.from_config({
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {"url": os.getenv("SUPABASE_DB_URL")}
     }
 })
@@ -338,7 +338,7 @@ async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(s
 
 @app.post("/memories/search")
 async def search_memories(
-    query: str,
+    query: str
     current_user = Depends(get_current_user)
 ):
     """Search current user's memories"""
@@ -358,7 +358,7 @@ from mem0 import Memory
 def memory_client():
     return Memory.from_config({
         "vector_store": {
-            "provider": "postgres",
+            "provider": "postgres"
             "config": {"url": os.getenv("SUPABASE_DB_URL")}
         }
     })
@@ -411,14 +411,14 @@ def export_user_data(user_id: str) -> dict:
     memories = memory.get_all(user_id=user_id)
 
     export = {
-        "user_id": user_id,
-        "export_date": datetime.now().isoformat(),
-        "total_memories": len(memories),
+        "user_id": user_id
+        "export_date": datetime.now().isoformat()
+        "total_memories": len(memories)
         "memories": [
             {
-                "id": mem['id'],
-                "content": mem['memory'],
-                "created_at": mem['created_at'],
+                "id": mem['id']
+                "content": mem['memory']
+                "created_at": mem['created_at']
                 "metadata": mem.get('metadata', {})
             }
             for mem in memories

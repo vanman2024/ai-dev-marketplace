@@ -117,9 +117,9 @@ curl -s -X GET \
     "https://api.elevenlabs.io/v1/voices/${VOICE_ID}" \
     -H "xi-api-key: ${ELEVEN_API_KEY}" \
     | jq '{
-        name: .name,
-        category: .category,
-        samples: (.samples | length),
+        name: .name
+        category: .category
+        samples: (.samples | length)
         fine_tuning: .fine_tuning
     }'
 ```
@@ -332,7 +332,7 @@ to casual conversation."
 
 **Effective Tags:**
 ```
-narrator, audiobook, podcast, professional, neutral, american,
+narrator, audiobook, podcast, professional, neutral, american
 female, warm, clear, versatile, e-learning, corporate
 ```
 

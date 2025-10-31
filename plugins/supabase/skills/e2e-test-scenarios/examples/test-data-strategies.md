@@ -31,15 +31,15 @@ Fixtures are predefined, static test data loaded before tests run.
 ```json
 [
   {
-    "id": "550e8400-e29b-41d4-a716-446655440000",
-    "email": "test-user-1@example.com",
-    "name": "Test User 1",
+    "id": "550e8400-e29b-41d4-a716-446655440000"
+    "email": "test-user-1@example.com"
+    "name": "Test User 1"
     "role": "admin"
-  },
+  }
   {
-    "id": "550e8400-e29b-41d4-a716-446655440001",
-    "email": "test-user-2@example.com",
-    "name": "Test User 2",
+    "id": "550e8400-e29b-41d4-a716-446655440001"
+    "email": "test-user-2@example.com"
+    "name": "Test User 2"
     "role": "user"
   }
 ]
@@ -146,11 +146,11 @@ export class UserFactory {
 
   async create(attributes: UserAttributes = {}) {
     const userData = {
-      email: attributes.email || faker.internet.email(),
-      name: attributes.name || faker.person.fullName(),
-      role: attributes.role || 'user',
-      metadata: attributes.metadata || {},
-      created_at: new Date().toISOString(),
+      email: attributes.email || faker.internet.email()
+      name: attributes.name || faker.person.fullName()
+      role: attributes.role || 'user'
+      metadata: attributes.metadata || {}
+      created_at: new Date().toISOString()
     };
 
     const { data, error } = await this.supabase
@@ -185,24 +185,24 @@ export class UserFactory {
     // Create auth user
     const { data: authData, error: authError } =
       await this.supabase.auth.signUp({
-        email,
-        password,
+        email
+        password
       });
 
     if (authError) throw authError;
 
     // Create database user record
     const user = await this.create({
-      ...attributes,
-      email,
-      auth_id: authData.user!.id,
+      ...attributes
+      email
+      auth_id: authData.user!.id
     });
 
     return {
-      user,
-      email,
-      password,
-      authUser: authData.user,
+      user
+      email
+      password
+      authUser: authData.user
     };
   }
 }
@@ -231,8 +231,8 @@ describe('User CRUD', () => {
 
   test('should create user with factory', async () => {
     const user = await userFactory.create({
-      name: 'Specific Name',
-      role: 'admin',
+      name: 'Specific Name'
+      role: 'admin'
     });
 
     createdUsers.push(user);
@@ -277,7 +277,7 @@ export class TransactionalTestContext {
 
   async rollback() {
     await supabase.rpc('rollback_test_transaction', {
-      transaction_id: this.transactionId,
+      transaction_id: this.transactionId
     });
   }
 }
@@ -368,8 +368,8 @@ describe('Namespace Isolated Tests', () => {
 
   test('creates isolated data', async () => {
     const user = await testData.create('users', {
-      email: testData.generateEmail(),
-      name: 'Test User',
+      email: testData.generateEmail()
+      name: 'Test User'
     });
 
     expect(user.email).toContain('test_');
@@ -419,20 +419,20 @@ import { createClient } from '@supabase/supabase-js';
 
 async function seedTestDatabase() {
   const supabase = createClient(
-    process.env.SUPABASE_TEST_URL!,
+    process.env.SUPABASE_TEST_URL!
     process.env.SUPABASE_TEST_SERVICE_ROLE_KEY!
   );
 
   // Insert seed data
   await supabase.from('categories').insert([
-    { name: 'Technology', slug: 'technology' },
-    { name: 'Science', slug: 'science' },
-    { name: 'Arts', slug: 'arts' },
+    { name: 'Technology', slug: 'technology' }
+    { name: 'Science', slug: 'science' }
+    { name: 'Arts', slug: 'arts' }
   ]);
 
   await supabase.from('settings').insert([
-    { key: 'site_name', value: 'Test Site' },
-    { key: 'maintenance_mode', value: 'false' },
+    { key: 'site_name', value: 'Test Site' }
+    { key: 'maintenance_mode', value: 'false' }
   ]);
 
   console.log('Test database seeded successfully');
@@ -510,8 +510,8 @@ const user = await factory.create({ email: 'a@b.com' });
 
 // ✅ Good: Descriptive test data
 const user = await factory.create({
-  email: 'admin-user-for-permission-test@example.com',
-  role: 'admin',
+  email: 'admin-user-for-permission-test@example.com'
+  role: 'admin'
 });
 ```
 
@@ -566,7 +566,7 @@ for (let i = 0; i < 100; i++) {
 
 // ✅ Fast: Batch insert
 const users = Array.from({ length: 100 }, (_, i) => ({
-  email: `user${i}@test.com`,
+  email: `user${i}@test.com`
 }));
 await supabase.from('users').insert(users);
 ```

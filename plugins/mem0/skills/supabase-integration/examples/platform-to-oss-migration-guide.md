@@ -71,13 +71,13 @@ PLATFORM_URL = "https://api.mem0.ai"
 def export_user_memories(user_id: str) -> list:
     """Export all memories for a specific user"""
     headers = {
-        "Authorization": f"Bearer {PLATFORM_API_KEY}",
+        "Authorization": f"Bearer {PLATFORM_API_KEY}"
         "Content-Type": "application/json"
     }
 
     response = requests.get(
-        f"{PLATFORM_URL}/v1/memories",
-        headers=headers,
+        f"{PLATFORM_URL}/v1/memories"
+        headers=headers
         params={"user_id": user_id}
     )
 
@@ -116,12 +116,12 @@ export_all_users(user_list, f"platform-export-{datetime.now().strftime('%Y%m%d')
 Platform format:
 ```json
 {
-  "id": "mem_abc123",
-  "content": "User prefers dark mode",
-  "user_id": "user-123",
+  "id": "mem_abc123"
+  "content": "User prefers dark mode"
+  "user_id": "user-123"
   "metadata": {
     "category": "preferences"
-  },
+  }
   "created_at": "2025-01-15T10:00:00Z"
 }
 ```
@@ -130,10 +130,10 @@ OSS format:
 ```sql
 INSERT INTO memories (id, user_id, memory, metadata, embedding, created_at)
 VALUES (
-  'uuid-here',
-  'user-123',
-  'User prefers dark mode',
-  '{"category": "preferences"}'::jsonb,
+  'uuid-here'
+  'user-123'
+  'User prefers dark mode'
+  '{"category": "preferences"}'::jsonb
   NULL,  -- Will generate embeddings
   '2025-01-15T10:00:00Z'
 );
@@ -151,15 +151,15 @@ def transform_memory(platform_memory: Dict) -> Dict:
     """Transform Platform memory to OSS format"""
     return {
         "id": str(uuid.uuid4()),  # Generate new UUID
-        "user_id": platform_memory.get("user_id"),
-        "agent_id": platform_memory.get("agent_id"),
-        "run_id": platform_memory.get("run_id"),
-        "memory": platform_memory.get("content") or platform_memory.get("memory"),
-        "hash": platform_memory.get("hash"),
-        "metadata": platform_memory.get("metadata", {}),
-        "categories": platform_memory.get("categories", []),
+        "user_id": platform_memory.get("user_id")
+        "agent_id": platform_memory.get("agent_id")
+        "run_id": platform_memory.get("run_id")
+        "memory": platform_memory.get("content") or platform_memory.get("memory")
+        "hash": platform_memory.get("hash")
+        "metadata": platform_memory.get("metadata", {})
+        "categories": platform_memory.get("categories", [])
         "embedding": None,  # Will be generated
-        "created_at": platform_memory.get("created_at"),
+        "created_at": platform_memory.get("created_at")
         "updated_at": platform_memory.get("updated_at") or platform_memory.get("created_at")
     }
 
@@ -170,10 +170,10 @@ def transform_export(input_file: str, output_file: str) -> Dict:
 
     transformed = {
         "metadata": {
-            "source": "mem0-platform",
-            "export_date": datetime.now().isoformat(),
+            "source": "mem0-platform"
+            "export_date": datetime.now().isoformat()
             "total_memories": 0
-        },
+        }
         "memories": []
     }
 
@@ -207,7 +207,7 @@ def transform_export(input_file: str, output_file: str) -> Dict:
 
 # Usage
 transform_export(
-    "platform-export-20250127.json",
+    "platform-export-20250127.json"
     "oss-import-20250127.json"
 )
 ```
@@ -227,7 +227,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 def generate_embedding(text: str, model: str = "text-embedding-3-small") -> List[float]:
     """Generate embedding for text"""
     response = client.embeddings.create(
-        input=text,
+        input=text
         model=model
     )
     return response.data[0].embedding
@@ -272,7 +272,7 @@ def add_embeddings_to_export(input_file: str, output_file: str, batch_size: int 
 
 # Usage
 add_embeddings_to_export(
-    "oss-import-20250127.json",
+    "oss-import-20250127.json"
     "oss-import-with-embeddings-20250127.json"
 )
 ```
@@ -288,8 +288,8 @@ from psycopg2.extras import execute_values
 from datetime import datetime
 
 def import_memories_to_supabase(
-    input_file: str,
-    db_url: str,
+    input_file: str
+    db_url: str
     batch_size: int = 1000
 ):
     """Import memories to Supabase PostgreSQL"""
@@ -312,16 +312,16 @@ def import_memories_to_supabase(
         embedding_str = f"[{','.join(map(str, memory['embedding']))}]" if memory['embedding'] else None
 
         values.append((
-            memory["id"],
-            memory["user_id"],
-            memory.get("agent_id"),
-            memory.get("run_id"),
-            memory["memory"],
-            memory.get("hash"),
-            json.dumps(memory.get("metadata", {})),
-            memory.get("categories", []),
-            embedding_str,
-            memory.get("created_at"),
+            memory["id"]
+            memory["user_id"]
+            memory.get("agent_id")
+            memory.get("run_id")
+            memory["memory"]
+            memory.get("hash")
+            json.dumps(memory.get("metadata", {}))
+            memory.get("categories", [])
+            embedding_str
+            memory.get("created_at")
             memory.get("updated_at")
         ))
 
@@ -332,19 +332,19 @@ def import_memories_to_supabase(
 
         try:
             execute_values(
-                cur,
+                cur
                 """
                 INSERT INTO memories (
-                    id, user_id, agent_id, run_id, memory,
-                    hash, metadata, categories, embedding,
+                    id, user_id, agent_id, run_id, memory
+                    hash, metadata, categories, embedding
                     created_at, updated_at
                 )
                 VALUES %s
                 ON CONFLICT (id) DO UPDATE SET
-                    memory = EXCLUDED.memory,
-                    metadata = EXCLUDED.metadata,
+                    memory = EXCLUDED.memory
+                    metadata = EXCLUDED.metadata
                     updated_at = EXCLUDED.updated_at
-                """,
+                """
                 batch
             )
             conn.commit()
@@ -362,7 +362,7 @@ def import_memories_to_supabase(
 
 # Usage
 import_memories_to_supabase(
-    "oss-import-with-embeddings-20250127.json",
+    "oss-import-with-embeddings-20250127.json"
     os.getenv("SUPABASE_DB_URL")
 )
 ```
@@ -442,7 +442,7 @@ def test_oss_search(user_id: str, query: str):
     """Test OSS memory search"""
     memory = Memory.from_config({
         "vector_store": {
-            "provider": "postgres",
+            "provider": "postgres"
             "config": {
                 "url": os.getenv("SUPABASE_DB_URL")
             }
@@ -477,7 +477,7 @@ from mem0 import Memory
 
 memory = Memory.from_config({
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
             "url": os.getenv("SUPABASE_DB_URL")
         }
@@ -543,7 +543,7 @@ psql "$SUPABASE_DB_URL" < backup-pre-migration.sql
 ```sql
 -- Monitor memory growth
 SELECT
-    DATE(created_at) as date,
+    DATE(created_at) as date
     COUNT(*) as memories_created
 FROM memories
 WHERE created_at > NOW() - INTERVAL '7 days'

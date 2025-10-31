@@ -748,8 +748,7 @@ if __name__ == "__main__":
 ```yaml
 # config/ai/mcp-servers.yaml
 mcp_servers:
-  your-domain-tools:
-    command: "python"
+  your-domain-tools: command: "python"
     args: ["-m", "your-domain-tools"]
     env:
       YOUR_API_KEY: "${YOUR_API_KEY}"
@@ -762,8 +761,8 @@ mcp_servers:
 import { tool } from 'ai'
 
 const yourCustomTool = tool({
-  description: 'Your domain-specific tool',
-  parameters: z.object({ param: z.string() }),
+  description: 'Your domain-specific tool'
+  parameters: z.object({ param: z.string() })
   execute: async ({ param }) => {
     return await callMCPTool('your-domain-tools', 'your_custom_tool', { param })
   }
@@ -1061,17 +1060,16 @@ Or create a curated tech stack marketplace with everything:
 ```json
 // ai-tech-stack-marketing-automation/marketplace.json
 {
-  "name": "ai-tech-stack-marketing-automation",
-  "description": "Complete marketing automation with AI Tech Stack 1 + Imagen + Veo",
+  "name": "ai-tech-stack-marketing-automation"
+  "description": "Complete marketing automation with AI Tech Stack 1 + Imagen + Veo"
   "plugins": [
     // Foundation (from AI Tech Stack 1)
-    {"name": "vercel-ai-sdk", "source": "..."},
-    {"name": "mem0-integration", "source": "..."},
-    {"name": "supabase-backend", "source": "..."},
-    {"name": "nextjs-frontend", "source": "..."},
-    
+    {"name": "vercel-ai-sdk", "source": "..."}
+    {"name": "mem0-integration", "source": "..."}
+    {"name": "supabase-backend", "source": "..."}
+    {"name": "nextjs-frontend", "source": "..."}
     // Extensions (new)
-    {"name": "google-imagen", "source": "...", "category": "extension"},
+    {"name": "google-imagen", "source": "...", "category": "extension"}
     {"name": "google-veo", "source": "...", "category": "extension"}
   ]
 }
@@ -1136,15 +1134,15 @@ plugins/google-vertex-ai/
   "plugins": [
     // Foundation plugins...
     {
-      "name": "google-vertex-ai",
-      "description": "Optional: Image/video generation extension",
-      "version": "1.0.0",
+      "name": "google-vertex-ai"
+      "description": "Optional: Image/video generation extension"
+      "version": "1.0.0"
       "source": {
-        "source": "github",
-        "repo": "vanman2024/ai-dev-marketplace",
+        "source": "github"
+        "repo": "vanman2024/ai-dev-marketplace"
         "path": "plugins/google-vertex-ai"
-      },
-      "category": "extension",
+      }
+      "category": "extension"
       "optional": true
     }
   ]
@@ -1181,8 +1179,8 @@ plugins/your-extension/
 │   {
 │     "mcpServers": {
 │       "your-extension": {
-│         "command": "python",
-│         "args": ["-m", "your-extension-mcp"],
+│         "command": "python"
+│         "args": ["-m", "your-extension-mcp"]
 │         "env": {
 │           "API_KEY": "${YOUR_API_KEY}"
 │         }

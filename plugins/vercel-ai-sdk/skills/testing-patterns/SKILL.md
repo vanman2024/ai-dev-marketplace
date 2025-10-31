@@ -34,18 +34,17 @@ import { createMockLanguageModelV1 } from 'ai/test'
 
 const mockProvider = createMockLanguageModelV1({
   doGenerate: async ({ prompt, mode }) => ({
-    text: 'Mocked response',
-    finishReason: 'stop',
+    text: 'Mocked response'
+    finishReason: 'stop'
     usage: { promptTokens: 10, completionTokens: 20 }
-  }),
-
+  })
   doStream: async function* ({ prompt, mode }) {
     yield { type: 'text-delta', textDelta: 'Mocked ' }
     yield { type: 'text-delta', textDelta: 'streaming ' }
     yield { type: 'text-delta', textDelta: 'response' }
     yield {
-      type: 'finish',
-      finishReason: 'stop',
+      type: 'finish'
+      finishReason: 'stop'
       usage: { promptTokens: 10, completionTokens: 20 }
     }
   }

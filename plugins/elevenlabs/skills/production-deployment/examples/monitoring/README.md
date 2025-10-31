@@ -46,8 +46,8 @@ const HealthCheck = require('../../templates/health-check.js.template');
 const { metrics } = require('../../monitoring/config/metrics');
 
 const healthCheck = new HealthCheck({
-  rateLimiter: rateLimiterInstance,
-  circuitBreaker: circuitBreakerInstance,
+  rateLimiter: rateLimiterInstance
+  circuitBreaker: circuitBreakerInstance
   apiKey: process.env.ELEVENLABS_API_KEY
 });
 
@@ -93,13 +93,13 @@ async function makeTrackedRequest(method, model) {
 
     // Record success
     metrics.requestsTotal.inc({
-      method,
-      status: 'success',
+      method
+      status: 'success'
       model
     });
 
     metrics.requestDuration.observe(
-      { method, model },
+      { method, model }
       (Date.now() - start) / 1000
     );
 
@@ -107,7 +107,7 @@ async function makeTrackedRequest(method, model) {
   } catch (error) {
     // Record error
     metrics.errorsTotal.inc({
-      type: categorizeError(error),
+      type: categorizeError(error)
       code: error.response?.status || 'unknown'
     });
 
@@ -139,9 +139,9 @@ async function makeTrackedRequest(method, model) {
 ```javascript
 // Add custom metric
 const customMetric = new metrics.Counter({
-  name: 'elevenlabs_custom_events_total',
-  help: 'Custom event counter',
-  labelNames: ['event_type'],
+  name: 'elevenlabs_custom_events_total'
+  help: 'Custom event counter'
+  labelNames: ['event_type']
   registers: [metrics.register]
 });
 
@@ -158,28 +158,28 @@ const winston = require('winston');
 const DailyRotateFile = require('winston-daily-rotate-file');
 
 const logger = winston.createLogger({
-  level: process.env.LOG_LEVEL || 'info',
+  level: process.env.LOG_LEVEL || 'info'
   format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.errors({ stack: true }),
+    winston.format.timestamp()
+    winston.format.errors({ stack: true })
     winston.format.json()
-  ),
+  )
   defaultMeta: {
-    service: 'elevenlabs-api',
+    service: 'elevenlabs-api'
     environment: process.env.NODE_ENV
-  },
+  }
   transports: [
     new DailyRotateFile({
-      filename: 'logs/app-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
+      filename: 'logs/app-%DATE%.log'
+      datePattern: 'YYYY-MM-DD'
+      maxSize: '20m'
       maxFiles: '14d'
-    }),
+    })
     new DailyRotateFile({
-      filename: 'logs/error-%DATE%.log',
-      datePattern: 'YYYY-MM-DD',
-      maxSize: '20m',
-      maxFiles: '30d',
+      filename: 'logs/error-%DATE%.log'
+      datePattern: 'YYYY-MM-DD'
+      maxSize: '20m'
+      maxFiles: '30d'
       level: 'error'
     })
   ]
@@ -199,11 +199,11 @@ const logger = winston.createLogger({
 ```javascript
 // Good: Include context
 logger.info('Request completed', {
-  method: 'text-to-speech',
-  model: 'eleven_turbo_v2',
-  duration: 150,
-  statusCode: 200,
-  userId: 'user-123',
+  method: 'text-to-speech'
+  model: 'eleven_turbo_v2'
+  duration: 150
+  statusCode: 200
+  userId: 'user-123'
   requestId: 'req-456'
 });
 
@@ -222,11 +222,11 @@ app.use((req, res, next) => {
 
   res.on('finish', () => {
     req.log.info('HTTP Request', {
-      method: req.method,
-      path: req.path,
-      statusCode: res.statusCode,
-      duration: Date.now() - start,
-      ip: req.ip,
+      method: req.method
+      path: req.path
+      statusCode: res.statusCode
+      duration: Date.now() - start
+      ip: req.ip
       userAgent: req.get('user-agent')
     });
   });
@@ -369,10 +369,10 @@ receivers:
 curl http://localhost:8080/health
 
 {
-  "status": "healthy",
-  "timestamp": "2025-10-29T12:00:00.000Z",
-  "uptime": "2d 5h 30m",
-  "service": "elevenlabs-api",
+  "status": "healthy"
+  "timestamp": "2025-10-29T12:00:00.000Z"
+  "uptime": "2d 5h 30m"
+  "service": "elevenlabs-api"
   "version": "1.0.0"
 }
 ```
@@ -383,34 +383,34 @@ curl http://localhost:8080/health
 curl http://localhost:8080/ready
 
 {
-  "status": "ready",
-  "timestamp": "2025-10-29T12:00:00.000Z",
+  "status": "ready"
+  "timestamp": "2025-10-29T12:00:00.000Z"
   "checks": {
     "api": {
-      "healthy": true,
-      "status": 200,
+      "healthy": true
+      "status": 200
       "message": "API connectivity OK"
-    },
+    }
     "rateLimiter": {
-      "healthy": true,
-      "tokens": 8,
-      "capacity": 10,
-      "concurrent": 2,
-      "queueDepth": 0,
-      "utilization": "20.0%",
+      "healthy": true
+      "tokens": 8
+      "capacity": 10
+      "concurrent": 2
+      "queueDepth": 0
+      "utilization": "20.0%"
       "message": "Rate limiter OK"
-    },
+    }
     "circuitBreaker": {
-      "healthy": true,
-      "state": "CLOSED",
-      "failures": 0,
+      "healthy": true
+      "state": "CLOSED"
+      "failures": 0
       "message": "Circuit breaker OK"
-    },
+    }
     "memory": {
-      "healthy": true,
-      "heapUsed": "45MB",
-      "heapTotal": "100MB",
-      "heapUsedPercent": "45.0%",
+      "healthy": true
+      "heapUsed": "45MB"
+      "heapTotal": "100MB"
+      "heapUsedPercent": "45.0%"
       "message": "Memory usage OK"
     }
   }
@@ -427,8 +427,8 @@ const { JaegerExporter } = require('@opentelemetry/exporter-jaeger');
 
 const provider = new NodeTracerProvider();
 const exporter = new JaegerExporter({
-  serviceName: 'elevenlabs-api',
-  agentHost: 'localhost',
+  serviceName: 'elevenlabs-api'
+  agentHost: 'localhost'
   agentPort: 6831
 });
 
@@ -445,7 +445,7 @@ async function makeTracedRequest(text) {
   const span = tracer.startSpan('elevenlabs.text-to-speech');
 
   span.setAttributes({
-    'elevenlabs.text_length': text.length,
+    'elevenlabs.text_length': text.length
     'elevenlabs.model': 'eleven_turbo_v2'
   });
 
@@ -455,7 +455,7 @@ async function makeTracedRequest(text) {
     return result;
   } catch (error) {
     span.setStatus({
-      code: SpanStatusCode.ERROR,
+      code: SpanStatusCode.ERROR
       message: error.message
     });
     throw error;

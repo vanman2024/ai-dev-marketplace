@@ -113,10 +113,10 @@ Actions:
 - Create vercel.json:
   !{bash cat > vercel.json << 'EOF'
 {
-  "buildCommand": "npm run build",
-  "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "nextjs",
+  "buildCommand": "npm run build"
+  "devCommand": "npm run dev"
+  "installCommand": "npm install"
+  "framework": "nextjs"
   "outputDirectory": ".next"
 }
 EOF

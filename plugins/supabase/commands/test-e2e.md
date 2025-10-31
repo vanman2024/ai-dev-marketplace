@@ -1,7 +1,7 @@
 ---
 description: Run end-to-end tests - parallel test execution across database, auth, realtime, AI features
 argument-hint: [--suite=all|auth|database|realtime|ai|storage] [--parallel]
-allowed-tools: Task(supabase-tester), Task(supabase-schema-validator), Task(supabase-security-auditor)
+allowed-tools: Task
 ---
 
 **Arguments**: $ARGUMENTS

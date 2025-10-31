@@ -95,10 +95,10 @@ Some MCP servers store keys in `.mcp.json`:
 {
   "mcpServers": {
     "content-image-generation": {
-      "command": "python",
-      "args": ["-m", "content_image_generation"],
+      "command": "python"
+      "args": ["-m", "content_image_generation"]
       "env": {
-        "GOOGLE_API_KEY": "your-key-here",
+        "GOOGLE_API_KEY": "your-key-here"
         "ANTHROPIC_API_KEY": "your-key-here"
       }
     }

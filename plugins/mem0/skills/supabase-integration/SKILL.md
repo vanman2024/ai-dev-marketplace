@@ -239,12 +239,12 @@ from mem0 import Memory
 
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "url": "postgresql://user:pass@pooler.project.supabase.co:6543/postgres",
-            "pool_size": 20,
-            "max_overflow": 10,
-            "pool_timeout": 30,
+            "url": "postgresql://user:pass@pooler.project.supabase.co:6543/postgres"
+            "pool_size": 20
+            "max_overflow": 10
+            "pool_timeout": 30
             "pool_recycle": 3600
         }
     }
@@ -381,10 +381,10 @@ from mem0 import Memory
 
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "url": "postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres",
-            "table_name": "memories",
+            "url": "postgresql://postgres:[password]@db.[project].supabase.co:5432/postgres"
+            "table_name": "memories"
             "embedding_dimension": 1536
         }
     }
@@ -402,20 +402,20 @@ from mem0 import Memory
 
 config = {
     "vector_store": {
-        "provider": "postgres",
+        "provider": "postgres"
         "config": {
-            "url": os.getenv("SUPABASE_DB_URL"),
-            "table_name": "memories",
+            "url": os.getenv("SUPABASE_DB_URL")
+            "table_name": "memories"
             "embedding_dimension": 1536
         }
-    },
+    }
     "graph_store": {
         "provider": "postgres",  # Using same DB for graph
         "config": {
-            "url": os.getenv("SUPABASE_DB_URL"),
+            "url": os.getenv("SUPABASE_DB_URL")
             "relationship_table": "memory_relationships"
         }
-    },
+    }
     "version": "v1.1"
 }
 

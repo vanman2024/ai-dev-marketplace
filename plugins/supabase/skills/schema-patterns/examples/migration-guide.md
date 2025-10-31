@@ -168,11 +168,11 @@ check (email ~* '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$');
 
 -- Create new table for extracted data
 create table if not exists public.user_settings (
-    user_id uuid primary key references auth.users(id) on delete cascade,
-    theme text,
-    language text,
-    timezone text,
-    created_at timestamp with time zone default now(),
+    user_id uuid primary key references auth.users(id) on delete cascade
+    theme text
+    language text
+    timezone text
+    created_at timestamp with time zone default now()
     updated_at timestamp with time zone default now()
 );
 
@@ -192,8 +192,8 @@ comment on column public.user_profiles.timezone is 'DEPRECATED: Use user_setting
 
 -- Later migration: Remove old columns
 -- alter table public.user_profiles
--- drop column theme,
--- drop column language,
+-- drop column theme
+-- drop column language
 -- drop column timezone;
 ```
 
