@@ -1,219 +1,85 @@
 # Domain Plugin Builder Documentation
 
-Central documentation for building domain-specific plugins for Claude Code.
+Documentation for building domain-specific plugins for Claude Code.
 
-## 📚 Documentation Structure
+## Documentation Structure
 
-### 🏗️ Architecture
-High-level concepts and marketplace organization strategies.
+### Claude Framework (`frameworks/claude/`)
 
-- **[04-plugin-marketplaces.md](architecture/04-plugin-marketplaces.md)** - Plugin marketplace fundamentals
-- **[06-tech-stack-marketplaces.md](architecture/06-tech-stack-marketplaces.md)** - Tech stack marketplace architecture
-  - Three-tier marketplace organization
-  - Hybrid documentation pattern (static + Context7)
-  - Plugin initialization patterns
-  - Version pinning strategies
+Claude Code framework-specific documentation for building agents, skills, and commands.
 
-### 🔧 Frameworks
-Claude Code framework-specific documentation.
+- **[component-decision-framework.md](frameworks/claude/component-decision-framework.md)** - When to use commands vs agents vs skills
+- **[agent-skills-architecture.md](frameworks/claude/agent-skills-architecture.md)** - Agent and skill design patterns
 
-- **[03-claude-code-plugins.md](frameworks/03-claude-code-plugins.md)** - Claude Code plugin development guide
+### Plugin Structure (`frameworks/plugins/`)
 
-### 🚀 SDKs
-AI/ML SDK integration documentation with curated links.
+Plugin architecture and marketplace organization.
 
-- **[claude-agent-sdk-documentation.md](sdks/claude-agent-sdk-documentation.md)** - Claude Agent SDK reference
-- **[claude-api-documentation.md](sdks/claude-api-documentation.md)** - Claude API reference
-- **[mem0-documentation.md](sdks/mem0-documentation.md)** - Mem0 memory management reference
+- **[claude-code-plugin-structure.md](frameworks/plugins/claude-code-plugin-structure.md)** - Plugin directory structure and manifest format
+- **[plugin-marketplaces.md](frameworks/plugins/plugin-marketplaces.md)** - Plugin marketplace fundamentals
+- **[tech-stack-marketplaces.md](frameworks/plugins/tech-stack-marketplaces.md)** - Tech stack marketplace architecture
 
-### 📖 Reference
-Comprehensive documentation link collections and API references.
+### Plugin Build Checklist
 
-- **[ai-development-documentation-links.md](reference/ai-development-documentation-links.md)** - Master collection of AI development resources
-  - Vercel AI SDK
-  - OpenAI
-  - Anthropic Claude
-  - LangChain
-  - Vector databases
-  - And more...
+- **[plugin-build-checklist.md](plugin-build-checklist.md)** - Complete workflow for building, validating, and installing plugins
 
-- **[ai-marketing-automation-system.md](reference/ai-marketing-automation-system.md)** - Complete marketing automation system architecture
+## Quick Start
 
-- **[google-imagen-veo-documentation.md](reference/google-imagen-veo-documentation.md)** - Google Imagen & Veo API documentation
-  - Image generation (Imagen 3/4)
-  - Video generation (Veo 2/3)
-  - Pricing and integration guides
+### Building a New Plugin
 
-- **[ayrshare-documentation.md](reference/ayrshare-documentation.md)** - Ayrshare Social Media API reference
-  - 13 platform unified API
-  - Post scheduling and automation
-  - Analytics and engagement metrics
-  - Pricing: $0.20-0.50 per post
-
-- **[AYRSHARE-INTEGRATION-SUMMARY.md](reference/AYRSHARE-INTEGRATION-SUMMARY.md)** - Ayrshare integration guide
-  - Implementation strategies
-  - Cost analysis
-  - Integration checklist
-
-- **[cats-api-documentation.md](reference/cats-api-documentation.md)** - CATS ATS API v3 complete endpoint reference
-  - 150+ endpoints across 17 categories
-  - Candidate/job/company management
-  - Pipeline workflows
-  - Webhook integrations
-  - Rate limits: 500 requests/hour
-
----
-
-## 🎯 Quick Start Guides
-
-### Building a New SDK Plugin
-
-1. **Read architecture docs** to understand marketplace organization
-2. **Review SDK documentation** for the target SDK
-3. **Use domain-plugin-builder commands**:
-   ```bash
-   /domain-plugin-builder:plugin-create my-sdk-plugin
-   ```
-
-### Building a Tech Stack Marketplace
-
-1. **Read** `architecture/06-tech-stack-marketplaces.md`
-2. **Understand** the three-tier architecture
-3. **Design** your plugin combination
-4. **Implement** using the hybrid documentation pattern
-
----
-
-## 📋 Documentation Categories Explained
-
-### Architecture Docs
-**Purpose:** Understand HOW to organize plugins and marketplaces
-
-**When to use:**
-- Planning a new marketplace
-- Understanding plugin organization
-- Learning version management
-- Designing multi-plugin systems
-
-### Framework Docs
-**Purpose:** Learn framework-specific implementation details
-
-**When to use:**
-- Building Claude Code plugins
-- Understanding framework constraints
-- Implementing framework patterns
-
-### SDK Docs
-**Purpose:** Quick reference for specific SDKs with curated links
-
-**When to use:**
-- Implementing features from a specific SDK
-- Finding SDK documentation quickly
-- Understanding SDK capabilities
-
-### Reference Docs
-**Purpose:** Comprehensive link collections for research
-
-**When to use:**
-- Exploring available SDKs/tools
-- Finding official documentation
-- Researching best practices
-- Discovering new technologies
-
----
-
-## 🔄 Documentation Patterns
-
-### Static Documentation (These Files)
-- **Use for:** Concepts, architecture, patterns, guides
-- **Benefits:** Offline access, version controlled, curated
-- **Location:** This docs/ directory
-
-### Dynamic Documentation (Context7 MCP)
-- **Use for:** Latest API reference, up-to-date examples
-- **Benefits:** Always current, official sources
-- **Access via:** Commands that invoke agents with WebFetch
-
-### Hybrid Approach
-Most effective: Use BOTH
-- Static docs for initialization and concepts
-- Context7 for implementing features and checking latest API
-
----
-
-## 🛠️ Maintaining Documentation
-
-### Adding New SDK Documentation
-
-1. Create file in `sdks/` directory
-2. Include curated documentation links
-3. Organize by feature area
-4. Add examples and common patterns
-5. Update this README
-
-### Adding Architecture Documentation
-
-1. Create file in `architecture/` directory
-2. Focus on patterns and organization
-3. Include diagrams and examples
-4. Explain trade-offs
-5. Update this README
-
-### Updating Reference Links
-
-1. Edit files in `reference/` directory
-2. Group by category
-3. Include brief descriptions
-4. Verify links work
-5. Keep current with SDK updates
-
----
-
-## 📌 Key Concepts
-
-### Three-Tier Marketplace Architecture
-
-```
-dev-lifecycle-marketplace (HOW you develop)
-         ↓
-ai-dev-marketplace (WHAT you develop with)
-         ↓
-tech-stack-marketplaces (Curated combinations)
+```bash
+/domain-plugin-builder:plugin-create my-plugin
 ```
 
-### Plugin Types
+This command handles everything:
+- Creates plugin structure
+- Builds all commands, agents, and skills
+- Validates all components
+- Updates marketplace.json
+- Registers commands in settings
+- Commits to git
 
-- **Lifecycle plugins:** Tech-agnostic workflow (01-core, 02-develop, etc.)
-- **Tech plugins:** SDK/framework-specific (vercel-ai-sdk, mem0, etc.)
-- **Builder plugins:** Meta-tools for building other plugins (domain-plugin-builder)
+### Adding to an Existing Plugin
 
-### Documentation Strategy
+**Add command:**
+```bash
+/domain-plugin-builder:slash-commands-create my-command "description" --plugin=existing-plugin
+```
 
-- **Init phase:** Use static docs from this directory
-- **Feature phase:** Use Context7 MCP for latest API
-- **Reference phase:** Combine both for comprehensive understanding
+**Add agent:**
+```bash
+/domain-plugin-builder:agents-create my-agent "description" "tools"
+```
 
----
+**Add skill:**
+```bash
+/domain-plugin-builder:skills-create my-skill "description"
+```
 
-## 🔗 External Resources
+## Validation
 
-- **Claude Code Documentation:** https://docs.claude.com/en/docs/claude-code
-- **Plugin Development:** https://docs.claude.com/en/docs/claude-code/plugins
-- **MCP Protocol:** https://modelcontextprotocol.io
+**Validate entire plugin:**
+```bash
+bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-plugin.sh plugins/my-plugin
+```
 
----
+**Fix tool formatting issues:**
+```bash
+bash plugins/domain-plugin-builder/skills/build-assistant/scripts/fix-tool-formatting.sh
+```
 
-## 📝 Contributing
+## Best Practices
 
-When adding documentation:
+1. **Always use `/domain-plugin-builder:plugin-create`** for new plugins - don't build manually
+2. **Validate before committing** - run validation scripts
+3. **Follow tool formatting rules** - see CLAUDE.md for correct syntax
+4. **Git commit and push immediately** - never leave work uncommitted
+5. **Test slash commands** after building - verify they work
 
-1. **Choose the right category** (architecture, frameworks, sdks, reference)
-2. **Follow existing patterns** in similar docs
-3. **Include practical examples**
-4. **Keep links current**
-5. **Update this README**
+## Documentation Notes
 
----
+- Plugin-specific SDK documentation lives in each plugin's `docs/` directory
+- Framework documentation (Claude, plugins) stays in `domain-plugin-builder/docs/frameworks/`
+- Build assistant scripts are in `skills/build-assistant/scripts/`
 
-**Last Updated:** 2025-10-26
-**Maintained by:** domain-plugin-builder team
+See [CLAUDE.md](../CLAUDE.md) for complete plugin building rules and patterns.
