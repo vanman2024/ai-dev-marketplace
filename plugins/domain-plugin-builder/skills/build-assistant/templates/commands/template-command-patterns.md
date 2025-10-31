@@ -136,16 +136,16 @@ Goal: [Execute with agent]
 
 Actions:
 
-Launch the [agent-name] agent to [accomplish task].
+Task(description="[Accomplish task]", subagent_type="[agent-name]", prompt="You are the [agent-name] agent. [Accomplish task] for $ARGUMENTS.
 
-Provide the agent with a detailed prompt including:
-- Context: [What context is needed]
-- Target: $ARGUMENTS
-- Requirements:
-  - [Requirement 1]
-  - [Requirement 2]
-  - [Requirement 3]
-- Expected output: [What should be delivered]
+Context: [What context is needed]
+
+Requirements:
+- [Requirement 1]
+- [Requirement 2]
+- [Requirement 3]
+
+Expected output: [What should be delivered]")
 
 Phase 5: Review
 Goal: [Verify results]
@@ -312,28 +312,13 @@ Goal: [Run multiple independent agents simultaneously]
 
 Actions:
 
-Launch the following agents IN PARALLEL (all at once):
+Run the following agents IN PARALLEL (all at once):
 
-**Agent 1 - [First Check Name]:**
-Launch the [agent-type-1] agent to [accomplish first task].
-Provide the agent with:
-- Focus: [Focus area 1], [Focus area 2]
-- Target: $ARGUMENTS
-- Deliverable: [Expected output]
+Task(description="[First Check Name]", subagent_type="[agent-type-1]", prompt="You are the [agent-type-1] agent. [Accomplish first task] for $ARGUMENTS. Focus on: [Focus area 1], [Focus area 2]. Deliverable: [Expected output]")
 
-**Agent 2 - [Second Check Name]:**
-Launch the [agent-type-2] agent to [accomplish second task].
-Provide the agent with:
-- Focus: [Focus area 1], [Focus area 2]
-- Target: $ARGUMENTS
-- Deliverable: [Expected output]
+Task(description="[Second Check Name]", subagent_type="[agent-type-2]", prompt="You are the [agent-type-2] agent. [Accomplish second task] for $ARGUMENTS. Focus on: [Focus area 1], [Focus area 2]. Deliverable: [Expected output]")
 
-**Agent 3 - [Third Check Name]:**
-Launch the [agent-type-3] agent to [accomplish third task].
-Provide the agent with:
-- Focus: [Focus area 1], [Focus area 2]
-- Target: $ARGUMENTS
-- Deliverable: [Expected output]
+Task(description="[Third Check Name]", subagent_type="[agent-type-3]", prompt="You are the [agent-type-3] agent. [Accomplish third task] for $ARGUMENTS. Focus on: [Focus area 1], [Focus area 2]. Deliverable: [Expected output]")
 
 Wait for ALL agents to complete before proceeding.
 
@@ -394,12 +379,20 @@ Reference shared scripts:
 ```
 
 ### Agent Invocation
-Use natural language to describe agent invocation:
+Use Task() tool calls with proper parameters:
+
+**Single agent:**
 ```
-Launch the verifier agent to validate the setup
-Invoke the analyzer agent to check code quality
-Run 2-3 explorer agents in parallel
-Launch security-checker, code-scanner, and performance-analyzer agents in parallel
+Task(description="Validate setup", subagent_type="verifier-agent", prompt="You are the verifier agent. Validate the setup for $ARGUMENTS. Focus on: configuration files, dependencies, environment variables. Return validation report with pass/fail status.")
+```
+
+**Parallel agents (run all at once in SAME message):**
+```
+Task(description="Security check", subagent_type="security-checker", prompt="Audit security for $ARGUMENTS")
+Task(description="Code scan", subagent_type="code-scanner", prompt="Scan code quality for $ARGUMENTS")
+Task(description="Performance analysis", subagent_type="performance-analyzer", prompt="Analyze performance for $ARGUMENTS")
+
+Wait for ALL agents to complete before proceeding.
 ```
 
 Claude Code will convert this natural language to actual Task() tool calls during execution.
