@@ -22,9 +22,20 @@ Use Bash tool to check current directory:
 
 Expected: ai-dev-marketplace directory. If not in correct location, tell user to cd there first.
 
-## Phase 2: Gather Requirements
+## Phase 2: Load Framework Documentation & Gather Requirements
 
-Use AskUserQuestion to gather plugin details:
+**Load plugin building framework docs:**
+
+@plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+@plugins/domain-plugin-builder/docs/frameworks/plugins/claude-code-plugin-structure.md
+
+These provide critical context for:
+- When to use commands vs agents vs skills
+- Plugin directory structure and manifest format
+- Component design patterns
+- Validation requirements
+
+**Use AskUserQuestion to gather plugin details:**
 
 **Questions:**
 1. What type of plugin are you building?

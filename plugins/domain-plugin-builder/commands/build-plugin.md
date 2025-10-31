@@ -14,10 +14,20 @@ Core Principles:
 - Validate at each major phase
 - Ensure 100% compliance before completion
 
-Phase 1: Discovery
-Goal: Understand what plugin needs to be built
+Phase 1: Load Framework Documentation & Discovery
+Goal: Understand plugin building framework and what needs to be built
 
 Actions:
+- Load plugin building framework docs:
+  @plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+  @plugins/domain-plugin-builder/docs/frameworks/plugins/claude-code-plugin-structure.md
+
+  These provide critical context for:
+  - When to use commands vs agents vs skills
+  - Plugin directory structure and manifest format
+  - Component design patterns
+  - Validation requirements
+
 - Create todo list with all build phases using TodoWrite
 - Parse $ARGUMENTS for plugin name
 - If unclear or no plugin name provided, use AskUserQuestion to gather:
@@ -32,9 +42,9 @@ Goal: Build initial plugin structure
 
 Actions:
 
-Invoke the plugin-create command to scaffold the plugin.
+Use SlashCommand tool to invoke plugin-create:
 
-SlashCommand: /domain-plugin-builder:plugin-create $ARGUMENTS
+!{bash /domain-plugin-builder:plugin-create $ARGUMENTS}
 
 This will:
 - Create plugin directory structure
@@ -66,16 +76,22 @@ Goal: Comprehensive validation of entire plugin
 
 Actions:
 
-Invoke the plugin-validator agent to validate plugins/$ARGUMENTS
+Use Task tool to invoke the plugin-validator agent:
 
-The agent should:
-- Run all validation scripts (validate-all.sh)
+Task(description="Validate complete plugin", subagent_type="domain-plugin-builder:plugin-validator", prompt="You are the plugin-validator agent. Validate the complete plugin at plugins/$ARGUMENTS.
+
+Run all validation scripts:
+- validate-all.sh for comprehensive checks
 - Check command compliance
 - Check agent compliance
 - Verify documentation quality
 - Check template adherence
 - Validate framework conventions
-- Output comprehensive report with Overall Status: PASS/FAIL/PASS WITH WARNINGS
+
+Output comprehensive report with Overall Status: PASS/FAIL/PASS WITH WARNINGS
+
+Plugin to validate: plugins/$ARGUMENTS
+Expected deliverable: Detailed validation report with status and any issues found")
 
 Wait for agent to complete and return its report.
 
@@ -97,14 +113,14 @@ If validation status is FAIL:
 - Use AskUserQuestion: "Auto-fix common issues or manual fix?"
 - If auto-fix selected:
   - Apply fixes using Edit tool based on issues in report
-  - Re-invoke plugin-validator agent on plugins/$ARGUMENTS
+  - Re-invoke plugin-validator agent using Task tool on plugins/$ARGUMENTS
   - Wait for new report
   - Parse new report status
   - Loop until Overall Status is PASS or PASS WITH WARNINGS
 - If manual fix selected:
   - Show detailed errors from report
   - Pause for user to fix manually
-  - After user confirms fixes, re-invoke validator
+  - After user confirms fixes, re-invoke validator using Task tool
 
 Continue looping until Overall Status: PASS or PASS WITH WARNINGS achieved.
 
