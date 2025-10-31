@@ -18,11 +18,7 @@
     "voice-cloning",
     "transcription"
   ],
-  "category": "sdk",
   "homepage": "https://elevenlabs.io",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ai-dev-marketplace/plugins"
-  },
+  "repository": "https://github.com/ai-dev-marketplace/plugins",
   "license": "MIT"
 }
