@@ -115,7 +115,9 @@ Add ALL plugin commands to the permissions.allow array in settings.local.json:
 
 Use Edit tool to insert commands after the last existing plugin's commands but before "Bash".
 
-### Step 5: Git Commit
+### Step 5: Git Commit and Push
+
+**CRITICAL: Always commit AND push to GitHub immediately after plugin creation**
 
 Stage and commit all plugin files:
 
@@ -132,10 +134,19 @@ Co-Authored-By: Claude <noreply@anthropic.com>
 EOF
 )"}
 
+**IMMEDIATELY push to GitHub:**
+
+!{bash git push origin master}
+
+This ensures work is never lost. If push fails:
+- Check git remote configuration
+- Verify GitHub credentials
+- Push manually: `git push origin master`
+
 Context needed:
 - Plugin type, description, requirements from Phase 2
 - Plugin name: $ARGUMENTS
-- Expected output: Complete validated plugin ready for production use
+- Expected output: Complete validated plugin committed AND pushed to GitHub
 
 ## Phase 4: Display Results
 
@@ -160,13 +171,10 @@ Display formatted summary:
 
 **Git Status:**
 - ✅ Committed to master branch
-- Ready to push to origin
+- ✅ Pushed to GitHub origin/master
 
 **Next Steps:**
-1. Push to GitHub:
-   `git push origin master`
-
-2. Test the plugin:
+1. Test the plugin:
    `/$ARGUMENTS:init` (or first command from plugin)
 
 3. Install via marketplace:
