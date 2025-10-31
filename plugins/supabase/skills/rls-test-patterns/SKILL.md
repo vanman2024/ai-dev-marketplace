@@ -1,7 +1,7 @@
 ---
 name: rls-test-patterns
 description: RLS policy testing patterns for Supabase - automated test cases for Row Level Security enforcement, user isolation verification, multi-tenant security, and comprehensive security audit scripts. Use when testing RLS policies, validating user isolation, auditing Supabase security, verifying tenant isolation, testing row level security, running security tests, or when user mentions RLS testing, security validation, policy testing, or data leak prevention.
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # RLS Test Patterns

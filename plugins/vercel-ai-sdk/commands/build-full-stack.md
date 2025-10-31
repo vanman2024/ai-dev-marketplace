@@ -1,7 +1,7 @@
 ---
 description: Build a complete production-ready Vercel AI SDK application from scratch by chaining all feature commands together
 argument-hint: <project-name>
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), SlashCommand(*), TodoWrite(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, SlashCommand, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

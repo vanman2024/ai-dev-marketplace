@@ -1,5 +1,5 @@
 ---
-allowed-tools: Task(*), AskUserQuestion(*), Bash(*), Read(*), Write(*), Edit(*), TodoWrite(*)
+allowed-tools: Task, AskUserQuestion, Bash(*), Read, Write, Edit, TodoWrite
 description: Universal plugin builder - creates complete domain-specific plugins (SDK, Framework, Custom) with all components from start to finish
 argument-hint: <plugin-name>
 ---

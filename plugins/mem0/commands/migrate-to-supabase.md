@@ -1,7 +1,7 @@
 ---
 description: Migrate from Mem0 Platform to Open Source with Supabase backend
 argument-hint: none
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), SlashCommand(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, SlashCommand, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

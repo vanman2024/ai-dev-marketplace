@@ -1,7 +1,7 @@
 ---
 name: pgvector-setup
 description: Configure pgvector extension for vector search in Supabase - includes embedding storage, HNSW/IVFFlat indexes, hybrid search setup, and AI-optimized query patterns. Use when setting up vector search, building RAG systems, configuring semantic search, creating embedding storage, or when user mentions pgvector, vector database, embeddings, semantic search, or hybrid search.
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # pgvector-setup

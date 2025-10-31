@@ -1,7 +1,7 @@
 ---
 description: Enable graph memory for tracking relationships between memories and entities
 argument-hint: none
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep
 ---
 
 **Arguments**: $ARGUMENTS

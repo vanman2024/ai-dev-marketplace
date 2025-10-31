@@ -1,7 +1,7 @@
 ---
 description: Add sound effects generation, voice changer, dubbing, and voice isolator capabilities
 argument-hint: [options]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 name: memory-design-patterns
 description: Best practices for memory architecture design including user vs agent vs session memory patterns, vector vs graph memory tradeoffs, retention strategies, and performance optimization. Use when designing memory systems, architecting AI memory layers, choosing memory types, planning retention strategies, or when user mentions memory architecture, user memory, agent memory, session memory, memory patterns, vector storage, graph memory, or Mem0 architecture.
-allowed-tools: [Read, Write, Bash, Edit]
+allowed-tools: Read, Write, Bash, Edit
 ---
 
 # Memory Design Patterns

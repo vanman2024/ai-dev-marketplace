@@ -1,7 +1,7 @@
 ---
 name: schema-patterns
 description: Production-ready database schema patterns for AI applications including chat/conversation schemas, RAG document storage with pgvector, multi-tenant organization models, user management, and AI usage tracking. Use when building AI applications, creating database schemas, setting up chat systems, implementing RAG, designing multi-tenant databases, or when user mentions supabase schemas, chat database, RAG storage, pgvector, embeddings, conversation history, or AI application database.
-allowed-tools: [Read, Write, Bash, Edit]
+allowed-tools: Read, Write, Bash, Edit
 ---
 
 # Database Schema Patterns for AI Applications

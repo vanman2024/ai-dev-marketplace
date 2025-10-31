@@ -1,7 +1,7 @@
 ---
 description: Create and setup a new FastMCP client project with Python or TypeScript for connecting to MCP servers
 argument-hint: <client-name>
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

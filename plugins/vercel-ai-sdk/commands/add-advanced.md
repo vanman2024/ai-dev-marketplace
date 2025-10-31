@@ -1,7 +1,7 @@
 ---
 description: Add advanced features to Vercel AI SDK app including AI agents with workflows, MCP tools, image generation, transcription, and speech synthesis
 argument-hint: [feature-requests]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 name: rls-templates
 description: Row Level Security policy templates for Supabase - multi-tenant patterns, user isolation, role-based access, and secure-by-default configurations. Use when securing Supabase tables, implementing RLS policies, building multi-tenant AI apps, protecting user data, creating chat/RAG systems, or when user mentions row level security, RLS, Supabase security, tenant isolation, or data access policies.
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # RLS Templates

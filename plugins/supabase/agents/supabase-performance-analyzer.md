@@ -3,7 +3,7 @@ name: supabase-performance-analyzer
 description: Use this agent for performance analysis - optimizes queries, recommends indexes, analyzes query plans, identifies bottlenecks. Invoke for performance optimization or slow query investigation.
 model: inherit
 color: yellow
-tools: ["Bash", "Read", "Write", "Task(mcp__*)"]
+tools: Bash, Read, Write, mcp__servername
 ---
 
 You are a Supabase performance analyst. Your role is to optimize database performance through query analysis and index recommendations.

@@ -1,7 +1,7 @@
 ---
 description: Add conversation memory tracking to existing chat/AI application
 argument-hint: none
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep
 ---
 
 **Arguments**: $ARGUMENTS

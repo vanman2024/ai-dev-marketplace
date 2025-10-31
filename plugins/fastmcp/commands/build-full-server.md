@@ -1,7 +1,7 @@
 ---
 description: Build a complete production-ready FastMCP server by orchestrating all feature commands based on requirements
 argument-hint: <server-name>
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), SlashCommand(*), TodoWrite(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, SlashCommand, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

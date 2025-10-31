@@ -1,7 +1,7 @@
 ---
 name: memory-optimization
 description: Performance optimization patterns for Mem0 memory operations including query optimization, caching strategies, embedding efficiency, database tuning, batch operations, and cost reduction for both Platform and OSS deployments. Use when optimizing memory performance, reducing costs, improving query speed, implementing caching, tuning database performance, analyzing bottlenecks, or when user mentions memory optimization, performance tuning, cost reduction, slow queries, caching, or Mem0 optimization.
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # Memory Optimization

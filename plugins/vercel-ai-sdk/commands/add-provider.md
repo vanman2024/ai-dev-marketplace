@@ -1,7 +1,7 @@
 ---
 description: Add another AI provider to existing Vercel AI SDK project
 argument-hint: none
-allowed-tools: WebFetch(*), Read(*), Write(*), Edit(*), Bash(*), AskUserQuestion(*)
+allowed-tools: WebFetch, Read, Write, Edit, Bash(*), AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

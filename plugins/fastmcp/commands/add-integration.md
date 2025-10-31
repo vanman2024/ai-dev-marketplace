@@ -1,7 +1,7 @@
 ---
 description: Add integrations to FastMCP server (FastAPI, OpenAPI, LLM platforms, IDEs, authorization)
 argument-hint: [integration-type] [--server-path=path]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

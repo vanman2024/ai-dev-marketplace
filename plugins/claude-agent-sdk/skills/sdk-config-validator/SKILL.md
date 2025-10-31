@@ -1,7 +1,7 @@
 ---
 name: sdk-config-validator
 description: Validates Claude Agent SDK configuration files, environment setup, dependencies, and project structure
-allowed-tools: [Bash, Read, Grep, Glob]
+allowed-tools: Bash, Read, Grep, Glob
 category: validation
 complexity: simple
 ---

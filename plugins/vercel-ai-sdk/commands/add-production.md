@@ -1,7 +1,7 @@
 ---
 description: Add production features to Vercel AI SDK app including telemetry, rate limiting, error handling, testing, and middleware
 argument-hint: [feature-requests]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

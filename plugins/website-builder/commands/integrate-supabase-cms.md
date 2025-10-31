@@ -1,7 +1,7 @@
 ---
 description: Integrate Supabase as CMS backend for Astro website with content management and draft/publish workflows
 argument-hint: none
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), TodoWrite(*), mcp__figma-design-system, mcp__context7
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__figma-design-system, mcp__context7
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: "Phase 3: Integration - Wire services, add UI components, deploy to Vercel + Fly.io"
 argument-hint: none
-allowed-tools: SlashCommand(*), TodoWrite(*), Read(*), Write(*), Bash(*), Grep(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep
 ---
 
 **Arguments**: $ARGUMENTS

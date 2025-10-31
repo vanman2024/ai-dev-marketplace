@@ -1,7 +1,7 @@
 ---
 description: Add MCP components to existing FastMCP server (tools, resources, prompts, middleware, context, dependencies)
 argument-hint: [component-type] [--server-path=path]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: Add chat UI with message persistence to existing Vercel AI SDK project
 argument-hint: none
-allowed-tools: WebFetch(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*)
+allowed-tools: WebFetch, Read, Write, Edit, Bash(*), Glob, Grep
 ---
 
 **Arguments**: $ARGUMENTS

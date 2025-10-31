@@ -34,7 +34,7 @@ This template shows how to structure slash commands using the Goal â†’ Actions â
 ---
 description: [What this command does]
 argument-hint: [argument-placeholder]
-allowed-tools: Read(*), Write(*), Bash(*), Glob(*), Grep(*)
+allowed-tools: Read, Write, Bash(*), Glob, Grep
 ---
 
 **Arguments**: $ARGUMENTS
@@ -90,7 +90,7 @@ Actions:
 ---
 description: [What this command does]
 argument-hint: [argument-placeholder]
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS
@@ -173,7 +173,7 @@ Actions:
 ---
 description: [What this command does]
 argument-hint: [argument-placeholder]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), TodoWrite(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS
@@ -283,7 +283,7 @@ Actions:
 ---
 description: [What this command does - typically comprehensive analysis or audit]
 argument-hint: [argument-placeholder]
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), TodoWrite(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

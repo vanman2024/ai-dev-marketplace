@@ -1,7 +1,7 @@
 ---
 name: auth-configs
 description: Configure Supabase authentication providers (OAuth, JWT, email). Use when setting up authentication, configuring OAuth providers (Google/GitHub/Discord), implementing auth flows, configuring JWT settings, or when user mentions Supabase auth, social login, authentication setup, or auth configuration.
-allowed-tools: [Bash, Read, Write, Edit, WebFetch]
+allowed-tools: Bash, Read, Write, Edit, WebFetch
 ---
 
 # auth-configs

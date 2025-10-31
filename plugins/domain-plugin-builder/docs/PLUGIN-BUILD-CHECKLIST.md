@@ -96,7 +96,7 @@ Move custom metadata to `keywords` array.
 **Fix:** Add to frontmatter:
 ```yaml
 ---
-tools: ["Bash", "Read", "Write", "Edit", "Task(mcp__*)"]
+tools: Bash, Read, Write, Edit, mcp__servername
 ---
 ```
 

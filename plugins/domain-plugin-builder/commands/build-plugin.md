@@ -1,7 +1,7 @@
 ---
 description: Build a complete Claude Code plugin from scratch by orchestrating plugin creation, command building, agent building, and final validation
 argument-hint: <plugin-name>
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), SlashCommand(*), TodoWrite(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, SlashCommand, TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

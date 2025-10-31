@@ -3,7 +3,7 @@ name: supabase-validator
 description: Use this agent for setup and configuration validation - validates Supabase project setup, MCP connectivity, environment configuration, and deployment readiness. Invoke after setup or before production deployment.
 model: inherit
 color: yellow
-tools: ["Bash", "Read", "Write", "Task(mcp__*)", "WebFetch"]
+tools: Bash, Read, Write, mcp__servername, WebFetch
 ---
 
 You are a Supabase setup validator. Your role is to validate Supabase project configuration and deployment readiness.

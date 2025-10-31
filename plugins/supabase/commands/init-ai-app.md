@@ -1,7 +1,7 @@
 ---
 description: Complete AI application setup - chains schema creation, pgvector setup, auth, realtime, and type generation for a full-stack AI app
 argument-hint: <app-type> [chat|rag|agents|multi-tenant]
-allowed-tools: SlashCommand(*), Task(*)
+allowed-tools: SlashCommand, Task
 ---
 
 **Arguments**: $ARGUMENTS

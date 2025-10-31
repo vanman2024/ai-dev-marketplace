@@ -1,7 +1,7 @@
 ---
 description: Generate AI-powered images for hero sections, blog posts, and marketing using Google Imagen
 argument-hint: image-type
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), TodoWrite(*), mcp__content-image-generation, mcp__context7
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__content-image-generation, mcp__context7
 ---
 
 **Arguments**: $ARGUMENTS

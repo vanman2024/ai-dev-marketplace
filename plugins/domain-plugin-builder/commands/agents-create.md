@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read(*), Write(*), Bash(*)
+allowed-tools: Read, Write, Bash(*)
 description: Create new agent using templates - references fullstack-web-builder as gold standard
 argument-hint: <agent-name> "<description>" "<tools>"
 ---

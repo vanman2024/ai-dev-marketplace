@@ -1,7 +1,7 @@
 ---
 description: "Phase 1: Foundation - Next.js frontend, FastAPI backend, Supabase database"
 argument-hint: [app-name]
-allowed-tools: SlashCommand(*), AskUserQuestion(*), TodoWrite(*), Read(*), Write(*), Bash(*)
+allowed-tools: SlashCommand, AskUserQuestion, TodoWrite, Read, Write, Bash(*)
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: Add React component from shadcn or Tailwind UI to Astro website with proper integration
 argument-hint: component-name
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*), TodoWrite(*), mcp__shadcn, mcp__context7
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__shadcn, mcp__context7
 ---
 
 **Arguments**: $ARGUMENTS

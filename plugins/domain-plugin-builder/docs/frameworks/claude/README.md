@@ -83,7 +83,7 @@ When building plugins using the domain-plugin-builder, reference these docs for:
 ---
 name: my-agent
 description: Does something specific
-tools: ["Bash", "Read", "Write", "Edit"]
+tools: Bash, Read, Write, Edit
 ---
 
 You are a specialist agent.

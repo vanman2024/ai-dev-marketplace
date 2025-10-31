@@ -1,5 +1,5 @@
 ---
-allowed-tools: Read(*), Write(*), Edit(*), Bash(*), Grep(*), Glob(*), AskUserQuestion(*)
+allowed-tools: Read, Write, Edit, Bash(*), Grep, Glob, AskUserQuestion
 description: Create new slash command following standardized structure
 argument-hint: <command-name> "<description>" [--plugin=name] [--mcp=server1,server2] [agent1] [agent2] [agent3]
 ---
@@ -98,7 +98,7 @@ Example:
 
 **Pattern 4: Multi-Agent Parallel** - Run multiple independent agents at the same time
 
-**SlashCommand Usage** - Invoke other slash commands (add SlashCommand(*) to allowed-tools)
+**SlashCommand Usage** - Invoke other slash commands (add SlashCommand to allowed-tools)
 
 Example showing 3 agents running together (natural language):
 
@@ -117,7 +117,7 @@ File Loading: @package.json
 Shared Scripts: skills/build-assistant/scripts/
 SlashCommand Invocation: SlashCommand: /command-name args
 
-Allowed Tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Grep(*), Glob(*), AskUserQuestion(*), SlashCommand(*), mcp__servername
+Allowed Tools: Task, Read, Write, Edit, Bash(*), Grep, Glob, AskUserQuestion, SlashCommand, mcp__servername
 Arguments: Always $ARGUMENTS (never $1/$2/$3)
 
 **CRITICAL - SlashCommand Anti-Pattern:**

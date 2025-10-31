@@ -1,7 +1,7 @@
 ---
 description: Create and setup a new FastMCP server project with Python or TypeScript. Use add-* commands to add features.
 argument-hint: <server-name> [--language=python|typescript] [--purpose="description"] [--skip-questions]
-allowed-tools: Task(*), Read(*), Write(*), Bash(*), Glob(*), Grep(*)
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: Add authentication to FastMCP server (OAuth 2.1, JWT, Bearer Token, all providers)
 argument-hint: [auth-type] [--server-path=path]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

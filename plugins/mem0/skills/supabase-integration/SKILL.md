@@ -1,7 +1,7 @@
 ---
 name: supabase-integration
 description: Complete Supabase setup for Mem0 OSS including PostgreSQL schema with pgvector for embeddings, memory_relationships tables for graph memory, RLS policies for user/tenant isolation, performance indexes, connection pooling, and backup/migration strategies. Use when setting up Mem0 with Supabase, configuring OSS memory backend, implementing memory persistence, migrating from Platform to OSS, or when user mentions Mem0 Supabase, memory database, pgvector for Mem0, memory isolation, or Mem0 backup.
-allowed-tools: [Bash, Read, Write, Edit]
+allowed-tools: Bash, Read, Write, Edit
 ---
 
 # Supabase Integration for Mem0 OSS

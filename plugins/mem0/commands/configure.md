@@ -1,7 +1,7 @@
 ---
 description: Configure Mem0 settings (memory types, retention, embeddings, rerankers, webhooks)
 argument-hint: [setting-name]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS

@@ -1,7 +1,7 @@
 ---
 description: "Phase 2: AI Features - Vercel AI SDK, Mem0, Claude Agent SDK, MCP servers"
 argument-hint: none
-allowed-tools: SlashCommand(*), TodoWrite(*), Read(*), Write(*), Bash(*), Grep(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep
 ---
 
 **Arguments**: $ARGUMENTS

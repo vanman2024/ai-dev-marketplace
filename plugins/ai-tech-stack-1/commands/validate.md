@@ -1,7 +1,7 @@
 ---
 description: Validate complete AI Tech Stack 1 deployment
 argument-hint: [app-directory]
-allowed-tools: Read(*), Write(*), Bash(*), TodoWrite(*)
+allowed-tools: Read, Write, Bash(*), TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS

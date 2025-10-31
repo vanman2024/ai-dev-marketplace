@@ -1,7 +1,7 @@
 ---
 name: schema-validation
 description: Database schema validation tools - SQL syntax checking, constraint validation, naming convention enforcement, and schema integrity verification. Use when validating database schemas, checking migrations, enforcing naming conventions, verifying constraints, or when user mentions schema validation, migration checks, database best practices, or PostgreSQL validation.
-allowed-tools: [Bash, Read, Write, Grep, Glob]
+allowed-tools: Bash, Read, Write, Grep, Glob
 ---
 
 # Schema Validation

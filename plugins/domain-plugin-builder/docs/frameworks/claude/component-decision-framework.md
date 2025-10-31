@@ -129,7 +129,7 @@ Read: plugins/my-plugin/skills/my-skill/examples/tutorial.md
 ---
 name: my-agent
 description: Does complex multi-step workflow
-tools: ["Bash", "Read", "Write", "Edit", "WebFetch"]
+tools: Bash, Read, Write, Edit, WebFetch
 ---
 
 You are a specialist in [domain].

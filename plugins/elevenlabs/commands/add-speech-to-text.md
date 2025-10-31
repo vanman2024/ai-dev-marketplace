@@ -1,7 +1,7 @@
 ---
 description: Add speech-to-text transcription with Scribe v1, 99 languages, speaker diarization, and Vercel AI SDK integration
 argument-hint: [options]
-allowed-tools: Task(*), Read(*), Write(*), Edit(*), Bash(*), Glob(*), Grep(*), AskUserQuestion(*)
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
 ---
 
 **Arguments**: $ARGUMENTS
