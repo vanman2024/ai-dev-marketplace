@@ -56,8 +56,26 @@ Actions:
 - Validate: !{bash bash plugins/domain-plugin-builder/skills/build-assistant/scripts/validate-agent.sh plugins/PLUGIN_NAME/agents/AGENT_NAME.md}
 - Check lines: !{bash wc -l plugins/PLUGIN_NAME/agents/AGENT_NAME.md}
 
-Phase 6: Summary
+Phase 6: Git Commit and Push
+Goal: Save work immediately
+
+Actions:
+- Add agent file to git: !{bash git add plugins/PLUGIN_NAME/agents/AGENT_NAME.md}
+- Commit with message:
+  !{bash git commit -m "$(cat <<'EOF'
+feat: Add AGENT_NAME agent
+
+AGENT_DESCRIPTION
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"}
+- Push to GitHub: !{bash git push origin master}
+
+Phase 7: Summary
 Goal: Report results
 
 Actions:
-- Display agent name, location, line count, validation status, template type
+- Display agent name, location, line count, validation status, template type, git status (committed and pushed)

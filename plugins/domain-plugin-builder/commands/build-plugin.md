@@ -110,7 +110,40 @@ Continue looping until Overall Status: PASS or PASS WITH WARNINGS achieved.
 
 Update TodoWrite to mark validation complete.
 
-Phase 5: Summary
+Phase 5: Git Commit and Push
+Goal: Save all work immediately to GitHub
+
+Actions:
+
+**CRITICAL: Commit and push ALL plugin files and marketplace updates**
+
+Stage all files related to the plugin:
+!{bash git add plugins/$ARGUMENTS .claude-plugin/marketplace.json .claude/settings.local.json}
+
+Commit with descriptive message:
+!{bash git commit -m "$(cat <<'EOF'
+feat: Build complete $ARGUMENTS plugin
+
+Complete plugin with commands, agents, skills, validation, and documentation.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"}
+
+**IMMEDIATELY push to GitHub:**
+
+!{bash git push origin master}
+
+This ensures work is never lost. If push fails:
+- Check git remote configuration
+- Verify GitHub credentials
+- Push manually: `git push origin master`
+
+Update TodoWrite to mark git commit/push complete.
+
+Phase 6: Summary
 Goal: Document what was built
 
 Actions:
@@ -125,6 +158,9 @@ Actions:
   - Validation status: ✅ ALL PASSED
   - Plugin manifest: .claude-plugin/plugin.json
   - Documentation: README.md
+  - **Git Status:**
+    * ✅ Committed to master branch
+    * ✅ Pushed to GitHub origin/master
 - Show next steps:
   - Test plugin commands
   - Deploy to marketplace

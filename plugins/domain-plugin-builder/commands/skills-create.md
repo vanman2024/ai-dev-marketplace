@@ -67,9 +67,28 @@ Launch multiple skills-builder agents IN PARALLEL (all at once):
 
 Wait for ALL agents to complete before proceeding.
 
-Phase 4: Summary
+Phase 4: Git Commit and Push
+
+Actions:
+- Add all created skill directories to git:
+  !{bash git add plugins/*/skills/*}
+- Commit with descriptive message:
+  !{bash git commit -m "$(cat <<'EOF'
+feat: Add skill(s) - SKILL_NAMES
+
+Complete skill structure with scripts, templates, and examples.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"}
+- Push to GitHub: !{bash git push origin master}
+
+Phase 5: Summary
 
 Actions:
 - Display results from all agents (skill names, locations, validation status)
+- Show git status (committed and pushed)
 - Show next steps for using the skills
 - If multiple skills created, list all successfully created skills

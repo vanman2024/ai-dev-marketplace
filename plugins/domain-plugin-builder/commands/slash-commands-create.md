@@ -203,9 +203,32 @@ Register in: ~/.claude/marketplaces/MARKETPLACE/plugins/PLUGIN_NAME/.claude-plug
 6. Use Bash tool to run validation: `bash skills/build-assistant/scripts/validate-command.sh COMMAND_FILE`
 7. If validation fails, fix errors and re-validate until passing
 
-**Phase 4: REVIEW (Finalize)**
+**Phase 4: REVIEW (Finalize & Commit)**
 8. Register in plugin.json if --plugin flag provided
-9. Display summary with file path and usage
+9. **CRITICAL: Git commit and push immediately**
+   - Add the new command file to git
+   - Add marketplace.json if it was updated
+   - Commit with descriptive message
+   - Push to origin/master
+10. Display summary with file path and usage
+
+**Git Commit Steps:**
+
+!{bash git add COMMAND_FILE_PATH}
+!{bash git add .claude-plugin/marketplace.json} (if plugin command)
+
+!{bash git commit -m "$(cat <<'EOF'
+feat: Add /COMMAND_NAME command
+
+COMMAND_DESCRIPTION
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude <noreply@anthropic.com>
+EOF
+)"}
+
+!{bash git push origin master}
 
 ## Success Criteria (ALL Required)
 
