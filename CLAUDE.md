@@ -56,31 +56,65 @@ This is for AGENTS, not slash commands!
 
 ---
 
-## 🚨 CRITICAL: How to Build Plugins
+## 🚨 CRITICAL: How to Build Plugins - CORRECT WORKFLOW
 
 **IF YOU NEED TO BUILD A NEW PLUGIN:**
 
-Use ONLY this command:
+Use ONLY this command as the TOP-LEVEL ORCHESTRATOR:
 ```bash
-/domain-plugin-builder:plugin-create <plugin-name>
+/domain-plugin-builder:build-plugin <plugin-name>
+```
+
+**The CORRECT hierarchy:**
+```
+/domain-plugin-builder:build-plugin (TOP-LEVEL ORCHESTRATOR)
+  └─ Calls /domain-plugin-builder:plugin-create
+      └─ Which creates directory structure
+      └─ Builds commands sequentially (ONE AT A TIME)
+      └─ Builds agents sequentially (ONE AT A TIME)
+      └─ Builds skills in parallel
+      └─ Syncs to marketplace.json
+      └─ Registers commands in settings.local.json
+      └─ Creates .mcp.json
+  └─ Validates entire plugin with plugin-validator agent
+  └─ Commits and pushes to GitHub
 ```
 
 **DO NOT:**
 - ❌ Try to build plugins manually
+- ❌ Call `/domain-plugin-builder:plugin-create` directly (use build-plugin instead)
 - ❌ Call `/domain-plugin-builder:slash-commands-create` directly for new plugins
 - ❌ Call `/domain-plugin-builder:agents-create` directly for new plugins
 - ❌ Call `/domain-plugin-builder:skills-create` directly for new plugins
 - ❌ Invoke agents via Task tool to build plugin components
+- ❌ Skip the build-plugin orchestrator and try to piece things together
 
-**The `/domain-plugin-builder:plugin-create` command:**
-1. Asks interactive questions about the plugin
-2. Creates the complete directory structure
-3. **Automatically invokes** the other commands sequentially (ONE AT A TIME):
-   - `/domain-plugin-builder:slash-commands-create` (for each command - waits for completion)
-   - `/domain-plugin-builder:agents-create` (for each agent - waits for completion)
-   - `/domain-plugin-builder:skills-create` (for all skills)
-4. Validates everything
-5. Generates README.md
+**What `/domain-plugin-builder:build-plugin` does:**
+1. Loads framework documentation
+2. Creates TodoWrite list for tracking
+3. Invokes `/domain-plugin-builder:plugin-create` which:
+   - Asks interactive questions about the plugin
+   - Creates complete directory structure
+   - **Automatically invokes** the other commands sequentially (ONE AT A TIME):
+     * `/domain-plugin-builder:slash-commands-create` (for each command - waits for completion)
+     * `/domain-plugin-builder:agents-create` (for each agent - waits for completion)
+     * `/domain-plugin-builder:skills-create` (for all skills in parallel)
+   - Validates plugin manifest
+   - Syncs to marketplace.json
+   - Registers ALL commands in settings.local.json
+   - Creates .mcp.json file
+   - Generates README.md
+4. Validates entire plugin with plugin-validator agent
+5. Commits and pushes to GitHub
+6. Displays comprehensive summary
+
+**Critical files created by the workflow:**
+- ✅ `.claude-plugin/plugin.json` - Plugin manifest
+- ✅ `.mcp.json` - MCP server configuration (even if empty)
+- ✅ Commands registered in `.claude/settings.local.json`
+- ✅ Plugin registered in `.claude-plugin/marketplace.json`
+- ✅ README.md generated
+- ✅ All committed and pushed to GitHub
 
 **Only use the individual commands** (`slash-commands-create`, `agents-create`, `skills-create`) when **adding to an EXISTING plugin**, never when building a new plugin from scratch.
 
