@@ -97,6 +97,27 @@
             ]
         },
         {
+            "name": "nextjs-frontend",
+            "description": "Next.js 15 App Router with AI SDK, Supabase, shadcn/ui integration for building modern AI-powered applications",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Development Marketplace",
+                "email": "marketplace@ai-dev.com"
+            },
+            "source": "./plugins/nextjs-frontend",
+            "category": "development",
+            "keywords": [
+                "nextjs",
+                "frontend",
+                "ai",
+                "supabase",
+                "shadcn-ui",
+                "app-router",
+                "typescript",
+                "tailwind"
+            ]
+        },
+        {
             "name": "openrouter",
             "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
             "version": "1.0.0",

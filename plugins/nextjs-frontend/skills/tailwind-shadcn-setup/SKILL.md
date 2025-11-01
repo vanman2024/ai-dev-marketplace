@@ -16,7 +16,7 @@ Install and configure Tailwind CSS for Next.js:
 
 ```bash
 # Run automated installation script
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
+bash ./skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
 
 # Or manually install dependencies
 npm install -D tailwindcss postcss autoprefixer
@@ -35,7 +35,7 @@ Initialize shadcn/ui component library:
 
 ```bash
 # Run automated shadcn/ui setup
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
+bash ./skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
 
 # Or use shadcn CLI directly
 npx shadcn@latest init
@@ -62,7 +62,7 @@ Configure design tokens using CSS variables:
 
 ```bash
 # Apply comprehensive theme configuration
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-theme.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-theme.sh
 ```
 
 **Theme Configuration Includes:**
@@ -76,7 +76,7 @@ bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ne
 **Using CSS Variables Template:**
 ```typescript
 // Copy and customize base theme
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/templates/globals.css app/globals.css
+cp ./skills/tailwind-shadcn-setup/templates/globals.css app/globals.css
 ```
 
 **Color System:**
@@ -90,7 +90,7 @@ Set up dark mode with class-based or system-based detection:
 
 ```bash
 # Configure dark mode
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
 ```
 
 **Dark Mode Strategies:**
@@ -101,14 +101,14 @@ bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ne
 **Provider Setup:**
 ```typescript
 // Copy theme provider template
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/templates/theme-provider.tsx components/theme-provider.tsx
+cp ./skills/tailwind-shadcn-setup/templates/theme-provider.tsx components/theme-provider.tsx
 ```
 
 **Theme Toggle Component:**
 ```bash
 # Add theme toggle button
 npx shadcn@latest add dropdown-menu
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/examples/theme-toggle.tsx components/theme-toggle.tsx
+cp ./skills/tailwind-shadcn-setup/examples/theme-toggle.tsx components/theme-toggle.tsx
 ```
 
 ### 5. Adding Components
@@ -161,19 +161,19 @@ import { Button } from "@/components/ui/button"
 
 ```bash
 # 1. Install Tailwind CSS
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
+bash ./skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
 
 # 2. Initialize shadcn/ui
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
+bash ./skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
 
 # 3. Setup theme and dark mode
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
 
 # 4. Add common components
 npx shadcn@latest add button card input form dialog toast
 
 # 5. Copy theme toggle component
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/examples/theme-toggle.tsx components/theme-toggle.tsx
+cp ./skills/tailwind-shadcn-setup/examples/theme-toggle.tsx components/theme-toggle.tsx
 ```
 
 **Result:** Fully configured Next.js project with Tailwind, shadcn/ui, dark mode, and essential components
@@ -182,14 +182,14 @@ cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/next
 
 ```bash
 # 1. Run theme setup
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-theme.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-theme.sh
 
 # 2. Edit CSS variables for brand colors
 # Modify app/globals.css to use your brand colors
 # Example: Primary color = oklch(0.5 0.2 250) for brand blue
 
 # 3. Test theme with sample components
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/examples/theme-showcase.tsx app/page.tsx
+cp ./skills/tailwind-shadcn-setup/examples/theme-showcase.tsx app/page.tsx
 ```
 
 **Result:** Custom-branded design system using your colors while maintaining shadcn/ui components
@@ -198,8 +198,8 @@ cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/next
 
 ```bash
 # 1. Complete base setup
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
+bash ./skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
+bash ./skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
 
 # 2. Add all form-related components
 npx shadcn@latest add form input label select textarea checkbox radio-group switch slider
@@ -208,7 +208,7 @@ npx shadcn@latest add form input label select textarea checkbox radio-group swit
 npm install react-hook-form zod @hookform/resolvers
 
 # 4. Copy form example template
-cp /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/examples/sample-form.tsx components/forms/sample-form.tsx
+cp ./skills/tailwind-shadcn-setup/examples/sample-form.tsx components/forms/sample-form.tsx
 ```
 
 **Result:** Complete form setup with validation, accessibility, and consistent styling

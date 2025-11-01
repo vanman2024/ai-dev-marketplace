@@ -48,16 +48,16 @@ tailwind-shadcn-setup/
 cd your-nextjs-project
 
 # Install Tailwind CSS
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
+bash ./skills/tailwind-shadcn-setup/scripts/install-tailwind.sh
 
 # Initialize shadcn/ui
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
+bash ./skills/tailwind-shadcn-setup/scripts/init-shadcn.sh
 
 # Setup dark mode
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-dark-mode.sh
 
 # Customize theme (optional)
-bash /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/tailwind-shadcn-setup/scripts/setup-theme.sh
+bash ./skills/tailwind-shadcn-setup/scripts/setup-theme.sh
 ```
 
 ### 2. Add Components

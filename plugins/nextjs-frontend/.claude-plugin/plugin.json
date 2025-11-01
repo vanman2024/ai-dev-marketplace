@@ -1,0 +1,11 @@
+{
+  "name": "nextjs-frontend",
+  "version": "1.0.0",
+  "description": "Next.js 15 App Router with AI SDK, Supabase, shadcn/ui integration for building modern AI-powered applications",
+  "author": {
+    "name": "AI Development Marketplace",
+    "email": "marketplace@ai-dev.com"
+  },
+  "license": "MIT",
+  "keywords": ["nextjs", "frontend", "ai", "supabase", "shadcn-ui", "app-router", "typescript", "tailwind"]
+}

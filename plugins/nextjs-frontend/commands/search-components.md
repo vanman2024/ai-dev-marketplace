@@ -1,7 +1,7 @@
 ---
 description: Search and add shadcn/ui components from component library
 argument-hint: <search-query>
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__figma-application
 ---
 
 **Arguments**: $ARGUMENTS
@@ -9,6 +9,7 @@ allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion
 Goal: Search shadcn/ui component library, display matching components, and add selected components to the project with configuration and usage examples.
 
 Core Principles:
+
 - Search before adding components
 - Display component details and variants
 - Ask user to confirm selection
@@ -36,11 +37,13 @@ Actions:
 Task(description="Search shadcn/ui components", subagent_type="nextjs-frontend:ui-search-agent", prompt="You are the ui-search-agent. Search for shadcn/ui components matching '$ARGUMENTS'.
 
 Search scope:
+
 - Official shadcn/ui component registry
 - Component categories: forms, layout, data-display, feedback, navigation
 - Search by: name, description, use-case, keywords
 
 For each matching component, provide:
+
 1. Component name
 2. Description (1-2 sentences)
 3. Category
@@ -50,6 +53,7 @@ For each matching component, provide:
 7. Installation command
 
 Documentation to fetch:
+
 - shadcn/ui component registry
 - Component documentation pages
 - Installation guides
@@ -67,6 +71,7 @@ Actions:
 Display search results in organized format.
 
 Use AskUserQuestion to ask:
+
 - Which component would you like to add? (provide component name)
 - Which variants/features do you want? (if applicable)
 - Any customization preferences? (color scheme, size defaults)
@@ -95,6 +100,7 @@ Goal: Provide code examples showing how to use the component
 Actions:
 
 Display usage information:
+
 - Import statement
 - Basic usage example
 - Props reference
@@ -102,10 +108,12 @@ Display usage information:
 - Integration tips
 
 Show where component is installed:
+
 - File path: components/ui/$COMPONENT_NAME.tsx
 - Dependencies installed (if any)
 
 Suggest next steps:
+
 - Create example page using the component
 - Customize component styling
 - Explore component variants
@@ -117,17 +125,20 @@ Goal: Confirm successful installation and provide guidance
 Actions:
 
 Summary:
+
 - Component added: $COMPONENT_NAME
 - Location: components/ui/$COMPONENT_NAME.tsx
 - Dependencies: [list any additional components installed]
 - Ready to import and use in your app
 
 Quick start example:
+
 - Import: from "@/components/ui/component-name"
 - Usage: Add component to your page/component JSX
 - Props: Check component file for available props
 
 Additional resources:
+
 - Official docs: https://ui.shadcn.com/docs/components/$COMPONENT_NAME
 - Browse more: /nextjs-frontend:search-components <query>
 - Add pages: /nextjs-frontend:add-page <name>
