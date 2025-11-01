@@ -21,11 +21,12 @@
         "/home/gotime2022/.claude/plugins/marketplaces/mcp-servers-marketplace/servers/content-media/content-image-generation-mcp/src/server.py"
       ],
       "env": {
-        "GOOGLE_CLOUD_PROJECT": "required",
+        "GOOGLE_CLOUD_PROJECT": "{{GOOGLE_CLOUD_PROJECT}}",
         "GOOGLE_CLOUD_LOCATION": "us-central1",
-        "GOOGLE_APPLICATION_CREDENTIALS": "required",
-        "ANTHROPIC_API_KEY": "required",
-        "GOOGLE_API_KEY": "required",
+        "GOOGLE_APPLICATION_CREDENTIALS": "{{GOOGLE_APPLICATION_CREDENTIALS}}",
+        "ANTHROPIC_API_KEY": "{{ANTHROPIC_API_KEY}}",
+        "GOOGLE_API_KEY": "{{GOOGLE_API_KEY}}",
+        "OUTPUT_DIR": "./public/images/generated",
         "ENABLE_COST_TRACKING": "true"
       }
     }
