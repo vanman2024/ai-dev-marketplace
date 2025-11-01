@@ -1,0 +1,28 @@
+# Text Generation Training Configuration
+
+model:
+  name: gpt2
+  max_length: 512
+
+training:
+  epochs: 3
+  batch_size: 4
+  learning_rate: 2e-4
+  warmup_steps: 100
+  gradient_checkpointing: false
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.1
+  target_modules:
+    - c_attn  # GPT-2 specific attention module
+
+generation:
+  temperature: 0.8
+  top_p: 0.9
+  top_k: 50
+  max_length: 200
+  num_return_sequences: 1
+
+test_prompt: "In a world where technology"

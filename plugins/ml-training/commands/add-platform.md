@@ -52,7 +52,7 @@ Phase 4: Platform Setup and Authentication
 Goal: Configure platform authentication
 
 Actions:
-Task(description="Setup platform authentication", subagent_type="general-purpose", prompt="You are configuring $ARGUMENTS cloud GPU platform.
+Task(description="Setup platform authentication", subagent_type="ml-architect", prompt="You are the ml-architect agent configuring $ARGUMENTS cloud GPU platform.
 
 Based on platform:
 
@@ -75,7 +75,7 @@ Phase 5: Create Platform Files
 Goal: Create GPU image definition and test script
 
 Actions:
-Task(description="Create platform integration files", subagent_type="general-purpose", prompt="Create GPU platform files for $ARGUMENTS:
+Task(description="Create platform integration files", subagent_type="ml-architect", prompt="You are the ml-architect agent. Create GPU platform files for $ARGUMENTS:
 
 **Modal:** Create modal_image.py with:
 - modal.Image.debian_slim() with torch, transformers, accelerate

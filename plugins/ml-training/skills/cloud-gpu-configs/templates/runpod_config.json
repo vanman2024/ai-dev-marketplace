@@ -1,0 +1,152 @@
+{
+  "pod_config": {
+    "name": "{{POD_NAME}}",
+    "gpu_type": "{{GPU_TYPE}}",
+    "gpu_id": "{{GPU_ID}}",
+    "gpu_count": "{{GPU_COUNT}}",
+    "vram": "{{VRAM}}",
+    "pricing_model": "{{PRICING_MODEL}}",
+    "container_image": "{{CONTAINER_IMAGE}}",
+    "framework": "{{FRAMEWORK}}",
+    "template_id": null
+  },
+  "compute": {
+    "cpu_count": "{{CPU_COUNT}}",
+    "ram_gb": "{{RAM_GB}}",
+    "container_disk_gb": 50,
+    "volume_disk_gb": 100,
+    "volume_mount_path": "/workspace"
+  },
+  "network": {
+    "ports": [
+      {
+        "port": 8888,
+        "protocol": "http",
+        "description": "Jupyter Notebook",
+        "expose": true
+      },
+      {
+        "port": 6006,
+        "protocol": "http",
+        "description": "TensorBoard",
+        "expose": true
+      },
+      {
+        "port": 22,
+        "protocol": "tcp",
+        "description": "SSH",
+        "expose": true
+      },
+      {
+        "port": 8000,
+        "protocol": "http",
+        "description": "Custom API",
+        "expose": false
+      }
+    ],
+    "public_ip": true,
+    "bandwidth_gb": 1000
+  },
+  "environment": {
+    "JUPYTER_PASSWORD": "{{JUPYTER_PASSWORD}}",
+    "WANDB_API_KEY": "{{WANDB_API_KEY}}",
+    "HF_TOKEN": "{{HF_TOKEN}}",
+    "CUDA_VISIBLE_DEVICES": "0,1,2,3,4,5,6,7",
+    "TOKENIZERS_PARALLELISM": "false",
+    "OMP_NUM_THREADS": "8",
+    "NCCL_DEBUG": "INFO"
+  },
+  "startup_script": "#!/bin/bash\nset -e\n\necho '=== RunPod Startup Script ==='\n\n# Update package list\napt-get update\n\n# Install system dependencies\napt-get install -y git wget curl vim htop tmux\n\n# Verify NVIDIA drivers\nnvidia-smi\n\n# Upgrade pip\npip install --upgrade pip setuptools wheel\n\n# Install PyTorch (adjust CUDA version as needed)\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121\n\n# Install ML frameworks\npip install transformers accelerate datasets evaluate peft bitsandbytes\n\n# Install training utilities\npip install wandb tensorboard deepspeed\n\n# Install development tools\npip install jupyter jupyterlab ipython ipywidgets\n\n# Setup workspace\nmkdir -p /workspace\ncd /workspace\n\n# Clone repository (optional)\n# git clone {{GIT_REPO_URL}} /workspace/project\n\n# Download datasets (optional)\n# python -c \"from datasets import load_dataset; load_dataset('{{DATASET_NAME}}', cache_dir='/workspace/datasets')\"\n\n# Start Jupyter Lab\njupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root \\\n  --NotebookApp.token='' --NotebookApp.password='' &\n\n# Start TensorBoard\n# tensorboard --logdir=/workspace/logs --host=0.0.0.0 --port=6006 &\n\necho 'Pod setup complete!'\necho 'GPU Info:'\nnvidia-smi --query-gpu=name,memory.total,driver_version --format=csv\n",
+  "docker_config": {
+    "dockerfile": null,
+    "build_context": null,
+    "registry_auth": {
+      "username": null,
+      "password": null
+    }
+  },
+  "volumes": [
+    {
+      "name": "training-data",
+      "size_gb": 100,
+      "mount_path": "/workspace",
+      "persistent": true
+    },
+    {
+      "name": "model-checkpoints",
+      "size_gb": 50,
+      "mount_path": "/checkpoints",
+      "persistent": true
+    }
+  ],
+  "cost_optimization": {
+    "use_spot_instances": true,
+    "max_bid_price_per_gpu": null,
+    "auto_stop_idle_minutes": 30,
+    "auto_pause_enabled": false,
+    "save_state_on_stop": true,
+    "estimated_monthly_cost_usd": null
+  },
+  "monitoring": {
+    "gpu_monitoring": true,
+    "interval_seconds": 60,
+    "metrics": [
+      "gpu_utilization",
+      "gpu_memory_used",
+      "gpu_temperature",
+      "cpu_utilization",
+      "ram_used",
+      "disk_used"
+    ],
+    "alerts": {
+      "high_gpu_temp_celsius": 85,
+      "low_gpu_utilization_percent": 20,
+      "high_cost_per_hour_usd": 5.0
+    }
+  },
+  "training": {
+    "framework": "pytorch",
+    "distributed_backend": "nccl",
+    "num_gpus": "{{GPU_COUNT}}",
+    "mixed_precision": true,
+    "gradient_checkpointing": true,
+    "compile_mode": null,
+    "deepspeed_config": null,
+    "accelerate_config": {
+      "compute_environment": "LOCAL_MACHINE",
+      "mixed_precision": "fp16",
+      "num_processes": "{{GPU_COUNT}}",
+      "gradient_accumulation_steps": 1
+    }
+  },
+  "backup": {
+    "enabled": true,
+    "interval_hours": 6,
+    "destination": "{{BACKUP_DESTINATION}}",
+    "paths": [
+      "/workspace",
+      "/checkpoints"
+    ],
+    "retention_days": 7
+  },
+  "security": {
+    "ssh_keys": [
+      "{{SSH_PUBLIC_KEY}}"
+    ],
+    "allowed_ips": [],
+    "firewall_enabled": false,
+    "auto_update_enabled": false
+  },
+  "metadata": {
+    "created_at": "{{CREATED_AT}}",
+    "created_by": "{{USER}}",
+    "version": "1.0",
+    "tags": [
+      "ml-training",
+      "{{FRAMEWORK}}",
+      "{{GPU_TYPE}}"
+    ],
+    "description": "RunPod configuration for ML training with {{GPU_TYPE}} GPUs"
+  },
+  "notes": "RunPod Pod Configuration\n\nGPU Selection Guide:\n- RTX 3090/4090: Consumer GPUs, excellent price/performance for small models\n- A4000/A5000: Professional GPUs, stable for production\n- A6000: 48GB VRAM, large model training\n- A100: Industry standard, 40GB or 80GB\n- H100: Premium performance\n\nCost Optimization:\n- Use spot instances for 50-80% savings\n- Enable auto-shutdown to prevent idle costs\n- RTX 4090 offers excellent value for smaller models\n- Monitor GPU utilization to ensure efficient usage\n\nCommon Commands:\n- Check GPU: nvidia-smi\n- Monitor GPU: watch -n 1 nvidia-smi\n- Check costs: runpodctl get billing\n- SSH into pod: runpodctl ssh {{POD_ID}}\n\nDistributed Training:\n- Single node: torchrun --nproc_per_node={{GPU_COUNT}} train.py\n- Multi-GPU tips: Ensure efficient data loading, profile for bottlenecks\n\nTroubleshooting:\n- Out of memory: Reduce batch size or enable gradient checkpointing\n- Slow training: Check GPU utilization (may be CPU/IO bottleneck)\n- Connection issues: Verify ports are exposed and pod is running\n\nDocumentation: https://docs.runpod.io"
+}

@@ -1,0 +1,226 @@
+# Lambda Labs GPU Instance Configuration Template
+# Replace {{PLACEHOLDERS}} with your values
+
+instance:
+  # Instance type
+  # Options: gpu_1x_a100_sxm4, gpu_1x_a100, gpu_1x_h100_pcie,
+  #          gpu_8x_a100_80gb_sxm4, gpu_8x_a100, gpu_8x_h100_sxm5
+  type: {{INSTANCE_TYPE}}
+
+  # GPU details
+  gpu_count: {{GPU_COUNT}}
+  gpu_name: {{GPU_NAME}}
+
+  # Region
+  # Options: us-west-1, us-east-1, us-south-1, europe-central-1
+  region: {{REGION}}
+
+  # Instance name
+  name: ml-training-instance
+
+ssh:
+  # SSH key name (registered in Lambda Labs)
+  key_name: {{SSH_KEY_NAME}}
+
+  # Path to SSH private key
+  key_path: {{SSH_KEY_PATH}}
+
+  # SSH user (usually 'ubuntu')
+  user: ubuntu
+
+  # SSH port (default: 22)
+  port: 22
+
+# Startup script (runs on instance launch)
+startup_script: |
+  #!/bin/bash
+  set -e
+
+  echo "=== Lambda Labs Instance Startup ==="
+
+  # Update system
+  sudo apt-get update
+  sudo apt-get upgrade -y
+
+  # Verify NVIDIA drivers
+  nvidia-smi
+
+  # Install Python dependencies
+  pip install --upgrade pip setuptools wheel
+
+  # Install PyTorch with CUDA support
+  pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+  # Install ML frameworks
+  pip install transformers accelerate datasets evaluate peft bitsandbytes
+
+  # Install training utilities
+  pip install wandb tensorboard deepspeed
+
+  # Install development tools
+  pip install jupyter ipython ipywidgets
+
+  # Setup workspace
+  mkdir -p ~/workspace
+  cd ~/workspace
+
+  # Clone your training repository (optional)
+  # git clone {{GIT_REPO_URL}}
+
+  # Download datasets (optional)
+  # python -c "from datasets import load_dataset; load_dataset('{{DATASET_NAME}}')"
+
+  # Setup environment variables
+  export CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+  export TOKENIZERS_PARALLELISM=false
+
+  # Start Jupyter Lab (optional)
+  # jupyter lab --ip=0.0.0.0 --port=8888 --no-browser --allow-root &
+
+  echo "Instance setup complete!"
+  echo "GPU Info:"
+  nvidia-smi --query-gpu=name,memory.total,driver_version --format=csv
+
+# Filesystem configuration
+filesystem:
+  # Use persistent storage
+  persistent_storage: true
+
+  # Storage size in GB
+  storage_size_gb: {{STORAGE_SIZE}}
+
+  # Mount point for persistent storage
+  mount_point: /home/ubuntu/persistent
+
+  # Files/directories to sync to persistent storage
+  sync_paths:
+    - ~/workspace
+    - ~/checkpoints
+    - ~/datasets
+
+# Environment variables
+environment:
+  # Hugging Face token
+  HF_TOKEN: {{HF_TOKEN}}
+
+  # Weights & Biases API key
+  WANDB_API_KEY: {{WANDB_API_KEY}}
+
+  # CUDA settings
+  CUDA_VISIBLE_DEVICES: "0,1,2,3,4,5,6,7"
+  TOKENIZERS_PARALLELISM: "false"
+
+  # Training settings
+  NCCL_DEBUG: INFO
+  OMP_NUM_THREADS: 8
+
+# Cost optimization settings
+cost_optimization:
+  # Auto-terminate after idle time (minutes)
+  auto_terminate_idle_minutes: {{IDLE_MINUTES}}
+
+  # Take snapshot before termination
+  snapshot_before_terminate: true
+
+  # Maximum runtime (hours, 0 = unlimited)
+  max_runtime_hours: {{MAX_RUNTIME}}
+
+  # Alert threshold (hourly cost in USD)
+  cost_alert_threshold: {{ALERT_THRESHOLD}}
+
+# Monitoring configuration
+monitoring:
+  # Enable GPU monitoring
+  gpu_monitoring: true
+
+  # Monitoring interval (seconds)
+  interval_seconds: 60
+
+  # Metrics to collect
+  metrics:
+    - gpu_utilization
+    - gpu_memory_used
+    - gpu_temperature
+    - cpu_utilization
+    - ram_used
+    - disk_used
+
+  # Send metrics to (optional)
+  send_to:
+    - wandb
+    # - prometheus
+    # - cloudwatch
+
+# Training configuration
+training:
+  # Framework
+  framework: pytorch  # or tensorflow, jax
+
+  # Distributed training backend
+  distributed_backend: nccl
+
+  # Number of GPUs to use
+  num_gpus: {{GPU_COUNT}}
+
+  # Mixed precision training
+  mixed_precision: true
+
+  # Gradient checkpointing
+  gradient_checkpointing: true
+
+  # DeepSpeed config (optional)
+  deepspeed_config: null
+  # deepspeed_config: /home/ubuntu/workspace/ds_config.json
+
+# Backup configuration
+backup:
+  # Enable automatic backups
+  enabled: true
+
+  # Backup interval (hours)
+  interval_hours: 6
+
+  # Backup destination
+  destination: s3://{{BACKUP_BUCKET}}/lambda-backups
+
+  # Paths to backup
+  paths:
+    - ~/workspace
+    - ~/checkpoints
+
+  # Retention (days)
+  retention_days: 7
+
+# Notes and documentation
+notes: |
+  Lambda Labs Instance Configuration
+
+  Cost Optimization Tips:
+  - Terminate instances when not in use
+  - Use persistent storage to avoid re-downloading datasets
+  - Single A100 instances are most cost-effective for standard training
+  - Consider spot instances if available for additional savings
+  - Monitor GPU utilization to ensure efficient usage
+
+  Common Commands:
+  - Check GPU: nvidia-smi
+  - Monitor GPU: watch -n 1 nvidia-smi
+  - List processes: nvidia-smi pgrep
+  - Kill process: kill -9 <pid>
+
+  Distributed Training:
+  - Single node: torchrun --nproc_per_node=8 train.py
+  - Multi-node: See DeepSpeed documentation
+
+  Troubleshooting:
+  - Out of memory: Reduce batch size or enable gradient checkpointing
+  - Slow training: Check GPU utilization, may be CPU bottleneck
+  - Connection issues: Check security group and SSH key
+
+  Documentation: https://docs.lambda.ai/cloud
+
+# Metadata
+metadata:
+  created_at: {{CREATED_AT}}
+  created_by: {{USER}}
+  version: 1.0

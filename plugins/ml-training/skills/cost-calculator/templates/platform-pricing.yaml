@@ -1,0 +1,279 @@
+# Platform Pricing Data for ML Training Cost Calculator
+# Last Updated: 2025-11-01
+# Sources: Modal.com, LambdaLabs.com, RunPod.io
+
+platforms:
+  modal:
+    name: Modal
+    website: https://modal.com/pricing
+    billing: per-second
+    features:
+      - Serverless GPU compute
+      - Auto-scaling (0 to 1000+ GPUs)
+      - <200ms cold starts
+      - Custom domains
+      - Zero egress fees
+    free_credits:
+      starter: 30  # USD per month
+      startup: 50000  # USD for eligible startups
+      academic: 10000  # USD for researchers
+    gpus:
+      t4:
+        name: NVIDIA T4
+        price_per_sec: 0.000164
+        price_per_hour: 0.59
+        vram_gb: 16
+        tensor_cores: 320
+        best_for: Development, small models, cost-effective training
+      l4:
+        name: NVIDIA L4
+        price_per_sec: 0.000222
+        price_per_hour: 0.80
+        vram_gb: 24
+        tensor_cores: 240
+        best_for: Cost-effective training, inference
+      a10:
+        name: NVIDIA A10
+        price_per_sec: 0.000306
+        price_per_hour: 1.10
+        vram_gb: 24
+        tensor_cores: 432
+        best_for: Mid-range training
+      a100_40gb:
+        name: NVIDIA A100 40GB
+        price_per_sec: 0.000583
+        price_per_hour: 2.10
+        vram_gb: 40
+        tensor_cores: 432
+        best_for: Large model training
+      a100_80gb:
+        name: NVIDIA A100 80GB
+        price_per_sec: 0.000694
+        price_per_hour: 2.50
+        vram_gb: 80
+        tensor_cores: 432
+        best_for: Very large models
+      h100:
+        name: NVIDIA H100
+        price_per_sec: 0.001097
+        price_per_hour: 3.95
+        vram_gb: 80
+        tensor_cores: 528
+        best_for: Cutting-edge training
+      h200:
+        name: NVIDIA H200
+        price_per_sec: 0.001261
+        price_per_hour: 4.54
+        vram_gb: 141
+        tensor_cores: 528
+        best_for: Latest generation training
+      b200:
+        name: NVIDIA B200
+        price_per_sec: 0.001736
+        price_per_hour: 6.25
+        vram_gb: 192
+        best_for: Maximum performance
+
+  lambda:
+    name: Lambda Labs
+    website: https://lambdalabs.com/service/gpu-cloud
+    billing: per-hour
+    minimum_billing: 1-hour
+    features:
+      - Pre-configured ML stack (PyTorch, TensorFlow, CUDA)
+      - One-click Jupyter access
+      - Zero egress fees
+      - REST API for automation
+      - 1-Click multi-GPU clusters
+    free_credits: 0
+    gpus:
+      a10_1x:
+        name: 1x NVIDIA A10
+        price_per_hour: 0.31
+        vram_gb: 24
+        tensor_cores: 432
+        best_for: Cheapest single GPU option
+        note: Most affordable for training
+      v100_1x:
+        name: 1x NVIDIA V100 16GB
+        price_per_hour: 0.55
+        vram_gb: 16
+        tensor_cores: 640
+      v100_8x:
+        name: 8x NVIDIA V100 16GB
+        price_per_hour: 4.40
+        price_per_gpu: 0.55
+        total_vram_gb: 128
+        best_for: Most affordable multi-GPU cluster
+      a100_40gb_1x:
+        name: 1x NVIDIA A100 40GB
+        price_per_hour: 1.29
+        vram_gb: 40
+        tensor_cores: 432
+      a100_40gb_8x:
+        name: 8x NVIDIA A100 40GB
+        price_per_hour: 10.32
+        price_per_gpu: 1.29
+        total_vram_gb: 320
+        best_for: Standard multi-GPU training
+      a100_80gb_8x:
+        name: 8x NVIDIA A100 80GB
+        price_per_hour: 14.32
+        price_per_gpu: 1.79
+        total_vram_gb: 640
+        best_for: Large model multi-GPU training
+      h100_8x:
+        name: 8x NVIDIA H100
+        price_per_hour: 23.92
+        price_per_gpu: 2.99
+        total_vram_gb: 640
+        best_for: High-performance multi-GPU training
+
+  runpod:
+    name: RunPod
+    website: https://www.runpod.io/serverless-gpu
+    billing: per-minute
+    features:
+      - FlashBoot (<200ms cold-starts)
+      - Auto-scale (0 to 1000+ GPUs)
+      - Zero egress fees on storage
+      - S3-compatible storage
+      - 30+ GPU SKUs
+      - 99.9% uptime SLA
+      - SOC 2 Type II compliant
+    free_credits: 0
+    trusted_by:
+      - Cursor
+      - HuggingFace
+      - OpenAI
+      - Perplexity
+      - Replit
+      - Zillow
+    developers: 500000+
+    monthly_requests: 500000000+
+    gpus:
+      t4:
+        name: NVIDIA T4
+        price_per_hour: 0.60  # Approximate
+        vram_gb: 16
+        best_for: Development, small models
+      a10:
+        name: NVIDIA A10
+        price_per_hour: 0.80  # Approximate
+        vram_gb: 24
+        best_for: Cost-effective training
+      a100_40gb:
+        name: NVIDIA A100 40GB
+        price_per_hour: 2.00  # Approximate
+        vram_gb: 40
+        best_for: Large model training
+      a100_80gb:
+        name: NVIDIA A100 80GB
+        price_per_hour: 2.30  # Approximate
+        vram_gb: 80
+        best_for: Very large models
+      h100:
+        name: NVIDIA H100
+        price_per_hour: 3.80  # Approximate
+        vram_gb: 80
+        best_for: Cutting-edge training
+
+cost_optimization_factors:
+  peft_lora:
+    description: Parameter-efficient fine-tuning with LoRA
+    memory_reduction: 90
+    cost_reduction: 50-90
+    speedup: 4x
+    applies_to:
+      - Large models (7B+)
+      - Fine-tuning tasks
+      - Limited GPU memory
+
+  mixed_precision:
+    description: FP16/BF16 training
+    speedup: 2x
+    memory_reduction: 50
+    cost_reduction: 50
+    applies_to:
+      - All modern GPUs (T4, A10, A100, H100)
+      - Training and inference
+
+  batch_inference:
+    description: Process multiple requests together
+    cost_reduction: 85-90
+    latency_increase: 10-20%
+    optimal_batch_size: 8-16
+    applies_to:
+      - Non-realtime inference
+      - Batch processing workloads
+
+  serverless_vs_dedicated:
+    break_even_utilization: 15-20%  # If GPU used <20% of time, serverless cheaper
+    serverless_advantages:
+      - No idle cost
+      - Auto-scaling
+      - Pay-per-second
+    dedicated_advantages:
+      - Lower per-hour cost
+      - Consistent performance
+      - No cold starts
+
+use_case_recommendations:
+  training:
+    small_models_lt_1b:
+      best_gpu: T4
+      best_platform: Modal
+      typical_cost: 0.50-2.00
+      typical_time_hours: 0.5-2
+    medium_models_1b_7b:
+      best_gpu: T4 (with PEFT) or A100 40GB
+      best_platform: Lambda A10 (cheapest) or Modal T4 (convenience)
+      typical_cost: 1.00-8.00
+      typical_time_hours: 2-8
+    large_models_7b_70b:
+      best_gpu: A100 80GB or H100 (with PEFT)
+      best_platform: Lambda (dedicated) or Modal (serverless)
+      typical_cost: 10-100
+      typical_time_hours: 8-48
+
+  inference:
+    low_traffic_lt_1k_day:
+      best_deployment: Modal serverless
+      best_gpu: T4
+      typical_cost_monthly: 5-15
+    medium_traffic_1k_10k_day:
+      best_deployment: Modal serverless
+      best_gpu: T4 or A10
+      typical_cost_monthly: 50-150
+    high_traffic_gt_10k_day:
+      best_deployment: Dedicated or batch serverless
+      best_gpu: A10 or A100
+      typical_cost_monthly: 100-500
+      consider: Batch inference for 85% cost reduction
+
+storage_costs:
+  s3_compatible:
+    price_per_gb_month: 0.023
+    applies_to:
+      - Modal storage
+      - RunPod storage
+      - Lambda storage
+  model_artifacts:
+    small_model_gb: 0.5-2
+    medium_model_gb: 3-15
+    large_model_gb: 14-140
+  datasets:
+    typical_gb: 1-50
+    large_datasets_gb: 100-1000
+
+notes:
+  - Prices are subject to change, check platform websites for latest pricing
+  - Lambda pricing is for on-demand instances, reserved instances offer discounts
+  - RunPod pricing varies by availability and location
+  - Modal offers significant startup credits ($50K) for eligible companies
+  - All platforms offer zero egress fees for data transfer
+  - Multi-GPU pricing assumes linear scaling with 90% efficiency
+  - PEFT/LoRA can reduce training costs by 50-90% for large models
+  - Mixed precision (FP16/BF16) doubles training speed on modern GPUs
+  - Serverless is cost-effective for <20% GPU utilization
+  - Dedicated instances are cheaper for continuous 24/7 workloads

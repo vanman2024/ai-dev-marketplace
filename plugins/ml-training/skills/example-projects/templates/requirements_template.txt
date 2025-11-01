@@ -1,0 +1,38 @@
+# Core ML Libraries
+torch>=2.0.0
+numpy>=1.24.0
+scikit-learn>=1.3.0
+
+# Optional: Deep Learning Frameworks
+# tensorflow>=2.13.0
+# jax>=0.4.0
+
+# Optional: Transformers/NLP
+# transformers>=4.30.0
+# tokenizers>=0.13.0
+# datasets>=2.14.0
+# peft>=0.5.0  # For LoRA/PEFT
+
+# Optional: Computer Vision
+# torchvision>=0.15.0
+# opencv-python>=4.8.0
+# pillow>=10.0.0
+# albumentations>=1.3.0
+
+# Optional: Time Series
+# pandas>=2.0.0
+# statsmodels>=0.14.0
+
+# Optional: Deployment
+# fastapi>=0.100.0
+# uvicorn>=0.23.0
+# modal>=0.55.0
+
+# Optional: Monitoring
+# wandb>=0.15.0
+# tensorboard>=2.13.0
+
+# Optional: Utilities
+# pyyaml>=6.0
+# tqdm>=4.65.0
+# python-dotenv>=1.0.0

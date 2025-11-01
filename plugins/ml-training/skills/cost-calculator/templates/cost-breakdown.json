@@ -1,0 +1,116 @@
+{
+  "project_name": "ML Training Project",
+  "created_at": "2025-11-01",
+  "cost_estimate": {
+    "training": {
+      "model_size": "7B",
+      "training_runs_per_month": 4,
+      "hours_per_run": 4.2,
+      "gpu_type": "T4",
+      "platform": "Modal",
+      "peft_enabled": true,
+      "mixed_precision": true,
+      "cost_per_run": 2.48,
+      "total_training_cost_monthly": 9.92
+    },
+    "inference": {
+      "deployment_type": "serverless",
+      "expected_requests_per_day": 1000,
+      "expected_requests_per_month": 30000,
+      "avg_latency_seconds": 2.0,
+      "gpu_type": "T4",
+      "platform": "Modal",
+      "batch_inference": false,
+      "cost_per_request": 0.00033,
+      "monthly_inference_cost": 9.90
+    },
+    "storage": {
+      "model_artifacts_gb": 14,
+      "dataset_storage_gb": 5,
+      "vector_embeddings_gb": 2,
+      "total_storage_gb": 21,
+      "storage_rate_per_gb": 0.023,
+      "monthly_storage_cost": 0.48
+    },
+    "total_monthly_cost": 20.30,
+    "breakdown_percentage": {
+      "training": 48.9,
+      "inference": 48.8,
+      "storage": 2.4
+    }
+  },
+  "cost_optimizations_applied": {
+    "peft_lora": {
+      "description": "Use LoRA for parameter-efficient fine-tuning",
+      "savings_percentage": 50,
+      "savings_amount": 9.92
+    },
+    "mixed_precision": {
+      "description": "FP16/BF16 training for 2x speedup",
+      "savings_percentage": 50,
+      "savings_amount": 4.96
+    },
+    "serverless_inference": {
+      "description": "Pay only for actual inference usage",
+      "vs_dedicated_cost": 442.50,
+      "savings_amount": 432.60
+    },
+    "platform_selection": {
+      "description": "Lambda A10 cheaper for training, Modal for serverless inference",
+      "training_savings": 1.18,
+      "inference_no_change": 0
+    }
+  },
+  "potential_future_optimizations": {
+    "batch_inference": {
+      "description": "Batch 10 requests together",
+      "potential_savings": 8.41,
+      "potential_monthly_cost": 1.49
+    },
+    "spot_instances": {
+      "description": "Use interruptible instances (if available)",
+      "potential_savings_percentage": 70,
+      "note": "Not currently offered by Modal/Lambda"
+    },
+    "model_quantization": {
+      "description": "Reduce model size to 8-bit or 4-bit",
+      "inference_speedup": "2-4x",
+      "cost_reduction": "50-75%"
+    }
+  },
+  "total_cost_comparison": {
+    "without_any_optimizations": 85.00,
+    "with_current_optimizations": 20.30,
+    "with_all_optimizations": 12.00,
+    "current_savings": 64.70,
+    "current_savings_percentage": 76.1,
+    "potential_additional_savings": 8.30
+  },
+  "scaling_projections": {
+    "requests_10k_per_day": {
+      "monthly_inference_cost": 99.00,
+      "total_monthly_cost": 109.40,
+      "recommendation": "Stay serverless"
+    },
+    "requests_50k_per_day": {
+      "monthly_inference_cost": 495.00,
+      "total_monthly_cost": 505.40,
+      "recommendation": "Consider dedicated GPU or batch inference"
+    },
+    "requests_100k_per_day": {
+      "monthly_inference_cost": 990.00,
+      "total_monthly_cost": 1000.40,
+      "dedicated_alternative": 442.50,
+      "recommendation": "Switch to dedicated Lambda A10 instance"
+    }
+  },
+  "notes": [
+    "Costs are estimates based on average workloads",
+    "Actual costs may vary based on model architecture and data complexity",
+    "Training costs assume PEFT/LoRA is used (50% savings vs full fine-tuning)",
+    "Inference costs are for Modal serverless (pay-per-second)",
+    "Storage costs based on S3-compatible pricing ($0.023/GB/month)",
+    "Platform selection: Lambda for training, Modal for inference",
+    "Free credits: Modal offers $30/month free + $50K startup credits"
+  ]
+}

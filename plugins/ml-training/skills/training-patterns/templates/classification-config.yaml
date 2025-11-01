@@ -1,0 +1,29 @@
+model:
+  name: distilbert-base-uncased
+  num_labels: 3
+  task_type: classification
+
+dataset:
+  train_file: data/train.csv
+  validation_file: data/val.csv
+  test_file: data/test.csv
+  text_column: text
+  label_column: label
+
+training:
+  output_dir: ./outputs
+  num_epochs: 3
+  batch_size: 16
+  learning_rate: 2e-5
+  warmup_steps: 500
+  weight_decay: 0.01
+  evaluation_strategy: epoch
+  save_strategy: epoch
+  logging_steps: 100
+  fp16: true
+  gradient_accumulation_steps: 1
+
+optimizer:
+  name: adamw
+  betas: [0.9, 0.999]
+  epsilon: 1e-8

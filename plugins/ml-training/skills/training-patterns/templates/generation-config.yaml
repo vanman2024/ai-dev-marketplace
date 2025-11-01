@@ -1,0 +1,35 @@
+model:
+  name: t5-small
+  task_type: generation
+  generation_type: question-answering
+
+dataset:
+  train_file: data/train.json
+  validation_file: data/val.json
+  input_column: question
+  target_column: answer
+  max_input_length: 512
+  max_target_length: 128
+
+training:
+  output_dir: ./outputs
+  num_epochs: 5
+  batch_size: 8
+  learning_rate: 3e-4
+  warmup_steps: 1000
+  weight_decay: 0.01
+  evaluation_strategy: steps
+  eval_steps: 500
+  save_steps: 500
+  logging_steps: 100
+  fp16: true
+  gradient_accumulation_steps: 2
+  predict_with_generate: true
+
+generation:
+  max_length: 128
+  min_length: 10
+  num_beams: 4
+  length_penalty: 2.0
+  early_stopping: true
+  no_repeat_ngram_size: 3
