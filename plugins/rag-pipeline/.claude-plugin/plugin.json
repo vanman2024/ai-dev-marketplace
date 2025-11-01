@@ -1,0 +1,27 @@
+{
+  "name": "rag-pipeline",
+  "version": "1.0.0",
+  "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
+  "author": {
+    "name": "Plugin Builder",
+    "email": "builder@example.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "rag",
+    "retrieval-augmented-generation",
+    "llamaindex",
+    "langchain",
+    "vector-database",
+    "embeddings",
+    "semantic-search",
+    "pgvector",
+    "pinecone",
+    "chroma",
+    "document-processing",
+    "chunking",
+    "hybrid-search",
+    "llm",
+    "ai"
+  ]
+}

@@ -131,6 +131,7 @@
       "SlashCommand(/rag-pipeline:build-ingestion)",
       "SlashCommand(/rag-pipeline:build-retrieval)",
       "SlashCommand(/rag-pipeline:build-generation)",
+      "SlashCommand(/rag-pipeline:optimize)",
       "Bash",
       "Write",
       "Read",
