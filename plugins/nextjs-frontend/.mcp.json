@@ -2,9 +2,8 @@
   "mcpServers": {
     "shadcn": {
       "command": "npx",
-      "args": ["-y", "@upstash/shadcn-mcp"],
-      "description": "shadcn/ui component library MCP server for searching and adding components",
-      "env": {}
+      "args": ["shadcn@latest", "mcp"],
+      "description": "shadcn/ui component library MCP server for searching and adding components"
     },
     "tailwind-ui": {
       "command": "npx",
@@ -21,13 +20,9 @@
       }
     },
     "supabase": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-supabase"],
-      "description": "Supabase MCP server for database operations",
-      "env": {
-        "SUPABASE_URL": "required",
-        "SUPABASE_ANON_KEY": "required"
-      }
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=wsmhiiharnhqupdniwgw",
+      "description": "Supabase MCP server for database operations and design system access"
     },
     "context7": {
       "command": "npx",

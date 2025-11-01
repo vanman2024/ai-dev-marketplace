@@ -1,3 +1,22 @@
 {
-  "mcpServers": {}
+  "mcpServers": {
+    "supabase": {
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?project_ref=wsmhiiharnhqupdniwgw",
+      "description": "Supabase MCP server for database operations, CMS, and design system access"
+    },
+    "shadcn": {
+      "command": "npx",
+      "args": ["shadcn@latest", "mcp"],
+      "description": "shadcn/ui component library MCP server for UI primitives"
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Context7 MCP server for documentation retrieval",
+      "env": {
+        "CONTEXT7_API_KEY": "ctx7sk-b1d17407-af5d-47ef-8879-eb0d2e7e0146"
+      }
+    }
+  }
 }
