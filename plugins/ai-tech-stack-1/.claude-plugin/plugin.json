@@ -12,16 +12,18 @@
       "vercel-ai-sdk@ai-dev-marketplace",
       "supabase@ai-dev-marketplace",
       "mem0@ai-dev-marketplace",
-      "fastmcp@ai-dev-marketplace",
       "claude-agent-sdk@ai-dev-marketplace"
     ]
   },
   "mcpServers": [],
   "commands": [
     "build-full-stack",
+    "build-full-stack-phase-0",
     "build-full-stack-phase-1",
     "build-full-stack-phase-2",
     "build-full-stack-phase-3",
+    "build-full-stack-phase-4",
+    "build-full-stack-phase-5",
     "resume",
     "validate"
   ],

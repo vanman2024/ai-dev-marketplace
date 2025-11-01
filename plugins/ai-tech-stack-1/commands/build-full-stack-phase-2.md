@@ -107,43 +107,27 @@ Actions:
 - Verify: !{bash grep -q "claude-agent-sdk" "$APP_NAME-backend/requirements.txt" && echo "✅ Agent SDK added" || echo "❌ Failed"}
 - Mark Agent SDK complete
 
-Phase 6: MCP Server Configuration
-Goal: Configure existing MCP servers (don't create new)
+Phase 6: MCP Server Configuration Note
+Goal: Document MCP server configuration (pre-configured in plugins)
 
 CONTEXT: Late - 1 agent only
 
 Actions:
 - Update .ai-stack-config.json phase to 6
-- Create .mcp.json in backend with pre-configured servers:
-  !{bash cat > "$APP_NAME-backend/.mcp.json" << 'EOF'
-{
-  "mcpServers": {
-    "supabase": {
-      "command": "npx"
-      "args": ["-y", "@modelcontextprotocol/server-supabase"]
-      "env": {
-        "SUPABASE_URL": "${SUPABASE_URL}"
-        "SUPABASE_KEY": "${SUPABASE_ANON_KEY}"
-      }
-    }
-    "memory": {
-      "command": "npx"
-      "args": ["-y", "@modelcontextprotocol/server-memory"]
-    }
-    "filesystem": {
-      "command": "npx"
-      "args": ["-y", "@modelcontextprotocol/server-filesystem"]
-      "env": {
-        "ALLOWED_DIRECTORIES": ["./data", "./uploads"]
-      }
-    }
-  }
-}
-EOF
-}
-- Copy to frontend: !{bash cp "$APP_NAME-backend/.mcp.json" "$APP_NAME/.mcp.json"}
-- Verify: !{bash test -f "$APP_NAME-backend/.mcp.json" && echo "✅ MCP configured" || echo "❌ Failed"}
-- Mark MCP complete
+- Note: MCP servers are pre-configured in plugin .mcp.json files:
+  - nextjs-frontend/.mcp.json: shadcn, tailwind-ui, figma, supabase, context7
+  - supabase/.mcp.json: supabase MCP server
+  - mem0/.mcp.json: OpenMemory MCP server
+- Users add API keys per-project in .env files:
+  - SUPABASE_URL (required)
+  - SUPABASE_ANON_KEY (required)
+  - MEM0_API_KEY (optional)
+  - CONTEXT7_API_KEY (optional)
+  - FIGMA_ACCESS_TOKEN (optional)
+- No dynamic MCP server creation during orchestration
+- MCP servers run locally (npx) or can be deployed to FastMCP Cloud later
+- Verify: !{bash echo "✅ MCP documented (pre-configured in plugins)"}
+- Mark MCP note complete
 
 Phase 7: Summary Phase 2
 Goal: Save state and prepare for Phase 3

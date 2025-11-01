@@ -1,88 +1,108 @@
 ---
-description: Validate complete AI Tech Stack 1 deployment
+description: Validate complete AI Tech Stack 1 deployment using lifecycle commands
 argument-hint: [app-directory]
-allowed-tools: Read, Write, Bash(*), TodoWrite
+allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite
 ---
 
 **Arguments**: $ARGUMENTS
 
-Goal: Validate AI Tech Stack 1 deployment (Next.js + Vercel AI SDK + Supabase + Mem0).
+Goal: Validate AI Tech Stack 1 deployment using dev-lifecycle-marketplace commands.
 
 Core Principles:
-- Check required files exist
-- Verify integrations configured
-- Run build and type checks
-- Provide actionable fixes
+- Use lifecycle commands for comprehensive validation
+- Detect project structure automatically
+- Run full test suite
+- Check security
+- Validate deployment if deployed
 
-Phase 1: Discovery
-Goal: Determine app directory
+Phase 1: Project Detection
+Goal: Detect project structure and tech stack
 
 Actions:
 - Parse $ARGUMENTS for app directory (default: current directory)
 - Verify exists: !{bash test -d "$ARGUMENTS" && echo "Found" || echo "Not found"}
 - If not found: STOP
 - Create todo list for validation
+- Run project detection:
+  SlashCommand: /foundation:detect $ARGUMENTS
+- Wait for completion
+- Load detected stack from .claude/project.json
+- Verify it matches AI Tech Stack 1 components
+- Mark detection complete
 
-Phase 2: File Structure
-Goal: Verify required files
-
-Actions:
-- Next.js:
-  !{bash test -f "$ARGUMENTS/package.json" && echo "✅ package.json" || echo "❌ missing"}
-  !{bash test -d "$ARGUMENTS/app" && echo "✅ app dir" || echo "❌ missing"}
-  !{bash test -f "$ARGUMENTS/tsconfig.json" && echo "✅ tsconfig" || echo "❌ missing"}
-
-- Supabase:
-  !{bash test -f "$ARGUMENTS/.env.local" -o -f "$ARGUMENTS/.env" && echo "✅ .env" || echo "❌ missing"}
-  !{bash grep -q "SUPABASE_URL" "$ARGUMENTS/.env"* 2>/dev/null && echo "✅ Supabase URL" || echo "❌ missing"}
-
-- AI SDK:
-  !{bash test -f "$ARGUMENTS/app/api/chat/route.ts" && echo "✅ chat route" || echo "❌ missing"}
-
-- Mark Phase 2 complete
-
-Phase 3: Dependencies
-Goal: Verify packages installed
+Phase 2: Comprehensive Testing
+Goal: Run full test suite (API + E2E + Security)
 
 Actions:
-- Load: @$ARGUMENTS/package.json
+- Run Newman API tests:
+  SlashCommand: /quality:test newman
+- Wait for completion
+- Display API test results
+- Mark API tests complete
 
-- Check:
-  !{bash grep -q "next" "$ARGUMENTS/package.json" && echo "✅ Next.js" || echo "❌ missing"}
-  !{bash grep -q "ai" "$ARGUMENTS/package.json" && echo "✅ AI SDK" || echo "❌ missing"}
-  !{bash grep -q "supabase" "$ARGUMENTS/package.json" && echo "✅ Supabase" || echo "❌ missing"}
+- Run Playwright E2E tests:
+  SlashCommand: /quality:test playwright
+- Wait for completion
+- Display E2E test results
+- Mark E2E tests complete
 
-- node_modules:
-  !{bash test -d "$ARGUMENTS/node_modules" && echo "✅" || echo "⚠️  Run npm install"}
+- Run security scans:
+  SlashCommand: /quality:security
+- Wait for completion
+- Display security scan results
+- Mark security complete
 
-- Mark Phase 3 complete
-
-Phase 4: Build
-Goal: Verify build works
+Phase 3: Deployment Validation (If Deployed)
+Goal: Validate deployment health if app is deployed
 
 Actions:
-- TypeScript: !{bash cd "$ARGUMENTS" && npm run typecheck 2>&1 | head -20}
-- Build: !{bash cd "$ARGUMENTS" && npm run build 2>&1 | tail -30}
+- Check if deployed: !{bash test -f .ai-stack-config.json && jq -e '.deployed == true' .ai-stack-config.json}
+- If deployed:
+  - Load URLs from .ai-stack-config.json
+  - Validate frontend:
+    SlashCommand: /deployment:validate $FRONTEND_URL
+  - Wait for completion
+  - Validate backend:
+    SlashCommand: /deployment:validate $BACKEND_URL
+  - Wait for completion
+  - Display deployment health results
+  - Mark deployment validation complete
+- If not deployed:
+  - Skip deployment validation
+  - Note: "App not deployed yet"
 
-- If fails: Write validation-errors.txt and STOP
-- If succeeds: Mark Phase 4 complete
-
-Phase 5: Summary
-Goal: Report results
+Phase 4: Summary
+Goal: Report comprehensive validation results
 
 Actions:
 - Mark all todos complete
 
-- Write VALIDATION-REPORT.md with results from all phases
+- Display validation summary:
+  ✅ AI Tech Stack 1 Validation Report
 
-- Display: @VALIDATION-REPORT.md
+  Project Detection: [STATUS]
+  - Tech stack matches AI Tech Stack 1
+
+  Testing:
+  - Newman API Tests: [STATUS]
+  - Playwright E2E Tests: [STATUS]
+  - Security Scans: [STATUS]
+
+  Deployment: [STATUS / Not deployed]
+  - Frontend Health: [STATUS]
+  - Backend Health: [STATUS]
+
+  Overall: [PASSED / FAILED / WARNINGS]
 
 - Status:
   - All passed: "✅ Validation PASSED"
   - Warnings: "⚠️  Passed with warnings"
-  - Failed: "❌ Validation FAILED"
+  - Failed: "❌ Validation FAILED - Fix issues before deployment"
 
 ## Usage
 
+Validate current directory:
 /ai-tech-stack-1:validate
+
+Validate specific app:
 /ai-tech-stack-1:validate my-ai-app
