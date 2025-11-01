@@ -14,21 +14,6 @@
       "env": {
         "CONTEXT7_API_KEY": "ctx7sk-b1d17407-af5d-47ef-8879-eb0d2e7e0146"
       }
-    },
-    "content-image-generation": {
-      "command": "python",
-      "args": [
-        "/home/gotime2022/.claude/plugins/marketplaces/mcp-servers-marketplace/servers/content-media/content-image-generation-mcp/src/server.py"
-      ],
-      "env": {
-        "GOOGLE_CLOUD_PROJECT": "{{GOOGLE_CLOUD_PROJECT}}",
-        "GOOGLE_CLOUD_LOCATION": "us-central1",
-        "GOOGLE_APPLICATION_CREDENTIALS": "{{GOOGLE_APPLICATION_CREDENTIALS}}",
-        "ANTHROPIC_API_KEY": "{{ANTHROPIC_API_KEY}}",
-        "GOOGLE_API_KEY": "{{GOOGLE_API_KEY}}",
-        "OUTPUT_DIR": "./public/images/generated",
-        "ENABLE_COST_TRACKING": "true"
-      }
     }
   }
 }
