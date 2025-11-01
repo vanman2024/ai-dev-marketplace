@@ -1,14 +1,9 @@
 {
   "mcpServers": {
     "supabase": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-supabase"],
-      "description": "Official Supabase MCP server for database operations, auth, storage, and realtime",
-      "env": {
-        "SUPABASE_URL": "required",
-        "SUPABASE_ANON_KEY": "required"
-      },
-      "documentation": "https://github.com/modelcontextprotocol/servers/tree/main/src/supabase"
+      "type": "http",
+      "url": "https://mcp.supabase.com/mcp?org=etcsfdgwedpgcfmytwtf",
+      "description": "Supabase MCP server for database operations, auth, storage - org-level access to all projects"
     }
   }
 }
