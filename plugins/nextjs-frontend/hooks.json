@@ -1,0 +1,40 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path' | { read file_path; if echo \"$file_path\" | grep -q '\\.tsx\\?$'; then PLUGIN_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"; if [ -f \"$PLUGIN_DIR/hooks/post-component-add.sh\" ]; then bash \"$PLUGIN_DIR/hooks/post-component-add.sh\" \"$file_path\"; fi; fi; }",
+            "description": "Run design system validation after component edits"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.command' | { read cmd; if echo \"$cmd\" | grep -q 'git commit'; then PLUGIN_DIR=\"$(cd \"$(dirname \"${BASH_SOURCE[0]}\")\" && pwd)\"; if [ -f \"$PLUGIN_DIR/hooks/pre-commit.sh\" ]; then bash \"$PLUGIN_DIR/hooks/pre-commit.sh\"; fi; fi; }",
+            "description": "Run design system validation before git commits"
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.prompt' | { read prompt; if echo \"$prompt\" | grep -qiE '(/nextjs-frontend:add-component|add.*component)'; then echo '[DESIGN-SYSTEM] Remember to validate with /nextjs-frontend:enforce-design-system after completion'; fi; }",
+            "description": "Remind to validate design system after adding components"
+          }
+        ]
+      }
+    ]
+  }
+}
