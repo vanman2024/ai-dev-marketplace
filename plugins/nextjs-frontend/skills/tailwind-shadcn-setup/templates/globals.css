@@ -1,0 +1,129 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Base colors - Slate neutral palette */
+    --background: oklch(1 0 0); /* White */
+    --foreground: oklch(0.15 0.01 255); /* Near black with slight cool tint */
+
+    /* Card components */
+    --card: oklch(1 0 0); /* White */
+    --card-foreground: oklch(0.15 0.01 255);
+
+    /* Popover components */
+    --popover: oklch(1 0 0); /* White */
+    --popover-foreground: oklch(0.15 0.01 255);
+
+    /* Primary action color */
+    --primary: oklch(0.15 0.01 255); /* Dark slate */
+    --primary-foreground: oklch(0.98 0 0); /* Almost white */
+
+    /* Secondary action color */
+    --secondary: oklch(0.96 0.006 255); /* Very light slate */
+    --secondary-foreground: oklch(0.15 0.01 255);
+
+    /* Muted/disabled states */
+    --muted: oklch(0.96 0.006 255); /* Very light slate */
+    --muted-foreground: oklch(0.45 0.01 255); /* Medium slate */
+
+    /* Accent color for highlights */
+    --accent: oklch(0.96 0.006 255); /* Very light slate */
+    --accent-foreground: oklch(0.15 0.01 255);
+
+    /* Destructive/error states */
+    --destructive: oklch(0.55 0.22 25); /* Red */
+    --destructive-foreground: oklch(0.98 0 0); /* Almost white */
+
+    /* Border, input, and ring colors */
+    --border: oklch(0.9 0.006 255); /* Light slate */
+    --input: oklch(0.9 0.006 255); /* Light slate */
+    --ring: oklch(0.15 0.01 255); /* Dark slate - matches primary */
+
+    /* Border radius */
+    --radius: 0.5rem; /* 8px */
+
+    /* Chart colors for data visualization */
+    --chart-1: oklch(0.7 0.15 25); /* Orange-red */
+    --chart-2: oklch(0.7 0.15 145); /* Teal */
+    --chart-3: oklch(0.7 0.15 65); /* Yellow */
+    --chart-4: oklch(0.7 0.15 305); /* Purple */
+    --chart-5: oklch(0.7 0.15 185); /* Blue */
+
+    /* Sidebar navigation colors */
+    --sidebar-background: oklch(1 0 0); /* White */
+    --sidebar-foreground: oklch(0.3 0.01 255); /* Dark gray */
+    --sidebar-primary: oklch(0.15 0.01 255); /* Dark slate */
+    --sidebar-primary-foreground: oklch(0.98 0 0); /* Almost white */
+    --sidebar-accent: oklch(0.96 0.006 255); /* Very light slate */
+    --sidebar-accent-foreground: oklch(0.15 0.01 255);
+    --sidebar-border: oklch(0.9 0.006 255); /* Light slate */
+    --sidebar-ring: oklch(0.15 0.01 255); /* Dark slate */
+  }
+
+  .dark {
+    /* Base colors - Dark mode */
+    --background: oklch(0.15 0.01 255); /* Dark slate */
+    --foreground: oklch(0.98 0 0); /* Almost white */
+
+    /* Card components */
+    --card: oklch(0.15 0.01 255); /* Dark slate */
+    --card-foreground: oklch(0.98 0 0);
+
+    /* Popover components */
+    --popover: oklch(0.15 0.01 255); /* Dark slate */
+    --popover-foreground: oklch(0.98 0 0);
+
+    /* Primary action color */
+    --primary: oklch(0.98 0 0); /* Almost white */
+    --primary-foreground: oklch(0.15 0.01 255); /* Dark slate */
+
+    /* Secondary action color */
+    --secondary: oklch(0.25 0.015 255); /* Medium dark slate */
+    --secondary-foreground: oklch(0.98 0 0);
+
+    /* Muted/disabled states */
+    --muted: oklch(0.25 0.015 255); /* Medium dark slate */
+    --muted-foreground: oklch(0.65 0.01 255); /* Light slate */
+
+    /* Accent color for highlights */
+    --accent: oklch(0.25 0.015 255); /* Medium dark slate */
+    --accent-foreground: oklch(0.98 0 0);
+
+    /* Destructive/error states */
+    --destructive: oklch(0.55 0.22 25); /* Red - same as light mode */
+    --destructive-foreground: oklch(0.98 0 0);
+
+    /* Border, input, and ring colors */
+    --border: oklch(0.25 0.015 255); /* Medium dark slate */
+    --input: oklch(0.25 0.015 255); /* Medium dark slate */
+    --ring: oklch(0.75 0.008 255); /* Light slate */
+
+    /* Chart colors for data visualization - adjusted for dark mode */
+    --chart-1: oklch(0.65 0.18 25); /* Brighter orange-red */
+    --chart-2: oklch(0.65 0.18 145); /* Brighter teal */
+    --chart-3: oklch(0.75 0.18 65); /* Brighter yellow */
+    --chart-4: oklch(0.65 0.18 305); /* Brighter purple */
+    --chart-5: oklch(0.65 0.18 185); /* Brighter blue */
+
+    /* Sidebar navigation colors */
+    --sidebar-background: oklch(0.12 0.01 255); /* Darker slate */
+    --sidebar-foreground: oklch(0.85 0.008 255); /* Light gray */
+    --sidebar-primary: oklch(0.98 0 0); /* Almost white */
+    --sidebar-primary-foreground: oklch(0.15 0.01 255); /* Dark slate */
+    --sidebar-accent: oklch(0.25 0.015 255); /* Medium dark slate */
+    --sidebar-accent-foreground: oklch(0.98 0 0);
+    --sidebar-border: oklch(0.25 0.015 255); /* Medium dark slate */
+    --sidebar-ring: oklch(0.75 0.008 255); /* Light slate */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
