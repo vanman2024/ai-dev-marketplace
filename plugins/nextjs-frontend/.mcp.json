@@ -1,0 +1,41 @@
+{
+  "mcpServers": {
+    "shadcn": {
+      "command": "npx",
+      "args": ["-y", "@upstash/shadcn-mcp"],
+      "description": "shadcn/ui component library MCP server for searching and adding components",
+      "env": {}
+    },
+    "tailwind-ui": {
+      "command": "npx",
+      "args": ["-y", "@upstash/tailwind-ui-mcp"],
+      "description": "Tailwind UI design system MCP server from Supabase",
+      "env": {}
+    },
+    "figma-application": {
+      "command": "npx",
+      "args": ["-y", "figma-mcp"],
+      "description": "Figma MCP server for design integration",
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "optional"
+      }
+    },
+    "supabase": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-supabase"],
+      "description": "Supabase MCP server for database operations",
+      "env": {
+        "SUPABASE_URL": "required",
+        "SUPABASE_ANON_KEY": "required"
+      }
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp"],
+      "description": "Context7 MCP server for documentation retrieval",
+      "env": {
+        "CONTEXT7_API_KEY": "optional"
+      }
+    }
+  }
+}
