@@ -2,13 +2,11 @@
   "mcpServers": {
     "supabase": {
       "type": "http",
-      "url": "https://mcp.supabase.com/mcp?org=etcsfdgwedpgcfmytwtf",
-      "description": "Supabase MCP server for design system and database access - org-level, override per-project"
+      "url": "https://mcp.supabase.com/mcp?project_ref=wsmhiiharnhqupdniwgw"
     },
     "shadcn": {
       "command": "npx",
-      "args": ["shadcn@latest", "mcp"],
-      "description": "shadcn/ui component library for AI-powered UIs"
+      "args": ["shadcn@latest", "mcp"]
     }
   }
 }
