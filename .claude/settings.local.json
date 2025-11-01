@@ -80,6 +80,7 @@
       "SlashCommand(/nextjs-frontend:search-components)",
       "SlashCommand(/nextjs-frontend:add-component)",
       "SlashCommand(/nextjs-frontend:add-page)",
+      "SlashCommand(/nextjs-frontend:enforce-design-system)",
       "SlashCommand(/fastapi-backend:*)",
       "SlashCommand(/fastapi-backend:init)",
       "SlashCommand(/fastapi-backend:add-endpoint)",
