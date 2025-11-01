@@ -297,6 +297,37 @@
                 "python",
                 "javascript"
             ]
+        },
+        {
+            "name": "openrouter",
+            "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/openrouter",
+            "commands": "./commands",
+            "category": "sdk",
+            "keywords": [
+                "openrouter",
+                "llm",
+                "model-routing",
+                "ai-sdk",
+                "vercel-ai-sdk",
+                "langchain",
+                "openai-sdk",
+                "pydantic-ai",
+                "mcp",
+                "typescript",
+                "python",
+                "javascript",
+                "cost-optimization",
+                "intelligent-routing",
+                "fallback",
+                "500-models",
+                "multi-provider"
+            ]
         }
     ]
 }
