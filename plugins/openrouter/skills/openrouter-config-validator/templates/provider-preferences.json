@@ -1,0 +1,135 @@
+{
+  "provider_preferences": {
+    "description": "Configure provider routing preferences for OpenRouter",
+    "overview": {
+      "purpose": "Control which providers OpenRouter uses for model requests",
+      "use_cases": [
+        "Cost optimization (prefer cheaper providers)",
+        "Performance optimization (prefer faster providers)",
+        "Reliability (prefer more stable providers)",
+        "Feature requirements (prefer providers with specific capabilities)"
+      ]
+    },
+    "configuration": {
+      "format": "Comma-separated list of provider names",
+      "example": "OpenAI,Anthropic,Google",
+      "env_variable": "OPENROUTER_PROVIDER_PREFERENCES",
+      "behavior": "OpenRouter will try providers in the specified order"
+    },
+    "available_providers": {
+      "OpenAI": {
+        "models": ["gpt-4-turbo", "gpt-4", "gpt-3.5-turbo"],
+        "strengths": ["Reliability", "Performance", "Wide model selection"],
+        "pricing": "Medium to High",
+        "notes": "Industry standard, highly reliable"
+      },
+      "Anthropic": {
+        "models": ["claude-3.5-sonnet", "claude-3-opus", "claude-3-haiku"],
+        "strengths": ["Safety", "Long context", "Instruction following"],
+        "pricing": "Medium to High",
+        "notes": "Excellent for complex tasks, very safe outputs"
+      },
+      "Google": {
+        "models": ["gemini-1.5-pro", "gemini-1.5-flash"],
+        "strengths": ["Cost-effective", "Fast", "Multimodal"],
+        "pricing": "Low to Medium",
+        "notes": "Good value for money, fast inference"
+      },
+      "Meta": {
+        "models": ["llama-3-70b-instruct", "llama-3-8b-instruct"],
+        "strengths": ["Cost-effective", "Open source"],
+        "pricing": "Low",
+        "notes": "Great for budget-conscious applications"
+      },
+      "Mistral": {
+        "models": ["mistral-large", "mistral-medium"],
+        "strengths": ["European", "Cost-effective", "Privacy-focused"],
+        "pricing": "Low to Medium",
+        "notes": "Good alternative to US-based providers"
+      },
+      "Cohere": {
+        "models": ["command-r-plus", "command-r"],
+        "strengths": ["Enterprise features", "RAG optimization"],
+        "pricing": "Medium",
+        "notes": "Optimized for enterprise use cases"
+      }
+    },
+    "strategies": {
+      "cost_optimized": {
+        "preference_order": ["Meta", "Google", "Mistral", "OpenAI", "Anthropic"],
+        "description": "Prioritize cheapest providers first",
+        "use_case": "High-volume, budget-conscious applications",
+        "example": "OPENROUTER_PROVIDER_PREFERENCES=Meta,Google,Mistral"
+      },
+      "performance_optimized": {
+        "preference_order": ["OpenAI", "Anthropic", "Google", "Mistral", "Meta"],
+        "description": "Prioritize fastest and most reliable providers",
+        "use_case": "Low-latency, mission-critical applications",
+        "example": "OPENROUTER_PROVIDER_PREFERENCES=OpenAI,Anthropic,Google"
+      },
+      "quality_optimized": {
+        "preference_order": ["Anthropic", "OpenAI", "Google", "Mistral", "Meta"],
+        "description": "Prioritize highest quality outputs",
+        "use_case": "Applications requiring best possible responses",
+        "example": "OPENROUTER_PROVIDER_PREFERENCES=Anthropic,OpenAI"
+      },
+      "balanced": {
+        "preference_order": ["Google", "OpenAI", "Anthropic", "Mistral", "Meta"],
+        "description": "Balance cost, performance, and quality",
+        "use_case": "General-purpose applications",
+        "example": "OPENROUTER_PROVIDER_PREFERENCES=Google,OpenAI,Anthropic"
+      },
+      "privacy_focused": {
+        "preference_order": ["Mistral", "Meta", "Google", "Anthropic", "OpenAI"],
+        "description": "Prefer European and open-source providers",
+        "use_case": "Privacy-sensitive applications",
+        "example": "OPENROUTER_PROVIDER_PREFERENCES=Mistral,Meta"
+      }
+    },
+    "per_model_routing": {
+      "description": "Some models are only available from specific providers",
+      "examples": {
+        "gpt-4-turbo": {
+          "available_from": ["OpenAI"],
+          "preference_ignored": "Only one provider available"
+        },
+        "claude-3.5-sonnet": {
+          "available_from": ["Anthropic"],
+          "preference_ignored": "Only one provider available"
+        },
+        "llama-3-70b-instruct": {
+          "available_from": ["Meta", "Together", "Replicate"],
+          "preference_respected": "Multiple providers available"
+        }
+      }
+    },
+    "implementation": {
+      "environment": {
+        "file": ".env",
+        "variable": "OPENROUTER_PROVIDER_PREFERENCES",
+        "examples": [
+          "OPENROUTER_PROVIDER_PREFERENCES=OpenAI,Anthropic",
+          "OPENROUTER_PROVIDER_PREFERENCES=Meta,Google,Mistral"
+        ]
+      },
+      "api_request": {
+        "header": "X-Provider-Preferences",
+        "example": {
+          "curl": "curl https://openrouter.ai/api/v1/chat/completions \\\n  -H \"Authorization: Bearer $OPENROUTER_API_KEY\" \\\n  -H \"X-Provider-Preferences: OpenAI,Anthropic\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\"model\": \"...\", \"messages\": [...]}'",
+          "javascript": "fetch('https://openrouter.ai/api/v1/chat/completions', {\n  headers: {\n    'Authorization': `Bearer ${apiKey}`,\n    'X-Provider-Preferences': 'OpenAI,Anthropic'\n  }\n})",
+          "python": "headers = {\n    'Authorization': f'Bearer {api_key}',\n    'X-Provider-Preferences': 'OpenAI,Anthropic'\n}"
+        }
+      }
+    },
+    "testing": {
+      "steps": [
+        "1. Set provider preferences in .env or request headers",
+        "2. Make request with a model available from multiple providers",
+        "3. Check response headers for actual provider used",
+        "4. Verify routing matches preferences",
+        "5. Test fallback behavior if preferred provider unavailable"
+      ],
+      "validation_script": "bash scripts/test-routing.sh"
+    }
+  }
+}

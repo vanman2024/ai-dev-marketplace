@@ -1,0 +1,153 @@
+{
+  "strategy": "balanced",
+  "description": "Dynamic routing based on task complexity, optimizing cost/quality/speed tradeoffs",
+  "version": "1.0.0",
+
+  "routing_rules": {
+    "simple_tasks": {
+      "description": "Simple classification, extraction, formatting",
+      "classifier": {
+        "conditions": [
+          "token_count < 500",
+          "task_type in ['classification', 'extraction', 'formatting']",
+          "complexity_score < 0.3"
+        ]
+      },
+      "models": [
+        "google/gemma-2-9b-it:free",
+        "meta-llama/llama-3.2-3b-instruct:free"
+      ],
+      "fallback": ["anthropic/claude-3-haiku"],
+      "timeout": 3000,
+      "temperature": 0.3
+    },
+
+    "medium_tasks": {
+      "description": "Moderate reasoning, general Q&A, summarization",
+      "classifier": {
+        "conditions": [
+          "token_count >= 500 and token_count < 2000",
+          "task_type in ['qa', 'summarization', 'translation']",
+          "complexity_score >= 0.3 and complexity_score < 0.7"
+        ]
+      },
+      "models": [
+        "anthropic/claude-3-haiku",
+        "openai/gpt-4o-mini"
+      ],
+      "fallback": ["anthropic/claude-3-5-sonnet"],
+      "timeout": 5000,
+      "temperature": 0.5
+    },
+
+    "complex_tasks": {
+      "description": "Complex reasoning, code generation, analysis",
+      "classifier": {
+        "conditions": [
+          "token_count >= 2000",
+          "task_type in ['reasoning', 'code', 'analysis']",
+          "complexity_score >= 0.7"
+        ]
+      },
+      "models": [
+        "anthropic/claude-3-5-sonnet",
+        "openai/gpt-4o"
+      ],
+      "fallback": ["google/gemini-pro-1.5"],
+      "timeout": 10000,
+      "temperature": 0.7
+    },
+
+    "streaming_required": {
+      "description": "Real-time chat requiring streaming",
+      "classifier": {
+        "conditions": [
+          "streaming_required == true",
+          "latency_requirement < 1000"
+        ]
+      },
+      "models": [
+        "anthropic/claude-3-haiku",
+        "openai/gpt-4o-mini"
+      ],
+      "streaming": true,
+      "timeout": 3000
+    },
+
+    "long_context": {
+      "description": "Long documents or conversations (100k+ tokens)",
+      "classifier": {
+        "conditions": [
+          "context_length >= 100000"
+        ]
+      },
+      "models": [
+        "google/gemini-pro-1.5",
+        "anthropic/claude-3-5-sonnet"
+      ],
+      "timeout": 15000
+    }
+  },
+
+  "complexity_detection": {
+    "enabled": true,
+    "features": [
+      "token_count",
+      "code_blocks_present",
+      "reasoning_depth",
+      "domain_expertise_required",
+      "context_length"
+    ],
+    "ml_model": {
+      "enabled": false,
+      "path": "./models/complexity-classifier.pkl"
+    },
+    "fallback_to_rules": true
+  },
+
+  "adaptive_routing": {
+    "enabled": true,
+    "learning_rate": 0.1,
+    "optimization_target": "cost_quality_balance",
+    "min_samples_for_learning": 1000,
+    "rebalance_interval_hours": 24
+  },
+
+  "cost_optimization": {
+    "enabled": true,
+    "max_cost_per_request_usd": 0.10,
+    "daily_budget_usd": 50.0,
+    "prefer_cheaper_when_equivalent": true,
+    "cost_quality_tradeoff": 0.5
+  },
+
+  "performance_monitoring": {
+    "enabled": true,
+    "metrics": [
+      "success_rate",
+      "avg_latency",
+      "cost_per_request",
+      "quality_score"
+    ],
+    "alert_thresholds": {
+      "success_rate_min": 0.95,
+      "p95_latency_max_ms": 5000,
+      "daily_cost_max_usd": 60.0
+    }
+  },
+
+  "fallback_strategy": {
+    "on_timeout": "next_fastest_model",
+    "on_rate_limit": "next_available_model",
+    "on_quality_failure": "upgrade_to_premium",
+    "max_fallback_attempts": 3
+  },
+
+  "notes": [
+    "Automatically routes based on task complexity",
+    "Learns from historical performance",
+    "Balances cost, quality, and speed",
+    "Typical distribution: 30% free, 50% budget, 20% premium",
+    "Projected cost savings: 60-75% vs premium-only"
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "strategy": "cost-optimized",
+  "description": "Minimize costs using free models with premium fallback for quality assurance",
+  "version": "1.0.0",
+
+  "primary": "google/gemma-2-9b-it:free",
+  "fallback": [
+    "anthropic/claude-3-haiku",
+    "anthropic/claude-3-5-sonnet"
+  ],
+
+  "timeout": 5000,
+  "retry": {
+    "max_attempts": 3,
+    "delay_ms": 1000,
+    "exponential_backoff": true
+  },
+  "on_error": "fallback",
+
+  "routing_rules": {
+    "simple_classification": {
+      "description": "Simple classification, extraction, formatting tasks",
+      "models": [
+        "google/gemma-2-9b-it:free",
+        "meta-llama/llama-3.2-3b-instruct:free"
+      ],
+      "max_tokens": 1000,
+      "temperature": 0.3
+    },
+    "general_chat": {
+      "description": "General conversation and Q&A",
+      "models": [
+        "google/gemma-2-9b-it:free",
+        "microsoft/phi-3-mini-128k-instruct:free"
+      ],
+      "fallback": ["anthropic/claude-3-haiku"],
+      "max_tokens": 2000,
+      "temperature": 0.7
+    },
+    "moderate_complexity": {
+      "description": "Tasks requiring reasoning but not premium quality",
+      "models": [
+        "anthropic/claude-3-haiku",
+        "openai/gpt-4o-mini"
+      ],
+      "max_tokens": 4000,
+      "temperature": 0.5
+    },
+    "critical_quality": {
+      "description": "Customer-facing, legal, or critical business decisions",
+      "models": [
+        "anthropic/claude-3-5-sonnet",
+        "openai/gpt-4o"
+      ],
+      "max_tokens": 8000,
+      "temperature": 0.7
+    }
+  },
+
+  "cost_tracking": {
+    "enabled": true,
+    "log_requests": true,
+    "alert_threshold_usd": 10.0,
+    "daily_budget_usd": 5.0
+  },
+
+  "quality_monitoring": {
+    "enabled": true,
+    "sample_rate": 0.1,
+    "min_success_rate": 0.95
+  },
+
+  "notes": [
+    "Free models handle 70-80% of requests",
+    "Budget models ($0.15-0.50/1M tokens) for moderate complexity",
+    "Premium models only for critical tasks",
+    "Projected savings: 85-95% vs GPT-4o only"
+  ]
+}

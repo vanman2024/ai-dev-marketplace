@@ -1,0 +1,136 @@
+{
+  "strategy": "custom",
+  "description": "Template for building custom routing strategies",
+  "version": "1.0.0",
+
+  "_comment": "Copy this template and customize for your specific needs",
+
+  "primary": "REPLACE_WITH_PRIMARY_MODEL",
+  "fallback": [
+    "REPLACE_WITH_FALLBACK_1",
+    "REPLACE_WITH_FALLBACK_2"
+  ],
+
+  "timeout": 5000,
+  "retry": {
+    "max_attempts": 3,
+    "delay_ms": 1000,
+    "exponential_backoff": true
+  },
+  "on_error": "fallback",
+
+  "routing_rules": {
+    "rule_name_1": {
+      "description": "Describe when this rule applies",
+      "classifier": {
+        "conditions": [
+          "ADD_YOUR_CONDITIONS_HERE"
+        ]
+      },
+      "models": [
+        "MODEL_FOR_THIS_RULE"
+      ],
+      "fallback": ["FALLBACK_MODEL"],
+      "max_tokens": 2000,
+      "temperature": 0.7
+    },
+
+    "rule_name_2": {
+      "description": "Another routing rule",
+      "models": [
+        "ANOTHER_MODEL"
+      ],
+      "max_tokens": 4000
+    }
+  },
+
+  "custom_routing_logic": {
+    "_comment": "Add your custom routing logic here",
+
+    "user_tier_routing": {
+      "enabled": false,
+      "tiers": {
+        "free": {
+          "models": ["google/gemma-2-9b-it:free"],
+          "rate_limit": 10,
+          "max_tokens": 1000
+        },
+        "premium": {
+          "models": ["anthropic/claude-3-5-sonnet"],
+          "rate_limit": 1000,
+          "max_tokens": 8000
+        }
+      }
+    },
+
+    "geographic_routing": {
+      "enabled": false,
+      "regions": {
+        "us": ["MODEL_FOR_US"],
+        "eu": ["MODEL_FOR_EU"],
+        "asia": ["MODEL_FOR_ASIA"]
+      }
+    },
+
+    "time_based_routing": {
+      "enabled": false,
+      "schedule": {
+        "peak_hours": {
+          "hours": "9-17",
+          "models": ["FAST_MODEL"]
+        },
+        "off_peak": {
+          "hours": "18-8",
+          "models": ["CHEAP_MODEL"]
+        }
+      }
+    },
+
+    "a_b_testing": {
+      "enabled": false,
+      "variants": {
+        "control": {
+          "model": "BASELINE_MODEL",
+          "traffic_percentage": 50
+        },
+        "experiment": {
+          "model": "TEST_MODEL",
+          "traffic_percentage": 50
+        }
+      }
+    }
+  },
+
+  "monitoring": {
+    "enabled": true,
+    "log_requests": true,
+    "metrics": [
+      "request_count",
+      "success_rate",
+      "avg_latency",
+      "total_cost"
+    ]
+  },
+
+  "cost_tracking": {
+    "enabled": true,
+    "alert_threshold_usd": 10.0,
+    "daily_budget_usd": 5.0
+  },
+
+  "notes": [
+    "Customize this template for your specific use case",
+    "Remove unused sections",
+    "Add your own routing rules",
+    "Test thoroughly before production deployment"
+  ],
+
+  "_instructions": {
+    "step_1": "Replace REPLACE_WITH_* placeholders with actual model IDs",
+    "step_2": "Define routing rules based on your requirements",
+    "step_3": "Configure monitoring and cost tracking",
+    "step_4": "Enable custom routing logic as needed",
+    "step_5": "Validate with: ./scripts/validate-routing-config.sh",
+    "step_6": "Test with: ./scripts/test-fallback-chain.sh"
+  }
+}

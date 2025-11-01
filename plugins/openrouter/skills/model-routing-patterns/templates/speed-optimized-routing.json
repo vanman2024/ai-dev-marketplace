@@ -1,0 +1,87 @@
+{
+  "strategy": "speed-optimized",
+  "description": "Minimize latency with fast models and streaming for real-time experiences",
+  "version": "1.0.0",
+
+  "primary": "anthropic/claude-3-haiku",
+  "fallback": [
+    "openai/gpt-4o-mini",
+    "google/gemini-flash-1.5"
+  ],
+
+  "timeout": 3000,
+  "streaming": {
+    "enabled": true,
+    "buffer_size": 100,
+    "flush_interval_ms": 50
+  },
+
+  "retry": {
+    "max_attempts": 2,
+    "delay_ms": 500,
+    "exponential_backoff": false
+  },
+  "on_error": "fallback",
+
+  "routing_rules": {
+    "chat_streaming": {
+      "description": "Real-time chat with streaming",
+      "models": [
+        "anthropic/claude-3-haiku",
+        "openai/gpt-4o-mini"
+      ],
+      "streaming": true,
+      "max_latency_ms": 1000,
+      "max_tokens": 2000
+    },
+    "quick_responses": {
+      "description": "Fast responses under 500 tokens",
+      "models": [
+        "anthropic/claude-3-haiku",
+        "google/gemini-flash-1.5"
+      ],
+      "max_tokens": 500,
+      "max_latency_ms": 800
+    },
+    "interactive_ui": {
+      "description": "Interactive UI elements requiring immediate feedback",
+      "models": [
+        "openai/gpt-4o-mini",
+        "anthropic/claude-3-haiku"
+      ],
+      "streaming": true,
+      "max_latency_ms": 500
+    }
+  },
+
+  "geographic_routing": {
+    "enabled": true,
+    "prefer_region": "auto",
+    "regions": {
+      "us-east": ["anthropic/claude-3-haiku", "openai/gpt-4o-mini"],
+      "us-west": ["openai/gpt-4o-mini", "anthropic/claude-3-haiku"],
+      "eu": ["anthropic/claude-3-haiku", "google/gemini-flash-1.5"],
+      "asia": ["google/gemini-flash-1.5", "anthropic/claude-3-haiku"]
+    }
+  },
+
+  "latency_monitoring": {
+    "enabled": true,
+    "p95_threshold_ms": 2000,
+    "p99_threshold_ms": 3000,
+    "alert_on_degradation": true
+  },
+
+  "connection_pooling": {
+    "enabled": true,
+    "max_connections": 100,
+    "keepalive_ms": 60000
+  },
+
+  "notes": [
+    "Optimized for sub-second response times",
+    "Streaming enabled for immediate user feedback",
+    "Geographic routing minimizes network latency",
+    "Fast models: Claude Haiku (~500ms), GPT-4o-mini (~600ms)"
+  ]
+}

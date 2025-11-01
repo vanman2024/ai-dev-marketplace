@@ -1,0 +1,130 @@
+{
+  "budget_alerts": {
+    "description": "Cost monitoring and budget alert configuration for OpenRouter",
+    "thresholds": {
+      "warning": {
+        "percentage": 75,
+        "description": "Alert when 75% of budget is used",
+        "action": "Review usage patterns and optimize if needed"
+      },
+      "critical": {
+        "percentage": 90,
+        "description": "Alert when 90% of budget is used",
+        "action": "Consider pausing requests or increasing budget"
+      },
+      "exceeded": {
+        "percentage": 100,
+        "description": "Alert when budget is exceeded",
+        "action": "Implement emergency cost controls"
+      }
+    },
+    "monthly_budgets": {
+      "development": {
+        "amount_usd": 50,
+        "description": "Development/testing environment",
+        "recommended_models": [
+          "anthropic/claude-3-haiku",
+          "openai/gpt-3.5-turbo",
+          "meta-llama/llama-3-8b-instruct"
+        ]
+      },
+      "staging": {
+        "amount_usd": 200,
+        "description": "Staging environment for pre-production testing",
+        "recommended_models": [
+          "anthropic/claude-3.5-sonnet",
+          "openai/gpt-4-turbo",
+          "meta-llama/llama-3-70b-instruct"
+        ]
+      },
+      "production": {
+        "amount_usd": 1000,
+        "description": "Production environment with safety margins",
+        "recommended_models": [
+          "anthropic/claude-3.5-sonnet",
+          "openai/gpt-4-turbo",
+          "anthropic/claude-3-opus"
+        ]
+      }
+    },
+    "cost_tracking": {
+      "methods": [
+        {
+          "name": "OpenRouter Dashboard",
+          "url": "https://openrouter.ai/settings/usage",
+          "features": [
+            "Real-time usage tracking",
+            "Cost breakdowns by model",
+            "Export usage data (CSV)",
+            "Set spending limits"
+          ]
+        },
+        {
+          "name": "Client-Side Tracking",
+          "description": "Track costs in your application",
+          "implementation": {
+            "steps": [
+              "Store request metadata (model, tokens, timestamp)",
+              "Calculate costs using model pricing",
+              "Aggregate daily/monthly totals",
+              "Compare against budget thresholds",
+              "Send alerts when thresholds exceeded"
+            ]
+          }
+        },
+        {
+          "name": "Response Headers",
+          "description": "OpenRouter includes cost info in response headers",
+          "headers": {
+            "X-RateLimit-Limit-Requests": "Maximum requests allowed",
+            "X-RateLimit-Remaining-Requests": "Requests remaining",
+            "X-RateLimit-Reset-Requests": "When limit resets"
+          }
+        }
+      ]
+    },
+    "optimization_strategies": {
+      "immediate": [
+        "Use smaller models for simple tasks",
+        "Implement response caching",
+        "Set max_tokens limits",
+        "Filter unnecessary requests"
+      ],
+      "short_term": [
+        "Analyze usage patterns",
+        "Optimize prompt lengths",
+        "Implement request batching",
+        "Use provider preferences for cost"
+      ],
+      "long_term": [
+        "Train custom models for specific tasks",
+        "Implement intelligent model routing",
+        "Negotiate volume pricing",
+        "Build comprehensive caching layer"
+      ]
+    },
+    "alert_implementation": {
+      "environment_variables": {
+        "OPENROUTER_BUDGET_DAILY": "Daily spending limit in USD",
+        "OPENROUTER_BUDGET_MONTHLY": "Monthly spending limit in USD",
+        "OPENROUTER_ALERT_EMAIL": "Email for budget alerts",
+        "OPENROUTER_ALERT_WEBHOOK": "Webhook URL for alerts"
+      },
+      "example_logic": {
+        "javascript": "const checkBudget = async () => {\n  const currentSpend = await getMonthlySpend();\n  const budget = parseFloat(process.env.OPENROUTER_BUDGET_MONTHLY);\n  const percentage = (currentSpend / budget) * 100;\n\n  if (percentage >= 90) {\n    await sendAlert('CRITICAL', `Budget 90% used: $${currentSpend}/$${budget}`);\n  } else if (percentage >= 75) {\n    await sendAlert('WARNING', `Budget 75% used: $${currentSpend}/$${budget}`);\n  }\n};",
+        "python": "def check_budget():\n    current_spend = get_monthly_spend()\n    budget = float(os.getenv('OPENROUTER_BUDGET_MONTHLY'))\n    percentage = (current_spend / budget) * 100\n\n    if percentage >= 90:\n        send_alert('CRITICAL', f'Budget 90% used: ${current_spend}/${budget}')\n    elif percentage >= 75:\n        send_alert('WARNING', f'Budget 75% used: ${current_spend}/${budget}')"
+      }
+    },
+    "dashboard_configuration": {
+      "steps": [
+        "1. Visit https://openrouter.ai/settings/usage",
+        "2. Click 'Budget Settings' or 'Alerts'",
+        "3. Set monthly spending limit",
+        "4. Configure alert thresholds (75%, 90%, 100%)",
+        "5. Add notification email addresses",
+        "6. Enable/disable automatic request blocking at limit",
+        "7. Save configuration"
+      ]
+    }
+  }
+}

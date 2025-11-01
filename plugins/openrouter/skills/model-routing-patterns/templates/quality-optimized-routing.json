@@ -1,0 +1,101 @@
+{
+  "strategy": "quality-optimized",
+  "description": "Maximize output quality with premium models for critical applications",
+  "version": "1.0.0",
+
+  "primary": "anthropic/claude-3-5-sonnet",
+  "fallback": [
+    "openai/gpt-4o",
+    "google/gemini-pro-1.5"
+  ],
+
+  "timeout": 10000,
+  "retry": {
+    "max_attempts": 3,
+    "delay_ms": 2000,
+    "exponential_backoff": true
+  },
+  "on_error": "fallback",
+
+  "routing_rules": {
+    "general_reasoning": {
+      "description": "Complex reasoning and analysis",
+      "models": [
+        "anthropic/claude-3-5-sonnet",
+        "openai/gpt-4o"
+      ],
+      "temperature": 0.7,
+      "max_tokens": 8000
+    },
+    "code_generation": {
+      "description": "Code generation and debugging",
+      "models": [
+        "anthropic/claude-3-5-sonnet"
+      ],
+      "temperature": 0.2,
+      "max_tokens": 8000,
+      "system_prompt": "You are an expert software engineer. Write clean, well-documented code."
+    },
+    "creative_writing": {
+      "description": "Creative content generation",
+      "models": [
+        "openai/gpt-4o",
+        "anthropic/claude-3-5-sonnet"
+      ],
+      "temperature": 0.9,
+      "max_tokens": 8000
+    },
+    "long_context": {
+      "description": "Tasks requiring long context (100k+ tokens)",
+      "models": [
+        "google/gemini-pro-1.5",
+        "anthropic/claude-3-5-sonnet"
+      ],
+      "max_tokens": 32000
+    },
+    "multi_modal": {
+      "description": "Vision and image understanding",
+      "models": [
+        "openai/gpt-4-vision-preview",
+        "anthropic/claude-3-5-sonnet"
+      ],
+      "supports_images": true
+    }
+  },
+
+  "quality_verification": {
+    "enabled": true,
+    "methods": [
+      "confidence_scoring",
+      "multi_model_validation",
+      "human_review_sampling"
+    ],
+    "min_confidence_score": 0.8,
+    "validation_sample_rate": 0.05
+  },
+
+  "multi_model_voting": {
+    "enabled": false,
+    "critical_tasks_only": true,
+    "models": [
+      "anthropic/claude-3-5-sonnet",
+      "openai/gpt-4o",
+      "google/gemini-pro-1.5"
+    ],
+    "consensus_threshold": 0.7
+  },
+
+  "cost_awareness": {
+    "enabled": true,
+    "max_cost_per_request_usd": 0.50,
+    "alert_on_high_usage": true
+  },
+
+  "notes": [
+    "Premium models for all requests",
+    "Best for customer-facing applications",
+    "Higher costs justified by quality requirements",
+    "Consider multi-model voting for critical decisions",
+    "Cost: ~$3-5 per 1M tokens (vs $0 for free models)"
+  ]
+}
