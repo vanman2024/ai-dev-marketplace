@@ -1,0 +1,141 @@
+# DigitalOcean App Platform Specification
+# Deploy with: doctl apps create --spec digitalocean-app.yaml
+# Or via DigitalOcean Console: Apps > Create > Import YAML
+
+name: fastapi-app
+region: nyc
+
+services:
+  - name: api
+    # Build configuration
+    dockerfile_path: Dockerfile
+    source_dir: /
+
+    # GitHub repository (update with your repo)
+    github:
+      repo: your-username/your-repo
+      branch: main
+      deploy_on_push: true
+
+    # Runtime configuration
+    instance_count: 1
+    instance_size_slug: basic-xxs  # Options: basic-xxs, basic-xs, basic-s, professional-xs
+
+    # Environment variables
+    envs:
+      - key: ENVIRONMENT
+        value: production
+        scope: RUN_TIME
+
+      - key: LOG_LEVEL
+        value: INFO
+        scope: RUN_TIME
+
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET
+
+      - key: SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+
+      - key: CORS_ORIGINS
+        value: https://yourdomain.com,https://www.yourdomain.com
+        scope: RUN_TIME
+
+      # Auto-injected by DigitalOcean
+      - key: PORT
+        scope: RUN_TIME
+
+    # Health check
+    health_check:
+      http_path: /health
+      initial_delay_seconds: 10
+      period_seconds: 30
+      timeout_seconds: 10
+      success_threshold: 1
+      failure_threshold: 3
+
+    # Routes and domains
+    routes:
+      - path: /
+
+    # Resource limits (optional)
+    # cpu_kind: dedicated  # Uncomment for dedicated CPU
+
+    # Auto-scaling (Professional tier and above)
+    # autoscaling:
+    #   min_instance_count: 1
+    #   max_instance_count: 5
+    #   metrics:
+    #     cpu:
+    #       percent: 80
+
+# Database (PostgreSQL)
+databases:
+  - name: db
+    engine: PG
+    version: "15"
+    production: false  # Set to true for production tier
+    cluster_name: fastapi-db-cluster
+    db_name: appdb
+    db_user: appuser
+
+# Static site (optional - if you have a separate frontend)
+# static_sites:
+#   - name: frontend
+#     github:
+#       repo: your-username/frontend-repo
+#       branch: main
+#       deploy_on_push: true
+#     build_command: npm run build
+#     output_dir: dist
+#     routes:
+#       - path: /
+
+# Workers (optional - for background tasks)
+# workers:
+#   - name: worker
+#     dockerfile_path: Dockerfile.worker
+#     source_dir: /
+#     github:
+#       repo: your-username/your-repo
+#       branch: main
+#     instance_count: 1
+#     instance_size_slug: basic-xxs
+#     envs:
+#       - key: WORKER_TYPE
+#         value: celery
+
+# Jobs (optional - for scheduled tasks)
+# jobs:
+#   - name: daily-cleanup
+#     kind: CRON
+#     schedule: "0 0 * * *"  # Daily at midnight
+#     dockerfile_path: Dockerfile
+#     source_dir: /
+#     github:
+#       repo: your-username/your-repo
+#       branch: main
+#     run_command: python -m scripts.cleanup
+
+# Ingress (optional - custom domains)
+# ingress:
+#   rules:
+#     - component:
+#         name: api
+#       match:
+#         path:
+#           prefix: /api
+#     - component:
+#         name: frontend
+#       match:
+#         path:
+#           prefix: /
+
+# Notes:
+# 1. Update github.repo with your actual repository
+# 2. Set DATABASE_URL and SECRET_KEY via DigitalOcean Console (Apps > Settings > Environment Variables)
+# 3. Add custom domains via DigitalOcean Console (Apps > Settings > Domains)
+# 4. For production, set databases.production to true
+# 5. Instance sizes: https://docs.digitalocean.com/products/app-platform/reference/app-spec/#instance-size

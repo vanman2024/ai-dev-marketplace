@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "fastapi-mcp-service": {
+      "command": "python",
+      "args": ["-m", "app.main", "--mcp"],
+      "description": "FastAPI MCP Service",
+      "env": {
+        "ENVIRONMENT": "production"
+      }
+    }
+  }
+}

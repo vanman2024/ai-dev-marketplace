@@ -1,0 +1,22 @@
+{
+  "name": "fastapi-backend",
+  "version": "1.0.0",
+  "description": "Production-ready FastAPI backend with async/await, Mem0, and deployment",
+  "author": {
+    "name": "AI Development Marketplace",
+    "email": "marketplace@ai-dev.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "fastapi",
+    "backend",
+    "python",
+    "async",
+    "api",
+    "mem0",
+    "sqlalchemy",
+    "deployment",
+    "postgresql",
+    "framework"
+  ]
+}
