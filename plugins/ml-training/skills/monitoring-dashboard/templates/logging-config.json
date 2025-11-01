@@ -1,0 +1,342 @@
+{
+  "logging_config": {
+    "version": "1.0",
+    "description": "Unified logging configuration for ML training with TensorBoard and WandB",
+
+    "general": {
+      "log_level": "INFO",
+      "experiment_name": "experiment_${timestamp}",
+      "output_dir": "./outputs",
+      "checkpoint_dir": "./checkpoints",
+      "log_dir": "./logs"
+    },
+
+    "tensorboard": {
+      "enabled": true,
+      "log_dir": "./runs",
+      "flush_secs": 120,
+      "max_queue": 10,
+
+      "scalars": {
+        "enabled": true,
+        "log_interval_steps": 10,
+        "metrics": [
+          "train/loss",
+          "train/accuracy",
+          "val/loss",
+          "val/accuracy",
+          "learning_rate",
+          "gradient_norm"
+        ]
+      },
+
+      "histograms": {
+        "enabled": true,
+        "log_interval_epochs": 1,
+        "include": [
+          "weights",
+          "gradients",
+          "activations"
+        ]
+      },
+
+      "images": {
+        "enabled": true,
+        "log_interval_epochs": 5,
+        "max_images": 8,
+        "include": [
+          "predictions",
+          "samples",
+          "attention_maps"
+        ]
+      },
+
+      "graphs": {
+        "enabled": true,
+        "log_on_init": true
+      },
+
+      "embeddings": {
+        "enabled": false,
+        "log_interval_epochs": 10,
+        "dimensionality_reduction": "tsne"
+      }
+    },
+
+    "wandb": {
+      "enabled": true,
+      "project": "my-ml-project",
+      "entity": null,
+      "mode": "online",
+      "tags": ["baseline"],
+      "notes": "Training run with unified logging",
+
+      "settings": {
+        "silent": false,
+        "save_code": true,
+        "log_system_metrics": true,
+        "log_code": true
+      },
+
+      "watch": {
+        "enabled": true,
+        "log": "all",
+        "log_freq": 100,
+        "log_graph": true
+      },
+
+      "artifacts": {
+        "enabled": true,
+        "save_checkpoints": true,
+        "checkpoint_frequency": 5,
+        "save_best_only": true
+      },
+
+      "alerts": {
+        "enabled": true,
+        "conditions": [
+          {
+            "name": "high_loss",
+            "metric": "train/loss",
+            "operator": ">",
+            "threshold": 10.0,
+            "level": "WARN"
+          },
+          {
+            "name": "low_val_loss",
+            "metric": "val/loss",
+            "operator": "<",
+            "threshold": 0.1,
+            "level": "INFO"
+          },
+          {
+            "name": "high_accuracy",
+            "metric": "val/accuracy",
+            "operator": ">",
+            "threshold": 0.95,
+            "level": "INFO"
+          }
+        ]
+      },
+
+      "tables": {
+        "enabled": true,
+        "log_predictions": true,
+        "prediction_frequency": 5
+      }
+    },
+
+    "metrics": {
+      "training": [
+        {
+          "name": "loss",
+          "display_name": "Training Loss",
+          "log_to": ["tensorboard", "wandb", "console"],
+          "log_interval": "batch"
+        },
+        {
+          "name": "accuracy",
+          "display_name": "Training Accuracy",
+          "log_to": ["tensorboard", "wandb", "console"],
+          "log_interval": "batch"
+        },
+        {
+          "name": "gradient_norm",
+          "display_name": "Gradient Norm",
+          "log_to": ["tensorboard", "wandb"],
+          "log_interval": "batch"
+        }
+      ],
+
+      "validation": [
+        {
+          "name": "loss",
+          "display_name": "Validation Loss",
+          "log_to": ["tensorboard", "wandb", "console"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "accuracy",
+          "display_name": "Validation Accuracy",
+          "log_to": ["tensorboard", "wandb", "console"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "precision",
+          "display_name": "Precision",
+          "log_to": ["wandb"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "recall",
+          "display_name": "Recall",
+          "log_to": ["wandb"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "f1_score",
+          "display_name": "F1 Score",
+          "log_to": ["wandb"],
+          "log_interval": "epoch"
+        }
+      ],
+
+      "system": [
+        {
+          "name": "learning_rate",
+          "display_name": "Learning Rate",
+          "log_to": ["tensorboard", "wandb"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "epoch_time",
+          "display_name": "Epoch Time (seconds)",
+          "log_to": ["wandb", "console"],
+          "log_interval": "epoch"
+        },
+        {
+          "name": "gpu_memory",
+          "display_name": "GPU Memory (MB)",
+          "log_to": ["wandb"],
+          "log_interval": "epoch"
+        }
+      ]
+    },
+
+    "checkpoints": {
+      "enabled": true,
+      "save_frequency": 5,
+      "save_best_only": true,
+      "monitor_metric": "val/loss",
+      "monitor_mode": "min",
+      "save_optimizer_state": true,
+      "max_checkpoints": 3,
+      "checkpoint_format": "checkpoint_epoch_{epoch}_loss_{val_loss:.4f}.pth"
+    },
+
+    "early_stopping": {
+      "enabled": true,
+      "monitor_metric": "val/loss",
+      "monitor_mode": "min",
+      "patience": 10,
+      "min_delta": 0.001,
+      "restore_best_weights": true
+    },
+
+    "console_output": {
+      "enabled": true,
+      "verbosity": "INFO",
+      "progress_bar": true,
+      "log_format": "[%(asctime)s] [%(levelname)s] %(message)s",
+      "date_format": "%Y-%m-%d %H:%M:%S",
+      "metrics_to_display": [
+        "epoch",
+        "train/loss",
+        "val/loss",
+        "train/accuracy",
+        "val/accuracy",
+        "learning_rate"
+      ]
+    },
+
+    "file_logging": {
+      "enabled": true,
+      "log_file": "./logs/training.log",
+      "level": "DEBUG",
+      "max_bytes": 10485760,
+      "backup_count": 5,
+      "log_format": "[%(asctime)s] [%(name)s] [%(levelname)s] %(message)s"
+    },
+
+    "profiling": {
+      "enabled": false,
+      "profile_memory": true,
+      "profile_compute": true,
+      "output_dir": "./profiles",
+      "log_interval_steps": 100
+    },
+
+    "visualization": {
+      "enabled": true,
+      "plot_metrics": true,
+      "save_plots": true,
+      "plot_dir": "./plots",
+      "plots": [
+        {
+          "name": "loss_curve",
+          "metrics": ["train/loss", "val/loss"],
+          "x_axis": "epoch",
+          "title": "Training and Validation Loss"
+        },
+        {
+          "name": "accuracy_curve",
+          "metrics": ["train/accuracy", "val/accuracy"],
+          "x_axis": "epoch",
+          "title": "Training and Validation Accuracy"
+        },
+        {
+          "name": "learning_rate_schedule",
+          "metrics": ["learning_rate"],
+          "x_axis": "epoch",
+          "title": "Learning Rate Schedule"
+        }
+      ]
+    },
+
+    "experiment_tracking": {
+      "enabled": true,
+      "save_config": true,
+      "save_code": true,
+      "save_environment": true,
+      "git_tracking": true,
+      "track_dependencies": true
+    },
+
+    "data_logging": {
+      "log_sample_predictions": true,
+      "prediction_frequency": 5,
+      "num_samples": 10,
+      "log_misclassifications": true,
+      "log_confidence_scores": true
+    }
+  },
+
+  "usage_example": {
+    "description": "Example of how to use this configuration in Python",
+    "code": [
+      "import json",
+      "",
+      "# Load configuration",
+      "with open('logging-config.json') as f:",
+      "    config = json.load(f)['logging_config']",
+      "",
+      "# Initialize loggers based on config",
+      "if config['tensorboard']['enabled']:",
+      "    from torch.utils.tensorboard import SummaryWriter",
+      "    tb_writer = SummaryWriter(log_dir=config['tensorboard']['log_dir'])",
+      "",
+      "if config['wandb']['enabled']:",
+      "    import wandb",
+      "    wandb.init(",
+      "        project=config['wandb']['project'],",
+      "        config=hyperparameters,",
+      "        tags=config['wandb']['tags']",
+      "    )",
+      "",
+      "# Log metrics according to config",
+      "for metric_config in config['metrics']['training']:",
+      "    if 'tensorboard' in metric_config['log_to']:",
+      "        tb_writer.add_scalar(metric_config['display_name'], value, step)",
+      "    if 'wandb' in metric_config['log_to']:",
+      "        wandb.log({metric_config['name']: value}, step=step)"
+    ]
+  },
+
+  "notes": {
+    "tensorboard_vs_wandb": "Use TensorBoard for local development and debugging. Use WandB for team collaboration, experiment comparison, and production tracking.",
+    "metric_naming": "Use hierarchical naming (train/loss, val/loss) for better organization in dashboards.",
+    "logging_frequency": "Log batch-level metrics every 10-100 batches. Log epoch-level metrics every epoch. Log heavy operations (images, histograms) less frequently.",
+    "checkpoint_strategy": "Save checkpoints every N epochs and keep only the best N checkpoints to save disk space.",
+    "alert_thresholds": "Adjust alert thresholds based on your specific task and expected metric ranges."
+  }
+}

@@ -1,0 +1,135 @@
+# TensorBoard Configuration Template
+# Use this configuration for PyTorch training with TensorBoard logging
+
+tensorboard:
+  # Log directory configuration
+  log_dir: "./runs"
+  experiment_name: "experiment_${timestamp}"  # Use timestamp or custom name
+
+  # Logging settings
+  logging:
+    # How often to log (in steps/batches)
+    log_interval_steps: 10
+    log_interval_epochs: 1
+
+    # What to log
+    log_scalars: true          # Loss, accuracy, learning rate
+    log_histograms: true       # Weight distributions
+    log_images: true           # Sample predictions
+    log_graphs: true           # Model architecture
+    log_embeddings: false      # t-SNE/PCA visualizations (expensive)
+
+  # Scalar metrics to track
+  scalars:
+    - name: "Loss/train"
+      source: "train_loss"
+    - name: "Loss/validation"
+      source: "val_loss"
+    - name: "Accuracy/train"
+      source: "train_accuracy"
+    - name: "Accuracy/validation"
+      source: "val_accuracy"
+    - name: "Learning_Rate"
+      source: "learning_rate"
+
+  # Histogram settings (weight distributions)
+  histograms:
+    enabled: true
+    log_interval_epochs: 1
+    include:
+      - "weights/*"           # All model weights
+      - "gradients/*"         # All gradients
+      - "activations/*"       # Layer activations (if captured)
+
+  # Image logging
+  images:
+    enabled: true
+    log_interval_epochs: 5
+    max_images_per_batch: 8
+    include:
+      - name: "predictions"
+        description: "Model predictions vs ground truth"
+      - name: "samples"
+        description: "Random training samples"
+
+  # Text logging
+  text:
+    enabled: true
+    include:
+      - name: "hyperparameters"
+        content: "${hyperparameters_json}"
+      - name: "model_summary"
+        content: "${model_summary}"
+
+  # Server settings
+  server:
+    host: "127.0.0.1"         # localhost only for security
+    port: 6006
+    reload_interval: 5         # seconds
+    max_reload_threads: 1
+
+# Integration with PyTorch
+pytorch:
+  # SummaryWriter settings
+  summary_writer:
+    flush_secs: 120           # Flush to disk every 2 minutes
+    max_queue: 10             # Max queue size before forcing flush
+
+  # Model graph logging
+  model_graph:
+    enabled: true
+    input_shape: [1, 3, 224, 224]  # Example for image models
+
+  # Gradient tracking
+  gradients:
+    track: true
+    histogram_freq: 1         # Log histograms every N epochs
+
+# Performance optimization
+performance:
+  # Sampling for large datasets
+  samples_per_plugin:
+    scalars: 10000            # Max scalar points to load
+    images: 100               # Max images to load
+    histograms: 500           # Max histogram data points
+
+  # Memory management
+  max_cache_size_mb: 500
+  purge_orphaned_data: true
+
+# Data retention
+retention:
+  # Archive old experiments
+  auto_archive: true
+  archive_after_days: 30
+  archive_directory: "./runs/archive"
+
+  # Delete very old experiments
+  auto_delete: false
+  delete_after_days: 90
+
+# Example usage in Python:
+#
+# from torch.utils.tensorboard import SummaryWriter
+# import yaml
+#
+# # Load config
+# with open('tensorboard-config.yaml') as f:
+#     config = yaml.safe_load(f)
+#
+# # Create writer
+# writer = SummaryWriter(
+#     log_dir=config['tensorboard']['log_dir'],
+#     flush_secs=config['pytorch']['summary_writer']['flush_secs']
+# )
+#
+# # Log metrics
+# for epoch in range(num_epochs):
+#     writer.add_scalar('Loss/train', train_loss, epoch)
+#     writer.add_scalar('Loss/validation', val_loss, epoch)
+#
+#     if epoch % config['tensorboard']['histograms']['log_interval_epochs'] == 0:
+#         for name, param in model.named_parameters():
+#             writer.add_histogram(f'weights/{name}', param, epoch)
+#
+# writer.close()
