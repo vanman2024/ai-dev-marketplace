@@ -2,6 +2,8 @@
 
 **Master repository for AI development plugins - your one-stop shop for tech-specific tools and frameworks.**
 
+> **📢 NOTICE**: The `domain-plugin-builder` has been moved to its own standalone marketplace for better cross-repository compatibility. Install from: https://github.com/vanman2024/domain-plugin-builder
+
 ---
 
 ## What This Is
@@ -17,7 +19,7 @@ The **ai-dev-marketplace** is the central repository for all technology-specific
 ### What's Included
 
 **Framework Builders:**
-- `domain-plugin-builder` - Universal plugin builder for creating SDK, Framework, and Custom domain plugins
+- ~~`domain-plugin-builder`~~ - **MOVED** to standalone marketplace: https://github.com/vanman2024/domain-plugin-builder
 - `agent-sdk-dev` - Claude Agent SDK development tools
 
 **AI SDKs & Frameworks:**
