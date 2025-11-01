@@ -105,9 +105,9 @@ Free Options:
 - FAISS: Free/OSS, in-memory, high-performance, custom persistence needed
 
 Managed Services:
-- Pinecone: Free tier 100K vectors, paid $0.096/GB/month, fully managed
-- Weaviate: 14-day sandbox free, $25/month clusters, or self-host OSS
-- Qdrant: 1GB free (1M vectors), $25/month 2GB, or self-host OSS
+- Pinecone: Free tier 100K vectors, paid pricing starts at low cost per GB/month, fully managed
+- Weaviate: 14-day sandbox free, paid clusters from USD 25/month, or self-host OSS
+- Qdrant: 1GB free cluster (1M vectors), paid from USD 25/month for 2GB, or self-host OSS
 
 Next Steps:
 - Insert embeddings, perform similarity search, update/delete vectors

@@ -166,6 +166,34 @@
             ]
         },
         {
+            "name": "rag-pipeline",
+            "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/rag-pipeline",
+            "category": "development",
+            "keywords": [
+                "rag",
+                "retrieval-augmented-generation",
+                "llamaindex",
+                "langchain",
+                "vector-database",
+                "embeddings",
+                "semantic-search",
+                "pgvector",
+                "pinecone",
+                "chroma",
+                "document-processing",
+                "chunking",
+                "hybrid-search",
+                "llm",
+                "ai"
+            ]
+        },
+        {
             "name": "supabase",
             "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
             "version": "1.0.0",

@@ -1,0 +1,231 @@
+# Chunking Strategy Configuration Template
+#
+# Use this configuration file to define chunking behavior for different
+# document types in your RAG pipeline.
+
+chunking:
+  # Global default strategy
+  default_strategy: semantic
+
+  # Default chunk size (characters)
+  default_chunk_size: 1000
+
+  # Default overlap (characters)
+  default_overlap: 200
+
+  # Strategy-specific configurations
+  strategies:
+    # Fixed-size chunking configuration
+    fixed_size:
+      chunk_size: 1000
+      overlap: 200
+      split_on: sentence  # Options: sentence, word, character
+
+      # Use cases:
+      # - Uniform documents with consistent structure
+      # - When speed is more important than semantic coherence
+      # - Simple content without complex hierarchy
+
+    # Semantic chunking configuration
+    semantic:
+      max_chunk_size: 1500
+      min_chunk_size: 200
+      preserve_paragraphs: true
+      add_headers: true  # Include section headers in chunks
+
+      # Use cases:
+      # - Articles, blog posts, documentation
+      # - Content with clear paragraph structure
+      # - When semantic coherence is important
+
+    # Recursive chunking configuration
+    recursive:
+      chunk_size: 1000
+      overlap: 100
+
+      # Separator hierarchies for different document types
+      separators:
+        # Markdown documents
+        markdown:
+          - "\\n## "      # H2 headers (highest priority)
+          - "\\n### "     # H3 headers
+          - "\\n#### "    # H4 headers
+          - "\\n\\n"      # Paragraph breaks
+          - "\\n"         # Line breaks
+          - ". "          # Sentences
+          - " "           # Words
+          - ""            # Characters (last resort)
+
+        # Python source code
+        python:
+          - "\\nclass "   # Class definitions
+          - "\\ndef "     # Function definitions
+          - "\\n\\n"      # Blank lines
+          - "\\n"         # Line breaks
+          - ". "          # Sentences (for docstrings)
+          - " "           # Words
+          - ""            # Characters
+
+        # JavaScript/TypeScript
+        javascript:
+          - "\\nfunction "  # Function declarations
+          - "\\nconst "     # Const declarations
+          - "\\nlet "       # Let declarations
+          - "\\nclass "     # Class declarations
+          - "\\n\\n"        # Blank lines
+          - ";\\n"          # Statement ends
+          - " "             # Words
+          - ""              # Characters
+
+        # General text
+        text:
+          - "\\n\\n"      # Paragraphs
+          - "\\n"         # Lines
+          - ". "          # Sentences
+          - "! "          # Exclamations
+          - "? "          # Questions
+          - ", "          # Clauses
+          - " "           # Words
+          - ""            # Characters
+
+        # Generic code
+        code:
+          - "\\n\\n"      # Blank lines
+          - "\\n"         # Line breaks
+          - ";"           # Statement ends
+          - " "           # Words
+          - ""            # Characters
+
+      # Use cases:
+      # - Hierarchical documents (technical docs, manuals)
+      # - Source code files
+      # - Structured content with clear organization
+
+  # Document type to strategy mapping
+  # Maps file extensions to chunking strategies
+  document_types:
+    # Markdown files
+    ".md": semantic
+    ".markdown": semantic
+
+    # Source code files
+    ".py": recursive
+    ".js": recursive
+    ".ts": recursive
+    ".tsx": recursive
+    ".jsx": recursive
+    ".java": recursive
+    ".go": recursive
+    ".rs": recursive
+
+    # Plain text
+    ".txt": fixed_size
+
+    # Documentation formats
+    ".rst": semantic
+    ".adoc": semantic
+
+    # Data formats (require extraction first)
+    ".pdf": semantic
+    ".docx": semantic
+    ".html": semantic
+
+  # Advanced options
+  advanced:
+    # Add metadata to chunks
+    include_metadata: true
+
+    # Metadata fields to include
+    metadata_fields:
+      - source        # Source file path
+      - chunk_id      # Sequential chunk ID
+      - chunk_size    # Size in characters
+      - strategy      # Chunking strategy used
+      - timestamp     # Processing timestamp
+
+    # Post-processing options
+    post_processing:
+      # Remove extra whitespace
+      strip_whitespace: true
+
+      # Normalize line endings
+      normalize_newlines: true
+
+      # Filter out very small chunks (below min threshold)
+      filter_small_chunks: true
+      min_chunk_threshold: 100
+
+      # Add context from parent sections
+      add_parent_context: true
+      parent_context_size: 200
+
+# Optimization recommendations by use case
+recommendations:
+  # Q&A and FAQ systems
+  qa_faq:
+    strategy: semantic
+    chunk_size: 300
+    overlap: 50
+    reason: "Small chunks for precise retrieval"
+
+  # Documentation search
+  documentation:
+    strategy: recursive
+    chunk_size: 1200
+    overlap: 250
+    reason: "Preserve document structure and context"
+
+  # General knowledge base
+  knowledge_base:
+    strategy: semantic
+    chunk_size: 1000
+    overlap: 200
+    reason: "Balance between context and precision"
+
+  # Code search
+  code_search:
+    strategy: recursive
+    chunk_size: 800
+    overlap: 100
+    reason: "Preserve function/class boundaries"
+
+  # Long-form content (books, articles)
+  long_form:
+    strategy: semantic
+    chunk_size: 1500
+    overlap: 300
+    reason: "Maintain narrative flow and context"
+
+# Performance tuning
+performance:
+  # Parallel processing
+  parallel:
+    enabled: true
+    max_workers: 4  # Number of parallel workers
+
+  # Caching
+  cache:
+    enabled: true
+    cache_dir: ".cache/chunks"
+    ttl_seconds: 86400  # 24 hours
+
+  # Batch processing
+  batch:
+    batch_size: 100  # Documents per batch
+    progress_reporting: true
+
+# Validation and quality checks
+validation:
+  # Validate chunk sizes
+  check_chunk_sizes: true
+  warn_if_variance_above: 0.3  # 30% variance
+
+  # Check for incomplete sentences
+  check_sentence_completeness: true
+
+  # Verify metadata
+  verify_metadata: true
+
+  # Generate quality report
+  generate_report: true
+  report_path: "chunking-quality-report.json"
