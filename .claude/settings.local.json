@@ -136,6 +136,8 @@
       "SlashCommand(/rag-pipeline:test)",
       "SlashCommand(/rag-pipeline:optimize)",
       "SlashCommand(/rag-pipeline:deploy)",
+      "SlashCommand(/ml-training:*)",
+      "SlashCommand(/ml-training:add-platform)",
       "Bash",
       "Write",
       "Read",
