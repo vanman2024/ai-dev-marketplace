@@ -49,7 +49,7 @@ Goal: Install scraper and generate script with polite scraping practices
 
 Actions:
 
-Task(description="Install scraper and generate script", subagent_type="scraper-specialist", prompt="You are the scraper-specialist agent. Add web scraping capability for $ARGUMENTS.
+Task(description="Install scraper and generate script", subagent_type="rag-pipeline:web-scraper-agent", prompt="You are the web-scraper-agent. Add web scraping capability for $ARGUMENTS.
 
 Scraper Selection: Based on Phase 1 discovery, install the recommended scraper.
 

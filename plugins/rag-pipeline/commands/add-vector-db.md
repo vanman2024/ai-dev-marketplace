@@ -65,7 +65,7 @@ Goal: Install dependencies and generate configuration
 
 Actions:
 
-Task(description="Setup vector database configuration", subagent_type="general-purpose", prompt="Configure $ARGUMENTS for RAG pipeline.
+Task(description="Setup vector database configuration", subagent_type="rag-pipeline:vector-db-engineer", prompt="You are the vector-db-engineer agent. Configure $ARGUMENTS for RAG pipeline.
 
 Install dependencies based on detected language (Python/Node.js):
 - pgvector: psycopg2-binary+pgvector or pg+pgvector

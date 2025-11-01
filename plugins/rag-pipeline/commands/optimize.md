@@ -11,218 +11,160 @@ Goal: Analyze and optimize RAG pipeline performance, reduce latency, improve acc
 Core Principles:
 - Analyze current performance metrics and identify bottlenecks
 - Optimize chunk sizes and overlap based on content type
-- Tune vector index parameters (HNSW, IVF) for better speed/accuracy tradeoff
+- Tune vector index parameters (HNSW, IVF) for speed/accuracy tradeoff
 - Implement caching strategies to reduce redundant operations
 - Apply cost reduction techniques (batch processing, cheaper embeddings)
-- Generate actionable optimization report
 
 Phase 1: Performance Analysis
 Goal: Understand current RAG pipeline performance and identify optimization opportunities
 
 Actions:
 - Parse $ARGUMENTS for specific optimization focus areas
-- Detect existing RAG setup: @config files, @vector database config, @retrieval settings
-- Scan for performance metrics: Check for existing monitoring, logging, or analytics
-- Identify current bottlenecks:
-  * Chunking strategy and parameters
-  * Embedding model and batch sizes
-  * Vector index configuration (HNSW ef_construction, M, ef_search)
-  * Query latency patterns
-  * Cache hit rates (if caching exists)
-  * Cost metrics (API calls, token usage)
+- Detect RAG setup: !{bash find . -name "*config*" -o -name "*vector*" -o -name "*retrieval*" 2>/dev/null | head -10}
+- Check for metrics: !{bash grep -r "latency\|cost\|performance" . --include="*.py" --include="*.ts" 2>/dev/null | head -10}
+- Identify bottlenecks: chunking strategy, embedding model, vector index config, query latency, cache hit rates, API costs
 
-If optimization goals are unclear from $ARGUMENTS, use AskUserQuestion to gather:
-- What are your main concerns?
-  * Query latency (response time)
-  * Retrieval accuracy (better results)
-  * Cost reduction (API/embedding costs)
-  * Throughput (queries per second)
-- What is your current average query latency?
-- What is your monthly API/embedding cost?
-- How many documents are in your index?
-- What frameworks are you using? (LlamaIndex, LangChain, both)
+If optimization goals are unclear from $ARGUMENTS, use AskUserQuestion:
+- "What are your main concerns? (latency/accuracy/cost/throughput)"
+- "Current average query latency?"
+- "Monthly API/embedding cost?"
+- "Documents in your index?"
+- "Framework? (LlamaIndex/LangChain/both)"
 
 Phase 2: Load Optimization Documentation
 Goal: Fetch framework-specific optimization guides
 
 Actions:
-Fetch these docs in parallel (4 URLs max):
+Fetch these docs in parallel:
 
 1. WebFetch: https://docs.llamaindex.ai/en/stable/optimizing/production_rag/
 2. WebFetch: https://python.langchain.com/docs/guides/productionization/
-3. WebFetch: https://www.pinecone.io/learn/hnsw/ (if using Pinecone/HNSW)
-4. WebFetch: https://docs.llamaindex.ai/en/stable/optimizing/advanced_retrieval/ (for retrieval optimization)
+3. WebFetch: https://www.pinecone.io/learn/hnsw/ (if using HNSW index)
+4. WebFetch: https://docs.llamaindex.ai/en/stable/optimizing/advanced_retrieval/
 
-Phase 3: Chunk Size Optimization
-Goal: Optimize chunking strategy for better retrieval quality
+Phase 3: Parallel Optimization
+Goal: Run independent optimization tasks in parallel for maximum efficiency
 
 Actions:
 
-Invoke the **general-purpose** agent to analyze and optimize chunking:
+Task(description="Optimize chunk sizes", subagent_type="rag-pipeline:document-processor", prompt="You are the document-processor agent. Optimize the chunking strategy for a RAG pipeline.
 
-Task(description="Optimize chunk sizes", subagent_type="general-purpose", prompt="You are optimizing the chunking strategy for a RAG pipeline.
-
-Analyze the current chunking configuration and optimize:
-- Evaluate current chunk_size and chunk_overlap parameters
-- Test different chunk sizes based on content type:
-  * Code: 512-1024 tokens with high overlap (100-200)
-  * Documentation: 256-512 tokens with medium overlap (50-100)
-  * Articles/blogs: 512-1024 tokens with low overlap (20-50)
-- Consider semantic chunking vs fixed-size chunking
+Using the fetched optimization docs:
+- Analyze current chunk_size and chunk_overlap
+- Test different sizes based on content type (code: 512-1024, docs: 256-512, articles: 512-1024)
+- Consider semantic vs fixed-size chunking
 - Implement adaptive chunking based on content structure
-- Add chunk size validation and warnings
 - Generate chunk size recommendation report
 
 Deliverable: Optimized chunking configuration with analysis report")
 
-Phase 4: Vector Index Optimization
-Goal: Tune vector index parameters for optimal speed/accuracy tradeoff
+Task(description="Optimize vector index", subagent_type="rag-pipeline:vector-db-engineer", prompt="You are the vector-db-engineer agent. Optimize the vector index configuration for a RAG pipeline.
 
-Actions:
+Using the fetched documentation, tune index parameters based on detected database:
 
-Invoke the **general-purpose** agent to optimize vector index:
+HNSW indexes (Pinecone, Chroma, Qdrant):
+- Adjust ef_construction (default 200, increase for accuracy)
+- Tune M parameter (connections per node, 16-64)
+- Optimize ef_search at query time
 
-Task(description="Optimize vector index", subagent_type="general-purpose", prompt="You are optimizing the vector index configuration for a RAG pipeline.
-
-Tune index parameters based on detected vector database:
-
-For HNSW indexes (Pinecone, Chroma, Qdrant):
-- Adjust ef_construction (default 200, increase for better accuracy)
-- Tune M parameter (connections per node, 16-64 range)
-- Optimize ef_search at query time (trade latency for accuracy)
-- Consider index segment size and merge policies
-
-For IVF indexes (FAISS):
+IVF indexes (FAISS):
 - Optimize nlist (number of clusters)
 - Tune nprobe at query time
-- Consider PQ (product quantization) for memory reduction
+- Consider PQ (product quantization)
 
-For PGVector:
+PGVector:
 - Optimize lists parameter for IVF
 - Configure probes for query time
-- Add appropriate indexes on metadata columns
+- Add indexes on metadata columns
 
-Create before/after performance comparison and generate index optimization report.
+Deliverable: Optimized index configuration with before/after benchmarks")
 
-Deliverable: Optimized index configuration with performance benchmarks")
+Task(description="Optimize query processing", subagent_type="rag-pipeline:retrieval-optimizer", prompt="You are the retrieval-optimizer agent. Optimize query processing and retrieval for a RAG pipeline.
 
-Phase 5: Query and Retrieval Optimization
-Goal: Optimize query processing and retrieval efficiency
-
-Actions:
-
-Invoke the **general-purpose** agent to optimize queries:
-
-Task(description="Optimize query processing", subagent_type="general-purpose", prompt="You are optimizing query processing and retrieval for a RAG pipeline.
-
-Implement these query optimizations:
+Using fetched docs, implement these optimizations:
 
 Query Caching:
-- Add semantic cache for similar queries (cache hits for 0.95+ similarity)
-- Implement result caching with TTL
-- Use Redis or in-memory cache for fast lookups
-- Track cache hit rates and effectiveness
+- Semantic cache for similar queries (0.95+ similarity)
+- Result caching with TTL
+- Redis or in-memory cache
+- Track cache hit rates
 
 Query Optimization:
-- Add query preprocessing: normalization, expansion, decomposition
-- Implement query routing to appropriate retrieval strategies
-- Optimize top_k parameter (fetch fewer documents, rerank if needed)
+- Query preprocessing: normalization, expansion, decomposition
+- Query routing to appropriate retrieval strategies
+- Optimize top_k parameter (fetch fewer, rerank if needed)
 - Add early stopping for high-confidence results
 
 Batch Processing:
 - Batch embedding requests to reduce API calls
-- Implement async processing for parallel queries
-- Add request deduplication
-- Use embedding model caching
+- Async processing for parallel queries
+- Request deduplication
+- Embedding model caching
 
-Deliverable: Query optimization implementation with caching layer and performance metrics")
+Deliverable: Query optimization with caching layer and performance metrics")
 
-Phase 6: Cost Reduction Strategies
-Goal: Minimize API costs and operational expenses
+Task(description="Reduce RAG costs", subagent_type="rag-pipeline:retrieval-optimizer", prompt="You are the retrieval-optimizer agent. Implement cost reduction strategies for a RAG pipeline.
 
-Actions:
-
-Invoke the **general-purpose** agent to implement cost reduction:
-
-Task(description="Reduce RAG costs", subagent_type="general-purpose", prompt="You are implementing cost reduction strategies for a RAG pipeline.
-
-Apply these cost optimizations:
+Using fetched docs, apply these cost optimizations:
 
 Embedding Cost Reduction:
-- Use cheaper embedding models where appropriate (e.g., text-embedding-3-small)
+- Use cheaper models where appropriate (text-embedding-3-small)
 - Implement embedding caching (never re-embed same content)
-- Batch embed requests to maximize throughput
-- Consider local embedding models (sentence-transformers) for development
+- Batch embed requests
+- Consider local models (sentence-transformers) for dev
 
 LLM Cost Reduction:
-- Reduce context window by fetching only top-k most relevant chunks
-- Implement context compression (extract key sentences only)
-- Use cheaper models for simple queries, reserve expensive models for complex ones
-- Add prompt caching for repeated system prompts
-- Track token usage per query
+- Reduce context window (fetch only top-k relevant chunks)
+- Implement context compression (extract key sentences)
+- Use cheaper models for simple queries (GPT-3.5-turbo vs GPT-4)
+- Enable streaming to reduce timeout costs
 
-Vector DB Cost Reduction:
-- Archive old/unused embeddings
-- Use compression techniques (quantization)
-- Optimize index size to reduce storage costs
-- Consider tiered storage for cold data
+Infrastructure:
+- Use free tiers: Chroma (free local), HuggingFace (free embeddings), Groq (free LLM tier)
+- Cache frequently accessed documents
+- Implement request deduplication
+- Use batch processing for bulk operations
 
-Generate cost analysis report:
-- Current monthly costs breakdown
-- Projected savings per optimization
-- Cost per query before/after
-- ROI analysis
+Deliverable: Cost reduction implementation with savings analysis")
 
-Deliverable: Cost optimization implementation and detailed cost analysis report")
+Wait for all parallel tasks to complete before proceeding to Phase 4.
 
-Phase 7: Generate Optimization Report
-Goal: Provide comprehensive optimization summary and recommendations
+Phase 4: Results Aggregation
+Goal: Collect optimization results and generate comprehensive report
 
 Actions:
-Compile and present optimization report:
+- Collect results from all optimization tasks
+- Aggregate performance improvements: !{bash cat *_optimization_results.json 2>/dev/null}
+- Calculate total improvements: latency reduction %, cost savings %, accuracy improvements
+- Identify remaining bottlenecks
 
-- Performance Improvements:
-  * Query latency: Before vs After (with percentiles p50, p95, p99)
-  * Retrieval accuracy: Changes in precision@k, recall@k, MRR
-  * Throughput: Queries per second improvement
-  * Cache hit rate: Percentage of cached responses
+Phase 5: Optimization Report
+Goal: Create comprehensive optimization report with results and recommendations
 
-- Cost Savings:
-  * Embedding cost reduction: Monthly savings
-  * LLM cost reduction: Token usage decrease
-  * Infrastructure cost: Storage/compute savings
-  * Total monthly cost: Before vs After
+Actions:
+Display summary:
+- **Chunking Optimization**: New chunk size [size], overlap [overlap], improvement [%]
+- **Vector Index Optimization**: Index params tuned, query latency reduced by [%]
+- **Query Optimization**: Cache hit rate [%], API calls reduced by [%]
+- **Cost Reduction**: Monthly cost reduced from $[before] to $[after] ([%] savings)
+- **Overall**: Latency [before]ms → [after]ms, Cost [before] → [after], Accuracy [before] → [after]
 
-- Optimizations Applied:
-  * Chunking strategy changes
-  * Vector index tuning (specific parameters)
-  * Query caching implementation
-  * Batch processing setup
-  * Cost reduction techniques
+Recommendations:
+- Monitor cache hit rates and adjust cache size
+- Run A/B tests on chunk sizes with production queries
+- Set up alerts for latency spikes and cost overruns
+- Continue iterating on retrieval quality
+- Consider additional optimizations: hybrid search, reranking, query decomposition
 
-- Files Modified/Created:
-  * List all configuration files updated
-  * New caching layer files
-  * Optimization scripts created
-  * Monitoring/metrics code added
-
-- Recommendations:
-  * Further optimization opportunities
-  * A/B testing suggestions
-  * Monitoring and alerting setup
-  * Scaling considerations
-
-- Next Steps:
-  * Deploy optimizations to staging
-  * Run A/B tests to validate improvements
-  * Set up continuous monitoring
-  * Consider /rag-pipeline:add-hybrid-search if not using hybrid retrieval
-  * Consider implementing guardrails for quality assurance
+Next steps:
+- Test optimizations with production traffic: /rag-pipeline:test
+- Monitor performance metrics: /rag-pipeline:add-monitoring
+- Deploy optimized configuration: /rag-pipeline:deploy
+- Set up continuous optimization: schedule monthly reviews
 
 Important Notes:
-- Optimizations are data-driven based on actual metrics
-- All changes are backward compatible
-- Caching strategies preserve result freshness
-- Cost reductions do not sacrifice quality
-- Supports both LlamaIndex and LangChain frameworks
-- Includes rollback instructions if optimizations cause issues
+- Runs 4 optimization tasks in parallel for efficiency
+- Uses fetched docs for latest best practices
+- Generates before/after comparisons
+- Provides actionable recommendations
+- Focuses on quick wins with high ROI

@@ -38,7 +38,7 @@ Goal: Add hybrid search capability with RRF
 
 Actions:
 
-Task(description="Implement hybrid search with RRF", subagent_type="rag-specialist", prompt="You are the rag-specialist agent. Implement hybrid search (vector + keyword with RRF) for this RAG pipeline.
+Task(description="Implement hybrid search with RRF", subagent_type="rag-pipeline:retrieval-optimizer", prompt="You are the retrieval-optimizer agent. Implement hybrid search (vector + keyword with RRF) for this RAG pipeline.
 
 Context from analysis:
 - Vector store detected: [from Phase 1 detection]

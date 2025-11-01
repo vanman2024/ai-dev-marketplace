@@ -13,14 +13,13 @@ Core Principles:
 - Fetch latest vendor documentation for chosen platform
 - Implement cost tracking, latency monitoring, quality metrics
 - Test monitoring with sample queries
-- Provide clear setup instructions and API key guidance
 
 Phase 1: Platform Selection
 Goal: Determine which monitoring platform to configure
 
 Actions:
 - Check if $ARGUMENTS specifies a monitoring platform
-- If not provided, ask user which monitoring platform:
+- If not provided, use AskUserQuestion:
 
   "Which observability platform would you like to configure?
 
@@ -33,227 +32,105 @@ Actions:
 
   Enter platform name (langsmith, llamacloud, or custom):"
 
-- Store selection for use in subsequent phases
+- Store selection for subsequent phases
 
 Phase 2: Fetch Documentation
 Goal: Load platform-specific setup documentation
 
 Actions:
-Fetch docs based on selection using WebFetch in parallel:
+Fetch docs based on selection using WebFetch:
 
 LangSmith:
-- https://docs.langchain.com/langsmith/home
-- https://docs.smith.langchain.com/tracing
-- https://docs.smith.langchain.com/evaluation
+- WebFetch: https://docs.langchain.com/langsmith/home
+- WebFetch: https://docs.smith.langchain.com/tracing
 
 LlamaCloud:
-- https://docs.cloud.llamaindex.ai/
-- https://docs.llamaindex.ai/en/stable/module_guides/observability/
+- WebFetch: https://docs.cloud.llamaindex.ai/
+- WebFetch: https://docs.llamaindex.ai/en/stable/module_guides/observability/
 
 Custom:
-- https://docs.python.org/3/howto/logging.html
-- https://prometheus.io/docs/introduction/overview/
-
-Wait for all fetches to complete.
+- WebFetch: https://docs.python.org/3/howto/logging.html
+- WebFetch: https://prometheus.io/docs/introduction/overview/
 
 Phase 3: Project Discovery
 Goal: Understand existing RAG pipeline structure
 
 Actions:
 - Detect project type: !{bash test -f requirements.txt && echo "python" || test -f package.json && echo "node"}
-- Check for existing RAG components: !{bash find . -name "*retrieval*" -o -name "*generation*" -o -name "*query*" 2>/dev/null | head -10}
-- Identify framework: Check for LangChain (langchain imports) or LlamaIndex (llama_index imports)
-- Locate or create monitoring config directory
-- Check if monitoring dependencies already installed
+- Find RAG components: !{bash find . -name "*retrieval*" -o -name "*generation*" -o -name "*query*" 2>/dev/null | head -10}
+- Identify framework: Check for LangChain or LlamaIndex imports
+- Check existing monitoring: !{bash grep -r "LANGCHAIN_TRACING\|LlamaCloud\|prometheus" . 2>/dev/null | head -5}
 
 Phase 4: Implementation
 Goal: Install dependencies and configure monitoring platform
 
 Actions:
 
-Task(description="Setup RAG pipeline monitoring", subagent_type="general-purpose", prompt="Configure $ARGUMENTS monitoring for RAG pipeline based on fetched documentation.
+Task(description="Setup RAG pipeline monitoring", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Configure $ARGUMENTS monitoring for RAG pipeline based on fetched documentation.
 
 Platform: $ARGUMENTS (or from user question)
+Project type: [from Phase 3]
+Framework: [from Phase 3]
 
-Implementation:
+Using the documentation fetched in Phase 2, implement:
 
-1. Core Monitoring (src/monitoring/):
-   - tracer.py: initialize_tracer(), trace_retrieval(), trace_generation(), trace_pipeline()
-   - metrics.py: track_latency(), track_cost(), track_quality(), export_metrics()
-   - callbacks.py: CustomCallback/Handler for chosen platform
-   - logger.py: structured_log(), error_tracking(), performance_log()
+1. Core Monitoring Components:
+   - Tracer initialization and context propagation
+   - Metrics collection (latency, cost, quality)
+   - Platform-specific callbacks/handlers
+   - Structured logging
 
-2. Platform-Specific Setup:
+2. Instrumentation:
+   - Wrap retrieval calls with tracing
+   - Wrap LLM calls with cost tracking
+   - End-to-end pipeline monitoring
 
-   LangSmith:
-   - Install: langsmith, langchain-core
-   - Config: LANGCHAIN_TRACING_V2=true, LANGCHAIN_API_KEY, LANGCHAIN_PROJECT
-   - Callbacks: LangChainTracer integration
-   - Features: automatic tracing, evaluation runs, dataset testing
+3. Configuration:
+   - Install required packages
+   - Setup API keys in .env (ask user if needed)
+   - Configure platform-specific settings
+   - Set latency/cost thresholds
 
-   LlamaCloud:
-   - Install: llama-cloud, llama-index-callbacks-observability
-   - Config: LLAMA_CLOUD_API_KEY, LLAMA_CLOUD_PROJECT_NAME
-   - Callbacks: LlamaCloudObservabilityHandler
-   - Features: trace visualization, performance metrics, query analytics
+4. Testing:
+   - Create test file to verify monitoring
+   - Run sample query with full instrumentation
+   - Verify traces appear in platform dashboard
 
-   Custom:
-   - Install: prometheus-client, structlog (Python) or pino, prometheus-client (Node)
-   - Setup: Custom metrics collector, log aggregation, trace context
-   - Export: /metrics endpoint, structured JSON logs
-   - Features: full control, no vendor lock-in, free
+5. Documentation:
+   - Add setup instructions to README
+   - Document metrics and how to interpret them
 
-3. Instrumentation (src/monitoring/instrumentation/):
-   - retrieval_instrumentation.py: wrap retrieval calls, track chunk count, measure latency
-   - generation_instrumentation.py: wrap LLM calls, count tokens, track costs, measure TTFT
-   - pipeline_instrumentation.py: end-to-end tracing, context flow, error capture
+Deliverable: Working monitoring setup with test results")
 
-4. Metrics Configuration (config/monitoring.py):
-   - Latency thresholds: retrieval (<500ms), generation (<2s), total (<3s)
-   - Cost tracking: token usage, API costs, embeddings costs
-   - Quality metrics: relevance score, citation accuracy, response quality
-   - Alerting rules: error rates, latency spikes, cost overruns
-
-5. Dashboard Setup (monitoring/dashboards/):
-   - rag_metrics.json: Grafana/platform dashboard config
-   - metrics.md: How to interpret metrics
-   - alerts.yaml: Alert definitions
-
-6. Testing (tests/test_monitoring.py):
-   - Test tracer initialization
-   - Verify metrics collection
-   - Test cost tracking accuracy
-   - Validate trace context propagation
-   - Sample query with full instrumentation
-
-7. Environment (.env.example additions):
-   - LANGSMITH_API_KEY, LANGSMITH_PROJECT (LangSmith)
-   - LLAMA_CLOUD_API_KEY, LLAMA_CLOUD_PROJECT (LlamaCloud)
-   - ENABLE_MONITORING, LOG_LEVEL, METRICS_PORT (Custom)
-
-8. Examples:
-   - examples/monitored_rag_query.py: RAG query with full tracing
-   - examples/cost_tracking.py: Track costs across multiple queries
-   - examples/quality_metrics.py: Measure and log quality scores
-
-9. Documentation (docs/monitoring.md):
-   - Setup instructions per platform
-   - How to view traces/metrics
-   - Cost tracking interpretation
-   - Troubleshooting common issues
-   - Best practices for production monitoring
-
-Best Practices:
-- Sample traces in production (10-20% sampling)
-- Tag traces with user_id, session_id, query_type
-- Track both technical (latency) and business (quality) metrics
-- Set up alerts for anomalies
-- Export metrics for long-term analysis
-
-Deliverable: Complete monitoring setup with instrumentation, metrics collection, and documentation.")
-
-Phase 5: API Key Configuration
-Goal: Guide user through API key setup
+Phase 5: Validation
+Goal: Verify monitoring is working correctly
 
 Actions:
-- Display platform-specific setup instructions:
+- Run test query: !{bash python -m tests.test_monitoring 2>&1 || echo "manual-test-needed"}
+- Check for traces/metrics in platform dashboard
+- Verify cost tracking is accurate
+- Test latency measurement
 
-  LangSmith:
-  1. Create account: https://smith.langchain.com
-  2. Get API key: Settings → API Keys
-  3. Add to .env:
-     LANGCHAIN_TRACING_V2=true
-     LANGCHAIN_API_KEY=your_key_here
-     LANGCHAIN_PROJECT=rag-pipeline
-  4. Free tier: 5,000 traces/month
-
-  LlamaCloud:
-  1. Create account: https://cloud.llamaindex.ai
-  2. Get API key: Dashboard → API Keys
-  3. Add to .env:
-     LLAMA_CLOUD_API_KEY=your_key_here
-     LLAMA_CLOUD_PROJECT_NAME=rag-pipeline
-  4. Free tier available
-
-  Custom:
-  1. No API keys needed
-  2. Configure log output directory
-  3. Optionally set up Prometheus endpoint
-  4. Completely free
-
-- Check if .env file exists: !{bash test -f .env && echo "exists" || echo "create"}
-- If missing, remind user to copy from .env.example
-
-Phase 6: Test Monitoring
-Goal: Verify monitoring works with sample RAG queries
+Phase 6: Summary
+Goal: Display setup summary and next steps
 
 Actions:
-- Run monitored query example: !{bash python3 examples/monitored_rag_query.py 2>&1 | head -50}
-- Verify trace/log output appears
-- Check metrics collection: !{bash python3 -c "from src.monitoring.metrics import track_latency; track_latency('test', 100); print('Metrics OK')" 2>&1}
-- Test cost tracking: !{bash python3 examples/cost_tracking.py 2>&1 | head -30}
-- Display sample metrics output
-- Provide platform-specific viewing instructions:
-  * LangSmith: Visit https://smith.langchain.com/projects
-  * LlamaCloud: Visit https://cloud.llamaindex.ai/traces
-  * Custom: Check logs/ directory or /metrics endpoint
+Display summary:
+- Platform configured: [platform name]
+- Monitoring enabled for: [components]
+- Metrics tracked: latency, cost, quality, errors
+- Dashboard URL: [platform-specific link]
+- Test results: [pass/fail status]
 
-Phase 7: Summary
-Goal: Present monitoring capabilities and next steps
+Next steps:
+- Review dashboard: [platform URL]
+- Configure alerts for: errors, latency spikes, cost overruns
+- Set up evaluation datasets: /rag-pipeline:test
+- Monitor production queries and iterate on retrieval quality
 
-Actions:
-Display:
-- Monitoring Platform: [from selection]
-- Components instrumented: Retrieval, Generation, End-to-End Pipeline
-- Metrics tracked: Latency, Cost, Quality, Error Rate
-- Key files: tracer.py, metrics.py, instrumentation/
-
-Monitoring Capabilities:
-1. Latency Tracking:
-   - Retrieval time (vector search + reranking)
-   - Generation time (TTFT + total)
-   - End-to-end pipeline latency
-
-2. Cost Tracking:
-   - Token usage per query
-   - Embedding costs
-   - LLM API costs
-   - Total cost per session
-
-3. Quality Metrics:
-   - Retrieval relevance scores
-   - Citation accuracy
-   - Response coherence
-   - User feedback integration
-
-4. Error Monitoring:
-   - Failed queries
-   - Timeout events
-   - API errors
-   - Fallback triggers
-
-Next Steps:
-1. Configure API keys in .env (if using LangSmith/LlamaCloud)
-2. Run sample monitored query: python examples/monitored_rag_query.py
-3. View traces in platform dashboard
-4. Set up alerts for production
-5. Monitor costs and optimize based on metrics
-6. A/B test different retrieval strategies using metrics
-
-Platform Links:
-- LangSmith: https://smith.langchain.com
-- LlamaCloud: https://cloud.llamaindex.ai
-- Prometheus: http://localhost:9090/metrics (Custom)
-
-Best Practices:
-- Start with 100% sampling in dev, 10-20% in production
-- Tag all traces with query_type and user_id
-- Set up alerts for latency >3s and error_rate >5%
-- Review quality metrics weekly
-- Export cost data for budget planning
-- Use sampling to reduce monitoring overhead
-
-Resources:
-- LangSmith Docs: https://docs.langchain.com/langsmith/home
-- LlamaCloud Docs: https://docs.cloud.llamaindex.ai
-- Observability Guide: docs/monitoring.md
+Important Notes:
+- Adapts to user's platform choice (LangSmith, LlamaCloud, or Custom)
+- Fetches vendor docs for latest API changes
+- Tests monitoring with sample queries before completing
+- Provides clear next steps for dashboard setup
+- Highlights free tiers and open-source options

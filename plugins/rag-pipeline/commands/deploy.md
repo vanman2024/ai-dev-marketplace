@@ -44,7 +44,7 @@ Goal: Generate platform-specific configs and API endpoints
 
 Actions:
 
-Task(description="Generate deployment files", subagent_type="deployment-engineer", prompt="You are the deployment-engineer agent. Generate deployment configuration for RAG application.
+Task(description="Generate deployment files", subagent_type="rag-pipeline:rag-deployment-agent", prompt="You are the rag-deployment-agent. Generate deployment configuration for RAG application.
 
 Platform: $ARGUMENTS (from user selection)
 

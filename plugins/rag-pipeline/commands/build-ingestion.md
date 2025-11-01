@@ -32,7 +32,7 @@ Goal: Generate unified ingestion pipeline with all stages
 
 Actions:
 
-Task(description="Build ingestion pipeline", subagent_type="general-purpose", prompt="Build complete document ingestion pipeline for $ARGUMENTS.
+Task(description="Build ingestion pipeline", subagent_type="rag-pipeline:document-processor", prompt="You are the document-processor agent. Build complete document ingestion pipeline for $ARGUMENTS.
 
 Context: Detected project type, configs (chunking, embedding, vector DB) from Phase 1
 Documentation: LlamaIndex ingestion, LangChain loaders/transformers fetched

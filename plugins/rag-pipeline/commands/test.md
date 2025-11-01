@@ -29,7 +29,7 @@ Goal: Run independent test suites in parallel for maximum speed
 
 Actions:
 
-Task(description="Test ingestion pipeline", subagent_type="general-purpose", prompt="Run ingestion pipeline tests for $ARGUMENTS.
+Task(description="Test ingestion pipeline", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run ingestion pipeline tests for $ARGUMENTS.
 
 Test scope: Document loading (PDF, DOCX, TXT, MD, HTML), parsing accuracy, metadata extraction, error handling for corrupted files, batch processing, resume capability
 
@@ -37,7 +37,7 @@ Test approach: Create fixtures with sample documents, run ingestion on test_data
 
 Deliverable: ingestion_test_results.json with pass/fail status, throughput metrics, error logs")
 
-Task(description="Test embedding generation", subagent_type="general-purpose", prompt="Run embedding generation tests for $ARGUMENTS.
+Task(description="Test embedding generation", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run embedding generation tests for $ARGUMENTS.
 
 Test scope: Embedding model initialization, batch generation, vector dimension validation, consistency (same input = same output), API rate limiting and retry logic, embedding quality (semantic similarity)
 
@@ -45,7 +45,7 @@ Test approach: Test with sample chunks, verify vector dimensions, test batch siz
 
 Deliverable: embeddings_test_results.json with quality metrics, speed benchmarks, API call counts")
 
-Task(description="Test retrieval quality", subagent_type="general-purpose", prompt="Run retrieval quality tests for $ARGUMENTS.
+Task(description="Test retrieval quality", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run retrieval quality tests for $ARGUMENTS.
 
 Test scope: Precision (relevance of retrieved documents), recall (coverage of relevant documents), ranking quality, hybrid search (if enabled), filtering and metadata-based retrieval, query latency
 
@@ -53,7 +53,7 @@ Test approach: Create golden dataset with queries plus expected documents, run r
 
 Deliverable: retrieval_test_results.json with precision, recall, MRR, NDCG scores, latency percentiles")
 
-Task(description="Test end-to-end RAG", subagent_type="general-purpose", prompt="Run end-to-end RAG query tests for $ARGUMENTS.
+Task(description="Test end-to-end RAG", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run end-to-end RAG query tests for $ARGUMENTS.
 
 Test scope: Complete RAG pipeline (retrieve plus generate), answer quality and factual accuracy, citation/source attribution, hallucination detection, response formatting, error handling (no results, API failures)
 
@@ -61,7 +61,7 @@ Test approach: Define test questions with expected answers, run complete RAG pip
 
 Deliverable: e2e_test_results.json with answer quality scores, citation accuracy, hallucination rate, latency")
 
-Task(description="Performance benchmarking", subagent_type="general-purpose", prompt="Run performance benchmarks for $ARGUMENTS.
+Task(description="Performance benchmarking", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run performance benchmarks for $ARGUMENTS.
 
 Test scope: Ingestion throughput (docs/sec, MB/sec), embedding generation speed (chunks/sec), query latency (p50, p95, p99), concurrent query handling, vector DB performance, memory usage, scalability (100, 1K, 10K, 100K documents)
 
@@ -69,7 +69,7 @@ Test approach: Run load tests with increasing document counts, measure throughpu
 
 Deliverable: performance_results.json with throughput, latency, memory metrics, scalability analysis")
 
-Task(description="Cost analysis", subagent_type="general-purpose", prompt="Run cost analysis for $ARGUMENTS.
+Task(description="Cost analysis", subagent_type="rag-pipeline:rag-tester", prompt="You are the rag-tester agent. Run cost analysis for $ARGUMENTS.
 
 Test scope: Embedding API costs (per document, per query), LLM generation costs (per query), vector DB storage costs, total cost projections, cost optimization opportunities
 

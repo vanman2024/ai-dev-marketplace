@@ -43,7 +43,7 @@ Goal: Install parser and generate code
 
 Actions:
 
-Task(description="Configure document parser", subagent_type="parser-integration-specialist", prompt="You are the parser-integration-specialist agent. Add document parser for $ARGUMENTS.
+Task(description="Configure document parser", subagent_type="rag-pipeline:document-processor", prompt="You are the document-processor agent. Add document parser for $ARGUMENTS.
 
 Parser: [selected parser]
 Features: Table extraction [yes/no], Image extraction [yes/no], OCR [yes/no]

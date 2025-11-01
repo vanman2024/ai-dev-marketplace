@@ -46,7 +46,7 @@ Goal: Generate chunking script with selected strategy
 
 Actions:
 
-Task(description="Generate chunking implementation", subagent_type="general-purpose", prompt="You are implementing document chunking for a RAG pipeline.
+Task(description="Generate chunking implementation", subagent_type="rag-pipeline:document-processor", prompt="You are the document-processor agent. Implement document chunking for a RAG pipeline.
 
 Strategy selected: [user's choice from Phase 1]
 Chunk size: [user's chunk size]

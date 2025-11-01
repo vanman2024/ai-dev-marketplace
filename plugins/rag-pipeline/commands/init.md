@@ -43,7 +43,7 @@ Goal: Generate framework-specific starter code and documentation
 
 Actions:
 
-Task(description="Generate RAG starter code", subagent_type="rag-initializer", prompt="You are the rag-initializer agent. Generate starter code for RAG project at $ARGUMENTS.
+Task(description="Generate RAG starter code", subagent_type="rag-pipeline:rag-architect", prompt="You are the rag-architect agent. Generate starter code for RAG project at $ARGUMENTS.
 
 Framework: [User's selection from Phase 1]
 Vector DB: [User's selection from Phase 1]

@@ -43,7 +43,7 @@ Goal: Install dependencies and configure provider
 
 Actions:
 
-Task(description="Install and configure embeddings", subagent_type="rag-embedding-configurator", prompt="You are the rag-embedding-configurator agent. Install and configure $ARGUMENTS embedding provider.
+Task(description="Install and configure embeddings", subagent_type="rag-pipeline:embedding-specialist", prompt="You are the embedding-specialist agent. Install and configure $ARGUMENTS embedding provider.
 
 Provider Details:
 
@@ -70,7 +70,7 @@ Goal: Verify embeddings work correctly
 
 Actions:
 
-Task(description="Test embedding generation", subagent_type="rag-embedding-tester", prompt="You are the rag-embedding-tester agent. Test embedding generation for $ARGUMENTS provider.
+Task(description="Test embedding generation", subagent_type="rag-pipeline:embedding-specialist", prompt="You are the embedding-specialist agent. Test embedding generation for $ARGUMENTS provider.
 
 Create test_embeddings script that:
 1. Loads config from Phase 3

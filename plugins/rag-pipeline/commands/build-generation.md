@@ -44,7 +44,7 @@ Goal: Build complete generation pipeline with retrieval integration
 
 Actions:
 
-Task(description="Build RAG generation pipeline", subagent_type="rag-specialist", prompt="You are the rag-specialist agent. Build a complete RAG generation pipeline with streaming support based on fetched documentation.
+Task(description="Build RAG generation pipeline", subagent_type="rag-pipeline:llamaindex-specialist", prompt="You are the llamaindex-specialist agent. Build a complete RAG generation pipeline with streaming support based on fetched documentation.
 
 Provider: $ARGUMENTS (or from user question)
 

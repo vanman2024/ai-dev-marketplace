@@ -37,7 +37,7 @@ Goal: Add metadata extraction, storage, and filtering
 
 Actions:
 
-Task(description="Implement metadata filtering and multi-tenant support", subagent_type="rag-specialist", prompt="You are the rag-specialist agent. Add metadata filtering and multi-tenant support to this RAG pipeline.
+Task(description="Implement metadata filtering and multi-tenant support", subagent_type="rag-pipeline:retrieval-optimizer", prompt="You are the retrieval-optimizer agent. Add metadata filtering and multi-tenant support to this RAG pipeline.
 
 Context: Vector database [Phase 1], Framework [Phase 1], Schema fields [Phase 2], Multi-tenant [Phase 2], Tenant field [Phase 2]
 
