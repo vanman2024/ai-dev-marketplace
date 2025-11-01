@@ -319,4 +319,4 @@ For issues or questions:
 
 ---
 
-**Skill Location:** `/home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/skills/model-routing-patterns/`
+**Skill Location:** `plugins/openrouter/skills/model-routing-patterns/`

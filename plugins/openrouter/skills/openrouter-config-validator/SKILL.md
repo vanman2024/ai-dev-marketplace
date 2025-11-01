@@ -207,5 +207,5 @@ All examples located in `skills/openrouter-config-validator/examples/`:
 
 ---
 
-**Skill Location**: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/skills/openrouter-config-validator/
+**Skill Location**: plugins/openrouter/skills/openrouter-config-validator/
 **Version**: 1.0.0

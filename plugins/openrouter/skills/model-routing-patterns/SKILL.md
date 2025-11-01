@@ -362,6 +362,6 @@ See examples directory for complete implementations:
 
 ---
 
-**Skill Location:** `/home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/skills/model-routing-patterns/`
+**Skill Location:** `plugins/openrouter/skills/model-routing-patterns/`
 **Version:** 1.0.0
 **Supported Frameworks:** Node.js, Python, TypeScript, any OpenRouter-compatible client
