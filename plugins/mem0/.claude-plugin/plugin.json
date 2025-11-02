@@ -26,15 +26,5 @@
     "javascript",
     "typescript"
   ],
-  "mcpServers": {
-    "mem0": {
-      "url": "http://localhost:8765/mcp/claude-code/sse/default",
-      "description": "Official OpenMemory MCP server for local-first AI memory",
-      "setupCommand": "curl -sL https://raw.githubusercontent.com/mem0ai/mem0/main/openmemory/run.sh | bash",
-      "env": {
-        "MEM0_API_KEY": "required"
-      },
-      "documentation": "https://docs.mem0.ai/openmemory"
-    }
-  }
+  "mcpServers": []
 }

@@ -6,6 +6,8 @@
     "name": "AI Dev Marketplace",
     "email": "builder@example.com"
   },
+  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/ml-training",
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
   "license": "MIT",
   "keywords": [
     "machine-learning",
@@ -20,6 +22,5 @@
     "peft",
     "pytorch",
     "serverless"
-  ],
-  "type": "Framework"
+  ]
 }

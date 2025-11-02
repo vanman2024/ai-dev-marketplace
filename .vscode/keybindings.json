@@ -1,0 +1,27 @@
+[
+  {
+    "key": "ctrl+e",
+    "command": "-workbench.action.quickOpen"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "-workbench.action.quickOpenNavigateNextInFilePicker"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "-workbench.action.openRecent"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "-workbench.action.quickOpenPreviousEditor"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "-actions.findWithSelection"
+  },
+  {
+    "key": "ctrl+e",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": { "text": "\u0005" }
+  }
+]
