@@ -1,3 +1,19 @@
+---
+skill_name: astro-setup
+description: Provides installation, prerequisite checking, and project initialization for Astro websites with AI Tech Stack 1 integration
+use_when:
+  - "initializing new Astro website project"
+  - "setting up Astro prerequisites"
+  - "configuring Astro integrations"
+  - "setting up Astro environment variables"
+tools_provided:
+  - check-prerequisites.sh
+  - install-astro.sh
+  - init-project.sh
+  - setup-integrations.sh
+  - setup-env.sh
+---
+
 # Astro Setup Skill
 
 ## Overview

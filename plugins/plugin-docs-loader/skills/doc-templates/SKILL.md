@@ -1,3 +1,12 @@
+---
+skill_name: doc-templates
+description: Provides reusable templates for generating documentation loading commands across all plugins
+use_when:
+  - "creating load-docs commands"
+  - "generating doc loader templates"
+  - "building plugin documentation loaders"
+---
+
 # Documentation Templates Skill
 
 ## Purpose
