@@ -88,23 +88,26 @@ Actions:
 - Verify: !{bash grep -q "mem0" "$APP_NAME/package.json" && echo "✅ Mem0 configured" || echo "❌ Failed"}
 - Mark Memory complete
 
-Phase 5: Claude Agent SDK
-Goal: Integrate Agent SDK for orchestration
+Phase 5: Claude Agent SDK - Complete Production Agent
+Goal: Build comprehensive agent orchestration system
 
 CONTEXT: Late - 1 agent only
 
 Actions:
 - Update .ai-stack-config.json phase to 5
 - Change to backend: !{bash cd "$APP_NAME-backend"}
-- SlashCommand: /claude-agent-sdk:add-custom-tools "$APP_NAME-backend"
+- SlashCommand: /claude-agent-sdk:build-full-app "$APP_NAME-backend"
 - Wait for completion before proceeding
-- This adds:
-  - Claude Agent SDK
-  - Custom tool definitions
-  - Subagent configuration
-  - Tool orchestration
-- Create agents/ directory with specialized agents
-- Verify: !{bash grep -q "claude-agent-sdk" "$APP_NAME-backend/requirements.txt" && echo "✅ Agent SDK added" || echo "❌ Failed"}
+- This builds COMPLETE production agent with:
+  - Core: Streaming responses, Session management
+  - Integration: MCP servers, Custom tools
+  - Advanced: Subagents, Permissions, Hosting config
+  - Enhancement: System prompts, Slash commands, Skills, Plugins
+  - Tracking: Cost tracking, Todo tracking
+  - Full agents/ directory with specialized agents
+  - Tool orchestration and routing
+  - Production-ready error handling
+- Verify: !{bash grep -q "claude-agent-sdk" "$APP_NAME-backend/requirements.txt" && echo "✅ Complete Agent SDK built" || echo "❌ Failed"}
 - Mark Agent SDK complete
 
 Phase 6: MCP Server Configuration Note
@@ -158,17 +161,28 @@ Actions:
 - Multi-model support
 - Mem0 memory client
 
-**Backend AI:**
+**Backend AI - COMPLETE Production Agent:**
 - AI provider clients (Anthropic, OpenAI, Google)
-- Chat endpoints
-- Cost tracking
-- Claude Agent SDK
-- Custom tools
-- Subagent orchestration
+- Chat endpoints with streaming
+- **Complete Claude Agent SDK application:**
+  - Session management and state tracking
+  - MCP server integration
+  - Custom tool definitions and routing
+  - Subagent orchestration system
+  - Permission management
+  - Hosting configuration (production-ready)
+  - System prompts and context management
+  - Slash command handlers
+  - Skills system
+  - Plugin architecture
+  - Cost tracking and analytics
+  - Todo tracking and task management
+  - Production error handling
 
 **Infrastructure:**
 - Mem0 memory tables in Supabase
 - MCP server configurations
 - Memory operations
+- Complete agents/ directory with specialized agents
 
-**Total Time:** ~25 minutes
+**Total Time:** ~35 minutes (extended for comprehensive agent build)
