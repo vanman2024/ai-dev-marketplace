@@ -93,34 +93,46 @@ EOF
 }
 - Mark Interactive Discovery complete
 
-Phase 3: Next.js Frontend
-Goal: Initialize Next.js 15 with App Router
+Phase 3: Next.js Frontend - Complete Build
+Goal: Build comprehensive Next.js 15 application
 
 CONTEXT: Early - 3 agents OK
 
 Actions:
 - Update .ai-stack-config.json phase to 3
-- SlashCommand: /nextjs-frontend:init $ARGUMENTS
+- SlashCommand: /nextjs-frontend:build-full-stack $ARGUMENTS
 - Wait for completion before proceeding
+- This builds COMPLETE frontend with:
+  - Next.js 15 App Router, TypeScript, Tailwind
+  - Feature discovery (Supabase, AI SDK)
+  - Multiple pages (dashboard, chat, settings, etc.)
+  - Custom components (UI, forms, layouts)
+  - Design system enforcement
+  - Full integration validation
 - Verify: !{bash test -f "$ARGUMENTS/package.json" && echo "✅ Frontend created" || echo "❌ Failed"}
 - Mark Frontend complete
 
-Phase 4: FastAPI Backend
-Goal: Create FastAPI backend (ALWAYS REQUIRED)
+Phase 4: FastAPI Backend - Complete AI Backend
+Goal: Build comprehensive AI-powered FastAPI backend
 
 CONTEXT: Early - 3 agents OK
 
 Actions:
 - Update .ai-stack-config.json phase to 4
 - Create backend directory: !{bash mkdir -p "$ARGUMENTS-backend"}
-- SlashCommand: /fastapi-backend:init "$ARGUMENTS-backend"
+- SlashCommand: /fastapi-backend:init-ai-app "$ARGUMENTS-backend"
 - Wait for completion before proceeding
-- This creates:
-  - main.py with FastAPI app
-  - routers/ for API endpoints
-  - models/ for Pydantic models
-  - requirements.txt with dependencies
-  - Dockerfile for deployment
+- This builds COMPLETE AI backend with:
+  - FastAPI app with src/app layout
+  - Mem0 integration (memory_manager.py, mem0_client.py)
+  - Async SQLAlchemy with PostgreSQL
+  - Database models (User, Conversation)
+  - Memory endpoints (POST/GET/DELETE memory)
+  - Chat endpoint with memory context
+  - Alembic migrations
+  - Docker Compose with PostgreSQL
+  - Testing infrastructure (pytest)
+  - Makefile for dev commands
 - Verify: !{bash test -f "$ARGUMENTS-backend/main.py" && echo "✅ Backend created" || echo "❌ Failed"}
 - Mark Backend complete
 
@@ -132,14 +144,16 @@ CONTEXT: Early - 3 agents OK
 Actions:
 - Update .ai-stack-config.json phase to 5
 - Change to frontend dir: !{bash cd "$ARGUMENTS"}
-- SlashCommand: /supabase:init-ai-app
+- Extract app type from config: !{bash APP_TYPE=$(jq -r '.appType' .ai-stack-config.json); echo "$APP_TYPE"}
+- SlashCommand: /supabase:init-ai-app "$APP_TYPE"
 - Wait for completion before proceeding
-- This creates:
-  - Database schema for AI apps
-  - Auth configuration
-  - RLS policies
-  - pgvector extension (if RAG selected)
-  - Storage buckets
+- This creates (tailored to app type):
+  - Database schema for AI apps (chat/rag/agents/multi-tenant)
+  - Auth configuration (OAuth providers)
+  - RLS policies (security)
+  - pgvector extension (for RAG/embeddings)
+  - Storage buckets (for files)
+  - Realtime subscriptions (for chat)
 - Verify: !{bash test -f "$ARGUMENTS/.env.local" && grep -q "SUPABASE" "$ARGUMENTS/.env.local" && echo "✅ Supabase configured" || echo "❌ Failed"}
 - Mark Database complete
 
@@ -201,4 +215,4 @@ Actions:
 - RLS policies
 - Environment variables
 
-**Total Time:** ~20 minutes
+**Total Time:** ~35 minutes (extended for comprehensive builds - Next.js full stack, AI backend, database)

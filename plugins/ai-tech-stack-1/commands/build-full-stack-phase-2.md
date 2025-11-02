@@ -29,26 +29,24 @@ Actions:
 - Extract appName and features
 - Create Phase 2 todo list
 
-Phase 2: Vercel AI SDK Frontend
-Goal: Add AI SDK streaming to Next.js
+Phase 2: Vercel AI SDK - Complete AI Integration
+Goal: Build comprehensive AI SDK implementation
 
 CONTEXT: Mid - 2 agents max
 
 Actions:
 - Update .ai-stack-config.json phase to 2
 - Change to frontend: !{bash cd "$APP_NAME"}
-- SlashCommand: /vercel-ai-sdk:add-streaming
+- SlashCommand: /vercel-ai-sdk:build-full-stack
 - Wait for completion before proceeding
-- This adds:
-  - ai package
-  - app/api/chat/route.ts
-  - Chat UI components
-  - Streaming hooks
-- If multi-model selected:
-  - SlashCommand: /vercel-ai-sdk:add-provider openai
-  - Wait for completion
-  - SlashCommand: /vercel-ai-sdk:add-provider google
-  - Wait for completion
+- This builds COMPLETE AI SDK integration with:
+  - Core: Streaming, Tool calling, Chat functionality
+  - UI Features: Generative UI, useObject, useCompletion, Message persistence, File attachments
+  - Data Features: Embeddings generation, RAG with vector database, Structured data
+  - Production: Telemetry/observability, Rate limiting, Error handling, Testing, Middleware
+  - Advanced: AI agents and workflows, MCP tools integration, Image generation, Audio processing
+  - Multi-provider support (Claude, OpenAI, Google)
+  - Complete chat interface with all features
 - Verify: !{bash test -f "$APP_NAME/app/api/chat/route.ts" && echo "✅ AI SDK added" || echo "❌ Failed"}
 - Mark AI SDK complete
 
@@ -68,8 +66,8 @@ Actions:
 - Verify: !{bash grep -q "anthropic" "$APP_NAME-backend/requirements.txt" && echo "✅ Backend AI ready" || echo "❌ Failed"}
 - Mark Backend AI complete
 
-Phase 4: Mem0 Memory
-Goal: Configure Mem0 with Supabase backend
+Phase 4: Mem0 Memory - Complete Memory System
+Goal: Build comprehensive memory persistence with Mem0
 
 CONTEXT: Mid - 2 agents max
 
@@ -78,11 +76,22 @@ Actions:
 - Change to frontend: !{bash cd "$APP_NAME"}
 - SlashCommand: /mem0:init-oss
 - Wait for completion before proceeding
-- This adds:
-  - Mem0 OSS package
-  - Supabase memory tables
-  - Memory operations (add, search, update)
+- SlashCommand: /mem0:add-conversation-memory
+- Wait for completion before proceeding
+- SlashCommand: /mem0:add-user-memory
+- Wait for completion before proceeding
+- SlashCommand: /mem0:test
+- Wait for completion before proceeding
+- This builds COMPLETE memory system with:
+  - Mem0 OSS package with Supabase backend
+  - pgvector extension for embeddings
+  - Memory tables (memories, memory_relationships)
+  - Conversation memory (chat context, history)
+  - User memory (preferences, facts, context)
+  - Graph memory (entity relationships)
+  - Memory operations (add, search, update, delete)
   - User/agent/session memory schemas
+  - Testing and validation
 - Copy Mem0 setup to backend:
   !{bash cp -r "$APP_NAME/lib/mem0" "$APP_NAME-backend/lib/" 2>/dev/null || echo "Copy memory utils"}
 - Verify: !{bash grep -q "mem0" "$APP_NAME/package.json" && echo "✅ Mem0 configured" || echo "❌ Failed"}
@@ -185,4 +194,4 @@ Actions:
 - Memory operations
 - Complete agents/ directory with specialized agents
 
-**Total Time:** ~35 minutes (extended for comprehensive agent build)
+**Total Time:** ~60 minutes (extended for comprehensive AI SDK, complete memory system, and production agent)
