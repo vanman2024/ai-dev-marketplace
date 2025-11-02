@@ -107,127 +107,66 @@ You should create production-ready project foundations. Focus on:
    # NOT: pip install anthropic-agent-sdk (wrong!)
    ```
 
+   **Create requirements.txt**:
+   Copy from: `@plugins/claude-agent-sdk/examples/python/requirements.txt`
+
+   Must include:
+   - `claude-agent-sdk>=0.1.6` (NOT anthropic-agent-sdk!)
+   - `python-dotenv>=1.0.0`
+
 5. **Create Configuration Files**:
 
-   **TypeScript tsconfig.json**:
-   ```json
-   {
-     "compilerOptions": {
-       "target": "ES2020"
-       "module": "ESNext"
-       "moduleResolution": "node"
-       "esModuleInterop": true
-       "strict": true
-       "outDir": "./dist"
-       "rootDir": "./src"
-     }
-     "include": ["src/**/*"]
-     "exclude": ["node_modules"]
-   }
-   ```
+   **For TypeScript**: Copy tsconfig.json from examples (if available)
+   **For Python**: No additional config needed beyond requirements.txt
 
 6. **Generate Starter Code**:
 
-   **TypeScript Example (src/index.ts)**:
-   ```typescript
-   import { query } from '@anthropic-ai/claude-agent-sdk';
-   import 'dotenv/config';
+   **Copy from examples**:
+   - TypeScript: Use `@plugins/claude-agent-sdk/examples/typescript/basic-query.ts` (if exists)
+   - Python: Use `@plugins/claude-agent-sdk/examples/python/basic-query.py`
 
-   async function main() {
-     try {
-       const response = await query({
-         apiKey: process.env.ANTHROPIC_API_KEY
-         prompt: 'Hello! Tell me about the Claude Agent SDK.'
-       });
+   Key patterns to include:
+   - Correct package import: `from claude_agent_sdk import query`
+   - Async/await pattern
+   - ClaudeAgentOptions for configuration
+   - Environment variable loading from .env
 
-       console.log('Response:', response);
-     } catch (error) {
-       console.error('Error:', error);
-       process.exit(1);
-     }
-   }
-
-   main();
-   ```
-
-   **Python Example (main.py)**:
-   ```python
-   import os
-   import asyncio
-   from dotenv import load_dotenv
-   from claude_agent_sdk import query  # ✅ Correct package name
-   from claude_agent_sdk.types import ClaudeAgentOptions
-
-   load_dotenv()
-
-   async def main():
-       """Basic Claude Agent SDK query"""
-       api_key = os.getenv('ANTHROPIC_API_KEY')
-
-       if not api_key:
-           print('Error: ANTHROPIC_API_KEY not found in .env')
-           return
-
-       try:
-           async for message in query(
-               prompt='Hello! Tell me about the Claude Agent SDK.',
-               options=ClaudeAgentOptions(
-                   model='claude-sonnet-4-20250514',
-                   max_turns=1,
-                   env={'ANTHROPIC_API_KEY': api_key}
-               )
-           ):
-               if hasattr(message, 'type') and message.type == 'text':
-                   print(f'Response: {message.text}')
-
-       except Exception as error:
-           print(f'Error: {error}')
-           exit(1)
-
-   if __name__ == '__main__':
-       asyncio.run(main())
-   ```
+   Do NOT write code snippets here - reference the examples!
 
 7. **Create Environment Template**:
 
-   **.env.example**:
-   ```
-   # Claude API Key - Get from https://console.anthropic.com/
-   ANTHROPIC_API_KEY=your_api_key_here
-   ```
+   Copy from: `@plugins/claude-agent-sdk/skills/sdk-config-validator/templates/.env.example.template`
 
 8. **Create .gitignore**:
-   ```
-   # Environment files
-   .env
-   .env.local
 
-   # Dependencies
-   node_modules/
-   __pycache__/
-   venv/
-   .venv/
-
-   # Build outputs
-   dist/
-   build/
-   *.pyc
-
-   # IDE
-   .vscode/
-   .idea/
-   *.swp
-   *.swo
-   ```
+   Standard gitignore including:
+   - .env, .env.local
+   - node_modules/, __pycache__/, venv/
+   - dist/, build/, *.pyc
+   - IDE files (.vscode/, .idea/, *.swp)
 
 9. **Create README.md**:
    Include setup instructions, configuration, usage examples, and SDK documentation links.
 
 10. **Verify Setup**:
-    - Check all files created
-    - Verify package installation
-    - Test starter code compiles (TypeScript)
-    - Ensure all paths are correct
+
+    Use the SDK config validator skill to validate the setup:
+
+    ```bash
+    # For Python projects
+    bash @plugins/claude-agent-sdk/skills/sdk-config-validator/scripts/validate-python.sh $ARGUMENTS
+
+    # For TypeScript projects
+    bash @plugins/claude-agent-sdk/skills/sdk-config-validator/scripts/validate-typescript.sh $ARGUMENTS
+    ```
+
+    The validator will check:
+    - ✅ Correct package installed (`claude-agent-sdk` not `anthropic-agent-sdk`)
+    - ✅ Required files present (main.py/.env/requirements.txt)
+    - ✅ Environment variables configured
+    - ✅ Dependencies match requirements
+
+    If validation fails, the validator will provide specific fixes.
 
 ## What NOT to Do
 
@@ -241,27 +180,11 @@ You should create production-ready project foundations. Focus on:
 
 ## FastMCP Cloud Integration (IMPORTANT)
 
-When using FastMCP Cloud servers, use HTTP transport:
-
-**✅ Correct:**
-```python
-mcp_servers={
-    "your-server": {
-        "type": "http",  # Use HTTP for FastMCP Cloud
-        "url": "https://your-server.fastmcp.app/mcp",
-        "headers": {
-            "Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"
-        }
-    }
-}
-```
-
-**❌ Wrong:**
-```python
-"type": "sse"  # SSE doesn't work with FastMCP Cloud
-```
-
-See `examples/python/fastmcp-cloud-http.py` for complete example.
+When using FastMCP Cloud servers:
+- Use `"type": "http"` NOT `"type": "sse"`
+- Pass FASTMCP_CLOUD_API_KEY in env parameter
+- See complete example: `@plugins/claude-agent-sdk/examples/python/fastmcp-cloud-http.py`
+- See integration guide: `@plugins/claude-agent-sdk/skills/fastmcp-integration/SKILL.md`
 
 ## Output Format
 

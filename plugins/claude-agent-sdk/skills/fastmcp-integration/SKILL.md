@@ -13,31 +13,92 @@ This skill provides examples and troubleshooting for FastMCP Cloud integration.
 
 ### ✅ Correct Configuration
 
+**Example: Basic FastMCP Cloud Integration**
+
 ```python
+import os
+import asyncio
+from dotenv import load_dotenv
 from claude_agent_sdk import query
 from claude_agent_sdk.types import ClaudeAgentOptions
 
-async for message in query(
-    prompt="Your query here",
-    options=ClaudeAgentOptions(
-        mcp_servers={
-            "your-server": {
-                "type": "http",  # ← CRITICAL: Use HTTP for FastMCP Cloud
-                "url": "https://your-server.fastmcp.app/mcp",
-                "headers": {
-                    "Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"
+load_dotenv()
+
+ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
+FASTMCP_CLOUD_API_KEY = os.getenv("FASTMCP_CLOUD_API_KEY")
+
+async def main():
+    async for message in query(
+        prompt="List available tools from the MCP server",
+        options=ClaudeAgentOptions(
+            model="claude-sonnet-4-20250514",
+
+            # ✅ CRITICAL: Use HTTP for FastMCP Cloud
+            mcp_servers={
+                "your-server": {
+                    "type": "http",  # ← Must be "http" not "sse"
+                    "url": "https://your-server.fastmcp.app/mcp",
+                    "headers": {
+                        "Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"
+                    }
                 }
+            },
+
+            # Allow MCP tools
+            allowed_tools=["mcp__your-server__*"],
+
+            # Pass API keys via env
+            env={
+                "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
+                "FASTMCP_CLOUD_API_KEY": FASTMCP_CLOUD_API_KEY
             }
-        },
-        allowed_tools=["mcp__your-server__*"],
-        env={
-            "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
-            "FASTMCP_CLOUD_API_KEY": FASTMCP_CLOUD_API_KEY
-        }
-    )
-):
-    # Handle messages
-    pass
+        )
+    ):
+        if hasattr(message, 'type') and message.type == 'text':
+            print(message.text)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
+**Example: Multiple FastMCP Cloud Servers**
+
+```python
+mcp_servers={
+    "cats": {
+        "type": "http",
+        "url": "https://catsmcp.fastmcp.app/mcp",
+        "headers": {"Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"}
+    },
+    "github": {
+        "type": "http",
+        "url": "https://github-mcp.fastmcp.app/mcp",
+        "headers": {"Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"}
+    }
+}
+
+allowed_tools=[
+    "mcp__cats__*",      # All CATS tools
+    "mcp__github__*",    # All GitHub tools
+]
+```
+
+**Example: Checking MCP Connection Status**
+
+```python
+async for message in query(...):
+    if hasattr(message, 'type') and message.type == 'system':
+        if hasattr(message, 'data') and 'mcp_servers' in message.data:
+            for server in message.data['mcp_servers']:
+                status = server.get('status', 'unknown')
+                name = server.get('name', 'unknown')
+                print(f"✅ MCP Server '{name}': {status}")
+
+                if status == 'failed':
+                    print("❌ Connection failed!")
+                    print("   Check: 1) Using 'type': 'http'")
+                    print("   Check: 2) FASTMCP_CLOUD_API_KEY is valid")
+                    print("   Check: 3) URL is correct")
 ```
 
 ### ❌ Common Mistakes
@@ -104,8 +165,17 @@ env={
 }
 ```
 
+## Additional Examples
+
+See the `examples/` directory in this skill:
+- `examples/multi-server.py` - Connecting to multiple FastMCP Cloud servers
+- `examples/connection-status.py` - Testing and troubleshooting connections
+
 ## Related Resources
 
-- Examples: `/examples/python/fastmcp-cloud-http.py`
-- Agent SDK Docs: `docs/sdk-documentation.md`
+- Basic example: `@plugins/claude-agent-sdk/examples/python/basic-query.py`
+- FastMCP Cloud example: `@plugins/claude-agent-sdk/examples/python/fastmcp-cloud-http.py`
+- Examples README: `@plugins/claude-agent-sdk/examples/README.md`
+- Agent SDK Docs: `@plugins/claude-agent-sdk/docs/sdk-documentation.md`
 - FastMCP Cloud: https://fastmcp.com
+- MCP Protocol: https://modelcontextprotocol.io

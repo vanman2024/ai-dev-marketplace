@@ -68,12 +68,16 @@ cp templates/pyproject-sdk.toml /path/to/project/pyproject.toml
 6. **Apply Fixes**: Offer to apply recommended configuration changes
 
 ## Common Issues Detected
-- Missing SDK dependency in package.json/pyproject.toml
+- Wrong package name (`anthropic-agent-sdk` instead of `claude-agent-sdk`) ⚠️
+- Missing SDK dependency in package.json/requirements.txt
 - Incorrect TypeScript compiler options for SDK
 - Missing required environment variables (ANTHROPIC_API_KEY)
+- Missing FastMCP Cloud API key when using MCP servers
+- Wrong MCP transport type (`"sse"` instead of `"http"` for FastMCP Cloud) ⚠️
 - SDK version incompatibility with Node/Python version
 - Missing configuration files (tsconfig.json, .env)
 - Incorrect module resolution settings
+- Missing async/await pattern in Python code
 
 ## Exit Codes
 - 0: All validations passed

@@ -17,26 +17,69 @@ if [[ ! -f "$PROJECT_DIR/pyproject.toml" ]] && [[ ! -f "$PROJECT_DIR/requirement
     exit 2
 fi
 
-# Check for claude-ai-sdk dependency
+# Check for claude-agent-sdk dependency (CORRECT package name)
 SDK_FOUND=false
+WRONG_PACKAGE=false
+
+# Check for WRONG package name
 if [[ -f "$PROJECT_DIR/pyproject.toml" ]]; then
-    if grep -q 'claude-ai-sdk' "$PROJECT_DIR/pyproject.toml" 2>/dev/null; then
-        echo "✅ claude-ai-sdk found in pyproject.toml"
+    if grep -q 'anthropic-agent-sdk' "$PROJECT_DIR/pyproject.toml" 2>/dev/null; then
+        echo "❌ ERROR: Wrong package 'anthropic-agent-sdk' found in pyproject.toml"
+        echo "   Fix: Use 'claude-agent-sdk' instead"
+        WRONG_PACKAGE=true
+        ERRORS=$((ERRORS + 1))
+    fi
+fi
+
+if [[ -f "$PROJECT_DIR/requirements.txt" ]]; then
+    if grep -q 'anthropic-agent-sdk' "$PROJECT_DIR/requirements.txt" 2>/dev/null; then
+        echo "❌ ERROR: Wrong package 'anthropic-agent-sdk' found in requirements.txt"
+        echo "   Fix: Use 'claude-agent-sdk' instead"
+        WRONG_PACKAGE=true
+        ERRORS=$((ERRORS + 1))
+    fi
+fi
+
+# Check for CORRECT package name
+if [[ -f "$PROJECT_DIR/pyproject.toml" ]]; then
+    if grep -q 'claude-agent-sdk' "$PROJECT_DIR/pyproject.toml" 2>/dev/null; then
+        echo "✅ claude-agent-sdk found in pyproject.toml"
         SDK_FOUND=true
     fi
 fi
 
 if [[ -f "$PROJECT_DIR/requirements.txt" ]]; then
-    if grep -q 'claude-ai-sdk' "$PROJECT_DIR/requirements.txt" 2>/dev/null; then
-        echo "✅ claude-ai-sdk found in requirements.txt"
+    if grep -q 'claude-agent-sdk' "$PROJECT_DIR/requirements.txt" 2>/dev/null; then
+        echo "✅ claude-agent-sdk found in requirements.txt"
         SDK_FOUND=true
     fi
 fi
 
-if [[ "$SDK_FOUND" == "false" ]]; then
-    echo "❌ ERROR: claude-ai-sdk not found in dependencies"
-    echo "   Fix: pip install claude-ai-sdk"
+if [[ "$SDK_FOUND" == "false" ]] && [[ "$WRONG_PACKAGE" == "false" ]]; then
+    echo "❌ ERROR: claude-agent-sdk not found in dependencies"
+    echo "   Fix: pip install claude-agent-sdk"
     ERRORS=$((ERRORS + 1))
+fi
+
+# Check for wrong import pattern
+if [[ -f "$PROJECT_DIR/main.py" ]]; then
+    if grep -q 'from anthropic_agent_sdk import' "$PROJECT_DIR/main.py" 2>/dev/null; then
+        echo "⚠️  WARNING: Wrong import 'anthropic_agent_sdk' in main.py"
+        echo "   Fix: Use 'from claude_agent_sdk import query'"
+        WARNINGS=$((WARNINGS + 1))
+    fi
+
+    if grep -q 'from claude_agent_sdk import' "$PROJECT_DIR/main.py" 2>/dev/null; then
+        echo "✅ Correct import 'claude_agent_sdk' found"
+    fi
+fi
+
+# Check for FastMCP Cloud SSE mistake
+if find "$PROJECT_DIR" -name "*.py" -exec grep -l '"type".*:.*"sse"' {} \; 2>/dev/null | head -1 | grep -q .; then
+    echo "⚠️  WARNING: Found 'type': 'sse' in Python code"
+    echo "   FastMCP Cloud requires 'type': 'http' not 'sse'"
+    echo "   Fix: Change to '\"type\": \"http\"' for FastMCP Cloud servers"
+    WARNINGS=$((WARNINGS + 1))
 fi
 
 # Check Python version

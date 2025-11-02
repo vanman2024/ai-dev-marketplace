@@ -301,6 +301,26 @@
                 "pytorch",
                 "serverless"
             ]
+        },
+        {
+            "name": "plugin-docs-loader",
+            "description": "Universal documentation loading system with intelligent link extraction and parallel WebFetch for all plugins",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/plugin-docs-loader",
+            "category": "infrastructure",
+            "keywords": [
+                "documentation",
+                "webfetch",
+                "utilities",
+                "infrastructure",
+                "doc-loader",
+                "link-extraction",
+                "parallel-fetch"
+            ]
         }
     ]
 }

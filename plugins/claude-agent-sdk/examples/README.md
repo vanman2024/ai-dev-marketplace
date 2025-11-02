@@ -32,6 +32,32 @@ NOT:
 from anthropic_agent_sdk import query  # ❌ WRONG
 ```
 
+### ✅ Basic Query Pattern
+```python
+import os
+import asyncio
+from dotenv import load_dotenv
+from claude_agent_sdk import query
+from claude_agent_sdk.types import ClaudeAgentOptions
+
+load_dotenv()
+
+async def main():
+    async for message in query(
+        prompt="Your question here",
+        options=ClaudeAgentOptions(
+            model="claude-sonnet-4-20250514",
+            max_turns=5,
+            env={"ANTHROPIC_API_KEY": os.getenv("ANTHROPIC_API_KEY")}
+        )
+    ):
+        if hasattr(message, 'type') and message.type == 'text':
+            print(message.text)
+
+if __name__ == "__main__":
+    asyncio.run(main())
+```
+
 ### ✅ FastMCP Cloud Configuration
 ```python
 mcp_servers={
@@ -50,12 +76,45 @@ NOT:
 "type": "sse"  # ❌ SSE doesn't work with FastMCP Cloud
 ```
 
-### ✅ Environment Variables
+### ✅ Environment Variables Pattern
 ```python
 env={
     "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
     "FASTMCP_CLOUD_API_KEY": FASTMCP_CLOUD_API_KEY  # Include MCP keys
 }
+```
+
+### ✅ File Structure Template
+```
+my-agent-project/
+├── main.py                 # Your agent code
+├── requirements.txt        # Dependencies
+├── .env                    # API keys (gitignored)
+├── .env.example           # Template for .env
+├── .gitignore             # Git ignore rules
+└── README.md              # Setup instructions
+```
+
+**requirements.txt**:
+```
+claude-agent-sdk>=0.1.6
+python-dotenv>=1.0.0
+```
+
+**.env.example**:
+```env
+ANTHROPIC_API_KEY=your_anthropic_api_key_here
+FASTMCP_CLOUD_API_KEY=your_fastmcp_api_key_here
+```
+
+**.gitignore**:
+```
+.env
+.env.local
+__pycache__/
+venv/
+.venv/
+*.pyc
 ```
 
 ## Setup

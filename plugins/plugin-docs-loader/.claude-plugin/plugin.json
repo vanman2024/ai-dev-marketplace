@@ -1,0 +1,17 @@
+{
+  "name": "plugin-docs-loader",
+  "version": "1.0.0",
+  "description": "Universal documentation loading system with intelligent link extraction and parallel WebFetch for all plugins",
+  "author": "AI Dev Marketplace",
+  "type": "infrastructure",
+  "tags": ["documentation", "webfetch", "utilities", "infrastructure"],
+  "agents": [
+    "doc-loader-agent"
+  ],
+  "commands": [],
+  "skills": [
+    "doc-templates"
+  ],
+  "dependencies": [],
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace"
+}
