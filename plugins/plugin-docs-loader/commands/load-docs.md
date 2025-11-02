@@ -1,12 +1,12 @@
 ---
 description: Load plugin documentation on-demand with intelligent link extraction and parallel WebFetch for any plugin in the marketplace
 argument-hint: <plugin-name> [scope]
-allowed-tools: Task, Read, Bash, Grep
+allowed-tools: Task, Read, Bash, Grep, WebFetch
 ---
 
 # Load Plugin Documentation
 
-**Purpose:** Load fresh documentation for any plugin by extracting external links from local docs and fetching them in priority-based batches.
+**Purpose:** Load fresh documentation for any plugin by extracting external links from local docs and fetching them intelligently. Automatically uses agent for large link counts (≥10) to handle parallel batching efficiently.
 
 ## Command Arguments
 
@@ -80,18 +80,30 @@ echo "📚 Loading documentation for: $PLUGIN_NAME"
 echo "📂 Documentation path: $DOCS_PATH"
 echo "🎯 Scope: $SCOPE"
 echo ""
+
+# Count total links in documentation
+LINK_COUNT=$(grep -rh "https\?://" "$DOCS_PATH" 2>/dev/null | grep -o "https\?://[^\s\)\"\']+" | sort -u | wc -l)
+
+echo "🔗 Found $LINK_COUNT unique external links"
+echo ""
+
+# Decision: Use agent if many links, handle directly if few
+if [ "$LINK_COUNT" -ge 10 ]; then
+  echo "📦 Large link count detected - invoking agent for parallel batch processing"
+  USE_AGENT="true"
+else
+  echo "✅ Small link count - handling directly without agent overhead"
+  USE_AGENT="false"
+fi
 }
 
-### Phase 2: Invoke Documentation Loader Agent
+### Phase 3: Load Documentation (Agent or Direct)
 
-**Load documentation via doc-loader-agent:**
+**Strategy Decision:**
+- **< 10 links** → Handle directly with WebFetch (fast, no agent overhead)
+- **≥ 10 links** → Invoke agent for parallel batch processing (handles 60-100+ links efficiently)
 
-The agent will handle:
-- Finding all markdown files in the docs directory
-- Extracting all external links (could be 60-100+ URLs)
-- Categorizing links by priority (P0/P1/P2)
-- Fetching documentation in parallel batches
-- Returning formatted documentation summary
+**If using agent:**
 
 Task(
   description="Load $PLUGIN_NAME documentation with scope $SCOPE",
@@ -129,7 +141,24 @@ Task(
   **Important:** You MUST process all links found in the documentation. This is critical because other agents need access to ALL the documentation, not just a subset. Use parallel batching to handle large numbers of links efficiently."
 )
 
-### Phase 3: Display Results
+**If handling directly (< 10 links):**
+
+!{bash
+# Extract unique URLs
+URLS=$(grep -rh "https\?://" "$DOCS_PATH" 2>/dev/null | grep -o "https\?://[^\s\)\"\']+" | sort -u)
+
+echo "📥 Fetching $LINK_COUNT documentation URLs directly..."
+echo ""
+
+# Note: Claude will see these URLs and can WebFetch them directly
+# No need to invoke an agent for small numbers of links
+echo "URLs to fetch:"
+echo "$URLS"
+}
+
+WebFetch each URL found above with appropriate prompts to extract documentation content.
+
+### Phase 4: Display Results
 
 **Present loaded documentation to user:**
 
@@ -165,10 +194,29 @@ The agent will return:
 - Working with multiple features
 - Another agent needs full context (⚠️ uses 20-30K tokens)
 
+## How It Works
+
+**Automatic Strategy Selection:**
+
+1. **Command counts links** in plugin's docs/ directory
+2. **If < 10 links** → Handles directly with WebFetch (fast, no overhead)
+3. **If ≥ 10 links** → Invokes agent for parallel batch processing
+
+**Why This Matters:**
+
+- **Small plugins** (< 10 links) → Fast, direct fetching
+- **Large plugins** (10-100+ links) → Agent handles parallel batching efficiently
+- **Prevents context overflow** → Agent manages large numbers of WebFetch calls
+- **Optimized for other agents** → Documentation ready to pass to other agents
+
+**Threshold:**
+- Default threshold: 10 links
+- Adjustable based on context window considerations
+- Agent can handle 60-100+ links in parallel batches
+
 ## Notes
 
-- The agent handles parallel WebFetch automatically
-- Large numbers of links (60-100+) are processed in batches
 - Fresh documentation is always fetched from official sources
 - Context usage scales with scope selection
 - Documentation is formatted for easy consumption by other agents
+- Agent uses parallel batching to handle large link counts without context overflow
