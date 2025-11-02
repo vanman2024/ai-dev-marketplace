@@ -165,11 +165,131 @@ env={
 }
 ```
 
+## What The Output Actually Looks Like
+
+### Example: Successful Connection
+
+When you run your agent, you'll see system messages like this:
+
+```python
+# System message with connection status
+SystemMessage(
+    subtype='init',
+    data={
+        'type': 'system',
+        'session_id': 'c8feee3e-bb62-4dcc-92bc-042b507e614a',
+        'mcp_servers': [{'name': 'cats', 'status': 'connected'}],  # ✅ Connected!
+        'tools': ['mcp__cats__search_candidates', 'mcp__cats__get_candidate', ...],
+        'model': 'claude-sonnet-4-20250514',
+        ...
+    }
+)
+```
+
+**What this means:**
+- `'status': 'connected'` ✅ - Your HTTP configuration worked!
+- `'tools': [...]` - All 163 CATS tools are now available
+- Agent can now use `mcp__cats__search_candidates`, etc.
+
+### Example: Failed Connection
+
+If you use wrong transport type, you'll see:
+
+```python
+SystemMessage(
+    data={
+        'mcp_servers': [{'name': 'cats', 'status': 'failed'}],  # ❌ Failed!
+        'tools': ['Task', 'Bash', 'Read', ...],  # Only built-in tools, no MCP tools
+        ...
+    }
+)
+```
+
+**What this means:**
+- `'status': 'failed'` ❌ - Connection didn't work
+- No `mcp__cats__*` tools available
+- Common cause: Using `"type": "sse"` instead of `"type": "http"`
+
+### Example: Tool Call
+
+When Claude uses an MCP tool:
+
+```python
+# Claude decides to call search_candidates
+AssistantMessage(
+    content=[
+        ToolUseBlock(
+            id='toolu_01HhvXi5wyvVa2DWtbP8KvJw',
+            name='mcp__cats__search_candidates',
+            input={'search_string': 'heavy duty mechanic'}
+        )
+    ]
+)
+
+# Tool result comes back
+UserMessage(
+    content=[
+        ToolResultBlock(
+            tool_use_id='toolu_01HhvXi5wyvVa2DWtbP8KvJw',
+            content='{"count":2,"total":3540,"_embedded":{"candidates":[...]}}'
+        )
+    ]
+)
+
+# Claude responds with analysis
+AssistantMessage(
+    content=[
+        TextBlock(
+            text="I found 3,540 heavy duty mechanic candidates. Here are the first 2..."
+        )
+    ]
+)
+```
+
+### Real Output From Working Demo
+
+```
+================================================================================
+CATS Multi-Tool Agent Demo - Claude Agent SDK
+================================================================================
+
+🔌 MCP Server Status:
+--------------------------------------------------------------------------------
+✅ cats: CONNECTED
+
+📦 Available CATS Tools: 163
+   - search_candidates
+   - get_candidate
+   - list_candidate_custom_fields
+   - list_candidate_attachments
+   - parse_resume
+   ... and 158 more
+
+💬 Claude:
+--------------------------------------------------------------------------------
+I'll search for heavy duty mechanics using the CATS database...
+
+💬 Claude:
+--------------------------------------------------------------------------------
+I found 3,540 heavy duty mechanic candidates in the system. Here are the
+first 2 results with their Red Seal certification status:
+
+1. **Sahlan Samsuddin**
+   - Email: sahlansamsuddin11@gmail.com
+   - Location: Mimika, Papua
+   - Red Seal Status: Not found in "Notes on Qualifications" field
+   - Tags: None
+
+2. **[Next candidate]**
+   ...
+```
+
 ## Additional Examples
 
 See the `examples/` directory in this skill:
 - `examples/multi-server.py` - Connecting to multiple FastMCP Cloud servers
 - `examples/connection-status.py` - Testing and troubleshooting connections
+- `@plugins/claude-agent-sdk/examples/python/complete-example-with-output.py` - Full example with output
 
 ## Related Resources
 
