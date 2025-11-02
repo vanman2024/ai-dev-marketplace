@@ -6,10 +6,10 @@ allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite
 
 **Arguments**: $ARGUMENTS
 
-Goal: Resume deployment from .deployment-config.json with fresh context to prevent infinite scrolling.
+Goal: Resume deployment from .ai-stack-config.json with fresh context to prevent infinite scrolling.
 
 Core Principles:
-- Read saved state from .deployment-config.json
+- Read saved state from .ai-stack-config.json
 - Continue from last completed phase
 - Fresh context prevents hang
 - Reuse same orchestration logic
@@ -18,15 +18,15 @@ Phase 1: Load State
 Goal: Read deployment configuration and determine where to resume
 
 Actions:
-- Check if .deployment-config.json exists:
-  !{bash test -f .deployment-config.json && echo "Found" || echo "Not found"}
+- Check if .ai-stack-config.json exists:
+  !{bash test -f .ai-stack-config.json && echo "Found" || echo "Not found"}
 
 - If not found:
   - Display error: "No deployment state found. Run /ai-tech-stack-1:build-full-stack first"
   - STOP
 
 - Load state file:
-  @.deployment-config.json
+  @.ai-stack-config.json
 
 - Parse current phase and determine what's complete vs pending
 
@@ -68,7 +68,7 @@ Actions:
   - Display: "Deployment already complete or in final phase"
   - Show summary from DEPLOYMENT-SUMMARY.md if exists
 
-- Update .deployment-config.json as each phase completes
+- Update .ai-stack-config.json as each phase completes
 
 Phase 3: Summary
 Goal: Confirm resumption successful
@@ -81,6 +81,6 @@ Actions:
 ## Usage
 
 When context becomes too large during build-full-stack:
-1. State automatically saved to .deployment-config.json
+1. State automatically saved to .ai-stack-config.json
 2. Run: /ai-tech-stack-1:resume
 3. Continues from last completed phase with fresh context

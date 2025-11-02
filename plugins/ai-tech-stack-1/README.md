@@ -54,11 +54,30 @@ Deploy: Vercel + Fly.io + Supabase Cloud
 
 ## Commands
 
+> **⚠️ IMPORTANT: Phase 0 is REQUIRED**
+>
+> Before running any build commands, you MUST run Phase 0 (~10 min) to establish the foundation:
+> - Project detection (`.claude/project.json`)
+> - Spec selection (enables spec-driven mode)
+> - Environment verification (Node, Python, CLIs)
+> - Git hooks (prevents committing secrets)
+> - `.env.example` template
+>
+> **Do not skip Phase 0** unless you're 100% certain all outputs already exist and are current.
+>
+> Run: `/ai-tech-stack-1:build-full-stack-phase-0 [app-name]` first!
+
 ### `/ai-tech-stack-1:build-full-stack [app-name]`
 
-**Master orchestrator** - Deploys complete stack in 3 sequential phases.
+**Master orchestrator** - Deploys complete stack in 6 sequential phases (includes Phase 0).
 
 **What it deploys:**
+0. **Phase 0: Dev Lifecycle Foundation** (10 min)
+   - Project detection
+   - Spec management
+   - Environment verification
+   - Git hooks setup
+
 1. **Phase 1: Foundation** (20 min)
    - Next.js 15 frontend
    - FastAPI backend (ALWAYS)
@@ -78,6 +97,21 @@ Deploy: Vercel + Fly.io + Supabase Cloud
    - Fly.io deployment config
    - Complete validation
 
+4. **Phase 4: Testing & Quality** (30 min)
+   - Newman API tests
+   - Playwright E2E tests
+   - Security scans
+
+5. **Phase 5: Production Deployment** (30 min)
+   - Deploy to Vercel (frontend)
+   - Deploy to Fly.io (backend)
+   - Deployment validation
+
+6. **Phase 6: Versioning & Summary** (10 min)
+   - Version bump
+   - Changelog generation
+   - Final documentation
+
 **Progressive Context Management:**
 - Phase 1: Up to 3 agents (context small)
 - Phase 2: Limit to 2 agents (context growing)
@@ -88,7 +122,7 @@ Deploy: Vercel + Fly.io + Supabase Cloud
 /ai-tech-stack-1:build-full-stack red-ai
 ```
 
-**Time:** ~70 minutes total (slow but reliable, prevents hang)
+**Time:** ~2.5-3 hours total (complete automation, start to production)
 
 **Dual-Mode Detection:**
 - **Interactive Mode**: No specs found - asks questions via AskUserQuestion

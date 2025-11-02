@@ -34,6 +34,8 @@ CONTEXT: Early - 3 agents OK
 
 Actions (ONLY if mode = spec-driven):
 - Find spec directories: !{bash ls -d specs/*/ 2>/dev/null | head -5}
+- Verify spec file exists: !{bash SPEC_FILE=$(find specs -name "spec.md" -o -name "plan.md" 2>/dev/null | head -1); if [ -z "$SPEC_FILE" ]; then echo "⚠️ ERROR: specs/ directory exists but no spec.md or plan.md found"; echo "Falling back to interactive mode"; exit 1; else echo "Found: $SPEC_FILE"; fi}
+- If no valid spec found: Fall back to Phase 2B (interactive mode)
 - Read primary spec: !{bash find specs -name "spec.md" -o -name "plan.md" | head -1 | xargs cat}
 - Parse spec for:
   - App type (search for "platform", "chatbot", "RAG", "multi-agent")

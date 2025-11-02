@@ -118,12 +118,14 @@ Actions:
   - nextjs-frontend/.mcp.json: shadcn, tailwind-ui, figma, supabase, context7
   - supabase/.mcp.json: supabase MCP server
   - mem0/.mcp.json: OpenMemory MCP server
-- Users add API keys per-project in .env files:
-  - SUPABASE_URL (required)
-  - SUPABASE_ANON_KEY (required)
-  - MEM0_API_KEY (optional)
-  - CONTEXT7_API_KEY (optional)
-  - FIGMA_ACCESS_TOKEN (optional)
+- ENV variables already configured by /supabase:init in Phase 1:
+  - SUPABASE_URL (✅ configured)
+  - SUPABASE_ANON_KEY (✅ configured)
+  - SUPABASE_SERVICE_ROLE_KEY (✅ configured)
+- Users may need to add optional API keys for enhanced features:
+  - MEM0_API_KEY (optional, if using Mem0 Platform instead of OSS)
+  - CONTEXT7_API_KEY (optional, if using Context7 MCP server)
+  - FIGMA_ACCESS_TOKEN (optional, if using Figma MCP server)
 - No dynamic MCP server creation during orchestration
 - MCP servers run locally (npx) or can be deployed to FastMCP Cloud later
 - Verify: !{bash echo "✅ MCP documented (pre-configured in plugins)"}
