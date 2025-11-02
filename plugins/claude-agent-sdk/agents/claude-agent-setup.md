@@ -103,7 +103,8 @@ You should create production-ready project foundations. Focus on:
 
    **For Python**:
    ```bash
-   pip install anthropic-agent-sdk
+   pip install claude-agent-sdk  # ✅ Correct package name
+   # NOT: pip install anthropic-agent-sdk (wrong!)
    ```
 
 5. **Create Configuration Files**:
@@ -152,25 +153,39 @@ You should create production-ready project foundations. Focus on:
    **Python Example (main.py)**:
    ```python
    import os
+   import asyncio
    from dotenv import load_dotenv
-   from anthropic_agent_sdk import query
+   from claude_agent_sdk import query  # ✅ Correct package name
+   from claude_agent_sdk.types import ClaudeAgentOptions
 
    load_dotenv()
 
-   def main():
-       try:
-           response = query(
-               api_key=os.getenv('ANTHROPIC_API_KEY')
-               prompt='Hello! Tell me about the Claude Agent SDK.'
-           )
+   async def main():
+       """Basic Claude Agent SDK query"""
+       api_key = os.getenv('ANTHROPIC_API_KEY')
 
-           print('Response:', response)
+       if not api_key:
+           print('Error: ANTHROPIC_API_KEY not found in .env')
+           return
+
+       try:
+           async for message in query(
+               prompt='Hello! Tell me about the Claude Agent SDK.',
+               options=ClaudeAgentOptions(
+                   model='claude-sonnet-4-20250514',
+                   max_turns=1,
+                   env={'ANTHROPIC_API_KEY': api_key}
+               )
+           ):
+               if hasattr(message, 'type') and message.type == 'text':
+                   print(f'Response: {message.text}')
+
        except Exception as error:
-           print('Error:', error)
+           print(f'Error: {error}')
            exit(1)
 
    if __name__ == '__main__':
-       main()
+       asyncio.run(main())
    ```
 
 7. **Create Environment Template**:
@@ -221,6 +236,32 @@ You should create production-ready project foundations. Focus on:
 - Don't use outdated SDK versions
 - Don't skip security configurations
 - Don't create projects without proper .gitignore
+- Don't use wrong package name (`anthropic-agent-sdk` is wrong, use `claude-agent-sdk`)
+- Don't use `"type": "sse"` for FastMCP Cloud (use `"type": "http"`)
+
+## FastMCP Cloud Integration (IMPORTANT)
+
+When using FastMCP Cloud servers, use HTTP transport:
+
+**✅ Correct:**
+```python
+mcp_servers={
+    "your-server": {
+        "type": "http",  # Use HTTP for FastMCP Cloud
+        "url": "https://your-server.fastmcp.app/mcp",
+        "headers": {
+            "Authorization": f"Bearer {FASTMCP_CLOUD_API_KEY}"
+        }
+    }
+}
+```
+
+**❌ Wrong:**
+```python
+"type": "sse"  # SSE doesn't work with FastMCP Cloud
+```
+
+See `examples/python/fastmcp-cloud-http.py` for complete example.
 
 ## Output Format
 

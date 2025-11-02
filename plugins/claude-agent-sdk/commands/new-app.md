@@ -94,3 +94,10 @@ Actions:
   - Customize system prompt
   - Add custom tools via MCP
   - Create subagents
+- Point to examples:
+  - Basic usage: `examples/python/basic-query.py`
+  - FastMCP Cloud: `examples/python/fastmcp-cloud-http.py`
+- Common pitfalls to avoid:
+  - ✅ Use `claude-agent-sdk` NOT `anthropic-agent-sdk`
+  - ✅ Use `"type": "http"` for FastMCP Cloud, NOT `"sse"`
+  - ✅ Pass API keys via `env` parameter in `ClaudeAgentOptions`

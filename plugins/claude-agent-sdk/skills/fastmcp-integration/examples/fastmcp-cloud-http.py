@@ -1,0 +1,1 @@
+../../../examples/python/fastmcp-cloud-http.py
