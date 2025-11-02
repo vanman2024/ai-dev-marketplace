@@ -1,7 +1,7 @@
 ---
 description: Add component with shadcn/ui integration and TypeScript
 argument-hint: <component-name>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__tailwind-ui, mcp__figma-application
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__tailwind-ui, mcp__figma-application, Skill
 ---
 
 **Arguments**: $ARGUMENTS
@@ -75,8 +75,14 @@ Deliverable:
 - shadcn/ui integration if needed
 - Export statement for easy imports")
 
-Phase 5: Verification
-Goal: Verify component was created correctly
+Phase 5: Verification & Design System Enforcement
+Goal: Verify component was created correctly and follows design system
+
+**IMPORTANT: Load design system enforcement skill:**
+
+!{skill design-system-enforcement}
+
+This loads design system rules, validation scripts, and auto-fix patterns.
 
 Actions:
 - Check that component file exists
@@ -84,6 +90,13 @@ Actions:
 - Run TypeScript type checking if available
 - Example: !{bash npm run typecheck 2>/dev/null || npx tsc --noEmit 2>/dev/null || echo "Type check not available"}
 - Verify imports resolve correctly
+- **Validate against design system using loaded skill patterns:**
+  - Check font sizes (must be 4 max)
+  - Check font weights (must be 2 max)
+  - Validate 8pt grid spacing
+  - Check color usage (60/30/10 rule)
+  - Validate OKLCH color format
+  - Auto-fix violations if detected
 - List component location for user reference
 
 Phase 6: Usage Instructions
