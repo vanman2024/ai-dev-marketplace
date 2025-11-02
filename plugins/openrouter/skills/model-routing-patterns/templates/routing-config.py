@@ -138,7 +138,7 @@ class ModelRouter:
 
         # Default to primary/fallback
         return ModelSelection(
-            model=self.config.primary or 'anthropic/claude-3-haiku',
+            model=self.config.primary or 'anthropic/claude-4.5-sonnet',
             fallback=self.config.fallback or [],
             rule='default',
             config={}

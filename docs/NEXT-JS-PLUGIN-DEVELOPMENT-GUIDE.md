@@ -336,7 +336,7 @@ export async function POST(req: Request) {
   }
 
   const result = await streamText({
-    model: anthropic('claude-3-5-sonnet-20241022'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     messages,
     tools: {
       // Custom tools
@@ -513,7 +513,7 @@ import { openai } from '@ai-sdk/openai';
 import { google } from '@ai-sdk/google';
 
 export const models = {
-  claude: anthropic('claude-3-5-sonnet-20241022'),
+  claude: anthropic('claude-sonnet-4-5-20250929'),
   gpt4: openai('gpt-4-turbo'),
   gemini: google('gemini-1.5-pro'),
 };
@@ -651,7 +651,7 @@ export async function streamComponentWithMemory(
       : '';
 
   const result = await streamUI({
-    model: anthropic('claude-3-5-sonnet-20241022'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     prompt: `${prompt}\n\nUser context: ${memoryContext}`,
     text: ({ content }) => <div className="prose">{content}</div>,
     tools: {
@@ -755,7 +755,7 @@ export async function continueConversationWithMemory(
   const memoryContext = memories.map((m) => `- ${m.memory}`).join('\n');
 
   const result = await streamUI({
-    model: anthropic('claude-3-5-sonnet-20241022'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     prompt: `User input: ${input}\n\nRelevant memories:\n${memoryContext}\n\nProvide a helpful response based on the context.`,
     text: ({ content, done }) => {
       if (done) {
@@ -833,7 +833,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = await streamText({
-    model: anthropic('claude-3-5-sonnet-20241022'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     messages,
     tools: {
       weather: weatherTool,
@@ -1100,7 +1100,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = await streamText({
-    model: anthropic('claude-3-5-sonnet-20241022'),
+    model: anthropic('claude-sonnet-4-5-20250929'),
     messages,
   });
 

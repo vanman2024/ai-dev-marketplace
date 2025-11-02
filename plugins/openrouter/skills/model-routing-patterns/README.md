@@ -209,12 +209,12 @@ response = await router.execute_with_fallback(context, api_client)
 - `microsoft/phi-3-mini-128k-instruct:free`
 
 ### Budget Models ($0.10-0.50/1M tokens)
-- `anthropic/claude-3-haiku` - $0.25/1M
+- `anthropic/claude-4.5-sonnet` - $0.25/1M
 - `openai/gpt-4o-mini` - $0.15/1M
 - `google/gemini-flash-1.5` - $0.075/1M
 
 ### Premium Models ($3-15/1M tokens)
-- `anthropic/claude-3-5-sonnet` - $3/1M
+- `anthropic/claude-4.5-sonnet` - $3/1M
 - `openai/gpt-4o` - $5/1M
 - `google/gemini-pro-1.5` - $3.50/1M
 

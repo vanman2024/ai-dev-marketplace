@@ -17,7 +17,7 @@
         "google/gemma-2-9b-it:free",
         "meta-llama/llama-3.2-3b-instruct:free"
       ],
-      "fallback": ["anthropic/claude-3-haiku"],
+      "fallback": ["anthropic/claude-4.5-sonnet"],
       "timeout": 3000,
       "temperature": 0.3
     },
@@ -32,10 +32,10 @@
         ]
       },
       "models": [
-        "anthropic/claude-3-haiku",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o-mini"
       ],
-      "fallback": ["anthropic/claude-3-5-sonnet"],
+      "fallback": ["openai/gpt-4o"],
       "timeout": 5000,
       "temperature": 0.5
     },
@@ -50,7 +50,7 @@
         ]
       },
       "models": [
-        "anthropic/claude-3-5-sonnet",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o"
       ],
       "fallback": ["google/gemini-pro-1.5"],
@@ -67,7 +67,7 @@
         ]
       },
       "models": [
-        "anthropic/claude-3-haiku",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o-mini"
       ],
       "streaming": true,
@@ -83,7 +83,7 @@
       },
       "models": [
         "google/gemini-pro-1.5",
-        "anthropic/claude-3-5-sonnet"
+        "anthropic/claude-4.5-sonnet"
       ],
       "timeout": 15000
     }

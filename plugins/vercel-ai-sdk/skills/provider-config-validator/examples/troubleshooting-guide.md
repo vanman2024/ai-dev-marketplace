@@ -333,7 +333,7 @@ Error: Prompt exceeds maximum context length
 **Fix:** Claude 3.5 Sonnet supports 200K tokens. Reduce prompt or use truncation:
 ```typescript
 const result = await generateText({
-  model: anthropic('claude-3-5-sonnet-20241022')
+  model: anthropic('claude-sonnet-4-5-20250929')
   prompt: truncatePrompt(longPrompt, 180000), // Leave buffer
 });
 ```

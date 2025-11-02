@@ -30,7 +30,7 @@ Create `.env`:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_SITE_URL=https://yourapp.com
 OPENROUTER_SITE_NAME=YourApp
 ```
@@ -54,7 +54,7 @@ client = OpenAI(
 
 # Use exactly like OpenAI SDK
 response = client.chat.completions.create(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     messages=[
         {"role": "user", "content": "Say hello!"}
     ]
@@ -77,7 +77,7 @@ const client = new OpenAI({
 
 // Use exactly like OpenAI SDK
 const response = await client.chat.completions.create({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [
     { role: 'user', content: 'Say hello!' }
   ],
@@ -92,7 +92,7 @@ console.log(response.choices[0].message.content);
 
 ```python
 stream = client.chat.completions.create(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     messages=[{"role": "user", "content": "Count from 1 to 10"}],
     stream=True,
 )
@@ -107,7 +107,7 @@ print()
 
 ```typescript
 const stream = await client.chat.completions.create({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [{ role: 'user', content: 'Count from 1 to 10' }],
   stream: true,
 });
@@ -152,7 +152,7 @@ tools = [
 
 # First request with tools
 response = client.chat.completions.create(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     messages=[
         {"role": "user", "content": "What's the weather in San Francisco?"}
     ],
@@ -175,7 +175,7 @@ if message.tool_calls:
 
     # Send function result back
     second_response = client.chat.completions.create(
-        model="anthropic/claude-3.5-sonnet",
+        model="anthropic/claude-4.5-sonnet",
         messages=[
             {"role": "user", "content": "What's the weather in San Francisco?"},
             message,
@@ -206,7 +206,7 @@ def chat(user_message: str):
 
     # Get response
     response = client.chat.completions.create(
-        model="anthropic/claude-3.5-sonnet",
+        model="anthropic/claude-4.5-sonnet",
         messages=messages,
     )
 
@@ -230,7 +230,7 @@ OpenRouter gives you access to many models through one API:
 ```python
 # Claude 3.5 Sonnet - Best reasoning
 response = client.chat.completions.create(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     messages=[{"role": "user", "content": "Explain quantum computing"}],
 )
 
@@ -299,7 +299,7 @@ from openai import OpenAI, APIError, RateLimitError, APIConnectionError
 
 try:
     response = client.chat.completions.create(
-        model="anthropic/claude-3.5-sonnet",
+        model="anthropic/claude-4.5-sonnet",
         messages=[{"role": "user", "content": "Hello"}],
     )
     print(response.choices[0].message.content)
@@ -358,7 +358,7 @@ OpenRouter shows costs in the response:
 
 ```python
 response = client.chat.completions.create(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     messages=[{"role": "user", "content": "Hello"}],
 )
 

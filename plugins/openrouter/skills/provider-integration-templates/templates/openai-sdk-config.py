@@ -37,13 +37,13 @@ def create_chat_completion(
         Chat completion response
 
     Common models:
-        - anthropic/claude-3.5-sonnet
-        - anthropic/claude-3-opus
+        - anthropic/claude-4.5-sonnet
+        - anthropic/claude-4.5-sonnet
         - meta-llama/llama-3.1-70b-instruct
         - openai/gpt-4-turbo
         - google/gemini-pro-1.5
     """
-    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
+    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet")
 
     return client.chat.completions.create(
         model=model,
@@ -74,7 +74,7 @@ def create_streaming_chat_completion(
             if chunk.choices[0].delta.content:
                 print(chunk.choices[0].delta.content, end="")
     """
-    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
+    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet")
 
     return client.chat.completions.create(
         model=model,

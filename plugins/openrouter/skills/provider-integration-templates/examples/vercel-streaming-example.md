@@ -40,7 +40,7 @@ Create `.env.local`:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 
 # Optional: For OpenRouter rankings
 OPENROUTER_SITE_URL=https://yourapp.com
@@ -64,7 +64,7 @@ export const openrouter = createOpenAI({
 });
 
 export const model = openrouter(
-  process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet'
+  process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet'
 );
 ```
 

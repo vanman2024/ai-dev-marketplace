@@ -28,22 +28,22 @@
     "implementation": {
       "javascript": {
         "fetch": {
-          "code": "const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {\n  method: 'POST',\n  headers: {\n    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,\n    'X-Title': process.env.OPENROUTER_APP_TITLE,\n    'HTTP-Referer': process.env.OPENROUTER_SITE_URL,\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    model: 'anthropic/claude-3.5-sonnet',\n    messages: [{role: 'user', content: 'Hello'}]\n  })\n});"
+          "code": "const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {\n  method: 'POST',\n  headers: {\n    'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,\n    'X-Title': process.env.OPENROUTER_APP_TITLE,\n    'HTTP-Referer': process.env.OPENROUTER_SITE_URL,\n    'Content-Type': 'application/json'\n  },\n  body: JSON.stringify({\n    model: 'anthropic/claude-4.5-sonnet',\n    messages: [{role: 'user', content: 'Hello'}]\n  })\n});"
         },
         "axios": {
-          "code": "const response = await axios.post(\n  'https://openrouter.ai/api/v1/chat/completions',\n  {\n    model: 'anthropic/claude-3.5-sonnet',\n    messages: [{role: 'user', content: 'Hello'}]\n  },\n  {\n    headers: {\n      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,\n      'X-Title': process.env.OPENROUTER_APP_TITLE,\n      'HTTP-Referer': process.env.OPENROUTER_SITE_URL\n    }\n  }\n);"
+          "code": "const response = await axios.post(\n  'https://openrouter.ai/api/v1/chat/completions',\n  {\n    model: 'anthropic/claude-4.5-sonnet',\n    messages: [{role: 'user', content: 'Hello'}]\n  },\n  {\n    headers: {\n      'Authorization': `Bearer ${process.env.OPENROUTER_API_KEY}`,\n      'X-Title': process.env.OPENROUTER_APP_TITLE,\n      'HTTP-Referer': process.env.OPENROUTER_SITE_URL\n    }\n  }\n);"
         }
       },
       "python": {
         "requests": {
-          "code": "import os\nimport requests\n\nresponse = requests.post(\n    'https://openrouter.ai/api/v1/chat/completions',\n    headers={\n        'Authorization': f'Bearer {os.getenv(\"OPENROUTER_API_KEY\")}',\n        'X-Title': os.getenv('OPENROUTER_APP_TITLE'),\n        'HTTP-Referer': os.getenv('OPENROUTER_SITE_URL'),\n        'Content-Type': 'application/json'\n    },\n    json={\n        'model': 'anthropic/claude-3.5-sonnet',\n        'messages': [{'role': 'user', 'content': 'Hello'}]\n    }\n)"
+          "code": "import os\nimport requests\n\nresponse = requests.post(\n    'https://openrouter.ai/api/v1/chat/completions',\n    headers={\n        'Authorization': f'Bearer {os.getenv(\"OPENROUTER_API_KEY\")}',\n        'X-Title': os.getenv('OPENROUTER_APP_TITLE'),\n        'HTTP-Referer': os.getenv('OPENROUTER_SITE_URL'),\n        'Content-Type': 'application/json'\n    },\n    json={\n        'model': 'anthropic/claude-4.5-sonnet',\n        'messages': [{'role': 'user', 'content': 'Hello'}]\n    }\n)"
         },
         "openai_client": {
-          "code": "import os\nfrom openai import OpenAI\n\nclient = OpenAI(\n    base_url='https://openrouter.ai/api/v1',\n    api_key=os.getenv('OPENROUTER_API_KEY'),\n    default_headers={\n        'X-Title': os.getenv('OPENROUTER_APP_TITLE'),\n        'HTTP-Referer': os.getenv('OPENROUTER_SITE_URL')\n    }\n)\n\nresponse = client.chat.completions.create(\n    model='anthropic/claude-3.5-sonnet',\n    messages=[{'role': 'user', 'content': 'Hello'}]\n)"
+          "code": "import os\nfrom openai import OpenAI\n\nclient = OpenAI(\n    base_url='https://openrouter.ai/api/v1',\n    api_key=os.getenv('OPENROUTER_API_KEY'),\n    default_headers={\n        'X-Title': os.getenv('OPENROUTER_APP_TITLE'),\n        'HTTP-Referer': os.getenv('OPENROUTER_SITE_URL')\n    }\n)\n\nresponse = client.chat.completions.create(\n    model='anthropic/claude-4.5-sonnet',\n    messages=[{'role': 'user', 'content': 'Hello'}]\n)"
         }
       },
       "curl": {
-        "code": "curl https://openrouter.ai/api/v1/chat/completions \\\n  -H \"Authorization: Bearer $OPENROUTER_API_KEY\" \\\n  -H \"X-Title: $OPENROUTER_APP_TITLE\" \\\n  -H \"HTTP-Referer: $OPENROUTER_SITE_URL\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"anthropic/claude-3.5-sonnet\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}]\n  }'"
+        "code": "curl https://openrouter.ai/api/v1/chat/completions \\\n  -H \"Authorization: Bearer $OPENROUTER_API_KEY\" \\\n  -H \"X-Title: $OPENROUTER_APP_TITLE\" \\\n  -H \"HTTP-Referer: $OPENROUTER_SITE_URL\" \\\n  -H \"Content-Type: application/json\" \\\n  -d '{\n    \"model\": \"anthropic/claude-4.5-sonnet\",\n    \"messages\": [{\"role\": \"user\", \"content\": \"Hello\"}]\n  }'"
       }
     },
     "dashboard": {

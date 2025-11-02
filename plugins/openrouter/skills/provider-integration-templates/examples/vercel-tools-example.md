@@ -25,7 +25,7 @@ Create `.env.local`:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 ```
 
 ## Step 1: Define Tools
@@ -114,7 +114,7 @@ export async function POST(req: Request) {
   const { messages } = await req.json();
 
   const result = await streamText({
-    model: openrouter('anthropic/claude-3.5-sonnet'),
+    model: openrouter('anthropic/claude-4.5-sonnet'),
     messages,
     tools,
     maxToolRoundtrips: 5, // Allow multiple tool calls

@@ -26,7 +26,7 @@ export const client = new OpenAI({
  */
 export async function streamChat(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet',
+  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet',
   onChunk?: (content: string) => void,
   onComplete?: (fullContent: string) => void,
   onError?: (error: Error) => void
@@ -67,7 +67,7 @@ export async function streamChat(
  */
 export async function streamChatSSE(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet'
+  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet'
 ): Promise<ReadableStream> {
   const stream = await client.chat.completions.create({
     model,
@@ -108,7 +108,7 @@ export async function streamChatSSE(
  */
 export async function streamToConsole(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet'
+  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet'
 ): Promise<string> {
   return streamChat(
     messages,

@@ -24,7 +24,7 @@
         "notes": "Industry standard, highly reliable"
       },
       "Anthropic": {
-        "models": ["claude-3.5-sonnet", "claude-3-opus", "claude-3-haiku"],
+        "models": ["claude-4.5-sonnet", "claude-4.5-sonnet", "claude-4.5-sonnet"],
         "strengths": ["Safety", "Long context", "Instruction following"],
         "pricing": "Medium to High",
         "notes": "Excellent for complex tasks, very safe outputs"
@@ -93,7 +93,7 @@
           "available_from": ["OpenAI"],
           "preference_ignored": "Only one provider available"
         },
-        "claude-3.5-sonnet": {
+        "claude-4.5-sonnet": {
           "available_from": ["Anthropic"],
           "preference_ignored": "Only one provider available"
         },

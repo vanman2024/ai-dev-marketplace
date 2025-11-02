@@ -3,7 +3,7 @@
   "description": "Minimize latency with fast models and streaming for real-time experiences",
   "version": "1.0.0",
 
-  "primary": "anthropic/claude-3-haiku",
+  "primary": "anthropic/claude-4.5-sonnet",
   "fallback": [
     "openai/gpt-4o-mini",
     "google/gemini-flash-1.5"
@@ -27,7 +27,7 @@
     "chat_streaming": {
       "description": "Real-time chat with streaming",
       "models": [
-        "anthropic/claude-3-haiku",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o-mini"
       ],
       "streaming": true,
@@ -37,7 +37,7 @@
     "quick_responses": {
       "description": "Fast responses under 500 tokens",
       "models": [
-        "anthropic/claude-3-haiku",
+        "anthropic/claude-4.5-sonnet",
         "google/gemini-flash-1.5"
       ],
       "max_tokens": 500,
@@ -47,7 +47,7 @@
       "description": "Interactive UI elements requiring immediate feedback",
       "models": [
         "openai/gpt-4o-mini",
-        "anthropic/claude-3-haiku"
+        "anthropic/claude-4.5-sonnet"
       ],
       "streaming": true,
       "max_latency_ms": 500
@@ -58,10 +58,10 @@
     "enabled": true,
     "prefer_region": "auto",
     "regions": {
-      "us-east": ["anthropic/claude-3-haiku", "openai/gpt-4o-mini"],
-      "us-west": ["openai/gpt-4o-mini", "anthropic/claude-3-haiku"],
-      "eu": ["anthropic/claude-3-haiku", "google/gemini-flash-1.5"],
-      "asia": ["google/gemini-flash-1.5", "anthropic/claude-3-haiku"]
+      "us-east": ["anthropic/claude-4.5-sonnet", "openai/gpt-4o-mini"],
+      "us-west": ["openai/gpt-4o-mini", "anthropic/claude-4.5-sonnet"],
+      "eu": ["anthropic/claude-4.5-sonnet", "google/gemini-flash-1.5"],
+      "asia": ["google/gemini-flash-1.5", "anthropic/claude-4.5-sonnet"]
     }
   },
 

@@ -61,7 +61,7 @@ def create_rag_chain(vectorstore):
     """
     # Configure OpenRouter LLM
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.3,  # Lower temperature for factual responses
@@ -117,7 +117,7 @@ def create_rag_chain_with_sources(vectorstore):
         Runnable RAG chain that returns answer with sources
     """
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.3,
@@ -170,7 +170,7 @@ def create_conversational_rag_chain(vectorstore):
     from langchain_core.prompts import MessagesPlaceholder
 
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.3,

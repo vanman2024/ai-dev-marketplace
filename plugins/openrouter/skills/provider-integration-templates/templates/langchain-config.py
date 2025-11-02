@@ -18,7 +18,7 @@ def get_openrouter_chat(
     Create a ChatOpenAI instance configured for OpenRouter.
 
     Args:
-        model: Model ID (e.g., "anthropic/claude-3.5-sonnet")
+        model: Model ID (e.g., "anthropic/claude-4.5-sonnet")
                Defaults to OPENROUTER_MODEL env var
         temperature: Sampling temperature (0.0 to 1.0)
         max_tokens: Maximum tokens to generate
@@ -28,8 +28,8 @@ def get_openrouter_chat(
         ChatOpenAI instance configured for OpenRouter
 
     Common models:
-        - anthropic/claude-3.5-sonnet - Best reasoning, long context
-        - anthropic/claude-3-opus - Most capable, highest quality
+        - anthropic/claude-4.5-sonnet - Best reasoning, long context
+        - anthropic/claude-4.5-sonnet - Most capable, highest quality
         - meta-llama/llama-3.1-70b-instruct - Fast, cost-effective
         - openai/gpt-4-turbo - Strong general purpose
         - google/gemini-pro-1.5 - Long context, multimodal
@@ -39,7 +39,7 @@ def get_openrouter_chat(
     if not api_key:
         raise ValueError("OPENROUTER_API_KEY environment variable not set")
 
-    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet")
+    model = model or os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet")
     base_url = os.getenv("OPENROUTER_BASE_URL", "https://openrouter.ai/api/v1")
 
     # Optional: Site info for OpenRouter rankings
@@ -65,8 +65,8 @@ def get_openrouter_chat(
 
 
 # Pre-configured instances for common models
-claude_35_sonnet = get_openrouter_chat(model="anthropic/claude-3.5-sonnet")
-claude_3_opus = get_openrouter_chat(model="anthropic/claude-3-opus")
+claude_35_sonnet = get_openrouter_chat(model="anthropic/claude-4.5-sonnet")
+claude_3_opus = get_openrouter_chat(model="anthropic/claude-4.5-sonnet")
 gpt_4_turbo = get_openrouter_chat(model="openai/gpt-4-turbo")
 llama_70b = get_openrouter_chat(model="meta-llama/llama-3.1-70b-instruct")
 

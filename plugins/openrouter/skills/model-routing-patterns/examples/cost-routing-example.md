@@ -17,8 +17,8 @@ This example shows how to:
   "strategy": "cost-optimized",
   "primary": "google/gemma-2-9b-it:free",
   "fallback": [
-    "anthropic/claude-3-haiku",
-    "anthropic/claude-3-5-sonnet"
+    "anthropic/claude-4.5-sonnet",
+    "anthropic/claude-4.5-sonnet"
   ],
   "routing_rules": {
     "simple_tasks": {
@@ -26,11 +26,11 @@ This example shows how to:
       "max_tokens": 1000
     },
     "moderate_tasks": {
-      "models": ["anthropic/claude-3-haiku"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "max_tokens": 4000
     },
     "critical_tasks": {
-      "models": ["anthropic/claude-3-5-sonnet"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "max_tokens": 8000
     }
   }

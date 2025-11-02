@@ -13,9 +13,9 @@ OpenRouter charges based on:
 
 Example pricing (per 1M tokens):
 ```
-anthropic/claude-3-opus:     $15 prompt / $75 completion
-anthropic/claude-3.5-sonnet: $3 prompt / $15 completion
-anthropic/claude-3-haiku:    $0.25 prompt / $1.25 completion
+anthropic/claude-4.5-sonnet:     $15 prompt / $75 completion
+anthropic/claude-4.5-sonnet: $3 prompt / $15 completion
+anthropic/claude-4.5-sonnet:    $0.25 prompt / $1.25 completion
 openai/gpt-4-turbo:          $10 prompt / $30 completion
 openai/gpt-3.5-turbo:        $0.50 prompt / $1.50 completion
 ```
@@ -25,9 +25,9 @@ openai/gpt-3.5-turbo:        $0.50 prompt / $1.50 completion
 ```javascript
 function calculateCost(promptTokens, completionTokens, model) {
   const pricing = {
-    'anthropic/claude-3-opus': { prompt: 0.000015, completion: 0.000075 },
-    'anthropic/claude-3.5-sonnet': { prompt: 0.000003, completion: 0.000015 },
-    'anthropic/claude-3-haiku': { prompt: 0.00000025, completion: 0.00000125 },
+    'anthropic/claude-4.5-sonnet': { prompt: 0.000015, completion: 0.000075 },
+    'anthropic/claude-4.5-sonnet': { prompt: 0.000003, completion: 0.000015 },
+    'anthropic/claude-4.5-sonnet': { prompt: 0.00000025, completion: 0.00000125 },
     'openai/gpt-4-turbo': { prompt: 0.00001, completion: 0.00003 },
     'openai/gpt-3.5-turbo': { prompt: 0.0000005, completion: 0.0000015 }
   };
@@ -37,7 +37,7 @@ function calculateCost(promptTokens, completionTokens, model) {
 }
 
 // Example
-const cost = calculateCost(1000, 500, 'anthropic/claude-3.5-sonnet');
+const cost = calculateCost(1000, 500, 'anthropic/claude-4.5-sonnet');
 console.log(`Cost: $${cost.toFixed(4)}`); // $0.0105
 ```
 
@@ -49,7 +49,7 @@ console.log(`Cost: $${cost.toFixed(4)}`); // $0.0105
 ```javascript
 // Using expensive model for simple task
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3-opus',  // $15/$75 per 1M tokens
+  model: 'anthropic/claude-4.5-sonnet',  // $15/$75 per 1M tokens
   messages: [{ role: 'user', content: 'What is 2+2?' }]
 });
 ```
@@ -59,11 +59,11 @@ const response = await openrouter.chat({
 // Route by task complexity
 function selectModel(task) {
   if (task.complexity === 'simple') {
-    return 'anthropic/claude-3-haiku';  // $0.25/$1.25 per 1M tokens
+    return 'anthropic/claude-4.5-sonnet';  // $0.25/$1.25 per 1M tokens
   } else if (task.complexity === 'medium') {
-    return 'anthropic/claude-3.5-sonnet';  // $3/$15 per 1M tokens
+    return 'anthropic/claude-4.5-sonnet';  // $3/$15 per 1M tokens
   } else {
-    return 'anthropic/claude-3-opus';  // $15/$75 per 1M tokens
+    return 'anthropic/claude-4.5-sonnet';  // $15/$75 per 1M tokens
   }
 }
 
@@ -113,7 +113,7 @@ async function getCachedResponse(prompt, model) {
 for (const user of users) {
   const response = await getCachedResponse(
     [{ role: 'user', content: 'Explain machine learning' }],
-    'anthropic/claude-3-haiku'
+    'anthropic/claude-4.5-sonnet'
   );
 }
 // Cost: 1 × request_cost (subsequent requests free)
@@ -127,7 +127,7 @@ for (const user of users) {
 ```javascript
 // Unbounded response length
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [{ role: 'user', content: 'Explain AI' }]
 });
 // Could generate 4000+ tokens
@@ -137,7 +137,7 @@ const response = await openrouter.chat({
 ```javascript
 // Set max_tokens
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [{ role: 'user', content: 'Explain AI' }],
   max_tokens: 200  // Limit response length
 });
@@ -233,15 +233,15 @@ const response = await fetch(url, {
 **Problem:**
 ```bash
 # Expensive fallbacks
-OPENROUTER_MODEL=anthropic/claude-3-opus
-OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
+OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,anthropic/claude-4.5-sonnet
 ```
 
 **Solution:**
 ```bash
 # Cost-effective fallbacks
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet  # Good quality
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo  # Cheaper
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet  # Good quality
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo  # Cheaper
 ```
 
 **Savings:** 80-90% when fallback is used!
@@ -376,7 +376,7 @@ const response = await openrouter.chat({...});
 ```javascript
 // Using Claude Opus: $15 prompt / $75 completion
 for (const ticket of tickets) {
-  await classify(ticket, 'anthropic/claude-3-opus');
+  await classify(ticket, 'anthropic/claude-4.5-sonnet');
 }
 // Estimated cost: $5-10
 ```
@@ -385,7 +385,7 @@ for (const ticket of tickets) {
 ```javascript
 // Using Claude Haiku: $0.25 prompt / $1.25 completion
 const batched = tickets.slice(0, 100).join('\n---\n');
-await classify(batched, 'anthropic/claude-3-haiku');
+await classify(batched, 'anthropic/claude-4.5-sonnet');
 // Estimated cost: $0.10-0.20
 ```
 
@@ -408,7 +408,7 @@ for (const article of articles) {
 ```javascript
 // Claude Haiku with limited output
 for (const article of articles) {
-  await summarize(article, 'anthropic/claude-3-haiku', { max_tokens: 200 });
+  await summarize(article, 'anthropic/claude-4.5-sonnet', { max_tokens: 200 });
 }
 // Estimated cost: $0.50-1.00
 ```
@@ -423,7 +423,7 @@ for (const article of articles) {
 ```javascript
 // Claude Opus for all snippets
 for (const spec of specs) {
-  await generateCode(spec, 'anthropic/claude-3-opus');
+  await generateCode(spec, 'anthropic/claude-4.5-sonnet');
 }
 // Estimated cost: $8-12
 ```
@@ -433,8 +433,8 @@ for (const spec of specs) {
 // Use appropriate model for complexity
 for (const spec of specs) {
   const model = spec.complexity === 'high'
-    ? 'anthropic/claude-3.5-sonnet'
-    : 'anthropic/claude-3-haiku';
+    ? 'anthropic/claude-4.5-sonnet'
+    : 'anthropic/claude-4.5-sonnet';
   await generateCode(spec, model);
 }
 // Estimated cost: $1-2
@@ -485,8 +485,8 @@ echo "  This month: \$127.53"
 
 echo ""
 echo "By model:"
-echo "  claude-3.5-sonnet: \$85.20 (67%)"
-echo "  claude-3-haiku:    \$32.10 (25%)"
+echo "  claude-4.5-sonnet: \$85.20 (67%)"
+echo "  claude-4.5-sonnet:    \$32.10 (25%)"
 echo "  gpt-4-turbo:       \$10.23 (8%)"
 
 echo ""

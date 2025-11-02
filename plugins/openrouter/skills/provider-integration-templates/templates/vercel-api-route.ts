@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
     // Get model from environment or use default
     const model = openrouter(
-      process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet'
+      process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet'
     );
 
     // Stream the response

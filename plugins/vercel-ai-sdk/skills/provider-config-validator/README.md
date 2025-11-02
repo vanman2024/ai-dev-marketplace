@@ -78,7 +78,7 @@ Validates if a model name is supported by the provider.
 
 # Examples:
 ./scripts/check-model-compatibility.sh openai gpt-4o
-./scripts/check-model-compatibility.sh anthropic claude-3-opus-20240229
+./scripts/check-model-compatibility.sh anthropic claude-opus-4-20250514
 ```
 
 **Output for valid model:**
@@ -250,7 +250,7 @@ Plus provider-specific issues for OpenAI, Anthropic, Google, and xAI.
 
 ### Check Model
 ```bash
-./scripts/check-model-compatibility.sh anthropic claude-3-5-sonnet-20241022
+./scripts/check-model-compatibility.sh anthropic claude-sonnet-4-5-20250929
 ```
 
 ### Test Connection

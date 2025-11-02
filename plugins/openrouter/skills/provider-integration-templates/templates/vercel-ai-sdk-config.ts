@@ -23,19 +23,19 @@ export const openrouter = createOpenAI({
  * Default model configuration
  *
  * Common OpenRouter models:
- * - anthropic/claude-3.5-sonnet - Best reasoning, long context
- * - anthropic/claude-3-opus - Most capable, highest quality
+ * - anthropic/claude-4.5-sonnet - Best reasoning, long context
+ * - anthropic/claude-4.5-sonnet - Most capable, highest quality
  * - meta-llama/llama-3.1-70b-instruct - Fast, cost-effective
  * - openai/gpt-4-turbo - Strong general purpose
  * - google/gemini-pro-1.5 - Long context, multimodal
  */
 export const defaultModel = openrouter(
-  process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet'
+  process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet'
 );
 
 /**
  * Example: Create a specific model instance
  */
-export const claude35Sonnet = openrouter('anthropic/claude-3.5-sonnet');
+export const claude35Sonnet = openrouter('anthropic/claude-4.5-sonnet');
 export const gpt4Turbo = openrouter('openai/gpt-4-turbo');
 export const llama70b = openrouter('meta-llama/llama-3.1-70b-instruct');

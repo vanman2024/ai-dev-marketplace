@@ -216,15 +216,15 @@ EOF
                 ;;
             anthropic)
                 echo "Recommended:"
-                echo "  • claude-3-5-sonnet-20241022 (best, computer use)"
+                echo "  • claude-sonnet-4-5-20250929 (best, computer use)"
                 echo "  • claude-3-5-haiku-20241022 (fast, affordable)"
                 echo ""
                 echo "All models:"
-                echo "  • claude-3-5-sonnet-20241022"
+                echo "  • claude-sonnet-4-5-20250929"
                 echo "  • claude-3-5-haiku-20241022"
-                echo "  • claude-3-opus-20240229"
+                echo "  • claude-opus-4-20250514"
                 echo "  • claude-3-sonnet-20240229"
-                echo "  • claude-3-haiku-20240307"
+                echo "  • claude-haiku-4-20250514"
                 ;;
             google)
                 echo "Recommended:"
@@ -410,7 +410,7 @@ import { anthropic } from '@ai-sdk/anthropic';
 import { generateText } from 'ai';
 
 const result = await generateText({
-  model: anthropic('claude-3-5-sonnet-20241022'),
+  model: anthropic('claude-sonnet-4-5-20250929'),
   prompt: 'Hello',
 });
 EOF

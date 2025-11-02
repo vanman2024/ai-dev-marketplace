@@ -156,7 +156,7 @@ try:
     from langchain_anthropic import ChatAnthropic
 
     # Test LLM
-    llm = ChatAnthropic(model='claude-3-5-sonnet-20241022', temperature=0)
+    llm = ChatAnthropic(model='claude-sonnet-4-5-20250929', temperature=0)
     print('✓ Anthropic LLM initialized')
 
     # Test API connection

@@ -70,7 +70,7 @@ case "$PROVIDER" in
         else
             PACKAGE="anthropic"
         fi
-        VALID_MODELS=("claude-3-5-sonnet-20241022" "claude-3-opus-20240229" "claude-3-sonnet-20240229" "claude-3-haiku-20240307")
+        VALID_MODELS=("claude-sonnet-4-5-20250929" "claude-opus-4-20250514" "claude-3-sonnet-20240229" "claude-haiku-4-20250514")
         ;;
     google)
         ENV_VAR="GOOGLE_GENERATIVE_AI_API_KEY"

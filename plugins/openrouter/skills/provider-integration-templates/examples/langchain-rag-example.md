@@ -27,7 +27,7 @@ pip install langchain langchain-openai langchain-community faiss-cpu python-dote
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 ```
 
 ## Basic RAG Implementation

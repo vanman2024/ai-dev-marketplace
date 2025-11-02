@@ -21,8 +21,8 @@ interface OpenRouterChatOptions {
  * @returns ChatOpenAI instance configured for OpenRouter
  *
  * Common models:
- * - anthropic/claude-3.5-sonnet - Best reasoning, long context
- * - anthropic/claude-3-opus - Most capable, highest quality
+ * - anthropic/claude-4.5-sonnet - Best reasoning, long context
+ * - anthropic/claude-4.5-sonnet - Most capable, highest quality
  * - meta-llama/llama-3.1-70b-instruct - Fast, cost-effective
  * - openai/gpt-4-turbo - Strong general purpose
  * - google/gemini-pro-1.5 - Long context, multimodal
@@ -37,7 +37,7 @@ export function getOpenRouterChat(options: OpenRouterChatOptions = {}) {
   const model =
     options.model ||
     process.env.OPENROUTER_MODEL ||
-    'anthropic/claude-3.5-sonnet';
+    'anthropic/claude-4.5-sonnet';
   const baseURL =
     process.env.OPENROUTER_BASE_URL || 'https://openrouter.ai/api/v1';
 
@@ -64,11 +64,11 @@ export function getOpenRouterChat(options: OpenRouterChatOptions = {}) {
 
 // Pre-configured instances for common models
 export const claude35Sonnet = getOpenRouterChat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
 });
 
 export const claude3Opus = getOpenRouterChat({
-  model: 'anthropic/claude-3-opus',
+  model: 'anthropic/claude-4.5-sonnet',
 });
 
 export const gpt4Turbo = getOpenRouterChat({

@@ -25,7 +25,7 @@ def create_chat_chain():
     """
     # Configure OpenRouter
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.7,
@@ -60,7 +60,7 @@ def create_chat_chain_with_history():
         Runnable chain that can be invoked with {"history": [...], "input": "message"}
     """
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.7,
@@ -89,7 +89,7 @@ def create_rag_chain(retriever):
         Runnable chain that retrieves context and generates response
     """
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0.7,

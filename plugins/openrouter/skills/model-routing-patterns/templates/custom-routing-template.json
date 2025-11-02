@@ -56,7 +56,7 @@
           "max_tokens": 1000
         },
         "premium": {
-          "models": ["anthropic/claude-3-5-sonnet"],
+          "models": ["anthropic/claude-4.5-sonnet"],
           "rate_limit": 1000,
           "max_tokens": 8000
         }

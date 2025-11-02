@@ -53,7 +53,7 @@ curl -i https://openrouter.ai/api/v1/chat/completions \
   -H "Authorization: Bearer $OPENROUTER_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "anthropic/claude-3.5-sonnet",
+    "model": "anthropic/claude-4.5-sonnet",
     "messages": [{"role": "user", "content": "Hello"}]
   }'
 ```
@@ -296,7 +296,7 @@ const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    model: 'anthropic/claude-3.5-sonnet',
+    model: 'anthropic/claude-4.5-sonnet',
     messages: [{ role: 'user', content: prompt }],
     stream: true  // Enable streaming
   })
@@ -314,7 +314,7 @@ Limit response size to stay within token limits:
 
 ```javascript
 {
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [...],
   max_tokens: 1000  // Limit response length
 }
@@ -435,8 +435,8 @@ When rate limited, fall back to models with higher limits:
 
 ```javascript
 const modelPriority = [
-  'anthropic/claude-3.5-sonnet',  // Primary
-  'anthropic/claude-3-haiku',     // Fallback 1 (cheaper, higher limits)
+  'anthropic/claude-4.5-sonnet',  // Primary
+  'anthropic/claude-4.5-sonnet',     // Fallback 1 (cheaper, higher limits)
   'openai/gpt-3.5-turbo'          // Fallback 2
 ];
 
@@ -471,7 +471,7 @@ for i in {1..100}; do
     -H "Authorization: Bearer $OPENROUTER_API_KEY" \
     -H "Content-Type: application/json" \
     -d '{
-      "model": "anthropic/claude-3-haiku",
+      "model": "anthropic/claude-4.5-sonnet",
       "messages": [{"role": "user", "content": "Test"}],
       "max_tokens": 10
     }' | grep "HTTP"

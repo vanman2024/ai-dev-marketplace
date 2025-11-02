@@ -87,7 +87,7 @@ export class ModelRouter {
 
     // Default to primary/fallback
     return {
-      model: this.config.primary || 'anthropic/claude-3-haiku',
+      model: this.config.primary || 'anthropic/claude-4.5-sonnet',
       fallback: this.config.fallback || [],
       rule: 'default',
       config: {}

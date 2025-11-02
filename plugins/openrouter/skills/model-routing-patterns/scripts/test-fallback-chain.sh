@@ -50,7 +50,7 @@ if [ -z "$FALLBACK_MODELS" ]; then
     echo '{'
     echo '  "primary": "'$PRIMARY_MODEL'",'
     echo '  "fallback": ['
-    echo '    "anthropic/claude-3-haiku",'
+    echo '    "anthropic/claude-4.5-sonnet",'
     echo '    "openai/gpt-4o-mini"'
     echo '  ]'
     echo '}'

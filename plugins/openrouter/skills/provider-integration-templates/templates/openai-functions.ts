@@ -154,7 +154,7 @@ function executeFunction(name: string, args: string): string {
  */
 export async function chatWithFunctions(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet',
+  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet',
   maxIterations: number = 5
 ): Promise<string> {
   const conversationMessages = [...messages];
@@ -208,7 +208,7 @@ export async function chatWithFunctions(
  */
 export async function streamChatWithFunctions(
   messages: OpenAI.Chat.ChatCompletionMessageParam[],
-  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet',
+  model: string = process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet',
   onChunk?: (content: string) => void,
   maxIterations: number = 5
 ): Promise<string> {

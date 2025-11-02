@@ -42,8 +42,8 @@ generate_config() {
   "description": "Minimize costs using free models with premium fallback",
   "primary": "google/gemma-2-9b-it:free",
   "fallback": [
-    "anthropic/claude-3-haiku",
-    "anthropic/claude-3-5-sonnet"
+    "anthropic/claude-4.5-sonnet",
+    "anthropic/claude-4.5-sonnet"
   ],
   "timeout": 5000,
   "retry": {
@@ -58,11 +58,11 @@ generate_config() {
       "max_tokens": 1000
     },
     "complex_tasks": {
-      "models": ["anthropic/claude-3-haiku", "openai/gpt-4o-mini"],
+      "models": ["anthropic/claude-4.5-sonnet", "openai/gpt-4o-mini"],
       "max_tokens": 4000
     },
     "critical_tasks": {
-      "models": ["anthropic/claude-3-5-sonnet"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "max_tokens": 8000
     }
   },
@@ -79,7 +79,7 @@ EOF
 {
   "strategy": "speed-optimized",
   "description": "Minimize latency with fast models and streaming",
-  "primary": "anthropic/claude-3-haiku",
+  "primary": "anthropic/claude-4.5-sonnet",
   "fallback": [
     "openai/gpt-4o-mini",
     "google/gemini-flash-1.5"
@@ -96,11 +96,11 @@ EOF
   "on_error": "fallback",
   "routing_rules": {
     "default": {
-      "models": ["anthropic/claude-3-haiku"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "max_latency_ms": 1000
     },
     "streaming_required": {
-      "models": ["anthropic/claude-3-haiku", "openai/gpt-4o-mini"],
+      "models": ["anthropic/claude-4.5-sonnet", "openai/gpt-4o-mini"],
       "streaming": true
     }
   },
@@ -117,7 +117,7 @@ EOF
 {
   "strategy": "quality-optimized",
   "description": "Maximize quality with premium models",
-  "primary": "anthropic/claude-3-5-sonnet",
+  "primary": "anthropic/claude-4.5-sonnet",
   "fallback": [
     "openai/gpt-4o",
     "google/gemini-pro-1.5"
@@ -131,15 +131,15 @@ EOF
   "on_error": "fallback",
   "routing_rules": {
     "default": {
-      "models": ["anthropic/claude-3-5-sonnet"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "temperature": 0.7
     },
     "code_generation": {
-      "models": ["anthropic/claude-3-5-sonnet"],
+      "models": ["anthropic/claude-4.5-sonnet"],
       "temperature": 0.2
     },
     "creative_writing": {
-      "models": ["openai/gpt-4o", "anthropic/claude-3-5-sonnet"],
+      "models": ["openai/gpt-4o", "anthropic/claude-4.5-sonnet"],
       "temperature": 0.9
     },
     "long_context": {
@@ -164,16 +164,16 @@ EOF
     "simple_tasks": {
       "classifier": "token_count < 500",
       "models": ["google/gemma-2-9b-it:free", "meta-llama/llama-3.2-3b-instruct:free"],
-      "fallback": ["anthropic/claude-3-haiku"]
+      "fallback": ["anthropic/claude-4.5-sonnet"]
     },
     "medium_tasks": {
       "classifier": "token_count >= 500 and token_count < 2000",
-      "models": ["anthropic/claude-3-haiku", "openai/gpt-4o-mini"],
-      "fallback": ["anthropic/claude-3-5-sonnet"]
+      "models": ["anthropic/claude-4.5-sonnet", "openai/gpt-4o-mini"],
+      "fallback": ["anthropic/claude-4.5-sonnet"]
     },
     "complex_tasks": {
       "classifier": "token_count >= 2000 or complexity == 'high'",
-      "models": ["anthropic/claude-3-5-sonnet", "openai/gpt-4o"],
+      "models": ["anthropic/claude-4.5-sonnet", "openai/gpt-4o"],
       "fallback": ["google/gemini-pro-1.5"]
     }
   },
@@ -213,7 +213,7 @@ EOF
 
             # Ask questions
             read -p "Primary optimization goal (cost/speed/quality): " GOAL
-            read -p "Primary model (e.g., anthropic/claude-3-haiku): " PRIMARY
+            read -p "Primary model (e.g., anthropic/claude-4.5-sonnet): " PRIMARY
             read -p "Fallback model 1 (or press Enter to skip): " FALLBACK1
             read -p "Fallback model 2 (or press Enter to skip): " FALLBACK2
             read -p "Timeout in milliseconds (default: 5000): " TIMEOUT

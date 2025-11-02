@@ -138,7 +138,7 @@ bash skills/provider-integration-templates/scripts/validate-integration.sh --fra
 
 **Test streaming**:
 ```bash
-bash scripts/test-streaming.sh --provider openrouter --model anthropic/claude-3.5-sonnet
+bash scripts/test-streaming.sh --provider openrouter --model anthropic/claude-4.5-sonnet
 ```
 
 ## Integration Patterns
@@ -176,7 +176,7 @@ All templates use these standard environment variables:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-...
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_SITE_URL=https://yourapp.com  # Optional: for rankings
 OPENROUTER_SITE_NAME=YourApp  # Optional: for rankings
 ```
@@ -185,8 +185,8 @@ OPENROUTER_SITE_NAME=YourApp  # Optional: for rankings
 
 Templates use configurable model selection. Common models:
 
-- `anthropic/claude-3.5-sonnet` - Best reasoning, long context
-- `anthropic/claude-3-opus` - Most capable, highest cost
+- `anthropic/claude-4.5-sonnet` - Best reasoning, long context
+- `anthropic/claude-4.5-sonnet` - Most capable, highest cost
 - `meta-llama/llama-3.1-70b-instruct` - Fast, cost-effective
 - `openai/gpt-4-turbo` - Strong general purpose
 - `google/gemini-pro-1.5` - Long context, multimodal

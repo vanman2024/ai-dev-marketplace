@@ -36,7 +36,7 @@ Use this skill when:
 
 **Strategy:**
 - Use free models (google/gemma-2-9b-it:free, meta-llama/llama-3.2-3b-instruct:free)
-- Fallback to cheap paid models (anthropic/claude-3-haiku, openai/gpt-4o-mini)
+- Fallback to budget models (anthropic/claude-4.5-sonnet, openai/gpt-4o-mini)
 - Premium models only for complex tasks requiring highest quality
 
 **Template:** `templates/cost-optimized-routing.json`
@@ -68,7 +68,7 @@ Use this skill when:
 **Goal:** Maximize output quality with premium models
 
 **Strategy:**
-- Use top-tier models (gpt-4, claude-3.5-sonnet, gemini-pro)
+- Use top-tier models (gpt-4o, claude-4.5-sonnet, gemini-pro)
 - Fallback to other premium models for availability
 - Multi-model voting for critical tasks
 - Quality verification layers
@@ -235,8 +235,8 @@ Shows projected savings and performance tradeoffs.
 {
   "primary": "meta-llama/llama-3.2-3b-instruct:free",
   "fallback": [
-    "anthropic/claude-3-haiku",
-    "anthropic/claude-3-5-sonnet"
+    "anthropic/claude-4.5-sonnet",
+    "openai/gpt-4o-mini"
   ]
 }
 ```
@@ -248,10 +248,10 @@ Shows projected savings and performance tradeoffs.
     "models": ["google/gemma-2-9b-it:free"]
   },
   "medium_tasks": {
-    "models": ["anthropic/claude-3-haiku"]
+    "models": ["anthropic/claude-4.5-sonnet"]
   },
   "complex_tasks": {
-    "models": ["anthropic/claude-3-5-sonnet"]
+    "models": ["openai/gpt-4o"]
   }
 }
 ```
@@ -278,7 +278,7 @@ Shows projected savings and performance tradeoffs.
     "rate_limit": 10
   },
   "premium_tier": {
-    "models": ["anthropic/claude-3-5-sonnet"],
+    "models": ["anthropic/claude-4.5-sonnet"],
     "rate_limit": 1000
   }
 }
@@ -295,14 +295,13 @@ Shows projected savings and performance tradeoffs.
 **Use for:** High-volume, simple tasks, development
 
 ### Budget Models (Cost: $0.10-0.50/1M tokens)
-- `anthropic/claude-3-haiku`
 - `openai/gpt-4o-mini`
 - `google/gemini-flash-1.5`
 
 **Use for:** Production workloads, balanced cost/quality
 
 ### Premium Models (Cost: $3-15/1M tokens)
-- `anthropic/claude-3-5-sonnet`
+- `anthropic/claude-4.5-sonnet`
 - `openai/gpt-4o`
 - `google/gemini-pro-1.5`
 
@@ -310,7 +309,7 @@ Shows projected savings and performance tradeoffs.
 
 ### Specialized Models
 - **Vision:** `openai/gpt-4-vision-preview`
-- **Code:** `anthropic/claude-3-5-sonnet` (code-specific)
+- **Code:** `anthropic/claude-4.5-sonnet` (code-specific)
 - **Long Context:** `google/gemini-pro-1.5` (1M+ tokens)
 
 ## Best Practices

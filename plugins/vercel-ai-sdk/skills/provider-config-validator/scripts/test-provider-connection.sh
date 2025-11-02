@@ -71,7 +71,7 @@ import { generateText } from 'ai';
 try {
   console.log('🔄 Testing Anthropic connection...');
   const result = await generateText({
-    model: anthropic('claude-3-haiku-20240307'),
+    model: anthropic('claude-haiku-4-20250514'),
     prompt: 'Say "Connection successful!" in exactly 3 words.',
     maxTokens: 10,
   });
@@ -189,7 +189,7 @@ try:
     print("🔄 Testing Anthropic connection...")
     client = Anthropic()
     response = client.messages.create(
-        model="claude-3-haiku-20240307",
+        model="claude-haiku-4-20250514",
         max_tokens=10,
         messages=[{"role": "user", "content": "Say 'Connection successful!' in exactly 3 words."}]
     )

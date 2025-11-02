@@ -32,7 +32,7 @@ This example demonstrates:
           "complexity_score >= 0.7"
         ]
       },
-      "models": ["anthropic/claude-3-5-sonnet"]
+      "models": ["anthropic/claude-4.5-sonnet"]
     }
   },
   "adaptive_routing": {
@@ -123,7 +123,7 @@ class DynamicRouter extends ModelRouter {
 
   private selectPremiumModel(context: RequestContext): ModelSelection {
     return {
-      model: 'anthropic/claude-3-5-sonnet',
+      model: 'anthropic/claude-4.5-sonnet',
       fallback: ['openai/gpt-4o', 'google/gemini-pro-1.5'],
       rule: 'premium',
       config: { temperature: 0.7, max_tokens: 8000 }
@@ -132,7 +132,7 @@ class DynamicRouter extends ModelRouter {
 
   private selectFastModel(context: RequestContext): ModelSelection {
     return {
-      model: 'anthropic/claude-3-haiku',
+      model: 'anthropic/claude-4.5-sonnet',
       fallback: ['openai/gpt-4o-mini'],
       rule: 'fast',
       config: { temperature: 0.5, max_tokens: 2000, streaming: true }
@@ -142,7 +142,7 @@ class DynamicRouter extends ModelRouter {
   private selectCheapModel(context: RequestContext): ModelSelection {
     return {
       model: 'google/gemma-2-9b-it:free',
-      fallback: ['meta-llama/llama-3.2-3b-instruct:free', 'anthropic/claude-3-haiku'],
+      fallback: ['meta-llama/llama-3.2-3b-instruct:free', 'anthropic/claude-4.5-sonnet'],
       rule: 'cheap',
       config: { temperature: 0.3, max_tokens: 1000 }
     };
@@ -156,8 +156,8 @@ class DynamicRouter extends ModelRouter {
       return this.selectCheapModel(context);
     } else if (complexity < 0.7) {
       return {
-        model: 'anthropic/claude-3-haiku',
-        fallback: ['openai/gpt-4o-mini', 'anthropic/claude-3-5-sonnet'],
+        model: 'anthropic/claude-4.5-sonnet',
+        fallback: ['openai/gpt-4o-mini', 'anthropic/claude-4.5-sonnet'],
         rule: 'balanced',
         config: { temperature: 0.5, max_tokens: 4000 }
       };
@@ -197,13 +197,13 @@ class TierBasedRouter extends DynamicRouter {
       monthlyBudget: 0
     },
     basic: {
-      modelsAllowed: ['anthropic/claude-3-haiku', 'openai/gpt-4o-mini'],
+      modelsAllowed: ['anthropic/claude-4.5-sonnet', 'openai/gpt-4o-mini'],
       maxTokensPerRequest: 4000,
       maxRequestsPerDay: 1000,
       monthlyBudget: 10
     },
     premium: {
-      modelsAllowed: ['anthropic/claude-3-5-sonnet', 'openai/gpt-4o'],
+      modelsAllowed: ['anthropic/claude-4.5-sonnet', 'openai/gpt-4o'],
       maxTokensPerRequest: 8000,
       maxRequestsPerDay: 10000,
       monthlyBudget: 100
@@ -291,7 +291,7 @@ class AdaptiveRouter extends TierBasedRouter {
 
   getBestModelForContext(context: RequestContext): string {
     // Select model with best performance for given context
-    let bestModel = 'anthropic/claude-3-haiku';
+    let bestModel = 'anthropic/claude-4.5-sonnet';
     let bestScore = 0;
 
     for (const [model, perf] of this.performanceHistory.entries()) {
@@ -366,7 +366,7 @@ async function main() {
   };
 
   const response2 = await router.selectModelForUser(context2);
-  console.log('Premium tier, complex:', response2.model); // claude-3-5-sonnet
+  console.log('Premium tier, complex:', response2.model); // claude-4.5-sonnet
 
   // Example 3: Adaptive selection based on performance
   const bestModel = router.getBestModelForContext({

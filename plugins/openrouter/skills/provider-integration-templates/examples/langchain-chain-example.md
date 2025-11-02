@@ -36,7 +36,7 @@ Create `.env`:
 
 ```bash
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_BASE_URL=https://openrouter.ai/api/v1
 OPENROUTER_SITE_URL=https://yourapp.com
 OPENROUTER_SITE_NAME=YourApp
@@ -277,7 +277,7 @@ print(conditional_chain.invoke({
 ```python
 # Configure primary and fallback models
 primary_llm = ChatOpenAI(
-    model="anthropic/claude-3.5-sonnet",
+    model="anthropic/claude-4.5-sonnet",
     openai_api_key=os.getenv("OPENROUTER_API_KEY"),
     openai_api_base=os.getenv("OPENROUTER_BASE_URL"),
 )

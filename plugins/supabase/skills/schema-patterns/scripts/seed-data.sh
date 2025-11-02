@@ -166,7 +166,7 @@ values
     ('00000000-0000-0000-0000-000000000001'::uuid, '/chat/completions', 'gpt-4', 2300, 0.069),
     ('00000000-0000-0000-0000-000000000002'::uuid, '/embeddings', 'text-embedding-ada-002', 8000, 0.0008),
     ('00000000-0000-0000-0000-000000000002'::uuid, '/chat/completions', 'gpt-3.5-turbo', 1200, 0.0018),
-    ('00000000-0000-0000-0000-000000000003'::uuid, '/chat/completions', 'claude-3-opus', 3000, 0.045);
+    ('00000000-0000-0000-0000-000000000003'::uuid, '/chat/completions', 'claude-sonnet-4', 3000, 0.045);
 
 -- Token Usage Summary
 insert into token_usage_summary (user_id, period_start, period_end, total_tokens, total_cost_usd, request_count)

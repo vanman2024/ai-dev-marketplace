@@ -21,9 +21,9 @@ This example demonstrates:
   "primary": "google/gemma-2-9b-it:free",
   "fallback": [
     "meta-llama/llama-3.2-3b-instruct:free",
-    "anthropic/claude-3-haiku",
+    "anthropic/claude-4.5-sonnet",
     "openai/gpt-4o-mini",
-    "anthropic/claude-3-5-sonnet"
+    "anthropic/claude-4.5-sonnet"
   ],
 
   "timeout": 5000,

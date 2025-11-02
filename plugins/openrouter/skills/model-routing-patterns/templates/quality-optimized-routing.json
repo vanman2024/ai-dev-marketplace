@@ -3,7 +3,7 @@
   "description": "Maximize output quality with premium models for critical applications",
   "version": "1.0.0",
 
-  "primary": "anthropic/claude-3-5-sonnet",
+  "primary": "anthropic/claude-4.5-sonnet",
   "fallback": [
     "openai/gpt-4o",
     "google/gemini-pro-1.5"
@@ -21,7 +21,7 @@
     "general_reasoning": {
       "description": "Complex reasoning and analysis",
       "models": [
-        "anthropic/claude-3-5-sonnet",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o"
       ],
       "temperature": 0.7,
@@ -30,7 +30,7 @@
     "code_generation": {
       "description": "Code generation and debugging",
       "models": [
-        "anthropic/claude-3-5-sonnet"
+        "anthropic/claude-4.5-sonnet"
       ],
       "temperature": 0.2,
       "max_tokens": 8000,
@@ -40,7 +40,7 @@
       "description": "Creative content generation",
       "models": [
         "openai/gpt-4o",
-        "anthropic/claude-3-5-sonnet"
+        "anthropic/claude-4.5-sonnet"
       ],
       "temperature": 0.9,
       "max_tokens": 8000
@@ -49,7 +49,7 @@
       "description": "Tasks requiring long context (100k+ tokens)",
       "models": [
         "google/gemini-pro-1.5",
-        "anthropic/claude-3-5-sonnet"
+        "anthropic/claude-4.5-sonnet"
       ],
       "max_tokens": 32000
     },
@@ -57,7 +57,7 @@
       "description": "Vision and image understanding",
       "models": [
         "openai/gpt-4-vision-preview",
-        "anthropic/claude-3-5-sonnet"
+        "anthropic/claude-4.5-sonnet"
       ],
       "supports_images": true
     }
@@ -78,7 +78,7 @@
     "enabled": false,
     "critical_tasks_only": true,
     "models": [
-      "anthropic/claude-3-5-sonnet",
+      "anthropic/claude-4.5-sonnet",
       "openai/gpt-4o",
       "google/gemini-pro-1.5"
     ],

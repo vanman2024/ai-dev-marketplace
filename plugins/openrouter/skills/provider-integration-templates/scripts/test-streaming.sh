@@ -5,7 +5,7 @@
 set -e
 
 PROVIDER="openrouter"
-MODEL="anthropic/claude-3.5-sonnet"
+MODEL="anthropic/claude-4.5-sonnet"
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do

@@ -93,7 +93,7 @@ async function requestWithOpenAIBackoff(params) {
 ```javascript
 // Anthropic requires specific message format
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [
     {
       role: 'user',
@@ -104,7 +104,7 @@ const response = await openrouter.chat({
 
 // For complex content (images, etc.)
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [
     {
       role: 'user',
@@ -125,13 +125,13 @@ const response = await openrouter.chat({
 ```javascript
 // Anthropic has output limits
 const ANTHROPIC_OUTPUT_LIMITS = {
-  'claude-3-opus': 4096,
-  'claude-3.5-sonnet': 4096,
-  'claude-3-haiku': 4096
+  'claude-4.5-sonnet': 4096,
+  'claude-4.5-sonnet': 4096,
+  'claude-4.5-sonnet': 4096
 };
 
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [...],
   max_tokens: 4096  // Respect limit
 });
@@ -153,7 +153,7 @@ const ANTHROPIC_CAPABILITIES = {
 
 // Don't use function calling with Anthropic
 const response = await openrouter.chat({
-  model: 'anthropic/claude-3.5-sonnet',
+  model: 'anthropic/claude-4.5-sonnet',
   messages: [...],
   // ❌ functions: [...]  // Not supported
 });
@@ -349,7 +349,7 @@ async function requestWithProviderFallback(model, messages) {
 
       // Map to alternative provider
       const alternatives = {
-        'openai': 'anthropic/claude-3-haiku',
+        'openai': 'anthropic/claude-4.5-sonnet',
         'anthropic': 'openai/gpt-3.5-turbo',
         'google': 'openai/gpt-3.5-turbo'
       };
@@ -399,7 +399,7 @@ bash scripts/check-provider-status.sh google
 
 # Test model availability
 bash scripts/check-model-availability.sh "openai/gpt-4-turbo"
-bash scripts/check-model-availability.sh "anthropic/claude-3.5-sonnet"
+bash scripts/check-model-availability.sh "anthropic/claude-4.5-sonnet"
 ```
 
 ## Getting Help

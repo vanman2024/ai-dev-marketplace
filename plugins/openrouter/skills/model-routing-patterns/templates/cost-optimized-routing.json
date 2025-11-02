@@ -5,8 +5,8 @@
 
   "primary": "google/gemma-2-9b-it:free",
   "fallback": [
-    "anthropic/claude-3-haiku",
-    "anthropic/claude-3-5-sonnet"
+    "anthropic/claude-4.5-sonnet",
+    "openai/gpt-4o-mini"
   ],
 
   "timeout": 5000,
@@ -33,14 +33,14 @@
         "google/gemma-2-9b-it:free",
         "microsoft/phi-3-mini-128k-instruct:free"
       ],
-      "fallback": ["anthropic/claude-3-haiku"],
+      "fallback": ["anthropic/claude-4.5-sonnet"],
       "max_tokens": 2000,
       "temperature": 0.7
     },
     "moderate_complexity": {
       "description": "Tasks requiring reasoning but not premium quality",
       "models": [
-        "anthropic/claude-3-haiku",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o-mini"
       ],
       "max_tokens": 4000,
@@ -49,7 +49,7 @@
     "critical_quality": {
       "description": "Customer-facing, legal, or critical business decisions",
       "models": [
-        "anthropic/claude-3-5-sonnet",
+        "anthropic/claude-4.5-sonnet",
         "openai/gpt-4o"
       ],
       "max_tokens": 8000,

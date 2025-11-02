@@ -77,7 +77,7 @@ def create_agent():
     """
     # Configure OpenRouter LLM
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0,
@@ -126,7 +126,7 @@ def create_agent_with_memory():
     from langchain.memory import ConversationBufferMemory
 
     llm = ChatOpenAI(
-        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-3.5-sonnet"),
+        model=os.getenv("OPENROUTER_MODEL", "anthropic/claude-4.5-sonnet"),
         openai_api_key=os.getenv("OPENROUTER_API_KEY"),
         openai_api_base="https://openrouter.ai/api/v1",
         temperature=0,

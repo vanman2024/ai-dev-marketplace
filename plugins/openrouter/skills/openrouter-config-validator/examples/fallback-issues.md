@@ -22,8 +22,8 @@ Request → Primary Model
 
 ```bash
 # In .env
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo
 ```
 
 ## Common Issues
@@ -119,8 +119,8 @@ OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo
 1. **All models from same provider**
    ```bash
    # ❌ Bad: All Anthropic
-   OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
-   OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-opus,anthropic/claude-3-haiku
+   OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
+   OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,anthropic/claude-4.5-sonnet
    # If Anthropic is down, all fail
    ```
 
@@ -132,7 +132,7 @@ OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo
 **Use models from different providers:**
 ```bash
 # ✅ Good: Diverse providers
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,google/gemini-1.5-pro,meta-llama/llama-3-70b-instruct
 ```
 
@@ -148,7 +148,7 @@ done
 **Choose highly available models:**
 ```bash
 # Models typically with high availability
-OPENROUTER_FALLBACK_MODELS=openai/gpt-3.5-turbo,anthropic/claude-3-haiku,meta-llama/llama-3-8b-instruct
+OPENROUTER_FALLBACK_MODELS=openai/gpt-3.5-turbo,anthropic/claude-4.5-sonnet,meta-llama/llama-3-8b-instruct
 ```
 
 ### Issue 3: Fallback Order Not Optimal
@@ -162,7 +162,7 @@ OPENROUTER_FALLBACK_MODELS=openai/gpt-3.5-turbo,anthropic/claude-3-haiku,meta-ll
 
 ```bash
 # ❌ Bad order: Most expensive first
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-opus,openai/gpt-4-turbo,openai/gpt-3.5-turbo
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-4-turbo,openai/gpt-3.5-turbo
 ```
 
 **Solution:**
@@ -172,19 +172,19 @@ OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-opus,openai/gpt-4-turbo,openai/gpt
 **Option 1: Quality priority**
 ```bash
 # Best quality models first
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-opus,openai/gpt-4-turbo,anthropic/claude-3.5-sonnet
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-4-turbo,anthropic/claude-4.5-sonnet
 ```
 
 **Option 2: Cost priority**
 ```bash
 # Cheapest models first
-OPENROUTER_FALLBACK_MODELS=meta-llama/llama-3-8b-instruct,openai/gpt-3.5-turbo,anthropic/claude-3-haiku
+OPENROUTER_FALLBACK_MODELS=meta-llama/llama-3-8b-instruct,openai/gpt-3.5-turbo,anthropic/claude-4.5-sonnet
 ```
 
 **Option 3: Balanced**
 ```bash
 # Balance quality and cost
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo,meta-llama/llama-3-70b-instruct
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo,meta-llama/llama-3-70b-instruct
 ```
 
 ### Issue 4: Fallback Latency
@@ -229,7 +229,7 @@ try {
 **Use fast fallback models:**
 ```bash
 # Prefer models known for speed
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo,google/gemini-1.5-flash
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo,google/gemini-1.5-flash
 ```
 
 ### Issue 5: Fallback Cost Explosion
@@ -276,8 +276,8 @@ async function makeRequest(model, fallbackModels) {
 **Use cost-effective fallbacks:**
 ```bash
 # Ensure fallbacks are cheaper than primary
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet  # $3/1M tokens
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo  # $0.25-$0.50/1M tokens
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet  # $3/1M tokens
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo  # $0.25-$0.50/1M tokens
 ```
 
 **Set budget alerts:**
@@ -292,7 +292,7 @@ OPENROUTER_BUDGET_MONTHLY=100
 
 ```bash
 # ✅ Good: Different providers
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet        # Anthropic
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet        # Anthropic
 OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,google/gemini-1.5-pro  # OpenAI, Google
 ```
 
@@ -302,8 +302,8 @@ Order from best to acceptable:
 
 ```bash
 # Best → Good → Acceptable
-OPENROUTER_MODEL=anthropic/claude-3-opus           # Best
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3.5-sonnet,anthropic/claude-3-haiku
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet           # Best
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,anthropic/claude-4.5-sonnet
 ```
 
 ### 3. Cost Control
@@ -312,8 +312,8 @@ Order from expensive to cheap (for fallback scenarios):
 
 ```bash
 # If primary fails, use cheaper alternatives
-OPENROUTER_MODEL=anthropic/claude-3-opus           # Expensive primary
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-3.5-turbo  # Cheaper fallbacks
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet           # Expensive primary
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-3.5-turbo  # Cheaper fallbacks
 ```
 
 ### 4. Geographic Diversity
@@ -466,7 +466,7 @@ bash scripts/troubleshoot.sh
 
 ```bash
 # Reliability focused
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,google/gemini-1.5-pro
 ```
 
@@ -474,7 +474,7 @@ OPENROUTER_FALLBACK_MODELS=openai/gpt-4-turbo,google/gemini-1.5-pro
 
 ```bash
 # Cost focused
-OPENROUTER_MODEL=anthropic/claude-3-haiku
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 OPENROUTER_FALLBACK_MODELS=openai/gpt-3.5-turbo,meta-llama/llama-3-8b-instruct
 ```
 
@@ -482,8 +482,8 @@ OPENROUTER_FALLBACK_MODELS=openai/gpt-3.5-turbo,meta-llama/llama-3-8b-instruct
 
 ```bash
 # Balanced
-OPENROUTER_MODEL=anthropic/claude-3-opus
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3.5-sonnet,openai/gpt-4-turbo,google/gemini-1.5-pro
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-4-turbo,google/gemini-1.5-pro
 ```
 
 ## Getting Help

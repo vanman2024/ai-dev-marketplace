@@ -51,18 +51,18 @@ declare -A MODEL_COSTS=(
     ["microsoft/phi-3-mini-128k-instruct:free"]=0.0
 
     # Budget models
-    ["anthropic/claude-3-haiku"]=0.25
+    ["anthropic/claude-4.5-sonnet"]=0.25
     ["openai/gpt-4o-mini"]=0.15
     ["google/gemini-flash-1.5"]=0.075
 
     # Mid-tier models
     ["openai/gpt-4o"]=5.0
-    ["anthropic/claude-3-5-sonnet"]=3.0
+    ["anthropic/claude-4.5-sonnet"]=3.0
     ["google/gemini-pro-1.5"]=3.5
 
     # Premium models
     ["openai/gpt-4"]=30.0
-    ["anthropic/claude-3-opus"]=15.0
+    ["anthropic/claude-4.5-sonnet"]=15.0
 )
 
 # Default baseline (GPT-4o only)

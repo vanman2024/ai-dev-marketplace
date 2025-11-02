@@ -17,16 +17,16 @@ Solutions for when requested models are unavailable or not found.
    anthropic/claude-3-sonnet
 
    # ✅ Correct
-   anthropic/claude-3.5-sonnet
+   anthropic/claude-4.5-sonnet
    ```
 
 2. **Wrong provider prefix**
    ```bash
    # ❌ Wrong
-   claude-3.5-sonnet
+   claude-4.5-sonnet
 
    # ✅ Correct
-   anthropic/claude-3.5-sonnet
+   anthropic/claude-4.5-sonnet
    ```
 
 3. **Model version changed**
@@ -42,7 +42,7 @@ Solutions for when requested models are unavailable or not found.
 
 **Check model availability:**
 ```bash
-bash scripts/check-model-availability.sh "anthropic/claude-3.5-sonnet"
+bash scripts/check-model-availability.sh "anthropic/claude-4.5-sonnet"
 ```
 
 **List all available models:**
@@ -77,10 +77,10 @@ curl https://openrouter.ai/api/v1/models \
 3. **Alternative**: Use similar models that are available:
    ```bash
    # Instead of restricted model
-   anthropic/claude-3-opus
+   anthropic/claude-4.5-sonnet
 
    # Try available alternative
-   anthropic/claude-3.5-sonnet
+   anthropic/claude-4.5-sonnet
    ```
 
 ## Issue 3: Model Temporarily Unavailable
@@ -106,8 +106,8 @@ bash scripts/check-provider-status.sh anthropic
 **Use fallback models:**
 ```bash
 # In .env, configure fallbacks
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
-OPENROUTER_FALLBACK_MODELS=anthropic/claude-3-haiku,openai/gpt-4-turbo
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
+OPENROUTER_FALLBACK_MODELS=anthropic/claude-4.5-sonnet,openai/gpt-4-turbo
 ```
 
 **Test fallback chain:**
@@ -136,8 +136,8 @@ curl https://openrouter.ai/api/v1/models \
 | Deprecated Model | Current Alternative |
 |-----------------|---------------------|
 | `openai/gpt-3.5-turbo-16k` | `openai/gpt-3.5-turbo` (now has 16k by default) |
-| `anthropic/claude-2` | `anthropic/claude-3.5-sonnet` |
-| `anthropic/claude-instant-v1` | `anthropic/claude-3-haiku` |
+| `anthropic/claude-2` | `anthropic/claude-4.5-sonnet` |
+| `anthropic/claude-instant-v1` | `anthropic/claude-4.5-sonnet` |
 | `openai/gpt-4-32k` | `openai/gpt-4-turbo` (128k context) |
 
 **Update configuration:**
@@ -146,7 +146,7 @@ curl https://openrouter.ai/api/v1/models \
 OPENROUTER_MODEL=anthropic/claude-2
 
 # New
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 ```
 
 ## Issue 5: Regional Restrictions
@@ -193,7 +193,7 @@ Anthropic/Claude-3.5-Sonnet
 ANTHROPIC/CLAUDE-3.5-SONNET
 
 # ✅ Correct
-anthropic/claude-3.5-sonnet
+anthropic/claude-4.5-sonnet
 ```
 
 **Always use lowercase** for provider and model names.
@@ -254,18 +254,18 @@ OPENROUTER_MODEL=provider/model-name
 ### General Purpose
 ```bash
 # Best quality
-anthropic/claude-3.5-sonnet
+anthropic/claude-4.5-sonnet
 
 # Best value
-anthropic/claude-3-haiku
+anthropic/claude-4.5-sonnet
 openai/gpt-3.5-turbo
 ```
 
 ### Long Context
 ```bash
 # 200k context
-anthropic/claude-3.5-sonnet
-anthropic/claude-3-opus
+anthropic/claude-4.5-sonnet
+anthropic/claude-4.5-sonnet
 
 # 128k context
 openai/gpt-4-turbo
@@ -278,7 +278,7 @@ meta-llama/llama-3-8b-instruct
 mistral/mistral-7b-instruct
 
 # Good value
-anthropic/claude-3-haiku
+anthropic/claude-4.5-sonnet
 google/gemini-1.5-flash
 ```
 
@@ -287,24 +287,24 @@ google/gemini-1.5-flash
 **Code generation:**
 ```bash
 openai/gpt-4-turbo
-anthropic/claude-3.5-sonnet
+anthropic/claude-4.5-sonnet
 ```
 
 **Creative writing:**
 ```bash
-anthropic/claude-3-opus
+anthropic/claude-4.5-sonnet
 openai/gpt-4-turbo
 ```
 
 **Analysis:**
 ```bash
-anthropic/claude-3.5-sonnet
+anthropic/claude-4.5-sonnet
 openai/gpt-4-turbo
 ```
 
 **Simple tasks:**
 ```bash
-anthropic/claude-3-haiku
+anthropic/claude-4.5-sonnet
 openai/gpt-3.5-turbo
 meta-llama/llama-3-8b-instruct
 ```

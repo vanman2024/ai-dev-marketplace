@@ -54,7 +54,7 @@ if [ ! -f ".env" ]; then
     cat > .env << 'EOF'
 # OpenRouter API Configuration
 OPENROUTER_API_KEY=sk-or-v1-your-key-here
-OPENROUTER_MODEL=anthropic/claude-3.5-sonnet
+OPENROUTER_MODEL=anthropic/claude-4.5-sonnet
 
 # Optional: For OpenRouter rankings
 OPENROUTER_SITE_URL=https://yourapp.com

@@ -37,7 +37,7 @@ export async function createChatCompletion(
   options?: Partial<OpenAI.Chat.ChatCompletionCreateParams>
 ) {
   return openai.chat.completions.create({
-    model: model || process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet',
+    model: model || process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet',
     messages,
     ...options,
   });
@@ -56,7 +56,7 @@ export async function createStreamingChatCompletion(
   options?: Partial<OpenAI.Chat.ChatCompletionCreateParams>
 ) {
   return openai.chat.completions.create({
-    model: model || process.env.OPENROUTER_MODEL || 'anthropic/claude-3.5-sonnet',
+    model: model || process.env.OPENROUTER_MODEL || 'anthropic/claude-4.5-sonnet',
     messages,
     stream: true,
     ...options,

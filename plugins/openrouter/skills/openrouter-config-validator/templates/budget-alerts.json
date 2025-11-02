@@ -23,7 +23,7 @@
         "amount_usd": 50,
         "description": "Development/testing environment",
         "recommended_models": [
-          "anthropic/claude-3-haiku",
+          "anthropic/claude-4.5-sonnet",
           "openai/gpt-3.5-turbo",
           "meta-llama/llama-3-8b-instruct"
         ]
@@ -32,7 +32,7 @@
         "amount_usd": 200,
         "description": "Staging environment for pre-production testing",
         "recommended_models": [
-          "anthropic/claude-3.5-sonnet",
+          "anthropic/claude-4.5-sonnet",
           "openai/gpt-4-turbo",
           "meta-llama/llama-3-70b-instruct"
         ]
@@ -41,9 +41,9 @@
         "amount_usd": 1000,
         "description": "Production environment with safety margins",
         "recommended_models": [
-          "anthropic/claude-3.5-sonnet",
+          "anthropic/claude-4.5-sonnet",
           "openai/gpt-4-turbo",
-          "anthropic/claude-3-opus"
+          "anthropic/claude-4.5-sonnet"
         ]
       }
     },

@@ -61,7 +61,7 @@ Identify error from symptoms:
 
 # Examples:
 ./scripts/check-model-compatibility.sh openai gpt-4o
-./scripts/check-model-compatibility.sh anthropic claude-3-5-sonnet-20241022
+./scripts/check-model-compatibility.sh anthropic claude-sonnet-4-5-20250929
 ```
 
 Shows valid models if name is wrong, suggests closest matches.
@@ -101,7 +101,7 @@ Makes real API call with minimal tokens to verify setup.
 - Package: `@ai-sdk/anthropic`
 - Env: `ANTHROPIC_API_KEY`
 - Format: `sk-ant-api03-...`
-- Models: claude-3-5-sonnet-20241022, claude-3-opus-20240229
+- Models: claude-sonnet-4-5-20250929, claude-opus-4-20250514
 
 **Google:**
 - Package: `@ai-sdk/google`
@@ -129,7 +129,7 @@ Makes real API call with minimal tokens to verify setup.
 ```bash
 # Check valid models
 ./scripts/check-model-compatibility.sh anthropic claude-v3-opus
-# Shows: Did you mean? → claude-3-opus-20240229
+# Shows: Did you mean? → claude-opus-4-20250514
 ```
 
 ### Rate Limiting
