@@ -1,8 +1,10 @@
 {
-  "PreToolUse": [],
-  "PostToolUse": [],
-  "UserPromptSubmit": [],
-  "SessionStart": [],
-  "SessionEnd": [],
-  "PreCompact": []
+  "hooks": {
+    "PreToolUse": [],
+    "PostToolUse": [],
+    "UserPromptSubmit": [],
+    "SessionStart": [],
+    "SessionEnd": [],
+    "PreCompact": []
+  }
 }
