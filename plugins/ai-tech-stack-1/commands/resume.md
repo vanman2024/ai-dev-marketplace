@@ -55,9 +55,8 @@ Actions:
   - Wait for completion
   - Then continue to Phase 6-8
 
-  If phase == 5: Continue from Phase 6 (MCP Tools)
-  - If MCP selected: SlashCommand: /fastmcp:new-server
-  - Wait for completion
+  If phase == 5: Continue from Phase 6 (Testing & Quality)
+  - Run testing and quality checks
   - Then continue to Phase 7-8
 
   If phase == 6: Continue from Phase 7 (Validation)
