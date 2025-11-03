@@ -21,6 +21,27 @@ allowed-tools: Task, Read, Bash, Grep, WebFetch, Skill
 
 **Purpose:** Load fresh documentation for any plugin by extracting external links from local docs and fetching them intelligently. Automatically uses agent for large link counts (≥10) to handle parallel batching efficiently.
 
+## Available Skills
+
+This commands has access to the following skills from the plugin-docs-loader plugin:
+
+- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins\n
+**To use a skill:**
+```
+!{skill skill-name}
+```
+
+Use skills when you need:
+- Domain-specific templates and examples
+- Validation scripts and automation
+- Best practices and patterns
+- Configuration generators
+
+Skills provide pre-built resources to accelerate your work.
+
+---
+
+
 ## Command Arguments
 
 **Syntax:** `/plugin-docs-loader:load-docs <plugin-name> [scope]`

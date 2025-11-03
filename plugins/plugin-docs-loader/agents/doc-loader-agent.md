@@ -25,6 +25,27 @@ When generating configuration or code:
 
 **Purpose:** Load plugin documentation on-demand by extracting external links and fetching them in intelligent, priority-based batches.
 
+## Available Skills
+
+This agents has access to the following skills from the plugin-docs-loader plugin:
+
+- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins\n
+**To use a skill:**
+```
+!{skill skill-name}
+```
+
+Use skills when you need:
+- Domain-specific templates and examples
+- Validation scripts and automation
+- Best practices and patterns
+- Configuration generators
+
+Skills provide pre-built resources to accelerate your work.
+
+---
+
+
 ## Responsibilities
 
 1. **Parse Documentation Files** - Extract all external URLs from markdown files

@@ -18,6 +18,27 @@ allowed-tools: Task, Skill, Read
 
 **Purpose**: Test that the claude-agent-setup agent can properly invoke and use the fastmcp-integration skill
 
+## Available Skills
+
+This commands has access to the following skills from the claude-agent-sdk plugin:
+
+- **fastmcp-integration**: Examples and patterns for integrating FastMCP Cloud servers with Claude Agent SDK using HTTP transport\n- **sdk-config-validator**: Validates Claude Agent SDK configuration files, environment setup, dependencies, and project structure\n
+**To use a skill:**
+```
+!{skill skill-name}
+```
+
+Use skills when you need:
+- Domain-specific templates and examples
+- Validation scripts and automation
+- Best practices and patterns
+- Configuration generators
+
+Skills provide pre-built resources to accelerate your work.
+
+---
+
+
 ## Test Workflow
 
 1. **Invoke the claude-agent-setup agent** with MCP requirements
