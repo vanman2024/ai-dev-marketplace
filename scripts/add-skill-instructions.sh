@@ -56,9 +56,11 @@ add_skills_section() {
             local skill_file="$plugin_path/skills/$skill/SKILL.md"
             if [ -f "$skill_file" ]; then
                 local description=$(grep "^description:" "$skill_file" | sed 's/description: //')
-                skill_list="${skill_list}- **$skill**: $description\n"
+                skill_list="${skill_list}- **$skill**: $description
+"
             else
-                skill_list="${skill_list}- **$skill**\n"
+                skill_list="${skill_list}- **$skill**
+"
             fi
         fi
     done <<< "$skills"
