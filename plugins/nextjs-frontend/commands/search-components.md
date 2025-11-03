@@ -1,7 +1,7 @@
 ---
 description: Search and add shadcn/ui components from component library
 argument-hint: <search-query>
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__figma-application
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__figma-application, Skill
 ---
 
 ## Security Requirements

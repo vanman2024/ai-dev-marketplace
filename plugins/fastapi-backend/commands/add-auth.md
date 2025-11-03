@@ -1,7 +1,7 @@
 ---
 description: Integrate authentication (JWT, OAuth2, Supabase) into FastAPI project
 argument-hint: auth-type
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

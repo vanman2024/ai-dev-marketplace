@@ -1,7 +1,7 @@
 ---
 description: "Phase 4: Testing & Quality Assurance - Newman API tests, Playwright E2E, security scans"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements
@@ -107,6 +107,16 @@ Actions:
   - Display security summary
   - Mark security complete
 - Time: ~5 minutes
+
+Phase 4B: Test Results Tracking
+Goal: Update task status based on test results
+
+Actions:
+- Update task completion status:
+  !{slashcommand /iterate:sync test-results}
+- Mark all passing tests as complete in task system
+- Document failing tests for fixes
+- Mark test tracking complete
 
 Phase 5: Summary Phase 4
 Goal: Save state and prepare for Phase 5 (Deployment)

@@ -1,7 +1,7 @@
 ---
 description: "Phase 1: Foundation - Next.js frontend, FastAPI backend, Supabase database"
 argument-hint: [app-name]
-allowed-tools: SlashCommand, AskUserQuestion, TodoWrite, Read, Write, Bash(*)
+allowed-tools: SlashCommand, AskUserQuestion, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements
@@ -40,44 +40,69 @@ Actions:
 - Store mode: !{bash echo '{"mode": "'$(if [ -d "specs" ] && [ "$(ls -A specs 2>/dev/null)" ]; then echo "spec-driven"; else echo "interactive"; fi)'"}' > .ai-stack-mode.json}
 - Mark Mode Detection complete
 
-Phase 2A: Spec-Driven Discovery (If specs/ exists)
-Goal: Auto-configure from existing specs
+Phase 2A: Load ALL Documentation (If specs/ exists)
+Goal: Load comprehensive architecture docs and ALL specs for implementation
 
 CONTEXT: Early - 3 agents OK
 
 Actions (ONLY if mode = spec-driven):
-- Find spec directories: !{bash ls -d specs/*/ 2>/dev/null | head -5}
-- Verify spec file exists: !{bash SPEC_FILE=$(find specs -name "spec.md" -o -name "plan.md" 2>/dev/null | head -1); if [ -z "$SPEC_FILE" ]; then echo "⚠️ ERROR: specs/ directory exists but no spec.md or plan.md found"; echo "Falling back to interactive mode"; exit 1; else echo "Found: $SPEC_FILE"; fi}
-- If no valid spec found: Fall back to Phase 2B (interactive mode)
-- Read primary spec: !{bash find specs -name "spec.md" -o -name "plan.md" | head -1 | xargs cat}
-- Parse spec for:
-  - App type (search for "platform", "chatbot", "RAG", "multi-agent")
-  - Backend features (search for "REST", "GraphQL", "WebSockets", "FastAPI")
-  - Database features (search for "vector", "pgvector", "multi-tenant", "realtime")
-  - Auth requirements (search for "OAuth", "email", "authentication", "MFA")
-  - AI architecture (search for "Claude Agent SDK", "MCP", "Mem0", "Vercel AI SDK")
-- Write auto-detected config to .ai-stack-config.json:
+- Display: "📚 Loading architecture documentation and specifications..."
+
+- Load Architecture Documentation (~250KB):
+  @docs/architecture/frontend.md
+  @docs/architecture/backend.md
+  @docs/architecture/data.md
+  @docs/architecture/ai.md
+  @docs/architecture/infrastructure.md
+  @docs/architecture/security.md
+  @docs/architecture/integrations.md
+
+- Load Architectural Decisions:
+  @docs/adr/0001-adoption-of-ai-tech-stack-1.md
+  @docs/adr/0002-nextjs-15-for-frontend.md
+  @docs/adr/0003-fastapi-for-backend.md
+  @docs/adr/0004-supabase-for-database.md
+  @docs/adr/0005-multi-ai-provider-strategy.md
+  @docs/adr/0006-mem0-for-user-memory.md
+  @docs/adr/0007-vercel-and-flyio-deployment.md
+
+- Load Roadmap:
+  @docs/ROADMAP.md
+
+- Find and count ALL feature specs:
+  !{bash ls -d specs/*/ 2>/dev/null | wc -l}
+  !{bash ls -d specs/*/ 2>/dev/null}
+
+- Load ALL spec files (for context):
+  !{bash for dir in specs/*/; do echo "=== $(basename $dir) ==="; cat "$dir/spec.md" 2>/dev/null | head -50; done}
+
+- Parse architecture docs to extract:
+  - Frontend pages/components (from docs/architecture/frontend.md)
+  - Backend API endpoints (from docs/architecture/backend.md)
+  - Database schema (from docs/architecture/data.md)
+  - AI agents/tools (from docs/architecture/ai.md)
+  - Auth requirements (from docs/architecture/security.md)
+
+- Write comprehensive config to .ai-stack-config.json:
   !{bash cat > .ai-stack-config.json << 'EOF'
 {
-  "appName": "$ARGUMENTS"
-  "mode": "spec-driven"
-  "appType": "[detected from spec]"
-  "backend": ["[detected features]"]
-  "database": ["[detected features]"]
-  "auth": ["[detected from spec]"]
-  "aiArchitecture": {
-    "claudeAgentSDK": "[detected bool]"
-    "mcpServers": ["[detected servers]"]
-    "mem0": "[detected bool]"
-    "vercelAISDK": "[detected bool]"
-  }
-  "phase": 1
+  "appName": "$ARGUMENTS",
+  "mode": "spec-driven",
+  "docsLoaded": {
+    "architecture": ["frontend", "backend", "data", "ai", "infrastructure", "security", "integrations"],
+    "adr": 7,
+    "roadmap": true
+  },
+  "specsFound": $(ls -d specs/*/ 2>/dev/null | wc -l),
+  "specDirectories": $(ls -d specs/*/ 2>/dev/null | xargs -n1 basename | jq -R . | jq -s .),
+  "phase": 1,
   "timestamp": "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 }
 EOF
 }
-- Display: "📋 Auto-detected configuration from specs/"
-- Mark Spec-Driven Discovery complete
+
+- Display: "✅ Loaded ~250KB architecture docs + $(ls -d specs/*/ 2>/dev/null | wc -l) feature specs"
+- Mark Documentation Loading complete
 
 Phase 2B: Interactive Discovery (If no specs/)
 Goal: Gather requirements via questions
@@ -105,6 +130,23 @@ Actions (ONLY if mode = interactive):
 EOF
 }
 - Mark Interactive Discovery complete
+
+Phase 2C: Task Orchestration
+Goal: Create execution plan for parallel foundation deployment
+
+CONTEXT: Early - specs ready for analysis
+
+Actions:
+- Execute task layering immediately:
+  !{slashcommand /iterate:tasks phase-1-foundation}
+- This analyzes specs and creates:
+  - Task layers for parallel execution
+  - Layer 0 (Parallel): Next.js init || FastAPI init || Supabase setup
+  - Dependencies mapped automatically
+  - Agent assignments optimized
+- Save execution plan to .ai-stack-phase-1-tasks.json
+- Verify: !{bash test -f .ai-stack-phase-1-tasks.json && echo "✅ Task layers ready" || echo "⚠️  Creating manual plan"}
+- Mark task orchestration complete
 
 Phase 3: Next.js Frontend - Complete Build
 Goal: Build comprehensive Next.js 15 application
@@ -181,6 +223,22 @@ Actions:
 - Create lib/supabase.py in backend for database client
 - Verify connection: !{bash cd "$ARGUMENTS-backend" && python -c "from supabase import create_client; print('✅ Supabase client works')" || echo "❌ Failed"}
 - Mark Connection complete
+
+Phase 6B: Validation & Task Sync
+Goal: Verify Phase 1 completion and update task status
+
+CONTEXT: Still early - validation commands OK
+
+Actions:
+- Validate foundation against specs:
+  !{slashcommand /planning:analyze-project}
+- Verify tech stack correctly installed:
+  !{slashcommand /foundation:detect}
+- Update task completion status:
+  !{slashcommand /iterate:sync phase-1-complete}
+- Check for missing requirements
+- Document any gaps in PHASE-1-GAPS.md if found
+- Mark Phase 1 validation complete
 
 Phase 7: Summary Phase 1
 Goal: Save state and prepare for Phase 2

@@ -1,7 +1,7 @@
 ---
 description: Implement hybrid search (vector + keyword with RRF)
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 
 ## Security Requirements

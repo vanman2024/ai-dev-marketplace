@@ -1,7 +1,7 @@
 ---
 description: Initialize Next.js 15 App Router project with AI SDK, Supabase, and shadcn/ui
 argument-hint: <project-name>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7, Skill
 ---
 
 ## Security Requirements

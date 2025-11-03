@@ -1,7 +1,7 @@
 ---
 description: Deploy trained model for serverless inference
 argument-hint: <model-path>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 
 ## Security Requirements

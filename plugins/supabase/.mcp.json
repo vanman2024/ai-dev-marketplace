@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?org=etcsfdgwedpgcfmytwtf",
-      "description": "Supabase MCP server for database operations, auth, storage - org-level access to all projects"
-    }
-  }
-}

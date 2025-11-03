@@ -1,7 +1,7 @@
 ---
 description: Complete Next.js application from initialization to deployment
 argument-hint: <project-name>
-allowed-tools: SlashCommand, Task, Read, Write, Bash, AskUserQuestion, TodoWrite
+allowed-tools: SlashCommand, Task, Read, Write, Bash, AskUserQuestion, TodoWrite, Skill
 ---
 
 ## Security Requirements
@@ -32,54 +32,88 @@ Goal: Create new Next.js project with TypeScript and Tailwind
 
 Actions:
 - Create TodoWrite list for tracking full workflow
-- Run initialization command:
-
-/nextjs-frontend:init $ARGUMENTS
-
-CRITICAL: Wait for init command to complete before proceeding.
-
-Update TodoWrite: Mark initialization complete.
+- Run initialization: /nextjs-frontend:init $ARGUMENTS
+- Update TodoWrite: Mark initialization complete
 
 Phase 2: Feature Discovery
-Goal: Determine what features to integrate
+Goal: Determine what features to integrate - auto-detect from architecture or ask user
 
 Actions:
-- Ask user using AskUserQuestion:
-  "What features to add? 1=Supabase, 2=AI SDK, 3=Both, 4=Neither"
-- Store response for next phases
+- Check if architecture docs exist:
+  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+
+- If spec-driven (architecture docs exist):
+  - Load frontend architecture: @docs/architecture/frontend.md
+  - Auto-detect features:
+    - Supabase: Search for "Supabase", "database", "auth" in architecture
+    - AI SDK: Search for "Vercel AI SDK", "chat", "streaming" in architecture
+  - Extract pages from architecture (look for "Pages:", "Routes:", etc.)
+  - Extract components from architecture (look for "Components:", etc.)
+  - Display: "📋 Auto-detected from docs/architecture/frontend.md"
+  - Store in config
+
+- If interactive (no architecture docs):
+  - Ask user using AskUserQuestion:
+    "What features to add? 1=Supabase, 2=AI SDK, 3=Both, 4=Neither"
+  - Store response for next phases
+
 - Update TodoWrite: Mark feature discovery complete
 
 Phase 3: Supabase Integration (Conditional)
-Goal: Add Supabase if requested
+Goal: Add Supabase if detected or requested
 
 Actions:
-- If user selected 1 or 3, run: /nextjs-frontend:integrate-supabase $ARGUMENTS
-- Wait for completion, then update TodoWrite
+- If spec-driven and Supabase detected: /nextjs-frontend:integrate-supabase $ARGUMENTS
+- If interactive and user selected 1 or 3: /nextjs-frontend:integrate-supabase $ARGUMENTS
+- Update TodoWrite
 
 Phase 4: AI SDK Integration (Conditional)
-Goal: Add AI SDK if requested
+Goal: Add AI SDK if detected or requested
 
 Actions:
-- If user selected 2 or 3, run: /nextjs-frontend:integrate-ai-sdk $ARGUMENTS
-- Wait for completion, then update TodoWrite
+- If spec-driven and AI SDK detected: /nextjs-frontend:integrate-ai-sdk $ARGUMENTS
+- If interactive and user selected 2 or 3: /nextjs-frontend:integrate-ai-sdk $ARGUMENTS
+- Update TodoWrite
 
 Phase 5: Page Creation
-Goal: Build main application pages
+Goal: Build main application pages from architecture or user input
 
 Actions:
-- Ask user: "List pages to create (one per line, format: PageName - /route)"
-- For each page, run sequentially: /nextjs-frontend:add-page <route-name>
-- CRITICAL: Wait for each command to complete before next
-- Update TodoWrite after each page
+- Check if architecture docs exist:
+  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+
+- If spec-driven:
+  - Extract page list from architecture:
+    !{bash grep "^### Page:" docs/architecture/frontend.md | sed 's/^### Page: //' | head -20}
+  - For each page found: /nextjs-frontend:add-page <route-name>
+  - NOTE: page-generator-agent will read full docs/architecture/frontend.md for details
+  - Display: "✅ Creating pages from architecture (agents will read full details)"
+
+- If interactive:
+  - Ask user: "List pages to create (one per line, format: PageName - /route)"
+  - For each page: /nextjs-frontend:add-page <route-name>
+
+- Update TodoWrite after pages complete
 
 Phase 6: Component Creation
-Goal: Build reusable components
+Goal: Build reusable components from architecture or user input
 
 Actions:
-- Ask user: "List components to create (one per line, e.g., Header, Footer, Card)"
-- For each component, run sequentially: /nextjs-frontend:add-component <component-name>
-- CRITICAL: Wait for each command to complete before next
-- Update TodoWrite after each component
+- Check if architecture docs exist:
+  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+
+- If spec-driven:
+  - Extract component list from architecture:
+    !{bash grep "^### Component:" docs/architecture/frontend.md | sed 's/^### Component: //' | head -20}
+  - For each component found: /nextjs-frontend:add-component <component-name>
+  - NOTE: component-builder-agent will read full docs/architecture/frontend.md for details
+  - Display: "✅ Creating components from architecture (agents will read full details)"
+
+- If interactive:
+  - Ask user: "List components to create (one per line, e.g., Header, Footer, Card)"
+  - For each component: /nextjs-frontend:add-component <component-name>
+
+- Update TodoWrite after components complete
 
 Phase 7: Design System Enforcement
 Goal: Ensure consistent styling and design patterns

@@ -1,7 +1,7 @@
 ---
 description: Initialize complete AI backend with Mem0, PostgreSQL, and async SQLAlchemy
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch, Skill
 ---
 
 ## Security Requirements
@@ -27,15 +27,31 @@ Core Principles:
 - Validate environment before setup
 - Track progress with todos
 
-Phase 1: Requirements
-Goal: Gather project needs and validate environment
+Phase 1: Architecture Detection
+Goal: Check if architecture docs exist and load backend requirements
 
 Actions:
 - Create todo list using TodoWrite
 - Parse project name from $ARGUMENTS
-- If unclear, AskUserQuestion: "Project name for your AI backend?"
-- Ask: "AI provider? (OpenAI/Anthropic/Google/Multiple)"
-- Ask: "Deployment target? (Vercel/Railway/Render/Docker/Local)"
+- Check for architecture docs: !{bash test -f docs/architecture/backend.md && echo "spec-driven" || echo "interactive"}
+
+- If spec-driven (architecture docs exist):
+  - Load backend architecture: @docs/architecture/backend.md
+  - Load data architecture: @docs/architecture/data.md
+  - Load AI architecture: @docs/architecture/ai.md
+  - Extract from architecture:
+    - API endpoints and routes (from backend.md)
+    - Database models and schema (from data.md)
+    - AI provider requirements (from ai.md)
+    - Authentication requirements (from backend.md)
+  - Display: "📋 Building from docs/architecture/*.md"
+  - Store architecture context for agent
+
+- If interactive (no architecture docs):
+  - Ask: "AI provider? (OpenAI/Anthropic/Google/Multiple)"
+  - Ask: "Deployment target? (Vercel/Railway/Render/Docker/Local)"
+  - Use defaults for structure
+
 - Validate Python: !{bash python3 --version}
 - Check directory: !{bash test -d "$ARGUMENTS" && echo "exists" || echo "new"}
 
@@ -59,7 +75,12 @@ Actions:
 
 Task(description="Build FastAPI AI backend", subagent_type="fastapi-backend-builder", prompt="You are the fastapi-backend-builder agent. Create a complete FastAPI backend with Mem0, PostgreSQL, and async SQLAlchemy for $ARGUMENTS.
 
-Based on fetched documentation, implement:
+ARCHITECTURE CONTEXT:
+- If docs/architecture/backend.md exists: Read and implement API endpoints, services, and routes from architecture
+- If docs/architecture/data.md exists: Read and implement database models and schema from architecture
+- If docs/architecture/ai.md exists: Read and implement AI integrations from architecture
+
+Based on architecture documentation (if available) and fetched API documentation, implement:
 
 1. Project Structure:
    - Create $ARGUMENTS directory with src/app layout

@@ -3,7 +3,7 @@ name: training-architect
 description: Use this agent for training configuration, hyperparameter tuning, framework setup, and TrainingArguments creation
 model: inherit
 color: yellow
-tools: Read, Write, WebFetch, Bash, Glob, Grep
+tools: Read, Write, WebFetch, Bash, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling

@@ -1,7 +1,7 @@
 ---
 description: Optimize training settings for cost and speed
 argument-hint: [config-path]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 
 ## Security Requirements

@@ -3,7 +3,7 @@ name: deployment-architect-agent
 description: Use this agent to generate Docker configurations, deployment scripts, and multi-platform setup for FastAPI applications (Railway, DigitalOcean, AWS). Invoke when deploying FastAPI backends to production environments.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob
+tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

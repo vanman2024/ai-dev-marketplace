@@ -1,7 +1,7 @@
 ---
 description: Add conversational AI agents with MCP integration, tool calling, and real-time voice conversations
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,7 @@
 ---
 description: Configure Supabase Storage - creates buckets, sets up RLS policies for file access
 argument-hint: <bucket-name> [public|private]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,7 @@
 ---
 description: Add training monitoring and logging (TensorBoard/WandB)
 argument-hint: [monitoring-tool] [metrics]
-allowed-tools: Task, Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

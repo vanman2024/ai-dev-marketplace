@@ -1,7 +1,7 @@
 ---
 description: Add streaming capabilities to Claude Agent SDK application
 argument-hint: [project-path]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

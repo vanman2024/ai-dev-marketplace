@@ -1,7 +1,7 @@
 ---
 description: Load plugin documentation on-demand with intelligent link extraction and parallel WebFetch for any plugin in the marketplace
 argument-hint: <plugin-name> [scope]
-allowed-tools: Task, Read, Bash, Grep, WebFetch
+allowed-tools: Task, Read, Bash, Grep, WebFetch, Skill
 ---
 
 ## Security Requirements

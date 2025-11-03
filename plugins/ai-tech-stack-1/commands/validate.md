@@ -1,7 +1,7 @@
 ---
 description: Validate complete AI Tech Stack 1 deployment using lifecycle commands
 argument-hint: [app-directory]
-allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite
+allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite, Skill
 ---
 
 ## Security Requirements

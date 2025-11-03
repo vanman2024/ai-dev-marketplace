@@ -3,7 +3,7 @@ name: supabase-database-executor
 description: Use this agent for direct database operations via Supabase MCP server - executes SQL safely, handles transactions, validates syntax before execution, and manages database connections. Invoke when executing database queries, running migrations, or performing database management tasks.
 model: inherit
 color: yellow
-tools: mcp__supabase
+tools: mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

@@ -3,7 +3,7 @@ name: embedding-specialist
 description: Use this agent for embedding generation and optimization
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit
+tools: Bash, Read, Write, Edit, Skill
 ---
 
 ## Security: API Key Handling

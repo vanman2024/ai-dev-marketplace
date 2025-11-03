@@ -1,7 +1,7 @@
 ---
 description: "Phase 0: Dev Lifecycle Foundation - Project detection, specs, environment setup, git hooks"
 argument-hint: [app-name]
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements
@@ -47,39 +47,62 @@ Actions:
   - Load existing specs
   - Skip to Phase 3 (Detection)
 
-Phase 2: Planning & Architecture
-Goal: Create comprehensive project plan, architecture, and specifications
+Phase 2: Architecture & Decisions FIRST
+Goal: Create comprehensive architecture documentation BEFORE generating specs
 
 Actions:
-- Execute comprehensive planning immediately:
-  !{slashcommand /planning:init-project $ARGUMENTS}
-- This creates ALL specifications based on clarification from Phase 1:
-  - Multiple feature specs in specs/ directory
-  - Complete requirements documentation
-  - Task breakdowns for each feature
-- Execute architecture design:
+- Execute architecture design FIRST:
   !{slashcommand /planning:architecture design $ARGUMENTS}
-- This creates:
-  - System architecture diagrams (mermaid)
-  - Component relationships
-  - Data flow documentation
-  - Infrastructure design
+- This creates docs/architecture/ with:
+  - frontend.md (pages, components, routing)
+  - backend.md (API endpoints, services, architecture)
+  - data.md (database schema, entities, relationships)
+  - ai.md (AI architecture, agents, tools, prompts)
+  - infrastructure.md (deployment, scaling, monitoring)
+  - security.md (auth, RLS, encryption)
+  - integrations.md (third-party services)
+  - Total: ~150KB of comprehensive technical specifications
+
+- Execute decision documentation:
+  !{slashcommand /planning:decide "AI Tech Stack 1 Architecture"}
+- This creates docs/adr/ with:
+  - 0001-adoption-of-ai-tech-stack-1.md
+  - 0002-nextjs-15-for-frontend.md
+  - 0003-fastapi-for-backend.md
+  - 0004-supabase-for-database.md
+  - 0005-multi-ai-provider-strategy.md
+  - 0006-mem0-for-user-memory.md
+  - 0007-vercel-and-flyio-deployment.md
+  - Total: ~88KB of architectural decision records
+
 - Execute roadmap creation:
   !{slashcommand /planning:roadmap}
-- This creates:
+- This creates docs/ROADMAP.md with:
   - Development timeline
   - Phase milestones
   - Gantt chart
-- Execute decision documentation:
-  !{slashcommand /planning:decide "AI Tech Stack 1 Architecture"}
-- This creates ADRs for:
-  - Framework choices (Next.js, FastAPI)
-  - Database selection (Supabase)
-  - AI SDK choices (Vercel AI SDK, Mem0)
-- Verify: !{bash test -d specs && test -d docs/architecture && test -d docs/decisions && echo "✅ Planning complete" || echo "❌ Planning failed"}
+
+- Verify architecture docs exist:
+  !{bash test -d docs/architecture && test -d docs/adr && test -f docs/ROADMAP.md && echo "✅ Architecture docs created (~250KB)" || echo "❌ Architecture creation failed"}
+
+Phase 3: Generate Feature Specs FROM Architecture
+Goal: Break architecture into implementable feature specifications
+
+Actions:
+- Execute spec generation FROM architecture docs:
+  !{slashcommand /planning:init-project}
+- This reads docs/architecture/*, docs/adr/*, docs/ROADMAP.md and creates:
+  - specs/001-feature-name/ (10-20 focused features)
+  - Each with: spec.md, plan.md, tasks.md, data-model.md, contracts/
+  - Each spec: 200-300 lines (not 647!)
+  - Each feature: 15-25 tasks (not 45!)
+  - References architecture docs instead of duplicating
+
+- Verify specs created:
+  !{bash test -d specs && ls -d specs/*/ | wc -l && echo "✅ Feature specs generated" || echo "❌ Spec generation failed"}
 - Mark planning complete
 
-Phase 3: Project Detection (Existing Projects Only)
+Phase 4: Project Detection (Existing Projects Only)
 Goal: Detect existing project structure and tech stack
 
 Actions:
@@ -93,7 +116,7 @@ Actions:
   - Skip detection
 - Mark detection complete
 
-Phase 4: Environment Verification
+Phase 5: Environment Verification
 Goal: Verify all required development tools are installed
 
 Actions:
@@ -108,7 +131,7 @@ Actions:
 - Verify: !{bash node --version && python --version && npm --version && echo "✅ Environment ready" || echo "❌ Missing tools"}
 - Mark environment complete
 
-Phase 5: Git Hooks Setup
+Phase 6: Git Hooks Setup
 Goal: Install security and validation git hooks
 
 Actions:
@@ -120,7 +143,7 @@ Actions:
 - Verify: !{bash test -d .git/hooks && echo "✅ Hooks installed" || echo "❌ No git repo"}
 - Mark git hooks complete
 
-Phase 6: MCP Configuration Note
+Phase 7: MCP Configuration Note
 Goal: Document MCP server approach
 
 Actions:
@@ -138,7 +161,7 @@ Actions:
 - Create .env.example with placeholders
 - Mark MCP note complete
 
-Phase 7: Summary Phase 0
+Phase 8: Summary Phase 0
 Goal: Save state and prepare for Phase 1
 
 Actions:
@@ -157,9 +180,12 @@ Actions:
   - Environment verified (Node, Python, tools)
   - Git hooks installed (security, validation)
   - MCP servers documented (configured in plugins)
+  - Specs ready for task layering in Phase 1
 
   Ready for Phase 1: Implementation
   Run: /ai-tech-stack-1:build-full-stack-phase-1
+
+  Note: Phase 1 will create task layers from specs for parallel execution
 
   Time: ~15-20 minutes
 

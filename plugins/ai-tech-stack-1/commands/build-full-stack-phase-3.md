@@ -1,7 +1,7 @@
 ---
 description: "Phase 3: Integration - Wire services, add UI components, deploy to Vercel + Fly.io"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep, Skill
 ---
 
 ## Security Requirements
@@ -39,6 +39,20 @@ Actions:
 - Verify phase2Complete is true
 - Extract appName
 - Create Phase 3 todo list
+
+Phase 1B: Integration Task Orchestration
+Goal: Create execution plan for integration tasks
+
+CONTEXT: Late - limited orchestration
+
+Actions:
+- Execute task layering:
+  !{slashcommand /iterate:tasks phase-3-integration}
+- This creates layered execution plan:
+  - Layer 0 (Parallel): Frontend-backend wiring || UI component additions
+  - Layer 1 (Sequential after Layer 0): Deployment configs || Environment setup
+- Save execution plan to .ai-stack-phase-3-tasks.json
+- Mark integration orchestration complete
 
 Phase 2: Frontend-Backend Connection
 Goal: Wire Next.js frontend to FastAPI backend
@@ -140,6 +154,19 @@ EOF
 - Verify: !{bash test -f "$APP_NAME/vercel.json" && echo "✅ Vercel configured" || echo "❌ Failed"}
 - Mark Frontend Deploy complete
 
+Phase 5B: Integration Refinement
+Goal: Optimize integration code quality
+
+CONTEXT: Very late - limited refactoring OK
+
+Actions:
+- Refactor integration code:
+  !{slashcommand /iterate:refactor src/integration}
+- Optimize API connections
+- Clean up redundant code
+- Improve error handling
+- Mark integration refinement complete
+
 Phase 6: Environment Documentation
 Goal: Document all required environment variables
 
@@ -168,6 +195,11 @@ Actions:
 - Backend validation:
   !{bash cd "$APP_NAME-backend" && python -m pytest || echo "No tests yet"}
   !{bash cd "$APP_NAME-backend" && python -c "import main; print('✅ Backend imports work')"}
+- Validate complete implementation against specs:
+  !{slashcommand /planning:analyze-project}
+- Verify all specs satisfied
+- Update final task completion status:
+  !{slashcommand /iterate:sync phase-3-complete}
 - If validation fails: Write validation-errors.txt and STOP
 - Mark Validation complete
 

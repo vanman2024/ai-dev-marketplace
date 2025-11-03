@@ -1,7 +1,7 @@
 ---
 description: Test ML components (data/training/inference)
 argument-hint: [component]
-allowed-tools: Task, Bash, Read, Grep, Glob, TodoWrite
+allowed-tools: Task, Bash, Read, Grep, Glob, TodoWrite, Skill
 ---
 
 ## Security Requirements

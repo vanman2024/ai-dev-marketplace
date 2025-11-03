@@ -1,7 +1,7 @@
 ---
 description: Build retrieval pipeline (simple, hybrid, rerank)
 argument-hint: [retrieval-type]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch, Skill
 ---
 
 ## Security Requirements

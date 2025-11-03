@@ -1,7 +1,7 @@
 ---
 description: Implement document chunking strategies (fixed, semantic, recursive, hybrid)
 argument-hint: [strategy-type]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch, Skill
 ---
 
 ## Security Requirements

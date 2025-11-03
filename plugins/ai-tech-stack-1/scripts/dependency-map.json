@@ -1,0 +1,182 @@
+{
+  "crossPluginDependencies": [
+    {
+      "command": "/mem0:init-oss",
+      "plugin": "mem0",
+      "phase": 2,
+      "callsExternal": ["/supabase:init"],
+      "externalPlugin": "supabase",
+      "criticality": "HIGH",
+      "reason": "Mem0 OSS requires Supabase database for vector storage and memory persistence"
+    },
+    {
+      "command": "/ml-training:init",
+      "plugin": "ml-training",
+      "phase": null,
+      "callsExternal": [
+        "/foundation:detect",
+        "/foundation:env-check",
+        "/foundation:env-vars"
+      ],
+      "externalPlugin": "foundation",
+      "criticality": "HIGH",
+      "reason": "ML training requires Python environment verification and detection"
+    }
+  ],
+  "orchestratorCommands": {
+    "phase1": [
+      {
+        "command": "/nextjs-frontend:build-full-stack",
+        "calls": [
+          "/nextjs-frontend:init",
+          "/nextjs-frontend:integrate-supabase",
+          "/nextjs-frontend:integrate-ai-sdk",
+          "/nextjs-frontend:add-page",
+          "/nextjs-frontend:add-component"
+        ],
+        "totalNested": 5
+      },
+      {
+        "command": "/supabase:init-ai-app",
+        "calls": [
+          "/supabase:create-schema",
+          "/supabase:setup-ai",
+          "/supabase:add-auth",
+          "/supabase:add-realtime",
+          "/supabase:generate-types",
+          "/supabase:validate-setup"
+        ],
+        "totalNested": 6
+      }
+    ],
+    "phase2": [
+      {
+        "command": "/vercel-ai-sdk:build-full-stack",
+        "calls": [
+          "/vercel-ai-sdk:new-app",
+          "/vercel-ai-sdk:add-streaming",
+          "/vercel-ai-sdk:add-tools",
+          "/vercel-ai-sdk:add-chat",
+          "/vercel-ai-sdk:add-ui-features",
+          "/vercel-ai-sdk:add-data-features",
+          "/vercel-ai-sdk:add-production",
+          "/vercel-ai-sdk:add-advanced"
+        ],
+        "totalNested": 8
+      },
+      {
+        "command": "/claude-agent-sdk:build-full-app",
+        "calls": [
+          "/agent-sdk-dev:new-app",
+          "/agent-sdk-dev:add-streaming",
+          "/agent-sdk-dev:add-sessions",
+          "/agent-sdk-dev:add-mcp",
+          "/agent-sdk-dev:add-custom-tools",
+          "/agent-sdk-dev:add-subagents",
+          "/agent-sdk-dev:add-permissions",
+          "/agent-sdk-dev:add-hosting",
+          "/agent-sdk-dev:add-system-prompts",
+          "/agent-sdk-dev:add-slash-commands",
+          "/agent-sdk-dev:add-skills",
+          "/agent-sdk-dev:add-plugins",
+          "/agent-sdk-dev:add-cost-tracking",
+          "/agent-sdk-dev:add-todo-tracking"
+        ],
+        "totalNested": 14
+      }
+    ]
+  },
+  "marketplaceDistribution": {
+    "ai-dev-marketplace": {
+      "plugins": [
+        "nextjs-frontend",
+        "fastapi-backend",
+        "supabase",
+        "vercel-ai-sdk",
+        "mem0",
+        "claude-agent-sdk",
+        "elevenlabs",
+        "openrouter",
+        "rag-pipeline",
+        "ml-training",
+        "website-builder"
+      ],
+      "commandsInPhases": 43
+    },
+    "dev-lifecycle-marketplace": {
+      "plugins": [
+        "foundation",
+        "planning",
+        "quality",
+        "deployment",
+        "versioning",
+        "iterate"
+      ],
+      "commandsInPhases": 12
+    }
+  },
+  "pluginUsageByPhase": {
+    "phase0": {
+      "plugins": ["foundation", "planning"],
+      "commands": 7
+    },
+    "phase1": {
+      "plugins": ["nextjs-frontend", "fastapi-backend", "supabase"],
+      "commands": 4
+    },
+    "phase2": {
+      "plugins": ["vercel-ai-sdk", "mem0", "claude-agent-sdk"],
+      "commands": 28
+    },
+    "phase3": {
+      "plugins": ["nextjs-frontend"],
+      "commands": 2
+    },
+    "phase4": {
+      "plugins": ["quality"],
+      "commands": 2
+    },
+    "phase5": {
+      "plugins": ["deployment"],
+      "commands": 3
+    }
+  },
+  "unusedPlugins": [
+    "elevenlabs",
+    "openrouter",
+    "rag-pipeline",
+    "ml-training",
+    "website-builder",
+    "versioning",
+    "iterate"
+  ],
+  "recommendations": {
+    "newPhase6": {
+      "name": "Advanced Features & Optimization",
+      "suggestedCommands": [
+        "/versioning:bump",
+        "/iterate:sync",
+        "/rag-pipeline:init",
+        "/openrouter:init",
+        "/elevenlabs:init"
+      ],
+      "reason": "Currently unused but valuable plugins for production readiness and advanced features"
+    },
+    "expandPhase1": {
+      "suggestedCommands": [
+        "/supabase:setup-pgvector",
+        "/supabase:add-rls",
+        "/supabase:add-storage"
+      ],
+      "reason": "Essential Supabase features currently missing from Phase 1"
+    },
+    "expandPhase3": {
+      "suggestedCommands": [
+        "/nextjs-frontend:integrate-supabase",
+        "/nextjs-frontend:integrate-ai-sdk",
+        "/fastapi-backend:add-endpoint"
+      ],
+      "reason": "Integration phase is sparse, could include more wiring commands"
+    }
+  }
+}

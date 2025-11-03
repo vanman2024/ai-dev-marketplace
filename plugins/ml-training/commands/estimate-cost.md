@@ -1,7 +1,7 @@
 ---
 description: Estimate training and inference costs
 argument-hint: [config-path]
-allowed-tools: Bash, Read
+allowed-tools: Bash, Read, Skill
 ---
 
 ## Security Requirements

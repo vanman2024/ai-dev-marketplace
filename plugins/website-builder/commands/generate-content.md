@@ -1,7 +1,7 @@
 ---
 description: Generate AI-powered content for pages, blogs, and marketing copy using content-image-generation MCP
 argument-hint: content-type
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__content-image-generation, mcp__context7
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__content-image-generation, mcp__context7, Skill
 ---
 
 ## Security Requirements

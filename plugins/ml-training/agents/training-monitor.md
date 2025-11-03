@@ -3,7 +3,7 @@ name: training-monitor
 description: Use this agent to monitor ML training runs, track metrics with TensorBoard and Weights & Biases, implement failure recovery strategies, and optimize training workflows.
 model: inherit
 color: yellow
-tools: Read, Write, Bash, WebFetch, Grep, Glob
+tools: Read, Write, Bash, WebFetch, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

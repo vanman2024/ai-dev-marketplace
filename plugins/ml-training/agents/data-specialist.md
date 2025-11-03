@@ -3,7 +3,7 @@ name: data-specialist
 description: Use this agent for advanced preprocessing, tokenization, augmentation, and data quality checks
 model: inherit
 color: yellow
-tools: Read, Write, WebFetch, Bash, Glob, Grep
+tools: Read, Write, WebFetch, Bash, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling

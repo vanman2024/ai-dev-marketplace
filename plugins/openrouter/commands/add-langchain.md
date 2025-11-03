@@ -1,7 +1,7 @@
 ---
 description: Add LangChain integration with OpenRouter for chains, agents, and RAG
 argument-hint: [feature]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 
 ## Security Requirements

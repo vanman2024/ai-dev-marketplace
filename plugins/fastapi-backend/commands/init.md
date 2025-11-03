@@ -1,7 +1,7 @@
 ---
 description: Initialize FastAPI project with modern async/await setup, dependencies, and configuration
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

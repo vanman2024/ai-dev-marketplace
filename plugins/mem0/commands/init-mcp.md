@@ -1,7 +1,7 @@
 ---
 description: Setup Mem0 with OpenMemory MCP server for local-first AI memory
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

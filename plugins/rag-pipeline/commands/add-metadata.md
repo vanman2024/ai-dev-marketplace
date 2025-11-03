@@ -1,7 +1,7 @@
 ---
 description: Add metadata filtering and multi-tenant support
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

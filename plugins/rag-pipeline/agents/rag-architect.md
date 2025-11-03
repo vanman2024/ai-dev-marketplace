@@ -3,7 +3,7 @@ name: rag-architect
 description: Use this agent for high-level RAG system design and framework selection
 model: inherit
 color: yellow
-tools: Read, Write, WebFetch, Task
+tools: Read, Write, WebFetch, Task, Skill
 ---
 
 ## Security: API Key Handling

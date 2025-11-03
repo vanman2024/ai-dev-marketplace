@@ -1,7 +1,7 @@
 ---
 description: Add observability (LangSmith/LlamaCloud integration)
 argument-hint: [platform]
-allowed-tools: Task, Read, Write, Edit, Bash, AskUserQuestion, Glob, Grep, WebFetch
+allowed-tools: Task, Read, Write, Edit, Bash, AskUserQuestion, Glob, Grep, WebFetch, Skill
 ---
 
 ## Security Requirements

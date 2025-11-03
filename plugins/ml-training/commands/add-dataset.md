@@ -1,7 +1,7 @@
 ---
 description: Add training dataset from Supabase/local/HuggingFace
 argument-hint: <source-type> [path]
-allowed-tools: Task, Read, Write, Bash, Grep, Glob, mcp__supabase, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash, Grep, Glob, mcp__supabase, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

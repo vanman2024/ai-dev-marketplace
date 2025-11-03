@@ -1,7 +1,7 @@
 ---
 description: Run end-to-end tests - parallel test execution across database, auth, realtime, AI features
 argument-hint: [--suite=all|auth|database|realtime|ai|storage] [--parallel]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 ## Security Requirements

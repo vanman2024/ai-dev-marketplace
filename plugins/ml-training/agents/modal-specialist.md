@@ -3,7 +3,7 @@ name: modal-specialist
 description: Use this agent for Modal platform deployment, GPU configuration, and serverless ML endpoint setup with cost optimization.
 model: inherit
 color: yellow
-tools: Read, Write, Bash, WebFetch, Grep, Glob
+tools: Read, Write, Bash, WebFetch, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

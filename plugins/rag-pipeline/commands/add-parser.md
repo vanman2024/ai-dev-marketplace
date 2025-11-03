@@ -1,7 +1,7 @@
 ---
 description: Add document parsers (LlamaParse, Unstructured, PyPDF, PDFPlumber)
 argument-hint: [parser-type]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch, Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,7 @@
 ---
 description: Add web scraping capability (Playwright, Selenium, BeautifulSoup, Scrapy)
 argument-hint: [scraper-type]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__playwright
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__playwright, Skill
 ---
 
 ## Security Requirements

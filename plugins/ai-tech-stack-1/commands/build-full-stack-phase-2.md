@@ -1,7 +1,7 @@
 ---
 description: "Phase 2: AI Features - Vercel AI SDK, Mem0, Claude Agent SDK, MCP servers"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Grep, Skill
 ---
 
 ## Security Requirements
@@ -41,6 +41,23 @@ Actions:
 - Verify phase1Complete is true
 - Extract appName and features
 - Create Phase 2 todo list
+
+Phase 1B: AI Environment & Task Orchestration
+Goal: Verify AI dependencies and create execution plan
+
+CONTEXT: Mid - validation commands OK
+
+Actions:
+- Verify AI environment ready:
+  !{slashcommand /foundation:env-check}
+- Check for AI SDK dependencies (npm packages available)
+- Execute task layering:
+  !{slashcommand /iterate:tasks phase-2-ai-features}
+- This creates layered execution plan:
+  - Layer 0 (Parallel): Vercel AI SDK frontend || Vercel AI SDK backend
+  - Layer 1 (Parallel after Layer 0): Mem0 memory || Claude Agent SDK
+- Save execution plan to .ai-stack-phase-2-tasks.json
+- Mark AI orchestration complete
 
 Phase 2: Vercel AI SDK - Complete AI Integration
 Goal: Build comprehensive AI SDK implementation
@@ -125,6 +142,20 @@ Actions:
   - Production-ready error handling
 - Verify: !{bash grep -q "claude-agent-sdk" "$APP_NAME-backend/requirements.txt" && echo "✅ Complete Agent SDK built" || echo "❌ Failed"}
 - Mark Agent SDK complete
+
+Phase 5B: AI Validation & Task Sync
+Goal: Verify AI features integrated correctly
+
+CONTEXT: Late - validation OK but limited agents
+
+Actions:
+- Validate AI integration against specs:
+  !{slashcommand /planning:analyze-project}
+- Update task completion status:
+  !{slashcommand /iterate:sync phase-2-complete}
+- Check for missing AI features
+- Document any gaps found
+- Mark Phase 2 AI validation complete
 
 Phase 6: MCP Server Configuration Note
 Goal: Document MCP server configuration (pre-configured in plugins)

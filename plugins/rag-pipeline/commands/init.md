@@ -1,7 +1,7 @@
 ---
 description: Initialize RAG project with framework selection (LlamaIndex/LangChain)
 argument-hint: [project-path]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

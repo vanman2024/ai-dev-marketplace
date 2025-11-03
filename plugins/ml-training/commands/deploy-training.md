@@ -1,7 +1,7 @@
 ---
 description: Deploy training job to cloud GPU platform
 argument-hint: [config-path]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

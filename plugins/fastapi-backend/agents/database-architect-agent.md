@@ -3,7 +3,7 @@ name: database-architect-agent
 description: Use this agent to configure async SQLAlchemy, Alembic migrations, and PostgreSQL/Supabase integration for FastAPI applications
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, mcp__supabase
+tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

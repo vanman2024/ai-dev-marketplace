@@ -1,7 +1,7 @@
 ---
 description: Create and setup a new Vercel AI SDK application
 argument-hint: [project-name]
-allowed-tools: WebFetch, WebSearch(*), Read, Write, Edit, Bash(*), Glob, Grep, Task, AskUserQuestion
+allowed-tools: WebFetch, WebSearch(*), Read, Write, Edit, Bash(*), Glob, Grep, Task, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

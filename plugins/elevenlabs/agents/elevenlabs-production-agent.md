@@ -3,7 +3,7 @@ name: elevenlabs-production-agent
 description: Use this agent to implement rate limiting, monitoring, error handling, security best practices, and cost optimization. Invoke when preparing for production deployment.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch
+tools: Bash, Read, Write, Edit, WebFetch, Skill
 ---
 
 ## Security: API Key Handling

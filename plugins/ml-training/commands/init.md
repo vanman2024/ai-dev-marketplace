@@ -1,7 +1,7 @@
 ---
 description: Initialize ML training project with cloud GPU setup
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, SlashCommand
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, SlashCommand, Skill
 ---
 
 ## Security Requirements

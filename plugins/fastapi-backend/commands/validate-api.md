@@ -1,7 +1,7 @@
 ---
 description: Validate API schema, endpoints, and security
 argument-hint: [api-directory]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, TodoWrite, WebFetch
+allowed-tools: Task, Read, Write, Bash, Glob, Grep, TodoWrite, WebFetch, Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,7 @@
 ---
 description: Initialize Mem0 (Platform, OSS, or MCP) - intelligent router that asks deployment mode and routes to appropriate init command
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

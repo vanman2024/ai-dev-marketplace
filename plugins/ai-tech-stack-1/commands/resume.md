@@ -1,7 +1,7 @@
 ---
 description: Resume AI stack deployment from saved state when context becomes too large
 argument-hint: none
-allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite
+allowed-tools: SlashCommand, Read, Write, Bash(*), TodoWrite, Skill
 ---
 
 ## Security Requirements

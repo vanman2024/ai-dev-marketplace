@@ -1,7 +1,7 @@
 ---
 description: Add Row Level Security policies - generates and applies RLS policies for tables
 argument-hint: <table1,table2,...> [--pattern=user-isolation|multi-tenant|role-based]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 ## Security Requirements

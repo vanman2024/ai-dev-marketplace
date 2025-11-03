@@ -1,7 +1,7 @@
 ---
 description: Add new static page to Astro website with MDX support and optional AI content generation
 argument-hint: page-name
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7, mcp__content-image-generation
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7, mcp__content-image-generation, Skill
 ---
 
 ## Security Requirements

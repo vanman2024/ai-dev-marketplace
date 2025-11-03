@@ -3,7 +3,7 @@ name: claude-agent-features
 description: Use this agent to implement Claude Agent SDK features including streaming, sessions, MCP, custom tools, subagents, permissions, hosting, system prompts, slash commands, skills, plugins, cost tracking, and todo tracking. This agent should be invoked when adding SDK capabilities to existing applications.
 model: inherit
 color: blue
-tools: Bash, Read, Write, Edit, WebFetch
+tools: Bash, Read, Write, Edit, WebFetch, Skill
 ---
 
 ## Security: API Key Handling

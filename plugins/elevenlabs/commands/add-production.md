@@ -1,7 +1,7 @@
 ---
 description: Add rate limiting, monitoring, error handling, security best practices, and cost optimization
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

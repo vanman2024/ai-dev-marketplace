@@ -1,7 +1,7 @@
 ---
 description: Add cloud GPU platform integration (Modal/Lambda/RunPod)
 argument-hint: <modal|lambda|runpod>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

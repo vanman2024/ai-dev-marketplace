@@ -1,0 +1,87 @@
+{
+  "orchestrator": "/ai-tech-stack-1:build-full-stack",
+  "phases": [
+    {
+      "phase": 0,
+      "name": "Dev Lifecycle Foundation - Project detection, specs, environment setup, git hooks",
+      "allCommands": [
+        "/foundation:detect",
+        "/foundation:env-check",
+        "/foundation:hooks-setup",
+        "/planning:architecture",
+        "/planning:decide",
+        "/planning:init-project",
+        "/planning:roadmap"
+      ]
+    },
+    {
+      "phase": 1,
+      "name": "Foundation - Next.js frontend, FastAPI backend, Supabase database",
+      "allCommands": [
+        "/nextjs-frontend:init",
+        "/fastapi-backend:init-ai-app",
+        "/nextjs-frontend:build-full-stack",
+        "/supabase:init-ai-app"
+      ]
+    },
+    {
+      "phase": 2,
+      "name": "AI Features - Vercel AI SDK, Mem0, Claude Agent SDK, MCP servers",
+      "allCommands": [
+        "/agent-sdk-dev:add-cost-tracking",
+        "/agent-sdk-dev:add-custom-tools",
+        "/agent-sdk-dev:add-hosting",
+        "/agent-sdk-dev:add-mcp",
+        "/agent-sdk-dev:add-permissions",
+        "/agent-sdk-dev:add-plugins",
+        "/agent-sdk-dev:add-sessions",
+        "/agent-sdk-dev:add-skills",
+        "/agent-sdk-dev:add-slash-commands",
+        "/agent-sdk-dev:add-streaming",
+        "/agent-sdk-dev:add-subagents",
+        "/agent-sdk-dev:add-system-prompts",
+        "/agent-sdk-dev:add-todo-tracking",
+        "/agent-sdk-dev:new-app",
+        "/vercel-ai-sdk:add-advanced",
+        "/vercel-ai-sdk:add-chat",
+        "/vercel-ai-sdk:add-data-features",
+        "/vercel-ai-sdk:add-production",
+        "/vercel-ai-sdk:add-streaming",
+        "/vercel-ai-sdk:add-tools",
+        "/vercel-ai-sdk:add-ui-features",
+        "/vercel-ai-sdk:new-app",
+        "/claude-agent-sdk:build-full-app",
+        "/mem0:add-conversation-memory",
+        "/mem0:add-user-memory",
+        "/mem0:init-oss",
+        "/mem0:test",
+        "/vercel-ai-sdk:build-full-stack"
+      ]
+    },
+    {
+      "phase": 3,
+      "name": "Integration - Wire services, add UI components, deploy to Vercel + Fly.io",
+      "allCommands": [
+        "/nextjs-frontend:add-component",
+        "/nextjs-frontend:search-components"
+      ]
+    },
+    {
+      "phase": 4,
+      "name": "Testing & Quality Assurance - Newman API tests, Playwright E2E, security scans",
+      "allCommands": [
+        "/quality:security",
+        "/quality:test"
+      ]
+    },
+    {
+      "phase": 5,
+      "name": "Production Deployment - Deploy to Vercel + Fly.io, validate deployment health",
+      "allCommands": [
+        "/deployment:deploy",
+        "/deployment:prepare",
+        "/deployment:validate"
+      ]
+    }
+  ]
+}

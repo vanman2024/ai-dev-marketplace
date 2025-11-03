@@ -1,7 +1,7 @@
 ---
 description: "Phase 5: Production Deployment - Deploy to Vercel + Fly.io, validate deployment health"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements
@@ -41,6 +41,16 @@ Actions:
   - Return to Phase 4 to fix tests
 - Extract appName, paths
 - Create Phase 5 todo list
+
+Phase 1B: Final Environment Verification
+Goal: Verify deployment tools ready
+
+Actions:
+- Final environment check:
+  !{slashcommand /foundation:env-check}
+- Verify deployment CLI tools installed (vercel, fly, supabase)
+- Check for required environment variables
+- Mark pre-deployment environment check complete
 
 Phase 2: Pre-Flight Checks
 Goal: Verify deployment readiness
@@ -120,6 +130,16 @@ Actions:
   - Display health check success
   - Mark validation complete
 - Time: ~5 minutes
+
+Phase 4B: Deployment Status Sync
+Goal: Update task status for deployed application
+
+Actions:
+- Sync deployment status:
+  !{slashcommand /iterate:sync deployment-status}
+- Mark deployment tasks complete in task system
+- Update final task status
+- Mark deployment sync complete
 
 Phase 5: Summary Phase 5
 Goal: Save deployment state and prepare for Phase 6

@@ -1,7 +1,7 @@
 ---
 description: Test Mem0 functionality end-to-end (setup, operations, performance, security)
 argument-hint: none
-allowed-tools: Task, Read, Bash(*), Glob, Grep
+allowed-tools: Task, Read, Bash(*), Glob, Grep, Skill
 ---
 
 ## Security Requirements

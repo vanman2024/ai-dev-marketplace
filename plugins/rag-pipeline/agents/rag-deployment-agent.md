@@ -3,7 +3,7 @@ name: rag-deployment-agent
 description: Use this agent for RAG deployment and productionization
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit
+tools: Bash, Read, Write, Edit, Skill
 ---
 
 ## Security: API Key Handling

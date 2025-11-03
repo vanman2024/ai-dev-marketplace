@@ -1,7 +1,7 @@
 ---
 description: Add parameter-efficient fine-tuning (LoRA/QLoRA/prefix-tuning)
 argument-hint: <lora|qlora|prefix-tuning>
-allowed-tools: Task, Read, Write, Bash, Grep, Glob, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash, Grep, Glob, AskUserQuestion, Skill
 ---
 
 ## Security Requirements

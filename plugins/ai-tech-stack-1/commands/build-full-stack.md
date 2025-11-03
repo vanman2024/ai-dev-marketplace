@@ -1,7 +1,7 @@
 ---
 description: Deploy complete AI application stack by orchestrating 3-phase deployment with progressive context management
 argument-hint: [app-name]
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*)
+allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

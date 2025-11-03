@@ -3,7 +3,7 @@ name: rag-tester
 description: Use this agent for RAG testing and evaluation
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Grep, Glob
+tools: Bash, Read, Write, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

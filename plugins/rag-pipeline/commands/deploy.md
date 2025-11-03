@@ -1,7 +1,7 @@
 ---
 description: Deploy RAG application to production platforms
 argument-hint: [platform]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch
+allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch, Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,7 @@
 ---
 description: Monitor active training jobs and display metrics
 argument-hint: [job-id]
-allowed-tools: Bash, Read
+allowed-tools: Bash, Read, Skill
 ---
 
 ## Security Requirements

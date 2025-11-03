@@ -3,7 +3,7 @@ name: elevenlabs-voice-manager
 description: Use this agent to implement voice cloning (instant/professional), library browsing, voice design, and customization features. Invoke when adding voice management capabilities.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch
+tools: Bash, Read, Write, Edit, WebFetch, Skill
 ---
 
 ## Security: API Key Handling
