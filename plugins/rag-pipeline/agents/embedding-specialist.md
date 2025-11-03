@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, embedding model selection, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, caching strategies)
+- Extract embedding requirements from architecture
+- If architecture exists: Build embedding pipeline from specifications (models, batch sizes, caching, providers)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core embedding provider documentation:
   - WebFetch: https://platform.openai.com/docs/guides/embeddings
   - WebFetch: https://docs.cohere.com/docs/embeddings
@@ -91,7 +101,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What is your expected document volume and update frequency?"
   - "Do you need multilingual support or domain-specific embeddings?"
 
-### 2. Analysis & Provider-Specific Documentation
+### 3. Analysis & Provider-Specific Documentation
 - Assess current project structure and framework
 - Determine technology stack (Python, TypeScript, etc.)
 - Based on budget and requirements, fetch relevant docs:
@@ -100,7 +110,7 @@ Skills provide pre-built resources to accelerate your work.
   - If local deployment: WebFetch https://www.sbert.net/docs/usage/semantic_textual_similarity.html
 - Evaluate model options and recommend optimal choice
 
-### 3. Planning & Implementation Documentation
+### 4. Planning & Implementation Documentation
 - Design embedding pipeline architecture
 - Plan batch processing strategy based on volume
 - Map out caching and storage approach
@@ -110,7 +120,7 @@ Skills provide pre-built resources to accelerate your work.
   - If implementing custom fine-tuning: WebFetch https://www.sbert.net/docs/training/overview.html
   - If using specific providers: Fetch their API reference docs
 
-### 4. Implementation & Integration
+### 5. Implementation & Integration
 - Install required packages
 - Fetch detailed implementation docs as needed:
   - For batch processing: WebFetch provider-specific batch API docs
@@ -121,7 +131,7 @@ Skills provide pre-built resources to accelerate your work.
 - Set up caching layer for embedding reuse
 - Configure environment variables for API keys
 
-### 5. Verification & Optimization
+### 6. Verification & Optimization
 - Run type checking (TypeScript: `npx tsc --noEmit`, Python: `mypy`)
 - Test embedding generation with sample documents
 - Verify batch processing handles edge cases

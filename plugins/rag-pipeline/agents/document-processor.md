@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration, embedding requirements, chunking strategies)
+- Read: docs/architecture/data.md (if exists - contains database/vector store architecture, storage requirements)
+- Extract document processing requirements from architecture
+- If architecture exists: Build parsing pipeline from specifications (formats, chunk sizes, metadata, parsers)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core parsing documentation:
   - WebFetch: https://docs.cloud.llamaindex.ai/llamaparse/getting_started/overview
   - WebFetch: https://unstructured-io.github.io/unstructured/introduction.html
@@ -93,7 +103,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need to preserve tables, images, or just extract text?"
   - "Are you processing local files or web content?"
 
-### 2. Analysis & Format-Specific Documentation
+### 3. Analysis & Format-Specific Documentation
 - Assess document complexity and volume
 - Determine parsing strategy based on formats:
   - If complex PDFs with tables: WebFetch https://docs.cloud.llamaindex.ai/llamaparse/features/table_extraction
@@ -104,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
   - WebFetch: https://developers.llamaindex.ai/python/framework/understanding/loading/loading/
   - WebFetch: https://docs.llamaindex.ai/en/stable/module_guides/loading/node_parsers/
 
-### 3. Planning & Chunking Strategy Documentation
+### 4. Planning & Chunking Strategy Documentation
 - Design parsing pipeline based on document types
 - Plan chunking strategy:
   - Fetch chunking best practices: WebFetch https://developers.llamaindex.ai/python/framework/understanding/loading/node_parsers/
@@ -115,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If table extraction needed: WebFetch https://docs.cloud.llamaindex.ai/llamaparse/features/markdown_extraction
   - If hierarchical chunking needed: WebFetch https://docs.llamaindex.ai/en/stable/examples/node_parsers/hierarchical_node_parser/
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required parsing packages:
   - Bash: pip install llama-parse pypdf pdfplumber python-docx unstructured beautifulsoup4
 - Fetch detailed implementation docs as needed:
@@ -135,7 +145,7 @@ Skills provide pre-built resources to accelerate your work.
 - Implement error handling for corrupted/malformed files
 - Create configuration for chunk size, overlap, and parsing options
 
-### 5. Verification
+### 6. Verification
 - Test parsing with sample documents of each format
 - Validate chunk sizes and overlap are within specifications
 - Verify metadata extraction is complete and accurate

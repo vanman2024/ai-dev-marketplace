@@ -85,7 +85,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG pipeline design, LangChain configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, retrieval strategies)
+- Extract LangChain requirements from architecture
+- If architecture exists: Build LangChain implementation from specifications (chains, stores, agents, embeddings)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core LangChain documentation:
   - WebFetch: https://python.langchain.com/docs/introduction/
   - WebFetch: https://python.langchain.com/docs/concepts/
@@ -99,7 +109,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need streaming responses or batch processing?"
   - "Will you integrate LangSmith for tracing?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current project requirements and constraints
 - Determine LangChain component stack needed
 - Based on requested features, fetch relevant docs:
@@ -110,7 +120,7 @@ Skills provide pre-built resources to accelerate your work.
   - If agents: WebFetch https://python.langchain.com/docs/tutorials/agents/
 - Determine package dependencies and versions
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design pipeline architecture based on fetched docs
 - Plan chunking strategy and chunk size/overlap
 - Map out retrieval flow and reranking approach
@@ -122,7 +132,7 @@ Skills provide pre-built resources to accelerate your work.
   - If custom retrievers: WebFetch https://python.langchain.com/docs/modules/data_connection/retrievers/
   - If memory: WebFetch https://python.langchain.com/docs/modules/memory/
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required packages via pip or uv
 - Fetch detailed implementation docs as needed:
   - For text splitting: WebFetch https://python.langchain.com/docs/concepts/text_splitters/
@@ -137,7 +147,7 @@ Skills provide pre-built resources to accelerate your work.
 - Set up LangSmith tracing if requested
 - Add type hints and proper Python structure
 
-### 5. Verification
+### 6. Verification
 - Run type checking: `mypy` or `pyright` if configured
 - Test document ingestion with sample files
 - Verify vector store indexing and search
