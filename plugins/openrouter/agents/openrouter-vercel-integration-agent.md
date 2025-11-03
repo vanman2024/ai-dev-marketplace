@@ -70,7 +70,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, model configuration, streaming setup)
+- Read: docs/architecture/frontend.md (if exists - contains Next.js architecture, API routes, component patterns)
+- Extract Vercel AI SDK-specific requirements from architecture
+- If architecture exists: Build integration from specifications (models, API routes, chat UI, tools)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://openrouter.ai/docs/community/vercel-ai-sdk
   - WebFetch: https://sdk.vercel.ai/docs/introduction
@@ -82,7 +92,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Which features do you need?" (streaming, chat UI, tool calling)
   - "Which OpenRouter models do you want to use?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current project structure (src/ vs root)
 - Determine router type (app/ vs pages/)
 - Check existing components and patterns
@@ -92,7 +102,7 @@ Skills provide pre-built resources to accelerate your work.
   - If tools requested: WebFetch https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling
   - If useChat requested: WebFetch https://sdk.vercel.ai/docs/reference/ai-sdk-ui/use-chat
 
-### 3. Planning & Implementation Documentation
+### 4. Planning & Implementation Documentation
 - Design API route structure based on router type
 - Plan component organization for chat UI
 - Map out data flow (client ↔ API route ↔ OpenRouter)
@@ -102,7 +112,7 @@ Skills provide pre-built resources to accelerate your work.
   - If Pages Router: WebFetch https://sdk.vercel.ai/docs/guides/frameworks/nextjs-pages
   - If tool calling: WebFetch https://sdk.vercel.ai/docs/reference/ai-sdk-core/stream-text
 
-### 4. Implementation
+### 5. Implementation
 - Install required packages:
   - npm install ai @openrouter/ai-sdk-provider zod (if tools)
 - Create OpenRouter provider configuration:
@@ -123,7 +133,7 @@ Skills provide pre-built resources to accelerate your work.
   - Add OPENROUTER_API_KEY to .env.local
   - Ensure .gitignore includes .env.local
 
-### 5. Verification
+### 6. Verification
 - Run TypeScript compilation check (npx tsc --noEmit)
 - Test streaming functionality with dev server
 - Verify chat UI works correctly (if applicable)

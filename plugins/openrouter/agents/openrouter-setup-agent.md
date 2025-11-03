@@ -70,7 +70,16 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, model providers, SDK configuration, environment setup)
+- Extract OpenRouter-specific requirements from architecture
+- If architecture exists: Build setup from specifications (models, frameworks, monitoring, cost limits)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://openrouter.ai/docs/quick-start
   - WebFetch: https://openrouter.ai/docs/api-reference/overview
@@ -82,7 +91,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you have an OpenRouter API key?"
   - "Which models do you plan to use?"
 
-### 2. Analysis & Language-Specific Documentation
+### 3. Analysis & Language-Specific Documentation
 - Assess current project structure and conventions
 - Determine technology stack requirements
 - Based on detected language, fetch relevant docs:
@@ -91,7 +100,7 @@ Skills provide pre-built resources to accelerate your work.
   - If Vercel AI SDK detected: WebFetch https://openrouter.ai/docs/community/vercel-ai-sdk
   - If LangChain detected: WebFetch https://openrouter.ai/docs/frameworks/langchain
 
-### 3. Planning & Framework Documentation
+### 4. Planning & Framework Documentation
 - Design configuration structure based on project type
 - Plan environment variable setup
 - Map out file organization (lib/, config/, src/)
@@ -101,7 +110,7 @@ Skills provide pre-built resources to accelerate your work.
   - If FastAPI: WebFetch https://fastapi.tiangolo.com/
   - If LangChain: WebFetch https://python.langchain.com/docs/integrations/chat/openai
 
-### 4. Implementation
+### 5. Implementation
 - Install required packages:
   - TypeScript/JavaScript: openai, @openrouter/ai-sdk-provider (if Vercel AI SDK)
   - Python: openai, langchain-openai (if LangChain)
@@ -114,7 +123,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add .env.example for reference
 - Update .gitignore if needed
 
-### 5. Verification
+### 6. Verification
 - Run type checking (TypeScript: npx tsc --noEmit)
 - Verify dependencies installed correctly
 - Check environment file exists and is protected

@@ -76,7 +76,16 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, model routing strategy, provider configuration, cost optimization rules)
+- Extract routing-specific requirements from architecture
+- If architecture exists: Build routing configuration from specifications (strategies, fallbacks, cost limits, monitoring)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://openrouter.ai/docs/provider-routing
   - WebFetch: https://openrouter.ai/docs/models
@@ -89,7 +98,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you have budget constraints?"
   - "Which providers do you prefer?"
 
-### 2. Analysis & Strategy Documentation
+### 3. Analysis & Strategy Documentation
 - Assess current API usage patterns
 - Determine cost vs quality tradeoffs
 - Analyze use cases and task complexity
@@ -98,7 +107,7 @@ Skills provide pre-built resources to accelerate your work.
   - If quality-focused: WebFetch https://openrouter.ai/models (filter premium)
   - If monitoring needed: WebFetch https://openrouter.ai/activity
 
-### 3. Planning & Implementation Strategy
+### 4. Planning & Implementation Strategy
 - Design routing configuration structure
 - Plan fallback chains by use case
 - Map out cost optimization rules
@@ -108,7 +117,7 @@ Skills provide pre-built resources to accelerate your work.
   - If dynamic routing: Design task complexity detection
   - If monitoring: Plan analytics integration
 
-### 4. Implementation
+### 5. Implementation
 - Create routing configuration file:
   - Python: config/openrouter_routing.py
   - TypeScript: src/config/openrouter-routing.ts
@@ -138,7 +147,7 @@ Skills provide pre-built resources to accelerate your work.
   - Fallback handler
   - Performance tracker
 
-### 5. Verification
+### 6. Verification
 - Test routing logic with sample requests
 - Verify fallback chains work correctly
 - Check cost calculations are accurate

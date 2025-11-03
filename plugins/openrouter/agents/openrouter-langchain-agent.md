@@ -76,7 +76,16 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, model routing strategy, provider configuration, LLM integration patterns)
+- Extract LangChain-specific requirements from architecture
+- If architecture exists: Build LangChain integration from specifications (models, chains, tools, RAG setup)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://openrouter.ai/docs/frameworks/langchain
   - WebFetch: https://python.langchain.com/docs/integrations/chat/openai (Python)
@@ -89,7 +98,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Which features do you need?" (chains, agents, RAG)
   - "Do you need vector store setup?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess project structure and conventions
 - Determine dependencies needed
 - Based on requested features, fetch relevant docs:
@@ -98,7 +107,7 @@ Skills provide pre-built resources to accelerate your work.
   - If RAG requested: WebFetch https://python.langchain.com/docs/use_cases/question_answering/
   - If tools requested: WebFetch https://python.langchain.com/docs/modules/tools/
 
-### 3. Planning & Implementation Documentation
+### 4. Planning & Implementation Documentation
 - Design chain/agent architecture
 - Plan vector store setup (if RAG needed)
 - Map out data flow and integration points
@@ -108,7 +117,7 @@ Skills provide pre-built resources to accelerate your work.
   - If memory needed: WebFetch https://python.langchain.com/docs/modules/memory/
   - If retrieval needed: WebFetch https://python.langchain.com/docs/modules/data_connection/
 
-### 4. Implementation
+### 5. Implementation
 - Install required packages:
   - Python: langchain, langchain-openai, openai
   - TypeScript: langchain, @langchain/openai, openai
@@ -123,7 +132,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add environment variables (.env)
 - Create usage examples
 
-### 5. Verification
+### 6. Verification
 - Run type checking (Python: mypy, TypeScript: tsc --noEmit)
 - Test chain/agent execution
 - Verify vector store operations (if RAG)
