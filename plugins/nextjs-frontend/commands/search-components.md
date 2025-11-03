@@ -4,6 +4,19 @@ argument-hint: <search-query>
 allowed-tools: Task, Read, Write, Bash, Glob, Grep, WebFetch, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__figma-application
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Search shadcn/ui component library, display matching components, and add selected components to the project with configuration and usage examples.

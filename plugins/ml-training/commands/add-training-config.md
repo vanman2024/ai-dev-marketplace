@@ -4,6 +4,19 @@ argument-hint: <classification|generation|fine-tuning>
 allowed-tools: Task, Read, Write, Bash, Glob, Grep
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Generate production-ready training configuration including TrainingArguments, hyperparameters, and train.py script for the specified training type.

@@ -102,7 +102,7 @@ This skill follows strict security rules:
 
 ### Validation
 
-See `@docs/SECURITY-RULES.md` for full validation checklist and comprehensive security guidelines.
+See `@docs/security/SECURITY-RULES.md` for full validation checklist and comprehensive security guidelines.
 
 **Before ANY commit to this marketplace:**
 - [ ] No real API keys in any file

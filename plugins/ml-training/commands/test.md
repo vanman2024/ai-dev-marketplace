@@ -4,6 +4,19 @@ argument-hint: [component]
 allowed-tools: Task, Bash, Read, Grep, Glob, TodoWrite
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Run comprehensive tests on ML components (data pipelines, training jobs, inference endpoints)

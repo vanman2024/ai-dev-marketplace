@@ -4,6 +4,19 @@ argument-hint: <source-type> [path]
 allowed-tools: Task, Read, Write, Bash, Grep, Glob, mcp__supabase, AskUserQuestion
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Load and validate training datasets from multiple sources (Supabase, local files, or HuggingFace) for ML training workflows

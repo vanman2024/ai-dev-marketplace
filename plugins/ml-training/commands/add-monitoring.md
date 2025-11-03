@@ -4,6 +4,19 @@ argument-hint: [monitoring-tool] [metrics]
 allowed-tools: Task, Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Set up comprehensive training monitoring and logging infrastructure using TensorBoard or Weights & Biases (WandB) for ML training workflows

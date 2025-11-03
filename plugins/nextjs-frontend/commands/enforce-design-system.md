@@ -4,6 +4,19 @@ argument-hint: [component-path] [--fix]
 allowed-tools: Task, Read, Bash, Glob, Grep
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Validate and optionally fix design system compliance across Next.js components using shadcn/ui with Tailwind v4 standards.

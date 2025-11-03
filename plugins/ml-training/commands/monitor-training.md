@@ -4,6 +4,19 @@ argument-hint: [job-id]
 allowed-tools: Bash, Read
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 **Arguments**: $ARGUMENTS
 
 Goal: Monitor active ML training jobs on cloud platforms (Modal, AWS, GCP) and display real-time metrics including job status, GPU utilization, training progress, estimated completion time, and cost

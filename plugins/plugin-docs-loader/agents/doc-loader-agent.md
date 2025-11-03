@@ -5,6 +5,22 @@ tools: Read, Grep, Bash, WebFetch
 model: claude-sonnet-4-5-20250929
 ---
 
+## Security: API Key Handling
+
+**CRITICAL:** Read comprehensive security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Never hardcode API keys, passwords, or secrets in any generated files.**
+
+When generating configuration or code:
+- ❌ NEVER use real API keys or credentials
+- ✅ ALWAYS use placeholders: `your_service_key_here`
+- ✅ Format: `{project}_{env}_your_key_here` for multi-environment
+- ✅ Read from environment variables in code
+- ✅ Add `.env*` to `.gitignore` (except `.env.example`)
+- ✅ Document how to obtain real keys
+
 # Documentation Loader Agent
 
 **Purpose:** Load plugin documentation on-demand by extracting external links and fetching them in intelligent, priority-based batches.

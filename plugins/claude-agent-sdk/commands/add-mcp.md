@@ -1,8 +1,21 @@
 ---
 description: Add MCP integration to Claude Agent SDK application
 argument-hint: [project-path]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion
+allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
+
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
 
 **Arguments**: $ARGUMENTS
 
@@ -47,14 +60,26 @@ Goal: Add MCP integration with agent
 
 Actions:
 
-Invoke the claude-agent-features agent to add MCP.
+INVOKE the fastmcp-integration skill to load MCP patterns:
+
+!{skill fastmcp-integration}
+
+This loads:
+- Complete FastMCP Cloud HTTP configuration patterns
+- Environment variable setup
+- Error handling for connection failures
+- Real-world examples with status checking
+- Common pitfalls (SSE vs HTTP, missing API keys)
+
+Then invoke the claude-agent-features agent to add MCP.
 
 The agent should:
-- Fetch MCP documentation: https://docs.claude.com/en/api/agent-sdk/mcp
-- Configure MCP server connections
+- Use patterns from fastmcp-integration skill
+- Configure MCP server connections (HTTP for FastMCP Cloud!)
 - Add MCP tool permissions
 - Implement createSdkMcpServer() if creating custom MCP servers
 - Add proper error handling for MCP connections
+- Add FASTMCP_CLOUD_API_KEY to .env and .env.example
 
 Provide the agent with:
 - Context: Project language, structure, and desired MCP servers

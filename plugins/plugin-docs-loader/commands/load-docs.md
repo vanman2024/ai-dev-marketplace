@@ -4,6 +4,19 @@ argument-hint: <plugin-name> [scope]
 allowed-tools: Task, Read, Bash, Grep, WebFetch
 ---
 
+## Security Requirements
+
+**CRITICAL:** All generated files must follow security rules:
+
+@docs/security/SECURITY-RULES.md
+
+**Key requirements:**
+- Never hardcode API keys or secrets
+- Use placeholders: `your_service_key_here`
+- Protect `.env` files with `.gitignore`
+- Create `.env.example` with placeholders only
+- Document key acquisition for users
+
 # Load Plugin Documentation
 
 **Purpose:** Load fresh documentation for any plugin by extracting external links from local docs and fetching them intelligently. Automatically uses agent for large link counts (≥10) to handle parallel batching efficiently.
