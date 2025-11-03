@@ -1,13 +1,50 @@
 #!/bin/bash
 
 # Script to add skill availability instructions to all agents and commands
-# Usage: bash scripts/add-skill-instructions.sh
+# Usage: bash add-skill-instructions.sh (can be run from anywhere)
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-MARKETPLACE_DIR="$(dirname "$SCRIPT_DIR")"
+# Find marketplace root by looking for plugins/ directory
+find_marketplace_root() {
+    local current_dir="$PWD"
+
+    # Check if we're already in marketplace root
+    if [ -d "$current_dir/plugins" ] && [ -d "$current_dir/scripts" ]; then
+        echo "$current_dir"
+        return 0
+    fi
+
+    # Check if script is in scripts/ subdirectory
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    local parent_dir="$(dirname "$script_dir")"
+    if [ -d "$parent_dir/plugins" ] && [ -d "$parent_dir/scripts" ]; then
+        echo "$parent_dir"
+        return 0
+    fi
+
+    # Search upwards for marketplace root
+    while [ "$current_dir" != "/" ]; do
+        if [ -d "$current_dir/plugins" ] && [ -d "$current_dir/scripts" ] && [ -f "$current_dir/.claude-plugin/marketplace.json" ]; then
+            echo "$current_dir"
+            return 0
+        fi
+        current_dir="$(dirname "$current_dir")"
+    done
+
+    echo "ERROR: Could not find ai-dev-marketplace root directory" >&2
+    echo "Please run this script from within the marketplace directory" >&2
+    return 1
+}
+
+MARKETPLACE_DIR=$(find_marketplace_root)
+if [ $? -ne 0 ]; then
+    exit 1
+fi
+
 cd "$MARKETPLACE_DIR"
+echo "📍 Working in: $MARKETPLACE_DIR"
+echo ""
 
 echo "🔍 Adding skill availability instructions to agents and commands..."
 echo ""
