@@ -166,11 +166,15 @@ Goal: Version bump, changelog, complete summary
 CONTEXT: Very late - NO agents
 
 Actions:
+- Generate final spec status report:
+  - Execute immediately: !{slashcommand /planning:analyze-project}
+  - Export spec coverage metrics
+  - Document final project state
 - Version management:
-  - SlashCommand: /versioning:bump patch
+  - Execute immediately: !{slashcommand /versioning:bump patch}
   - Generate changelog from commits
 - Sync documentation:
-  - SlashCommand: /iterate:sync
+  - Execute immediately: !{slashcommand /iterate:sync}
   - Update docs with deployment state
 - Update .ai-stack-config.json:
   - phase6Complete: true

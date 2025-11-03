@@ -141,6 +141,18 @@ Actions:
 - Update final task status
 - Mark deployment sync complete
 
+Phase 4C: Post-Deployment Smoke Tests
+Goal: Validate critical production paths
+
+Actions:
+- Run production smoke tests:
+  !{slashcommand /quality:test newman --env=production --collection=smoke-tests}
+- Test critical API endpoints
+- Verify authentication flows
+- Check database connectivity
+- No full E2E needed (already passed in Phase 4)
+- Mark production validation complete
+
 Phase 5: Summary Phase 5
 Goal: Save deployment state and prepare for Phase 6
 
