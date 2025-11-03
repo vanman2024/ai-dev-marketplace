@@ -9,18 +9,5 @@
   "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/ai-tech-stack-1",
   "repository": "https://github.com/vanman2024/ai-dev-marketplace",
   "license": "MIT",
-  "keywords": ["nextjs", "vercel-ai-sdk", "supabase", "mem0", "fastmcp", "claude-agent-sdk", "orchestrator", "full-stack", "ai-applications"],
-  "mcpServers": [],
-  "commands": [
-    "./commands/build-full-stack.md",
-    "./commands/build-full-stack-phase-0.md",
-    "./commands/build-full-stack-phase-1.md",
-    "./commands/build-full-stack-phase-2.md",
-    "./commands/build-full-stack-phase-3.md",
-    "./commands/build-full-stack-phase-4.md",
-    "./commands/build-full-stack-phase-5.md",
-    "./commands/build-full-stack-phase-6.md"
-  ],
-  "agents": [],
-  "skills": []
+  "keywords": ["nextjs", "vercel-ai-sdk", "supabase", "mem0", "fastmcp", "claude-agent-sdk", "orchestrator", "full-stack", "ai-applications"]
 }
