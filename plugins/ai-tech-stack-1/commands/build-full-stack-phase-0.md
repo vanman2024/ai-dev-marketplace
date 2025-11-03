@@ -33,9 +33,8 @@ Goal: Detect existing project structure and tech stack
 
 Actions:
 - Update .ai-stack-config.json to track phase 0
-- Run project detection:
-  SlashCommand: /foundation:detect $ARGUMENTS
-- Wait for completion
+- Execute project detection immediately:
+  !{slashcommand /foundation:detect $ARGUMENTS}
 - This populates .claude/project.json with detected stack
 - Verify: !{bash test -f .claude/project.json && echo "✅ Project detected" || echo "⚠️  New project"}
 - Mark detection complete
@@ -46,11 +45,10 @@ Goal: Create or validate project specifications
 Actions:
 - Check for existing specs: !{bash test -d specs && echo "Found" || echo "Creating"}
 - If no specs exist:
-  - SlashCommand: /planning:spec create $ARGUMENTS
-  - Wait for completion
+  - Execute spec creation: !{slashcommand /planning:spec create $ARGUMENTS}
   - This creates specs/ directory and initial spec
 - If specs exist:
-  - SlashCommand: /planning:spec list
+  - Execute spec list: !{slashcommand /planning:spec list}
   - Display existing specs
   - Ask user which spec to use for this build
 - Load selected spec into context
@@ -61,9 +59,7 @@ Phase 3: Environment Verification
 Goal: Verify all required development tools are installed
 
 Actions:
-- Check development environment:
-  SlashCommand: /foundation:env-check --fix
-- Wait for completion
+- Execute environment check: !{slashcommand /foundation:env-check --fix}
 - This verifies:
   - Node.js (v18+ for Next.js 15)
   - Python (v3.9+ for FastAPI)
@@ -78,9 +74,7 @@ Phase 4: Git Hooks Setup
 Goal: Install security and validation git hooks
 
 Actions:
-- Setup git hooks for security:
-  SlashCommand: /foundation:hooks-setup
-- Wait for completion
+- Execute git hooks setup: !{slashcommand /foundation:hooks-setup}
 - This installs:
   - pre-commit: Secret scanning (prevents .env commits)
   - commit-msg: Commit message validation

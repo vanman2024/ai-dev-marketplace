@@ -66,8 +66,7 @@ CONTEXT: Fresh start - lifecycle setup
 
 Actions:
 - Create master todo list with all 6 phases
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-0 $ARGUMENTS
-- Wait for Phase 0 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-0 $ARGUMENTS}
 - This establishes:
   - Project detection (/foundation:detect)
   - Specs creation/validation (/planning:spec)
@@ -75,7 +74,7 @@ Actions:
   - Git hooks installation (/foundation:hooks-setup)
   - MCP documentation (pre-configured in plugins)
 - Verify: !{bash test -f .ai-stack-config.json && jq -e '.phase0Complete == true' .ai-stack-config.json && echo "✅ Phase 0 complete" || echo "❌ Phase 0 failed"}
-- If failed: STOP, display error, ask to retry
+- If failed: Display error and stop
 - If success: Mark Phase 0 complete
 - Time: ~10 minutes
 
@@ -85,15 +84,14 @@ Goal: Deploy Next.js + FastAPI + Supabase (Phase 1)
 CONTEXT: Early - can use 3 agents
 
 Actions:
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-1 $ARGUMENTS
-- Wait for Phase 1 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-1 $ARGUMENTS}
 - This creates:
   - Next.js 15 frontend
   - FastAPI backend (ALWAYS)
   - Supabase database
   - Backend connected to database
 - Verify: !{bash test -f .ai-stack-config.json && jq -e '.phase1Complete == true' .ai-stack-config.json && echo "✅ Phase 1 complete" || echo "❌ Phase 1 failed"}
-- If failed: STOP, display error, ask to retry
+- If failed: Display error and stop
 - If success: Mark Phase 1 complete
 - Time: ~20 minutes
 
@@ -103,15 +101,14 @@ Goal: Deploy Vercel AI SDK + Mem0 + Agent SDK + MCP (Phase 2)
 CONTEXT: Mid-conversation - limit to 2 agents max
 
 Actions:
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-2
-- Wait for Phase 2 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-2}
 - This adds:
   - Vercel AI SDK (frontend + backend)
   - Mem0 memory persistence
   - Claude Agent SDK orchestration
   - MCP server configuration
 - Verify: !{bash jq -e '.phase2Complete == true' .ai-stack-config.json && echo "✅ Phase 2 complete" || echo "❌ Phase 2 failed"}
-- If failed: STOP, display error, ask to retry
+- If failed: Display error and stop
 - If success: Mark Phase 2 complete
 - Time: ~25 minutes
 
@@ -121,14 +118,13 @@ Goal: Wire services + UI components (Phase 3)
 CONTEXT: Late conversation - 1 agent max or NO agents
 
 Actions:
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-3
-- Wait for Phase 3 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-3}
 - This adds:
   - Frontend ↔ Backend connection
   - shadcn/Tailwind UI components
   - Deployment configs (Vercel, Fly.io)
 - Verify: !{bash jq -e '.phase3Complete == true' .ai-stack-config.json && echo "✅ Phase 3 complete" || echo "❌ Phase 3 failed"}
-- If failed: STOP, display error, ask to retry
+- If failed: Display error and stop
 - If success: Mark Phase 3 complete
 - Time: ~25 minutes
 
@@ -138,8 +134,7 @@ Goal: Run comprehensive tests and security scans (Phase 4)
 CONTEXT: Very late - NO agents, lifecycle commands only
 
 Actions:
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-4
-- Wait for Phase 4 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-4}
 - This runs:
   - Newman API testing (/quality:test newman)
   - Playwright E2E testing (/quality:test playwright)
@@ -155,8 +150,7 @@ Goal: Deploy to Vercel + Fly.io and validate (Phase 5)
 CONTEXT: Very late - NO agents, lifecycle commands only
 
 Actions:
-- SlashCommand: /ai-tech-stack-1:build-full-stack-phase-5
-- Wait for Phase 5 to complete before proceeding
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-5}
 - This executes:
   - Pre-flight checks (/deployment:prepare)
   - Actual deployment (/deployment:deploy)

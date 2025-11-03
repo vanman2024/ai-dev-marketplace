@@ -50,8 +50,7 @@ CONTEXT: Mid - 2 agents max
 Actions:
 - Update .ai-stack-config.json phase to 2
 - Change to frontend: !{bash cd "$APP_NAME"}
-- SlashCommand: /vercel-ai-sdk:build-full-stack
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /vercel-ai-sdk:build-full-stack}
 - This builds COMPLETE AI SDK integration with:
   - Core: Streaming, Tool calling, Chat functionality
   - UI Features: Generative UI, useObject, useCompletion, Message persistence, File attachments
@@ -87,14 +86,10 @@ CONTEXT: Mid - 2 agents max
 Actions:
 - Update .ai-stack-config.json phase to 4
 - Change to frontend: !{bash cd "$APP_NAME"}
-- SlashCommand: /mem0:init-oss
-- Wait for completion before proceeding
-- SlashCommand: /mem0:add-conversation-memory
-- Wait for completion before proceeding
-- SlashCommand: /mem0:add-user-memory
-- Wait for completion before proceeding
-- SlashCommand: /mem0:test
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /mem0:init-oss}
+- Execute immediately: !{slashcommand /mem0:add-conversation-memory}
+- Execute immediately: !{slashcommand /mem0:add-user-memory}
+- Execute immediately: !{slashcommand /mem0:test}
 - This builds COMPLETE memory system with:
   - Mem0 OSS package with Supabase backend
   - pgvector extension for embeddings
@@ -118,8 +113,7 @@ CONTEXT: Late - 1 agent only
 Actions:
 - Update .ai-stack-config.json phase to 5
 - Change to backend: !{bash cd "$APP_NAME-backend"}
-- SlashCommand: /claude-agent-sdk:build-full-app "$APP_NAME-backend"
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /claude-agent-sdk:build-full-app "$APP_NAME-backend"}
 - This builds COMPLETE production agent with:
   - Core: Streaming responses, Session management
   - Integration: MCP servers, Custom tools

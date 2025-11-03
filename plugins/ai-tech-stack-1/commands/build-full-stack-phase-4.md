@@ -43,8 +43,7 @@ Goal: Test all backend API endpoints
 Actions:
 - Update .ai-stack-config.json phase to 4
 - Run Newman API tests on backend:
-  SlashCommand: /quality:test newman
-- Wait for completion
+  Execute immediately: !{slashcommand /quality:test newman}
 - This tests:
   - All REST API endpoints
   - Authentication flows
@@ -66,8 +65,7 @@ Goal: Test full application workflows
 
 Actions:
 - Run Playwright E2E tests on frontend:
-  SlashCommand: /quality:test playwright
-- Wait for completion
+  Execute immediately: !{slashcommand /quality:test playwright}
 - This tests:
   - Page navigation
   - UI component interactions
@@ -90,8 +88,7 @@ Goal: Scan for security issues
 
 Actions:
 - Run security scans:
-  SlashCommand: /quality:security
-- Wait for completion
+  Execute immediately: !{slashcommand /quality:security}
 - This scans for:
   - Dependency vulnerabilities (npm audit, pip check)
   - Exposed secrets in code

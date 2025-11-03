@@ -48,8 +48,7 @@ Goal: Verify deployment readiness
 Actions:
 - Update .ai-stack-config.json phase to 5
 - Run pre-flight checks:
-  SlashCommand: /deployment:prepare
-- Wait for completion
+  Execute immediately: !{slashcommand /deployment:prepare}
 - This verifies:
   - Build tools installed (vercel CLI, fly CLI)
   - Authentication configured (vercel token, fly token)
@@ -70,8 +69,7 @@ Goal: Execute actual deployment
 
 Actions:
 - Deploy applications:
-  SlashCommand: /deployment:deploy
-- Wait for completion
+  Execute immediately: !{slashcommand /deployment:deploy}
 - This deploys:
   - Frontend to Vercel (auto-detected Next.js)
   - Backend to Fly.io (auto-detected FastAPI)
@@ -99,8 +97,7 @@ Goal: Run post-deployment health checks
 
 Actions:
 - Validate frontend deployment:
-  SlashCommand: /deployment:validate $FRONTEND_URL
-- Wait for completion
+  Execute immediately: !{slashcommand /deployment:validate $FRONTEND_URL}
 - This checks:
   - URL accessible (200 status)
   - Page loads correctly
@@ -108,8 +105,7 @@ Actions:
   - Assets loading
   - API connectivity
 - Validate backend deployment:
-  SlashCommand: /deployment:validate $BACKEND_URL
-- Wait for completion
+  Execute immediately: !{slashcommand /deployment:validate $BACKEND_URL}
 - This checks:
   - API health endpoint responding
   - Database connectivity

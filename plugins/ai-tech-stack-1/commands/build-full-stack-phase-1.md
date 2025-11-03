@@ -113,8 +113,7 @@ CONTEXT: Early - 3 agents OK
 
 Actions:
 - Update .ai-stack-config.json phase to 3
-- SlashCommand: /nextjs-frontend:build-full-stack $ARGUMENTS
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /nextjs-frontend:build-full-stack $ARGUMENTS}
 - This builds COMPLETE frontend with:
   - Next.js 15 App Router, TypeScript, Tailwind
   - Feature discovery (Supabase, AI SDK)
@@ -133,8 +132,7 @@ CONTEXT: Early - 3 agents OK
 Actions:
 - Update .ai-stack-config.json phase to 4
 - Create backend directory: !{bash mkdir -p "$ARGUMENTS-backend"}
-- SlashCommand: /fastapi-backend:init-ai-app "$ARGUMENTS-backend"
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /fastapi-backend:init-ai-app "$ARGUMENTS-backend"}
 - This builds COMPLETE AI backend with:
   - FastAPI app with src/app layout
   - Mem0 integration (memory_manager.py, mem0_client.py)
@@ -158,8 +156,7 @@ Actions:
 - Update .ai-stack-config.json phase to 5
 - Change to frontend dir: !{bash cd "$ARGUMENTS"}
 - Extract app type from config: !{bash APP_TYPE=$(jq -r '.appType' .ai-stack-config.json); echo "$APP_TYPE"}
-- SlashCommand: /supabase:init-ai-app "$APP_TYPE"
-- Wait for completion before proceeding
+- Execute immediately: !{slashcommand /supabase:init-ai-app "$APP_TYPE"}
 - This creates (tailored to app type):
   - Database schema for AI apps (chat/rag/agents/multi-tenant)
   - Auth configuration (OAuth providers)
