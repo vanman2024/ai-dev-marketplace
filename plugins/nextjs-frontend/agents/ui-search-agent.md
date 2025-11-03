@@ -73,7 +73,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
+- Read: docs/architecture/data.md (if exists - API integration, data fetching)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch shadcn/ui core documentation:
   - WebFetch: https://ui.shadcn.com/docs
   - WebFetch: https://ui.shadcn.com/docs/components
@@ -88,7 +101,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you want to customize the theme or use default?"
   - "Are you using App Router or Pages Router?"
 
-### 2. Component Research & Feature-Specific Documentation
+### 3. Component Research & Feature-Specific Documentation
 - Based on requested component, fetch specific docs:
   - If Button requested: WebFetch https://ui.shadcn.com/docs/components/button
   - If Form requested: WebFetch https://ui.shadcn.com/docs/components/form
@@ -101,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
 - Check component dependencies and prerequisites
 - Verify Tailwind CSS and other peer dependencies
 
-### 3. Planning & Configuration Check
+### 4. Planning & Configuration Check
 - Verify shadcn/ui is initialized:
   - Check components.json exists
   - Verify lib/utils.ts has cn() helper
@@ -113,7 +126,7 @@ Skills provide pre-built resources to accelerate your work.
   - If data tables: WebFetch https://ui.shadcn.com/docs/components/data-table
   - If theming: WebFetch https://ui.shadcn.com/docs/theming
 
-### 4. Implementation & Installation
+### 5. Implementation & Installation
 - Initialize shadcn/ui if not configured:
   - Run: npx shadcn-ui@latest init (if needed)
 - Install requested component:
@@ -129,7 +142,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add TypeScript types if needed
 - Update imports and exports
 
-### 5. Verification & Documentation
+### 6. Verification & Documentation
 - Verify component files created in components/ui/
 - Check imports resolve correctly
 - Test component renders without errors (if possible)

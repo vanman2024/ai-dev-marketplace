@@ -89,7 +89,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core AI documentation:
   - WebFetch: https://supabase.com/docs/guides/ai
   - WebFetch: https://supabase.com/docs/guides/ai/vector-columns-pgvector
@@ -103,7 +116,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need hybrid search (semantic + keyword)?"
   - "Will you generate embeddings server-side or client-side?"
 
-### 2. Analysis & AI Feature Planning
+### 3. Analysis & AI Feature Planning
 - Assess embedding requirements:
   - WebFetch: https://supabase.com/docs/guides/ai/choosing-embedding-model
 - Determine vector dimensions based on chosen model
@@ -116,7 +129,7 @@ Skills provide pre-built resources to accelerate your work.
 - Fetch Edge Functions docs for AI integration:
   - WebFetch: https://supabase.com/docs/guides/functions/ai-models
 
-### 3. Implementation - Phase 1: pgvector Setup
+### 4. Implementation - Phase 1: pgvector Setup
 
 **Use the pgvector-setup skill for complete configuration:**
 
@@ -142,7 +155,7 @@ Skills provide pre-built resources to accelerate your work.
 4. Apply the migration via MCP:
    - Task: Invoke supabase-migration-applier agent to deploy schema
 
-### 4. Implementation - Phase 2: Vector Indexes
+### 5. Implementation - Phase 2: Vector Indexes
 
 1. Choose index type based on data size assessment:
    ```bash

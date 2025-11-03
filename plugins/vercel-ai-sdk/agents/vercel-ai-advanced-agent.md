@@ -110,7 +110,20 @@ Before building, check for project architecture documentation:
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, model config, streaming)
+- Read: docs/architecture/frontend.md (if exists - Next.js architecture, API routes)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core advanced features documentation:
   - WebFetch: https://ai-sdk.dev/docs/agents/overview
   - WebFetch: https://ai-sdk.dev/docs/foundations/tools
@@ -124,7 +137,7 @@ Before building, check for project architecture documentation:
   - "What's your expected volume for image/audio generation?"
   - "Do you have MCP servers already configured?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Identify infrastructure needs (storage for images/audio)
 - Assess security requirements for MCP tools
 - Determine computational constraints
@@ -136,7 +149,7 @@ Before building, check for project architecture documentation:
   - If transcription requested: WebFetch https://ai-sdk.dev/docs/ai-sdk-core/transcription
   - If speech synthesis requested: WebFetch https://ai-sdk.dev/docs/ai-sdk-core/speech
 
-### 3. Planning & Detailed Documentation
+### 4. Planning & Detailed Documentation
 - Design agent architecture and workflow based on fetched docs
 - Plan tool ecosystem (built-in tools + MCP tools)
 - Design state management for agents
@@ -148,7 +161,7 @@ Before building, check for project architecture documentation:
   - For loop control: WebFetch https://ai-sdk.dev/docs/agents/loop-control
   - For tool calling details: WebFetch https://ai-sdk.dev/docs/ai-sdk-core/tools-and-tool-calling
 
-### 4. Implementation & Provider Documentation
+### 5. Implementation & Provider Documentation
 - Install required packages (MCP clients, image providers, audio libraries)
 - Build agent orchestration system
 - Fetch provider-specific and reference docs as needed:
@@ -165,7 +178,7 @@ Before building, check for project architecture documentation:
 - Add loop control and safeguards
 - Set up storage and delivery for generated content
 
-### 5. Verification
+### 6. Verification
 - Test agent workflows with various scenarios
 - Verify tool calling works correctly
 - Test MCP tool integration if applicable

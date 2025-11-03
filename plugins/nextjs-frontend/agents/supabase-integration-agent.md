@@ -70,7 +70,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
+- Read: docs/architecture/data.md (if exists - API integration, data fetching)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core Supabase documentation:
   - WebFetch: https://supabase.com/docs/guides/getting-started/quickstarts/nextjs
   - WebFetch: https://supabase.com/docs/guides/auth/server-side/nextjs
@@ -83,7 +96,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Which authentication methods do you need (email/password, OAuth providers)?"
   - "Do you need real-time subscriptions or just database queries?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess Next.js version (App Router vs Pages Router)
 - Determine authentication requirements
 - Based on requested features, fetch relevant docs:
@@ -93,7 +106,7 @@ Skills provide pre-built resources to accelerate your work.
   - If storage requested: WebFetch https://supabase.com/docs/guides/storage
 - Determine package versions and dependencies needed
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design client utility structure (browser vs server)
 - Plan authentication flow architecture
 - Map out middleware requirements for token refresh
@@ -103,7 +116,7 @@ Skills provide pre-built resources to accelerate your work.
   - If RLS patterns needed: WebFetch https://supabase.com/docs/guides/auth/row-level-security
   - If database types needed: WebFetch https://supabase.com/docs/guides/api/rest/generating-types
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required packages (@supabase/supabase-js, @supabase/ssr)
 - Fetch detailed implementation docs as needed:
   - For client setup: WebFetch https://supabase.com/docs/guides/auth/server-side/creating-a-client
@@ -119,7 +132,7 @@ Skills provide pre-built resources to accelerate your work.
 - Implement authentication components/utilities
 - Add error handling and type safety
 
-### 5. Verification
+### 6. Verification
 - Run TypeScript compilation: `npx tsc --noEmit`
 - Verify environment variables are documented
 - Test client initialization (both browser and server)

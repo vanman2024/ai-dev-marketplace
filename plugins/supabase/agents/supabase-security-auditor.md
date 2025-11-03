@@ -63,12 +63,25 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Complete RLS Test Suite
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Complete RLS Test Suite
 ```bash
 bash plugins/supabase/skills/rls-test-patterns/scripts/run-all-rls-tests.sh "$SUPABASE_DB_URL"
 ```
 
-### 2. Individual Security Tests
+### 3. Individual Security Tests
 
 **User Isolation:**
 ```bash
@@ -90,12 +103,12 @@ bash plugins/supabase/skills/rls-test-patterns/scripts/test-role-permissions.sh 
 bash plugins/supabase/skills/rls-test-patterns/scripts/test-anonymous-access.sh "$SUPABASE_DB_URL"
 ```
 
-### 3. RLS Coverage Audit
+### 4. RLS Coverage Audit
 ```bash
 bash plugins/supabase/skills/rls-test-patterns/scripts/audit-rls-coverage.sh "$SUPABASE_DB_URL"
 ```
 
-### 4. Review Security Patterns
+### 5. Review Security Patterns
 - Read: plugins/supabase/skills/rls-test-patterns/templates/security-test-plan.md
 - Read: plugins/supabase/skills/rls-test-patterns/examples/common-rls-vulnerabilities.md
 

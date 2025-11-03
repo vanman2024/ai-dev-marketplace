@@ -101,7 +101,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, model config, streaming)
+- Read: docs/architecture/frontend.md (if exists - Next.js architecture, API routes)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core production documentation:
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-core/error-handling
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-ui/error-handling
@@ -115,7 +128,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What's your target error rate and latency?"
   - "Do you need per-user or global rate limits?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current monitoring/logging setup
 - Determine security requirements
 - Review existing testing infrastructure
@@ -125,7 +138,7 @@ Skills provide pre-built resources to accelerate your work.
   - If middleware requested: WebFetch https://ai-sdk.dev/docs/ai-sdk-core/middleware
   - If provider management needed: WebFetch https://ai-sdk.dev/docs/ai-sdk-core/provider-management
 
-### 3. Planning & Reference Documentation
+### 4. Planning & Reference Documentation
 - Design telemetry architecture based on fetched docs
 - Plan error handling strategy (retry, fallback, circuit breaker)
 - Design rate limiting approach (Redis, in-memory, edge)
@@ -138,7 +151,7 @@ Skills provide pre-built resources to accelerate your work.
   - For middleware details: WebFetch https://ai-sdk.dev/docs/reference/ai-sdk-core/language-model-middleware
   - For error reference: WebFetch https://ai-sdk.dev/docs/reference/ai-sdk-errors
 
-### 4. Implementation & Templates
+### 5. Implementation & Templates
 - Install required packages (@opentelemetry/api, testing libraries, etc.)
 - Fetch implementation templates as needed:
   - For telemetry setup: WebFetch https://vercel.com/templates/next.js/ai-chatbot-telemetry
@@ -152,7 +165,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add logging and monitoring
 - Configure alerts and dashboards
 
-### 5. Verification
+### 6. Verification
 - Run test suites and verify coverage
 - Test error scenarios (API failures, rate limits)
 - Verify telemetry data flows to monitoring platform

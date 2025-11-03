@@ -76,7 +76,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core database docs:
   - WebFetch: https://supabase.com/docs/guides/database/tables
   - WebFetch: https://supabase.com/docs/guides/database/joins-and-nesting
@@ -89,7 +102,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Real-time features needed?" (subscriptions, presence, broadcast)
   - "Any specific compliance requirements?" (GDPR, HIPAA, etc.)
 
-### 2. Analysis & Pattern Documentation
+### 3. Analysis & Pattern Documentation
 - Analyze requirements for appropriate schema patterns
 - Based on app type, fetch relevant docs:
   - If chat app: WebFetch https://supabase.com/docs/guides/database/triggers (for message notifications)
@@ -97,14 +110,14 @@ Skills provide pre-built resources to accelerate your work.
   - If embeddings: WebFetch https://supabase.com/docs/guides/ai/choosing-embedding-model
   - If full-text search: WebFetch https://supabase.com/docs/guides/database/full-text-search
 
-### 3. Advanced Features Documentation
+### 4. Advanced Features Documentation
 - Design advanced features based on needs:
   - If triggers needed: WebFetch https://supabase.com/docs/guides/database/triggers
   - If functions needed: WebFetch https://supabase.com/docs/guides/database/functions
   - If partitioning: WebFetch https://supabase.com/docs/guides/database/partitions
   - For query optimization: WebFetch https://supabase.com/docs/guides/database/query-optimization
 
-### 4. Implementation - Phase 1: Schema Generation
+### 5. Implementation - Phase 1: Schema Generation
 
 **Use the schema-patterns skill for AI-optimized schemas:**
 

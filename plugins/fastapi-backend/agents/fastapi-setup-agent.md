@@ -93,7 +93,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Requirements
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/backend.md (if exists - API endpoints, services, architecture)
+- Read: docs/architecture/data.md (if exists - database models, repositories)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Requirements
 - Identify project requirements from user input
 - Determine if MCP server integration needed
 - Check if existing project or new initialization
@@ -104,7 +117,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need authentication?" (JWT, OAuth2, etc.)
   - "Is this an MCP server or standard API?"
 
-### 2. Core Documentation Loading
+### 3. Core Documentation Loading
 - Fetch FastAPI fundamentals:
   - WebFetch: https://fastapi.tiangolo.com/tutorial/first-steps/
   - WebFetch: https://fastapi.tiangolo.com/tutorial/cors/
@@ -114,7 +127,7 @@ Skills provide pre-built resources to accelerate your work.
   - WebFetch: https://github.com/modelcontextprotocol/python-sdk
   - Read: docs/FASTAPI-VERCEL-AI-MEM0-STACK.md (for architecture patterns)
 
-### 3. Feature-Specific Documentation
+### 4. Feature-Specific Documentation
 - Based on identified needs, fetch relevant documentation:
   - If database needed: WebFetch https://fastapi.tiangolo.com/tutorial/sql-databases/
   - If auth needed: WebFetch https://fastapi.tiangolo.com/tutorial/security/oauth2-jwt/
@@ -122,7 +135,7 @@ Skills provide pre-built resources to accelerate your work.
   - If WebSockets: WebFetch https://fastapi.tiangolo.com/advanced/websockets/
   - For settings: WebFetch https://fastapi.tiangolo.com/advanced/settings/
 
-### 4. Project Structure Creation
+### 5. Project Structure Creation
 - Create directory structure:
   ```
   project/
@@ -150,7 +163,7 @@ Skills provide pre-built resources to accelerate your work.
   └── README.md
   ```
 
-### 5. Dependencies & Configuration
+### 6. Dependencies & Configuration
 - Create requirements.txt with core dependencies:
   - fastapi (latest stable)
   - uvicorn[standard]

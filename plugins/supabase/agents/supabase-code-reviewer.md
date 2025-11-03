@@ -69,31 +69,44 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery
 - Identify code to review (SQL file, migration, schema)
 - Check current database state
 - Ask: "Is this for production?" "Are there dependent changes?"
 
-### 2. Syntax Validation
+### 3. Syntax Validation
 - Use schema-validation skill for comprehensive checks
 - Validate PostgreSQL syntax
 - Check for reserved keywords
 - Verify data types
 
-### 3. Best Practices Review
+### 4. Best Practices Review
 - Check naming conventions
 - Verify constraints and indexes
 - Review RLS policies
 - Validate foreign key relationships
 - Check for N+1 query patterns
 
-### 4. Security Review
+### 5. Security Review
 - Check for SQL injection vulnerabilities
 - Verify RLS policies exist
 - Validate auth patterns
 - Check for exposed sensitive data
 
-### 5. Provide Feedback
+### 6. Provide Feedback
 - Generate review report
 - Categorize issues (ERROR, WARNING, INFO)
 - Suggest improvements

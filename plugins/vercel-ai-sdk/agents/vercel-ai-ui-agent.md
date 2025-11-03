@@ -89,7 +89,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, model config, streaming)
+- Read: docs/architecture/frontend.md (if exists - Next.js architecture, API routes)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core UI documentation:
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-ui/overview
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-ui/error-handling
@@ -101,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you want file upload size limits?"
   - "Should we use optimistic UI updates?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Identify current UI components and patterns
 - Determine database setup (if persistence requested)
 - Assess TypeScript/JavaScript configuration
@@ -112,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If persistence requested: WebFetch https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-message-persistence
   - If metadata requested: WebFetch https://ai-sdk.dev/docs/ai-sdk-ui/message-metadata
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design component structure based on fetched docs
 - Plan database schema (if persistence needed)
 - Determine API routes needed (for Next.js)
@@ -123,7 +136,7 @@ Skills provide pre-built resources to accelerate your work.
   - If file attachments needed: WebFetch https://ai-sdk.dev/docs/ai-sdk-ui/chatbot
   - If custom streaming needed: WebFetch https://ai-sdk.dev/docs/ai-sdk-ui/streaming-data
 
-### 4. Implementation
+### 5. Implementation
 - Install required packages (@ai-sdk/ui-utils, zod, database client, etc.)
 - Fetch detailed implementation docs as needed:
   - For Generative UI: WebFetch https://ai-sdk.dev/docs/reference/ai-sdk-rsc
@@ -134,7 +147,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add error handling and loading states
 - Set up TypeScript types
 
-### 5. Verification
+### 6. Verification
 - Run TypeScript compilation check
 - Test streaming functionality
 - Verify database operations (if applicable)

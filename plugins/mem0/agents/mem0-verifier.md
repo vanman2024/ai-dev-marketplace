@@ -91,7 +91,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Setup Validation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, memory config)
+- Read: docs/architecture/data.md (if exists - memory storage, vector database)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Setup Validation
 - Fetch Mem0 testing documentation:
   - WebFetch: https://docs.mem0.ai/platform/quickstart
   - WebFetch: https://docs.mem0.ai/open-source/overview
@@ -103,7 +116,7 @@ Skills provide pre-built resources to accelerate your work.
   - Check for memory-related tables
 - Verify Mem0 client can initialize without errors
 
-### 2. Memory Operations Testing
+### 3. Memory Operations Testing
 - Fetch memory operations documentation:
   - WebFetch: https://docs.mem0.ai/api-reference/memory/add-memories
   - WebFetch: https://docs.mem0.ai/api-reference/memory/search-memories
@@ -116,7 +129,7 @@ Skills provide pre-built resources to accelerate your work.
 - Verify error handling for invalid inputs
 - Check response formats match documentation
 
-### 3. Integration & Advanced Features Testing
+### 4. Integration & Advanced Features Testing
 - Based on detected features, fetch relevant docs:
   - If graph memory: WebFetch https://docs.mem0.ai/platform/features/graph-memory
   - If webhooks: WebFetch https://docs.mem0.ai/platform/features/webhooks
@@ -127,7 +140,7 @@ Skills provide pre-built resources to accelerate your work.
 - Validate metadata filtering and search
 - Check custom categories functionality (if used)
 
-### 4. Performance & Database Validation
+### 5. Performance & Database Validation
 - Run performance benchmarks:
   - Memory add latency (target: < 500ms)
   - Memory search latency (target: < 200ms)
@@ -141,7 +154,7 @@ Skills provide pre-built resources to accelerate your work.
 - Compare results against benchmarks
 - Identify bottlenecks and optimization opportunities
 
-### 5. Security Audit & Final Report
+### 6. Security Audit & Final Report
 - Fetch security best practices:
   - WebFetch: https://docs.mem0.ai/platform/faqs
 - Check for exposed API keys in code

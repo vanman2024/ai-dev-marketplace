@@ -78,7 +78,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core database documentation:
   - WebFetch: https://supabase.com/docs/guides/database/overview
   - WebFetch: https://supabase.com/docs/guides/database/connecting-to-postgres
@@ -90,7 +103,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need rollback capability?"
   - "What's the expected data volume?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current database schema
 - Determine operation type (DDL, DML, query)
 - Evaluate transaction requirements
@@ -100,7 +113,7 @@ Skills provide pre-built resources to accelerate your work.
   - If functions needed: WebFetch https://supabase.com/docs/guides/database/functions
   - If triggers needed: WebFetch https://supabase.com/docs/guides/database/triggers
 
-### 3. Planning & Safety Documentation
+### 4. Planning & Safety Documentation
 - Plan SQL execution strategy based on fetched docs
 - Design transaction boundaries
 - Identify rollback points
@@ -109,7 +122,7 @@ Skills provide pre-built resources to accelerate your work.
   - If RLS involved: WebFetch https://supabase.com/docs/guides/database/postgres/row-level-security
   - If performance critical: WebFetch https://supabase.com/docs/guides/database/query-optimization
 
-### 4. Execution via MCP
+### 5. Execution via MCP
 - Validate SQL syntax using schema-validation skill
 - Execute via Supabase MCP server tools
 - Monitor execution progress
@@ -117,7 +130,7 @@ Skills provide pre-built resources to accelerate your work.
 - Log all executed queries for audit
 - Return results in structured format
 
-### 5. Verification
+### 6. Verification
 - Verify operation completed successfully
 - Check affected row counts
 - Validate data integrity

@@ -73,7 +73,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, memory config)
+- Read: docs/architecture/data.md (if exists - memory storage, vector database)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch Mem0 core documentation:
   - WebFetch: https://docs.mem0.ai/introduction
   - WebFetch: https://docs.mem0.ai/platform/overview
@@ -88,7 +101,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Which memory types do you need? (user, agent, conversation)"
   - "Do you want graph memory for relationship tracking?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current project structure and frameworks
 - Determine language (Python, TypeScript, JavaScript)
 - Check if Supabase is already initialized (OSS mode)
@@ -104,7 +117,7 @@ Skills provide pre-built resources to accelerate your work.
   - If CrewAI: WebFetch https://docs.mem0.ai/integrations/crewai
   - If OpenAI Agents SDK: WebFetch https://docs.mem0.ai/integrations/openai-agents-sdk
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design memory architecture (user/agent/session separation)
 - Plan Supabase schema (if OSS mode)
 - Determine embedding model and vector database
@@ -115,7 +128,7 @@ Skills provide pre-built resources to accelerate your work.
   - If custom categories: WebFetch https://docs.mem0.ai/platform/features/custom-categories
   - If webhooks: WebFetch https://docs.mem0.ai/platform/features/webhooks
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required packages (mem0ai, database drivers, etc.)
 - If OSS mode with Supabase:
   - Run /supabase:init if not already setup
@@ -131,7 +144,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add environment variables to .env
 - Update .env.example with required keys
 
-### 5. Verification & Testing
+### 6. Verification & Testing
 - Test Mem0 client initialization
 - Verify memory operations (add, search, update, delete)
 - Check Supabase connection (if OSS mode)

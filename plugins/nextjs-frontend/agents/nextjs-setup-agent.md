@@ -73,7 +73,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
+- Read: docs/architecture/data.md (if exists - API integration, data fetching)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch Next.js 15 core documentation:
   - WebFetch: https://nextjs.org/docs/getting-started/installation
   - WebFetch: https://nextjs.org/docs/app/building-your-application/routing
@@ -85,7 +98,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Any specific features (authentication, database, API routes)?"
 - Verify Node.js version compatibility (18.17+)
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current working directory structure
 - Determine if creating new project or enhancing existing one
 - Based on requested features, fetch relevant docs:
@@ -94,7 +107,7 @@ Skills provide pre-built resources to accelerate your work.
   - If TypeScript config needed: WebFetch https://www.typescriptlang.org/tsconfig
 - Plan dependency versions and compatibility matrix
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design project directory structure based on App Router conventions
 - Plan TypeScript configuration (strict mode, path aliases)
 - Map out component organization strategy
@@ -104,7 +117,7 @@ Skills provide pre-built resources to accelerate your work.
   - If metadata/SEO needed: WebFetch https://nextjs.org/docs/app/building-your-application/optimizing/metadata
   - If environment variables needed: WebFetch https://nextjs.org/docs/app/building-your-application/configuring/environment-variables
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Create Next.js project or configure existing one:
   - Run: `npx create-next-app@latest` with appropriate flags
   - Configure TypeScript, ESLint, Tailwind, App Router
@@ -123,7 +136,7 @@ Skills provide pre-built resources to accelerate your work.
 - Create environment variable templates (.env.example)
 - Add path aliases to tsconfig.json (@/ prefix)
 
-### 5. Verification
+### 6. Verification
 - Run TypeScript type checking: `npx tsc --noEmit`
 - Verify Next.js builds successfully: `npm run build`
 - Test development server starts: `npm run dev` (check output, don't leave running)

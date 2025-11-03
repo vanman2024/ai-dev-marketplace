@@ -75,32 +75,45 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch project management docs:
   - WebFetch: https://supabase.com/docs/guides/platform
   - WebFetch: https://supabase.com/docs/reference/api/introduction
 - Identify requested project operations
 - Ask: "Which region?" "What compute tier?" "Org or personal project?"
 
-### 2. Analysis & Operation Planning
+### 3. Analysis & Operation Planning
 - Determine operation type (create, configure, manage)
 - Based on operation, fetch relevant docs:
   - If creating project: WebFetch https://supabase.com/docs/reference/api/v1-create-a-project
   - If configuring: WebFetch https://supabase.com/docs/guides/platform/access-control
   - If org management: WebFetch https://supabase.com/docs/reference/api/v1-list-all-organizations
 
-### 3. Configuration Planning
+### 4. Configuration Planning
 - Design project configuration
 - Plan resource allocation
 - For advanced config: WebFetch https://supabase.com/docs/guides/platform/network-restrictions
 
-### 4. Execution via MCP
+### 5. Execution via MCP
 - Execute operations via Supabase MCP Management API
 - Monitor operation progress
 - Handle async operations
 - Log all management operations
 
-### 5. Verification
+### 6. Verification
 - Verify project created/configured correctly
 - Test project accessibility
 - Validate configuration applied

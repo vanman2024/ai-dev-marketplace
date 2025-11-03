@@ -80,7 +80,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Requirements Analysis
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, memory config)
+- Read: docs/architecture/data.md (if exists - memory storage, vector database)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Requirements Analysis
 - Fetch Mem0 architecture documentation:
   - WebFetch: https://docs.mem0.ai/core-concepts/memory-types
   - WebFetch: https://docs.mem0.ai/cookbooks/essentials/choosing-memory-architecture-vector-vs-graph
@@ -92,7 +105,7 @@ Skills provide pre-built resources to accelerate your work.
 - Read existing project structure
 - Analyze current memory usage patterns (if any)
 
-### 2. Architecture Analysis & Pattern Selection
+### 3. Architecture Analysis & Pattern Selection
 - Assess memory access patterns
 - Determine scale requirements
 - Based on requirements, fetch relevant docs:
@@ -101,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
   - If multi-tenant: WebFetch https://docs.mem0.ai/cookbooks/essentials/tagging-and-organizing-memories
   - If expiration needed: WebFetch https://docs.mem0.ai/cookbooks/essentials/memory-expiration-short-and-long-term
 
-### 3. Schema & Structure Design
+### 4. Schema & Structure Design
 - Design memory schema based on fetched patterns
 - Plan metadata structure
 - Define memory categories and tags
@@ -111,7 +124,7 @@ Skills provide pre-built resources to accelerate your work.
   - If metadata filtering: WebFetch https://docs.mem0.ai/open-source/features/metadata-filtering
   - If reranker optimization: WebFetch https://docs.mem0.ai/open-source/features/reranker-search
 
-### 4. Optimization & Best Practices
+### 5. Optimization & Best Practices
 - Fetch performance optimization docs:
   - WebFetch: https://docs.mem0.ai/platform/features/advanced-retrieval
   - WebFetch: https://docs.mem0.ai/components/rerankers/optimization
@@ -120,7 +133,7 @@ Skills provide pre-built resources to accelerate your work.
 - Recommend embedding model and vector database
 - Optimize for cost (API calls, storage, compute)
 
-### 5. Documentation & Recommendations
+### 6. Documentation & Recommendations
 - Create memory architecture diagram
 - Document memory schemas and relationships
 - Provide migration strategy (if updating existing system)

@@ -74,14 +74,27 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Documentation
 - Fetch performance docs:
   - WebFetch: https://supabase.com/docs/guides/database/query-optimization
   - WebFetch: https://supabase.com/docs/guides/database/debugging-performance
 - Identify performance issues
 - Ask: "Which queries are slow?" "Expected query volume?" "Performance targets?"
 
-### 2. Query Analysis
+### 3. Query Analysis
 - Run EXPLAIN ANALYZE on slow queries
 - Identify sequential scans
 - Check join strategies
@@ -93,13 +106,13 @@ Skills provide pre-built resources to accelerate your work.
 - Find redundant indexes
 - For vector search: Verify HNSW/IVFFlat index configuration
 
-### 4. Optimization Recommendations
+### 5. Optimization Recommendations
 - Suggest query rewrites
 - Recommend new indexes
 - Propose schema changes
 - Suggest partitioning strategies
 
-### 5. Validation
+### 6. Validation
 - Test optimization impact
 - Measure query performance improvements
 - Verify index usage

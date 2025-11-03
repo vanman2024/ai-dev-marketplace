@@ -63,12 +63,25 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Full Schema Validation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Full Schema Validation
 ```bash
 bash plugins/supabase/skills/schema-validation/scripts/full-validation.sh migrations/schema.sql
 ```
 
-### 2. Individual Validation Steps
+### 3. Individual Validation Steps
 
 **SQL Syntax:**
 ```bash
@@ -95,7 +108,7 @@ bash plugins/supabase/skills/schema-validation/scripts/validate-indexes.sh migra
 bash plugins/supabase/skills/schema-validation/scripts/validate-rls.sh migrations/schema.sql
 ```
 
-### 3. Review Validation Rules
+### 4. Review Validation Rules
 - Read: plugins/supabase/skills/schema-validation/templates/validation-rules.md
 - Read: plugins/supabase/skills/schema-validation/examples/common-schema-errors.md
 

@@ -76,7 +76,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/backend.md (if exists - API endpoints, services, architecture)
+- Read: docs/architecture/data.md (if exists - database models, repositories)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core FastAPI deployment documentation:
   - WebFetch: https://fastapi.tiangolo.com/deployment/
   - WebFetch: https://fastapi.tiangolo.com/deployment/docker/
@@ -92,7 +105,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What's your expected traffic/scaling requirements?"
   - "Do you need CI/CD pipeline configuration?"
 
-### 2. Analysis & Platform-Specific Documentation
+### 3. Analysis & Platform-Specific Documentation
 - Assess current project structure and dependencies
 - Determine Python version and FastAPI configuration
 - Based on target platform, fetch relevant docs:
@@ -103,7 +116,7 @@ Skills provide pre-built resources to accelerate your work.
 - Identify required environment variables and secrets
 - Determine database connection strategy
 
-### 3. Planning & Advanced Configuration
+### 4. Planning & Advanced Configuration
 - Design Docker multi-stage build strategy based on fetched docs
 - Plan environment variable structure (.env.example, platform configs)
 - Map out deployment workflow (build → test → deploy)
@@ -113,7 +126,7 @@ Skills provide pre-built resources to accelerate your work.
   - If Redis/Celery integration: WebFetch https://docs.celeryq.dev/en/stable/getting-started/first-steps-with-celery.html
   - If database migrations: WebFetch https://alembic.sqlalchemy.org/en/latest/tutorial.html
 
-### 4. Implementation & Docker Configuration
+### 5. Implementation & Docker Configuration
 - Create optimized Dockerfile:
   - Multi-stage build (builder + runtime)
   - Proper dependency caching
@@ -132,7 +145,7 @@ Skills provide pre-built resources to accelerate your work.
 - Create comprehensive .env.example with all required variables
 - Add startup scripts for database migrations and initialization
 
-### 5. Verification
+### 6. Verification
 - Build Docker image locally to verify Dockerfile syntax
 - Test Docker Compose setup with local containers
 - Verify health check endpoint responds correctly

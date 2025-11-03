@@ -76,7 +76,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/backend.md (if exists - API endpoints, services, architecture)
+- Read: docs/architecture/data.md (if exists - database models, repositories)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core FastAPI documentation:
   - WebFetch: https://fastapi.tiangolo.com/tutorial/path-params/
   - WebFetch: https://fastapi.tiangolo.com/tutorial/query-params/
@@ -94,7 +107,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Should this endpoint require authentication?"
   - "What validation rules apply to inputs?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current project structure and patterns
 - Determine endpoint complexity (CRUD, custom logic, aggregations)
 - Based on requested features, fetch relevant docs:
@@ -106,7 +119,7 @@ Skills provide pre-built resources to accelerate your work.
 - Review existing Pydantic models for reuse
 - Identify dependencies (DB session, auth, services)
 
-### 3. Planning & Schema Design
+### 4. Planning & Schema Design
 - Design Pydantic models:
   - Request schema with validation rules
   - Response schema with proper typing
@@ -122,7 +135,7 @@ Skills provide pre-built resources to accelerate your work.
   - If dependency injection: WebFetch https://fastapi.tiangolo.com/tutorial/dependencies/
   - If response models: WebFetch https://fastapi.tiangolo.com/tutorial/response-model/
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Fetch detailed implementation docs as needed:
   - For async patterns: WebFetch https://fastapi.tiangolo.com/async/
   - For OpenAPI customization: WebFetch https://fastapi.tiangolo.com/tutorial/metadata/
@@ -142,7 +155,7 @@ Skills provide pre-built resources to accelerate your work.
   - Proper status codes (404, 409, 422)
   - Validation at field and model levels
 
-### 5. Verification
+### 6. Verification
 - Run FastAPI validation checks:
   - Bash: python -m uvicorn app.main:app --reload (check startup)
   - Check /docs endpoint for OpenAPI schema

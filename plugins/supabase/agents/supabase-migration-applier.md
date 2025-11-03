@@ -76,7 +76,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch migration documentation:
   - WebFetch: https://supabase.com/docs/guides/deployment/database-migrations
   - WebFetch: https://supabase.com/docs/guides/cli/local-development
@@ -84,7 +97,7 @@ Skills provide pre-built resources to accelerate your work.
 - Identify pending migrations
 - Ask: "Should migrations run in transaction?" "Need rollback scripts?"
 
-### 2. Analysis & Migration Planning
+### 3. Analysis & Migration Planning
 - Review migration files for safety
 - Check dependencies between migrations
 - Based on migration type, fetch relevant docs:
@@ -92,21 +105,21 @@ Skills provide pre-built resources to accelerate your work.
   - If RLS changes: WebFetch https://supabase.com/docs/guides/database/postgres/row-level-security
   - If extensions: WebFetch https://supabase.com/docs/guides/database/extensions
 
-### 3. Validation & Safety Checks
+### 4. Validation & Safety Checks
 - Validate SQL syntax using schema-validation skill
 - Check for destructive operations (DROP, TRUNCATE)
 - Verify rollback scripts exist
 - Test migration in isolated environment if possible
 - For production: WebFetch https://supabase.com/docs/guides/deployment/production-checklist
 
-### 4. Migration Execution
+### 5. Migration Execution
 - Apply migrations via MCP in correct order
 - Monitor execution progress
 - Log all migration operations
 - Handle errors with automatic rollback
 - Update migration history table
 
-### 5. Verification
+### 6. Verification
 - Verify schema matches expected state
 - Test critical queries work
 - Validate RLS policies applied correctly

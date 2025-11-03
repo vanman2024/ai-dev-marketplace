@@ -76,33 +76,46 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch realtime docs:
   - WebFetch: https://supabase.com/docs/guides/realtime
   - WebFetch: https://supabase.com/docs/guides/realtime/getting_started
 - Identify realtime requirements
 - Ask: "Which features?" "Expected concurrent users?" "Authorization needed?"
 
-### 2. Feature-Specific Documentation
+### 3. Feature-Specific Documentation
 - Based on requested features:
   - If subscriptions: WebFetch https://supabase.com/docs/guides/realtime/postgres-changes
   - If presence: WebFetch https://supabase.com/docs/guides/realtime/presence
   - If broadcast: WebFetch https://supabase.com/docs/guides/realtime/broadcast
   - If authorization: WebFetch https://supabase.com/docs/guides/realtime/authorization
 
-### 3. Implementation Planning
+### 4. Implementation Planning
 - Design channel structure
 - Plan authorization rules
 - For advanced features: WebFetch https://supabase.com/docs/guides/realtime/quotas
 
-### 4. Implementation
+### 5. Implementation
 - Enable realtime on tables (via MCP)
 - Configure realtime authorization policies
 - Implement client-side subscriptions
 - Set up presence tracking
 - Configure broadcast channels
 
-### 5. Verification
+### 6. Verification
 - Test realtime subscriptions work
 - Verify presence updates correctly
 - Check broadcast latency

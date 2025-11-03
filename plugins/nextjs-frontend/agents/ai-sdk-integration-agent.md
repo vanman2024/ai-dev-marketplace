@@ -73,7 +73,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
+- Read: docs/architecture/data.md (if exists - API integration, data fetching)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core AI SDK documentation:
   - WebFetch: https://sdk.vercel.ai/docs/introduction
   - WebFetch: https://sdk.vercel.ai/docs/getting-started/nextjs-app-router
@@ -89,7 +102,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need tool/function calling capabilities?"
   - "Should chat history be persisted to a database?"
 
-### 2. Analysis & Provider-Specific Documentation
+### 3. Analysis & Provider-Specific Documentation
 - Assess current project structure (App Router vs Pages Router)
 - Determine provider requirements based on user selection
 - Based on requested providers, fetch relevant docs:
@@ -99,7 +112,7 @@ Skills provide pre-built resources to accelerate your work.
 - Identify required packages and versions
 - Check for TypeScript configuration needs
 
-### 3. Planning & Feature-Specific Documentation
+### 4. Planning & Feature-Specific Documentation
 - Design API route structure for chat endpoints
 - Plan component hierarchy for chat UI
 - Map out provider configuration strategy
@@ -109,7 +122,7 @@ Skills provide pre-built resources to accelerate your work.
   - If tools needed: WebFetch https://sdk.vercel.ai/docs/ai-sdk-core/tools-and-tool-calling
   - If useChat hook needed: WebFetch https://sdk.vercel.ai/docs/ai-sdk-ui/chatbot
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required AI SDK packages
 - Fetch detailed implementation docs as needed:
   - For API routes: WebFetch https://sdk.vercel.ai/docs/getting-started/nextjs-app-router#create-route-handler
@@ -123,7 +136,7 @@ Skills provide pre-built resources to accelerate your work.
 - Set up TypeScript types for messages and tools
 - Configure middleware if needed (rate limiting, auth)
 
-### 5. Verification
+### 6. Verification
 - Run TypeScript type checking: `npx tsc --noEmit`
 - Test chat interface with sample messages
 - Verify streaming works correctly

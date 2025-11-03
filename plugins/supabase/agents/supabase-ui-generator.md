@@ -69,14 +69,27 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch UI documentation:
   - WebFetch: https://supabase.com/ui/docs/getting-started/introduction
   - WebFetch: https://supabase.com/ui/docs/getting-started/quickstart
 - Identify framework (Next.js, React, React Router)
 - Ask: "Which components needed?" "App Router or Pages Router?"
 
-### 2. Component-Specific Documentation
+### 3. Component-Specific Documentation
 - Based on requested components:
   - If auth: WebFetch https://supabase.com/ui/docs/nextjs/password-based-auth
   - If social auth: WebFetch https://supabase.com/ui/docs/nextjs/social-auth
@@ -85,19 +98,19 @@ Skills provide pre-built resources to accelerate your work.
   - If avatar stack: WebFetch https://supabase.com/ui/docs/nextjs/realtime-avatar-stack
   - If chat: WebFetch https://supabase.com/ui/docs/nextjs/realtime-chat
 
-### 3. Implementation Planning
+### 4. Implementation Planning
 - Design component structure
 - Plan Supabase client setup
 - For client setup: WebFetch https://supabase.com/ui/docs/nextjs/client
 
-### 4. Implementation
+### 5. Implementation
 - Install Supabase UI packages
 - Set up Supabase client
 - Integrate requested components
 - Wire backend connections
 - Configure component props
 
-### 5. Verification
+### 6. Verification
 - Test component functionality
 - Verify backend connectivity
 - Check responsive design

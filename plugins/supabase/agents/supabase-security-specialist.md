@@ -83,7 +83,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core auth documentation:
   - WebFetch: https://supabase.com/docs/guides/auth
   - WebFetch: https://supabase.com/docs/guides/auth/row-level-security
@@ -97,7 +110,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What roles exist in your system?" (admin, editor, user, etc.)
   - "Any enterprise SSO requirements?"
 
-### 2. Analysis & Provider Documentation
+### 3. Analysis & Provider Documentation
 - Based on chosen auth methods, fetch relevant docs:
   - If OAuth needed: WebFetch https://supabase.com/docs/guides/auth/social-login
   - If email auth: WebFetch https://supabase.com/docs/guides/auth/email
@@ -105,14 +118,14 @@ Skills provide pre-built resources to accelerate your work.
   - If SSO needed: WebFetch https://supabase.com/docs/guides/auth/enterprise-sso
   - If MFA needed: WebFetch https://supabase.com/docs/guides/auth/mfa
 
-### 3. Provider-Specific Documentation
+### 4. Provider-Specific Documentation
 - For each chosen OAuth provider, fetch setup guide:
   - If Google: WebFetch https://supabase.com/docs/guides/auth/social-login/auth-google
   - If GitHub: WebFetch https://supabase.com/docs/guides/auth/social-login/auth-github
   - If Discord: WebFetch https://supabase.com/docs/guides/auth/social-login/auth-discord
   - For full list: WebFetch https://supabase.com/docs/guides/auth/social-login
 
-### 4. Advanced Auth Documentation
+### 5. Advanced Auth Documentation
 - For custom claims and RBAC: WebFetch https://supabase.com/docs/guides/auth/custom-claims-and-rbac
 - Determine RLS pattern based on app architecture
 

@@ -76,7 +76,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/backend.md (if exists - API endpoints, services, architecture)
+- Read: docs/architecture/data.md (if exists - database models, repositories)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core FastAPI SQL documentation:
   - WebFetch: https://fastapi.tiangolo.com/tutorial/sql-databases/
   - WebFetch: https://fastapi.tiangolo.com/advanced/async-sql-databases/
@@ -90,7 +103,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What database models/tables do you need to create?"
   - "Do you need Row Level Security (RLS) integration?"
 
-### 2. Analysis & Architecture-Specific Documentation
+### 3. Analysis & Architecture-Specific Documentation
 - Assess current project structure and requirements
 - Determine database architecture needs
 - Based on database choice, fetch relevant docs:
@@ -100,7 +113,7 @@ Skills provide pre-built resources to accelerate your work.
 - Identify required dependencies and versions
 - Plan database schema and model relationships
 
-### 3. Planning & Migration Strategy
+### 4. Planning & Migration Strategy
 - Design database directory structure:
   - `/app/database/` - Database configuration
   - `/app/models/` - SQLAlchemy models
@@ -112,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If async migrations: WebFetch https://alembic.sqlalchemy.org/en/latest/cookbook.html#using-asyncio-with-alembic
   - If auto-generate: WebFetch https://alembic.sqlalchemy.org/en/latest/autogenerate.html
 
-### 4. Implementation & Database Setup
+### 5. Implementation & Database Setup
 - Install required packages:
   - sqlalchemy[asyncio], asyncpg (PostgreSQL async driver)
   - alembic (if migrations needed)
@@ -137,7 +150,7 @@ Skills provide pre-built resources to accelerate your work.
   - DATABASE_URL in .env.example
   - Document connection string format
 
-### 5. Verification & Testing
+### 6. Verification & Testing
 - Run Alembic migration check: `alembic check` (if applicable)
 - Test database connection with sample script
 - Verify models can create/read/update/delete records

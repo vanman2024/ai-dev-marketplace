@@ -62,17 +62,30 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Documentation
 - WebFetch: https://supabase.com/docs/guides/getting-started/testing
 - WebFetch: https://supabase.com/docs/guides/database/testing
 - Identify features to test from user input
 
-### 2. Setup Test Environment
+### 3. Setup Test Environment
 ```bash
 bash plugins/supabase/skills/e2e-test-scenarios/scripts/setup-test-env.sh "$SUPABASE_PROJECT_REF"
 ```
 
-### 3. Execute Test Workflows
+### 4. Execute Test Workflows
 
 **Auth Flow Testing:**
 ```bash
@@ -94,12 +107,12 @@ bash plugins/supabase/skills/e2e-test-scenarios/scripts/test-realtime-workflow.s
 bash plugins/supabase/skills/e2e-test-scenarios/scripts/run-e2e-tests.sh "$SUPABASE_PROJECT_REF"
 ```
 
-### 4. Review Test Templates
+### 5. Review Test Templates
 - Read: plugins/supabase/skills/e2e-test-scenarios/templates/test-suite-template.ts
 - Read: plugins/supabase/skills/e2e-test-scenarios/templates/auth-tests.ts
 - Read: plugins/supabase/skills/e2e-test-scenarios/templates/vector-search-tests.ts
 
-### 5. Cleanup
+### 6. Cleanup
 ```bash
 bash plugins/supabase/skills/e2e-test-scenarios/scripts/cleanup-test-resources.sh "$SUPABASE_PROJECT_REF"
 ```

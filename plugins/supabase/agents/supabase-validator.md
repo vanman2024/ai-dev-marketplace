@@ -74,31 +74,44 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/data.md (if exists - database schema, tables, relationships)
+- Read: docs/architecture/security.md (if exists - RLS policies, auth, encryption)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Documentation
 - Fetch production checklist:
   - WebFetch: https://supabase.com/docs/guides/deployment/production-checklist
 - Identify validation scope
 - Ask: "Production deployment?" "Which features enabled?"
 
-### 2. Connectivity Validation
+### 3. Connectivity Validation
 - Test MCP server connection
 - Verify database accessibility
 - Check API endpoints
 - Validate authentication
 
-### 3. Configuration Validation
+### 4. Configuration Validation
 - Review environment variables
 - Check auth provider setup
 - Validate storage configuration
 - Verify Edge Function deployment
 
-### 4. Security Validation
+### 5. Security Validation
 - Check RLS enabled on all tables
 - Verify auth configuration
 - Validate API key security
 - Review network restrictions
 
-### 5. Generate Report
+### 6. Generate Report
 - List validation results
 - Categorize issues by severity
 - Provide remediation steps

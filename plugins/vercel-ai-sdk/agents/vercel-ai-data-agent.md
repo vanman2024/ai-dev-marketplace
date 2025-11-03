@@ -89,7 +89,20 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - AI/ML architecture, model config, streaming)
+- Read: docs/architecture/frontend.md (if exists - Next.js architecture, API routes)
+- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+
+
+### 2. Discovery & Core Documentation
 - Fetch core data documentation:
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-core/embeddings
   - WebFetch: https://ai-sdk.dev/docs/ai-sdk-core/generating-structured-data
@@ -103,7 +116,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need real-time or batch processing?"
   - "What metadata do you want to store with embeddings?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess database infrastructure availability
 - Determine data volume and performance requirements
 - Based on requested features, fetch relevant docs:
@@ -112,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If RAG requested: WebFetch https://ai-sdk.dev/cookbook
 - Determine embedding model and provider based on use case
 
-### 3. Planning & RAG Documentation
+### 4. Planning & RAG Documentation
 - Design vector database schema based on fetched docs
 - Plan document chunking strategy for RAG
 - Map out data ingestion pipeline
@@ -123,7 +136,7 @@ Skills provide pre-built resources to accelerate your work.
   - If RAG with knowledge base: WebFetch https://vercel.com/templates/next.js/ai-sdk-internal-knowledge-base
   - If semantic search: WebFetch https://vercel.com/templates/next.js/semantic-image-search
 
-### 4. Implementation & Provider Documentation
+### 5. Implementation & Provider Documentation
 - Install required packages (vector DB clients, zod, etc.)
 - Set up vector database connection and schema
 - Fetch provider-specific embedding docs as needed:
@@ -136,7 +149,7 @@ Skills provide pre-built resources to accelerate your work.
 - Implement caching and optimization
 - Set up monitoring and logging
 
-### 5. Verification
+### 6. Verification
 - Test embedding generation with sample data
 - Verify vector database operations (insert, query)
 - Test semantic search accuracy
