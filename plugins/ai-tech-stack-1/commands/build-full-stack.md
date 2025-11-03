@@ -215,8 +215,8 @@ This builds the FULL AI Tech Stack 1 with complete lifecycle:
 
 ## Usage
 
-Deploy complete start-to-finish-to-production Red AI stack:
-/ai-tech-stack-1:build-full-stack red-ai
+Deploy complete AI application stack:
+/ai-tech-stack-1:build-full-stack [app-name]
 
 The orchestrator will:
 0. Run Phase 0 (Dev Lifecycle Foundation) - 10 min
