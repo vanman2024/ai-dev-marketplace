@@ -177,6 +177,64 @@ Actions:
 - If success: Mark Phase 6 complete, display production URLs
 - Time: ~7 minutes
 
+Phase 7: RAG Features (Standard - Recommended for Most AI Apps)
+Goal: Add document ingestion, vector search, hybrid retrieval (Phase 7)
+
+CONTEXT: Very late - NO agents, lifecycle commands only
+
+Actions:
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-7}
+- This adds:
+  - RAG framework setup (/rag-pipeline:init)
+  - Vector database with pgvector (/rag-pipeline:add-vector-db)
+  - Document ingestion pipeline
+  - Hybrid search (semantic + keyword)
+  - RAG generation with OpenRouter
+- Asks user if RAG needed (recommended Yes for most apps)
+- If user skips: ragEnabled = false, continues to Phase 8
+- Verify: !{bash jq -e '.phase7Complete == true' .ai-stack-config.json && echo "✅ Phase 7 complete" || echo "⏩ Phase 7 skipped"}
+- If success: Mark Phase 7 complete
+- Time: ~15-20 minutes (if enabled)
+
+Phase 8: Voice Features (Optional)
+Goal: Add text-to-speech, speech-to-text, voice agents (Phase 8)
+
+CONTEXT: Very late - NO agents, lifecycle commands only
+
+Actions:
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-8}
+- This adds:
+  - ElevenLabs voice features (/elevenlabs:init)
+  - Text-to-speech (/elevenlabs:add-text-to-speech)
+  - Speech-to-text (/elevenlabs:add-speech-to-text)
+  - Voice agents (/elevenlabs:add-agents-platform)
+  - Real-time streaming
+- Asks user if voice features needed (optional)
+- If user skips: voiceEnabled = false, continues to Phase 9
+- Verify: !{bash jq -e '.phase8Complete == true' .ai-stack-config.json && echo "✅ Phase 8 complete" || echo "⏩ Phase 8 skipped"}
+- If success: Mark Phase 8 complete
+- Time: ~10-15 minutes (if enabled)
+
+Phase 9: Marketing Website (Optional)
+Goal: Create companion marketing website with Astro (Phase 9)
+
+CONTEXT: Very late - NO agents, lifecycle commands only
+
+Actions:
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-9}
+- This creates:
+  - Astro static site (/website-builder:init)
+  - Marketing pages (home, features, pricing)
+  - Blog with MDX (optional)
+  - AI content generation (optional)
+  - Supabase CMS (optional)
+  - SEO optimization + deployment
+- Asks user if marketing site needed (optional)
+- If user skips: marketingSiteEnabled = false, all phases complete
+- Verify: !{bash jq -e '.phase9Complete == true' .ai-stack-config.json && echo "✅ Phase 9 complete" || echo "⏩ Phase 9 skipped"}
+- If success: Mark Phase 9 complete, display website URL
+- Time: ~15-20 minutes (if enabled)
+
 ## Progressive Context Management
 
 **Early (Phase 1):**
@@ -207,11 +265,14 @@ If context becomes too large at any phase:
 This builds the FULL AI Tech Stack 1 with complete lifecycle:
 ✅ Phase 0: Project detection, specs, environment, git hooks
 ✅ Phase 1: Next.js 15 frontend + FastAPI backend + Supabase database
-✅ Phase 2: Vercel AI SDK + Mem0 + Claude Agent SDK + MCP
+✅ Phase 2: OpenRouter + Vercel AI SDK + Mem0 + Claude Agent SDK + MCP
 ✅ Phase 3: Frontend ↔ Backend wiring + shadcn/UI components
 ✅ Phase 4: Newman API testing + Playwright E2E + Security scans
 ✅ Phase 5: Actual deployment to Vercel + Fly.io + Health validation
 ✅ Phase 6: Version bump + Changelog + Documentation sync
+✅ Phase 7: RAG features (document ingestion, vector search, hybrid retrieval) - Standard
+✅ Phase 8: Voice features (TTS, STT, voice agents, streaming) - Optional
+✅ Phase 9: Marketing website (Astro static site, AI content, blog) - Optional
 
 ## Usage
 
@@ -221,10 +282,16 @@ Deploy complete AI application stack:
 The orchestrator will:
 0. Run Phase 0 (Dev Lifecycle Foundation) - 10 min
 1. Run Phase 1 (Foundation) - 20 min
-2. Run Phase 2 (AI Features) - 25 min
+2. Run Phase 2 (AI Features with OpenRouter) - 30 min
 3. Run Phase 3 (Integration) - 25 min
 4. Run Phase 4 (Testing & Quality) - 30 min
 5. Run Phase 5 (Production Deployment) - 30 min
 6. Run Phase 6 (Versioning & Summary) - 7 min
+7. Run Phase 7 (RAG Features - Standard) - 15-20 min
+8. Run Phase 8 (Voice Features - Optional) - 10-15 min (if enabled)
+9. Run Phase 9 (Marketing Website - Optional) - 15-20 min (if enabled)
 
-Total: ~2.5 hours (complete automation, start to production)
+Core Stack: ~2.5 hours (Phases 0-6, complete automation start to production)
+With RAG: ~3 hours (includes Phase 7, recommended for most AI apps)
+With Voice: ~3.25 hours (includes Phases 7-8)
+Full Stack: ~3.5 hours (includes Phases 7-9, complete AI platform with marketing site)
