@@ -4,6 +4,116 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ---
 
+## 🚨 CRITICAL: Security Rules - NO HARDCODED API KEYS
+
+**This is the HIGHEST PRIORITY security rule for ALL plugins in this marketplace.**
+
+### Absolute Prohibition
+
+❌ **NEVER EVER** hardcode API keys, secrets, or credentials in:
+- Agent prompts (`.md` files in `agents/`)
+- Command prompts (`.md` files in `commands/`)
+- Skill documentation (`.md` files in `skills/`)
+- Example code in any plugin
+- Template files
+- Scripts (`.sh`, `.py`, `.js`, `.ts`)
+- Configuration files committed to git
+- README files
+- Documentation
+
+### What Counts as "Hardcoded"
+
+Any actual value for:
+- API keys (`ANTHROPIC_API_KEY=sk-ant-...`, `OPENAI_API_KEY=sk-...`)
+- Database credentials (`password=actual_password`)
+- Authentication tokens (`Bearer abc123xyz...`)
+- OAuth secrets (`client_secret=real_secret`)
+- Webhook secrets
+- Service account credentials
+- Connection strings with passwords
+- Any real sensitive value
+
+### Required Practice - ALWAYS Use Placeholders
+
+✅ **CORRECT placeholders:**
+```bash
+# .env.example (safe to commit)
+ANTHROPIC_API_KEY=your_anthropic_key_here
+OPENAI_API_KEY=your_openai_key_here
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_ANON_KEY=your_supabase_anon_key
+DATABASE_PASSWORD=your_database_password
+```
+
+✅ **CORRECT in code - read from environment:**
+```python
+import os
+api_key = os.getenv("ANTHROPIC_API_KEY")
+if not api_key:
+    raise ValueError("ANTHROPIC_API_KEY not set")
+```
+
+✅ **CORRECT multi-environment placeholders:**
+```bash
+# .env.development
+ANTHROPIC_API_KEY=projectname_dev_your_key_here
+
+# .env.production
+ANTHROPIC_API_KEY=projectname_prod_your_key_here
+```
+
+### Enforcement in All Plugin Components
+
+**Every agent MUST include this section:**
+```markdown
+## Security: API Key Handling
+
+**CRITICAL:** When generating any configuration files or code:
+
+❌ NEVER hardcode actual API keys or secrets
+❌ NEVER include real credentials in examples
+❌ NEVER commit sensitive values to git
+
+✅ ALWAYS use placeholders: `your_service_key_here`
+✅ ALWAYS create `.env.example` with placeholders only
+✅ ALWAYS add `.env*` to `.gitignore` (except `.env.example`)
+✅ ALWAYS read from environment variables in code
+✅ ALWAYS document where to obtain keys
+
+**Placeholder format:** `{service}_{env}_your_key_here`
+```
+
+**Every command that handles environment setup MUST check:**
+- All generated `.env` files use placeholders only
+- `.gitignore` protects `.env` files
+- `.env.example` exists with clear placeholders
+- Setup documentation explains how to obtain real keys
+
+**Every skill MUST state in its SKILL.md:**
+```markdown
+## Security Compliance
+
+This skill follows strict security rules:
+- All code examples use placeholder values only
+- No real API keys, passwords, or secrets
+- Environment variable references in all code
+- `.gitignore` protection documented
+```
+
+### Validation
+
+See `SECURITY-RULES.md` for full validation checklist.
+
+**Before ANY commit to this marketplace:**
+- [ ] No real API keys in any file
+- [ ] All examples use obvious placeholders
+- [ ] `.gitignore` protects secrets
+- [ ] Setup docs explain key acquisition
+
+**Violations = Immediate fix required before merge**
+
+---
+
 ## 🚨 CRITICAL: Slash Command Execution Rules
 
 ### DO NOT Run Slash Commands in Parallel
