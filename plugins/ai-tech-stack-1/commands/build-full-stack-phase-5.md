@@ -10,181 +10,51 @@ allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 
 @docs/security/SECURITY-RULES.md
 
-**Key requirements:**
-- Never hardcode API keys or secrets
-- Use placeholders: `your_service_key_here`
-- Protect `.env` files with `.gitignore`
-- Create `.env.example` with placeholders only
-- Document key acquisition for users
-
 **Arguments**: $ARGUMENTS
 
-Goal: Deploy to production (Vercel + Fly.io) and validate deployment health.
-
-Core Principles:
-- Use dev-lifecycle-marketplace deployment commands
-- Pre-flight checks before deploying
-- Actual deployment execution
-- Post-deployment health validation
-- Capture deployment URLs
+Goal: Deploy to production and validate deployment health.
 
 Phase 1: Load State
-Goal: Read Phase 4 config and verify tests passed
-
-Actions:
-- Check .ai-stack-config.json exists
-- Load config: @.ai-stack-config.json
+- Load .ai-stack-config.json
 - Verify phase4Complete is true
-- Verify testsPassedNewman, testsPassedPlaywright, securityPassed all true
-- If any tests failed:
-  - STOP with error: "Cannot deploy - tests failed in Phase 4"
-  - Return to Phase 4 to fix tests
+- Verify all tests passed
+- If tests failed: STOP with error
 - Extract appName, paths
 - Create Phase 5 todo list
 
-Phase 1B: Final Environment Verification
-Goal: Verify deployment tools ready
+Phase 2: Environment Check
+- Execute immediately: !{slashcommand /foundation:env-check}
+- After completion, verify deployment tools ready
 
-Actions:
-- Final environment check:
-  !{slashcommand /foundation:env-check}
-- Verify deployment CLI tools installed (vercel, fly, supabase)
-- Check for required environment variables
-- Mark pre-deployment environment check complete
+Phase 3: Pre-Flight Checks
+- Execute immediately: !{slashcommand /deployment:prepare}
+- After completion, parse pre-flight results
+- If checks failed: STOP and return error
 
-Phase 2: Pre-Flight Checks
-Goal: Verify deployment readiness
+Phase 4: Deploy to Production
+- Execute immediately: !{slashcommand /deployment:deploy}
+- After completion, capture deployment URLs
+- If deployment failed: STOP and return error
 
-Actions:
-- Update .ai-stack-config.json phase to 5
-- Run pre-flight checks:
-  Execute immediately: !{slashcommand /deployment:prepare}
-- This verifies:
-  - Build tools installed (vercel CLI, fly CLI)
-  - Authentication configured (vercel token, fly token)
-  - Environment variables documented
-  - Dependencies up to date
-  - No blockers to deployment
-- Parse pre-flight results
-- If checks failed:
-  - Display missing requirements
-  - STOP and return error
-- If checks passed:
-  - Display readiness summary
-  - Mark pre-flight complete
-- Time: ~5 minutes
+Phase 5: Validate Deployment
+- Execute immediately: !{slashcommand /deployment:validate $FRONTEND_URL}
+- After completion, execute immediately: !{slashcommand /deployment:validate $BACKEND_URL}
+- After completion, parse validation results
+- If validation failed: Mark as "deployed with warnings"
 
-Phase 3: Deploy to Production
-Goal: Execute actual deployment
+Phase 6: Deployment Sync
+- Execute immediately: !{slashcommand /iterate:sync deployment-status}
+- After completion, mark deployment tasks complete
 
-Actions:
-- Deploy applications:
-  Execute immediately: !{slashcommand /deployment:deploy}
-- This deploys:
-  - Frontend to Vercel (auto-detected Next.js)
-  - Backend to Fly.io (auto-detected FastAPI)
-  - Database already on Supabase Cloud
-- Deployment process:
-  - Detects project types automatically
-  - Runs build commands
-  - Uploads to platforms
-  - Configures environment variables
-  - Sets up domains/URLs
-- Capture deployment outputs:
-  - Frontend URL: https://$APP_NAME.vercel.app
-  - Backend URL: https://$APP_NAME-backend.fly.dev
-  - Database URL: From Supabase project
-- If deployment failed:
-  - Display deployment errors
-  - STOP and return error
-- If deployment succeeded:
-  - Store URLs in .ai-stack-config.json
-  - Mark deployment complete
-- Time: ~20 minutes
+Phase 7: Smoke Tests
+- Execute immediately: !{slashcommand /quality:test newman --env=production --collection=smoke-tests}
+- After completion, verify critical paths work
 
-Phase 4: Validate Deployment Health
-Goal: Run post-deployment health checks
-
-Actions:
-- Validate frontend deployment:
-  Execute immediately: !{slashcommand /deployment:validate $FRONTEND_URL}
-- This checks:
-  - URL accessible (200 status)
-  - Page loads correctly
-  - No JavaScript errors
-  - Assets loading
-  - API connectivity
-- Validate backend deployment:
-  Execute immediately: !{slashcommand /deployment:validate $BACKEND_URL}
-- This checks:
-  - API health endpoint responding
-  - Database connectivity
-  - Authentication working
-  - No critical errors in logs
-- Parse validation results
-- If validation failed:
-  - Display health check errors
-  - Deployment succeeded but has issues
-  - Mark as "deployed with warnings"
-- If validation passed:
-  - Display health check success
-  - Mark validation complete
-- Time: ~5 minutes
-
-Phase 4B: Deployment Status Sync
-Goal: Update task status for deployed application
-
-Actions:
-- Sync deployment status:
-  !{slashcommand /iterate:sync deployment-status}
-- Mark deployment tasks complete in task system
-- Update final task status
-- Mark deployment sync complete
-
-Phase 4C: Post-Deployment Smoke Tests
-Goal: Validate critical production paths
-
-Actions:
-- Run production smoke tests:
-  !{slashcommand /quality:test newman --env=production --collection=smoke-tests}
-- Test critical API endpoints
-- Verify authentication flows
-- Check database connectivity
-- No full E2E needed (already passed in Phase 4)
-- Mark production validation complete
-
-Phase 5: Summary Phase 5
-Goal: Save deployment state and prepare for Phase 6
-
-Actions:
+Phase 8: Save State
 - Update .ai-stack-config.json:
-  - phase5Complete: true
-  - phase: 5
-  - deployed: true
-  - frontendUrl: $FRONTEND_URL
-  - backendUrl: $BACKEND_URL
-  - deploymentTimestamp: current time
-  - validationPassed: true/false
-  - nextPhase: "Phase 6 - Versioning & Summary"
-
-- Display deployment summary:
-  ✅ Phase 5 Complete: Production Deployment
-
-  Frontend: https://$APP_NAME.vercel.app ✅
-  Backend: https://$APP_NAME-backend.fly.dev ✅
-  Database: Supabase Cloud ✅
-
-  Health Checks: ✅ PASSED
-
-  Ready for Phase 6: Versioning & Summary
-  Run: /ai-tech-stack-1:build-full-stack (continues automatically)
-
-  Time: ~30 minutes
-
-- If deployment or validation failed:
-  - Display failure details
-  - Provide troubleshooting steps
-  - STOP execution
+  !{bash jq '.phase = 5 | .phase5Complete = true | .deployed = true | .frontendUrl = "'$FRONTEND_URL'" | .backendUrl = "'$BACKEND_URL'" | .validationPassed = true | .timestamp = "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'"' .ai-stack-config.json > tmp && mv tmp .ai-stack-config.json}
+- Mark all todos complete
+- Display: "✅ Phase 5 Complete - Deployed to production"
 
 ## Usage
 
