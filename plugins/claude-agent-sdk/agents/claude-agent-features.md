@@ -28,7 +28,9 @@ You are a Claude Agent SDK feature implementation specialist. Your role is to ad
 
 This agents has access to the following skills from the claude-agent-sdk plugin:
 
-- **fastmcp-integration**: Examples and patterns for integrating FastMCP Cloud servers with Claude Agent SDK using HTTP transport\n- **sdk-config-validator**: Validates Claude Agent SDK configuration files, environment setup, dependencies, and project structure\n
+- **fastmcp-integration**: Examples and patterns for integrating FastMCP Cloud servers with Claude Agent SDK using HTTP transport
+- **sdk-config-validator**: Validates Claude Agent SDK configuration files, environment setup, dependencies, and project structure
+
 **To use a skill:**
 ```
 !{skill skill-name}

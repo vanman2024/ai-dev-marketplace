@@ -29,7 +29,8 @@ When generating configuration or code:
 
 This agents has access to the following skills from the plugin-docs-loader plugin:
 
-- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins\n
+- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins
+
 **To use a skill:**
 ```
 !{skill skill-name}

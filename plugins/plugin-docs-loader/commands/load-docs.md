@@ -25,7 +25,8 @@ allowed-tools: Task, Read, Bash, Grep, WebFetch, Skill
 
 This commands has access to the following skills from the plugin-docs-loader plugin:
 
-- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins\n
+- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins
+
 **To use a skill:**
 ```
 !{skill skill-name}
