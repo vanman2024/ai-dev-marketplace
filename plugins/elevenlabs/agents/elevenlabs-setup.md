@@ -74,7 +74,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, voice features, ElevenLabs configuration)
+- Read: docs/architecture/frontend.md (if exists - contains frontend architecture, component integration)
+- Extract ElevenLabs requirements from architecture
+- If architecture exists: Build setup from specifications (features, models, integration points)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://elevenlabs.io/docs/overview
   - WebFetch: https://elevenlabs.io/docs/quickstart
@@ -86,7 +96,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Which features will you use?" (helps determine if Vercel AI SDK needed)
   - "What framework detected?" (confirm auto-detection)
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess project structure and conventions
 - Determine which SDK to install (TypeScript vs Python)
 - Check if Vercel AI SDK integration needed
@@ -95,7 +105,7 @@ Skills provide pre-built resources to accelerate your work.
   - If Python: WebFetch https://pypi.org/project/elevenlabs/
   - If TypeScript: WebFetch https://www.npmjs.com/package/@elevenlabs/elevenlabs-js
 
-### 3. Planning & Installation
+### 4. Planning & Installation
 - Plan installation steps based on framework
 - Determine dependencies needed:
   - Core SDK (always)
@@ -104,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
 - Design .env structure
 - Plan example file locations following framework conventions
 
-### 4. Implementation
+### 5. Implementation
 - Install packages:
   - TypeScript: npm install @elevenlabs/elevenlabs-js
   - Python: pip install elevenlabs
@@ -117,7 +127,7 @@ Skills provide pre-built resources to accelerate your work.
 - Generate basic TTS example adapted to framework
 - Add setup instructions in comments
 
-### 5. Verification
+### 6. Verification
 - Verify package installation:
   - TypeScript: Run npm list @elevenlabs/elevenlabs-js
   - Python: Run pip show elevenlabs

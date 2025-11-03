@@ -72,13 +72,23 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, voice features, ElevenLabs configuration)
+- Read: docs/architecture/frontend.md (if exists - contains frontend architecture, component integration)
+- Extract ElevenLabs requirements from architecture
+- If architecture exists: Build from specifications (features, models, integration points)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery
 - WebFetch: https://elevenlabs.io/docs/capabilities/text-to-speech
 - WebFetch: https://elevenlabs.io/docs/api-reference/text-to-speech
 - Detect framework and existing setup
 - Identify TTS requirements (models, streaming, voices)
 
-### 2. Analysis
+### 3. Analysis
 - WebFetch: https://elevenlabs.io/docs/models (for model comparison)
 - WebFetch: https://elevenlabs.io/docs/api-reference/streaming (if streaming needed)
 - Determine component/function structure

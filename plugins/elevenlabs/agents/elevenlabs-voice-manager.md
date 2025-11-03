@@ -73,12 +73,22 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, voice features, ElevenLabs configuration)
+- Read: docs/architecture/frontend.md (if exists - contains frontend architecture, component integration)
+- Extract ElevenLabs requirements from architecture
+- If architecture exists: Build from specifications (features, models, integration points)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery
 - WebFetch: https://elevenlabs.io/docs/capabilities/voices
 - WebFetch: https://elevenlabs.io/docs/api-reference/voices
 - Identify voice management needs (cloning, library, design)
 
-### 2. Analysis
+### 3. Analysis
 - WebFetch: https://elevenlabs.io/docs/cookbooks/voices/instant-voice-cloning (if cloning)
 - WebFetch: https://elevenlabs.io/docs/cookbooks/voices/voice-design (if design)
 - Plan file upload for voice samples
