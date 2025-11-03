@@ -161,33 +161,21 @@ Actions:
 - Time: ~30 minutes
 
 Phase 6: Versioning & Final Summary
-Goal: Version bump, changelog, complete summary
+Goal: Version bump, changelog, complete summary (Phase 6)
 
-CONTEXT: Very late - NO agents
+CONTEXT: Very late - NO agents, lifecycle commands only
 
 Actions:
-- Generate final spec status report:
-  - Execute immediately: !{slashcommand /planning:analyze-project}
-  - Export spec coverage metrics
-  - Document final project state
-- Version management:
-  - Execute immediately: !{slashcommand /versioning:bump patch}
-  - Generate changelog from commits
-- Sync documentation:
-  - Execute immediately: !{slashcommand /iterate:sync}
-  - Update docs with deployment state
-- Update .ai-stack-config.json:
-  - phase6Complete: true
-  - allPhasesComplete: true
-  - deploymentUrls: [frontend, backend]
-- Mark all todos complete
-- Display final summary: @DEPLOYMENT-COMPLETE.md
-- Show next steps:
-  - Production URLs
-  - Environment variables configured
-  - Version and changelog
-  - Monitoring and logs
-- Total time: ~2.5-3 hours (Phase 0: 10min, Phase 1-3: 70min, Phase 4: 30min, Phase 5: 30min, Phase 6: 10min)
+- Execute immediately: !{slashcommand /ai-tech-stack-1:build-full-stack-phase-6}
+- This finalizes:
+  - Final spec status report (/planning:analyze-project)
+  - Version bump and changelog (/versioning:bump)
+  - Documentation sync (/iterate:sync)
+  - Complete DEPLOYMENT-COMPLETE.md summary
+- Verify: !{bash jq -e '.phase6Complete == true' .ai-stack-config.json && echo "✅ Phase 6 complete" || echo "❌ Phase 6 failed"}
+- If failed: Display error
+- If success: Mark Phase 6 complete, display production URLs
+- Time: ~7 minutes
 
 ## Progressive Context Management
 
@@ -237,6 +225,6 @@ The orchestrator will:
 3. Run Phase 3 (Integration) - 25 min
 4. Run Phase 4 (Testing & Quality) - 30 min
 5. Run Phase 5 (Production Deployment) - 30 min
-6. Run Phase 6 (Versioning & Summary) - 10 min
+6. Run Phase 6 (Versioning & Summary) - 7 min
 
-Total: ~2.5-3 hours (complete automation, start to production)
+Total: ~2.5 hours (complete automation, start to production)
