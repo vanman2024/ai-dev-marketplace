@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core vector database documentation:
   - WebFetch: https://github.com/pgvector/pgvector#readme
   - WebFetch: https://supabase.com/docs/guides/ai/vector-columns
@@ -91,7 +101,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What is your expected dataset size (thousands/millions/billions)?"
   - "Do you need hybrid search (vector + metadata filtering)?"
 
-### 2. Analysis & Database-Specific Documentation
+### 3. Analysis & Database-Specific Documentation
 - Assess project requirements and constraints
 - Determine optimal vector database based on:
   - Dataset size and growth expectations
@@ -105,7 +115,7 @@ Skills provide pre-built resources to accelerate your work.
   - If Weaviate: WebFetch https://weaviate.io/developers/weaviate/quickstart
   - If Qdrant: WebFetch https://qdrant.tech/documentation/quick-start/
 
-### 3. Planning & Index Configuration
+### 4. Planning & Index Configuration
 - Design database schema following fetched documentation:
   - Table/collection structure
   - Embedding column configuration
@@ -120,7 +130,7 @@ Skills provide pre-built resources to accelerate your work.
   - If HNSW tuning needed: WebFetch https://github.com/pgvector/pgvector#hnsw
   - If hybrid search: WebFetch https://supabase.com/docs/guides/ai/hybrid-search
 
-### 4. Implementation & Setup
+### 5. Implementation & Setup
 - Install required packages and dependencies
 - Fetch implementation-specific docs as needed:
   - For pgvector setup: WebFetch https://github.com/pgvector/pgvector#installation
@@ -141,7 +151,7 @@ Skills provide pre-built resources to accelerate your work.
   - Timeout and retry logic
   - Environment variable configuration
 
-### 5. Verification & Optimization
+### 6. Verification & Optimization
 - Test database operations:
   - Insert sample embeddings
   - Execute similarity search queries

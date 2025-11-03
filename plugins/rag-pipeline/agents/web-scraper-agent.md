@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core documentation:
   - WebFetch: https://playwright.dev/python/docs/intro
   - WebFetch: https://playwright.dev/python/docs/api/class-page
@@ -90,7 +100,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Are there authentication or login requirements?"
   - "What output format is needed (JSON, CSV, database)?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess target website complexity:
   - Static HTML: BeautifulSoup sufficient
   - Dynamic content: Playwright required
@@ -103,7 +113,7 @@ Skills provide pre-built resources to accelerate your work.
 - Check for robots.txt compliance
 - Identify anti-scraping measures (CAPTCHAs, rate limits)
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design scraper architecture:
   - Single page vs multi-page crawler
   - Sequential vs parallel scraping
@@ -115,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If JavaScript execution: WebFetch https://playwright.dev/python/docs/evaluating
 - Determine dependencies to install
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required packages (playwright, beautifulsoup4, scrapy if needed)
 - Fetch detailed implementation docs as needed:
   - For browser context: WebFetch https://playwright.dev/python/docs/browser-contexts
@@ -131,7 +141,7 @@ Skills provide pre-built resources to accelerate your work.
 - Set up data validation and cleaning
 - Create output formatters (JSON, CSV, database)
 
-### 5. Verification
+### 6. Verification
 - Test scraper on sample pages
 - Verify all required data fields are extracted
 - Check rate limiting is working correctly

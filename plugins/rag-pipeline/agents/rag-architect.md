@@ -85,7 +85,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Requirements Analysis
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Requirements Analysis
 - Read existing project files to understand current state:
   - Check for package.json, requirements.txt, or pyproject.toml
   - Review any existing RAG implementation or documentation

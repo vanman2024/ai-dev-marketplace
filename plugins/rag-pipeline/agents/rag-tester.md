@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Testing Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Testing Documentation
 - Fetch core testing and evaluation documentation:
   - WebFetch: https://developers.llamaindex.ai/python/framework/
   - WebFetch: https://docs.trychroma.com/
@@ -93,7 +103,7 @@ Skills provide pre-built resources to accelerate your work.
   - Performance benchmarks required
   - Dataset availability for testing
 
-### 2. Analysis & Metrics Documentation
+### 3. Analysis & Metrics Documentation
 - Assess current RAG implementation:
   - Identify vector database in use (Chroma, Pinecone, Weaviate, etc.)
   - Determine embedding model and LLM being used
@@ -104,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
   - If LlamaIndex evaluation: WebFetch https://docs.llamaindex.ai/en/stable/examples/evaluation/
 - Determine required testing dependencies (pytest, deepeval, ragas, etc.)
 
-### 3. Planning & Test Design
+### 4. Planning & Test Design
 - Design test dataset structure:
   - Synthetic queries with expected answers
   - Ground truth document IDs for retrieval validation
@@ -122,7 +132,7 @@ Skills provide pre-built resources to accelerate your work.
   - Generation: Answer relevance, faithfulness, context precision
   - Performance: Query latency, tokens/second, cost per 1k queries
 
-### 4. Implementation & Framework Documentation
+### 5. Implementation & Framework Documentation
 - Install testing dependencies:
   - Bash: pip install pytest deepeval ragas llama-index-evaluation
 - Fetch detailed implementation docs as needed:
@@ -148,7 +158,7 @@ Skills provide pre-built resources to accelerate your work.
   - Write: tests/utils/cost_tracker.py
   - Track token usage and API costs
 
-### 5. Verification & Results Analysis
+### 6. Verification & Results Analysis
 - Run test suite and collect metrics:
   - Bash: pytest tests/ -v --tb=short
 - Analyze retrieval quality results:

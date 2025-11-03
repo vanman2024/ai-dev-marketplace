@@ -78,7 +78,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration, LlamaIndex setup)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, index design)
+- Extract LlamaIndex requirements from architecture
+- If architecture exists: Build implementation from specifications (indexes, retrievers, engines, cloud integration)
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core LlamaIndex documentation:
   - WebFetch: https://developers.llamaindex.ai/python/framework/
   - WebFetch: https://developers.llamaindex.ai/python/framework/understanding/
@@ -93,7 +103,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you need LlamaCloud integration or local-only?"
   - "What are your performance and scalability requirements?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current project structure and dependencies
 - Determine vector store requirements (local vs cloud)
 - Based on requested features, fetch relevant docs:
@@ -104,7 +114,7 @@ Skills provide pre-built resources to accelerate your work.
 - Identify Python version and package compatibility
 - Determine embedding and LLM provider configuration
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design index structure and storage strategy
 - Plan query engine architecture and retrieval flow
 - Map out data ingestion pipeline
@@ -115,7 +125,7 @@ Skills provide pre-built resources to accelerate your work.
   - If agents needed: WebFetch https://developers.llamaindex.ai/python/framework/understanding/agent/
   - If evaluation needed: WebFetch https://developers.llamaindex.ai/python/framework/understanding/evaluating/
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required packages:
   - Bash: pip install llama-index llama-cloud llama-parse (or add to requirements.txt)
 - Fetch detailed implementation docs as needed:
@@ -131,7 +141,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add error handling and logging
 - Set up type hints and docstrings
 
-### 5. Verification
+### 6. Verification
 - Test index creation with sample documents
 - Verify query engine returns relevant results
 - Validate embedding generation and storage

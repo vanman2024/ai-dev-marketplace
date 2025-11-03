@@ -75,7 +75,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch core deployment documentation:
   - WebFetch: https://fastapi.tiangolo.com/deployment/
   - WebFetch: https://fastapi.tiangolo.com/deployment/docker/
@@ -88,7 +98,7 @@ Skills provide pre-built resources to accelerate your work.
   - "What vector database are you using (Pinecone, Qdrant, Weaviate, Chroma)?"
   - "Do you need authentication on the API endpoints?"
 
-### 2. Analysis & Platform-Specific Documentation
+### 3. Analysis & Platform-Specific Documentation
 - Assess current project structure and dependencies
 - Determine platform requirements and constraints
 - Based on deployment platform, fetch relevant docs:
@@ -101,7 +111,7 @@ Skills provide pre-built resources to accelerate your work.
 - Analyze environment variable requirements
 - Identify necessary secrets and API keys
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design API endpoint structure (query, ingest, health, metrics)
 - Plan deployment configuration files
 - Map out monitoring and logging strategy
@@ -112,7 +122,7 @@ Skills provide pre-built resources to accelerate your work.
   - If async processing: WebFetch https://fastapi.tiangolo.com/async/
   - If containerization: WebFetch https://docs.docker.com/engine/reference/builder/
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Install required deployment packages
 - Fetch detailed implementation docs as needed:
   - For FastAPI production: WebFetch https://fastapi.tiangolo.com/deployment/server-workers/
@@ -126,7 +136,7 @@ Skills provide pre-built resources to accelerate your work.
 - Add error handling and validation
 - Create deployment scripts and CI/CD configs
 
-### 5. Verification
+### 6. Verification
 - Run local deployment tests with docker-compose
 - Test all API endpoints with sample requests
 - Verify environment variable loading

@@ -89,7 +89,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ## Project Approach
 
-### 1. Discovery & Core Documentation
+### 1. Architecture & Documentation Discovery
+
+Before building, check for project architecture documentation:
+
+- Read: docs/architecture/ai.md (if exists - contains AI/ML architecture, RAG configuration)
+- Read: docs/architecture/data.md (if exists - contains vector store architecture, database setup)
+- Extract requirements from architecture
+- If architecture exists: Build from specifications
+- If no architecture: Use defaults and best practices
+
+### 2. Discovery & Core Documentation
 - Fetch foundational retrieval documentation:
   - WebFetch: https://docs.llamaindex.ai/en/stable/understanding/querying/
   - WebFetch: https://python.langchain.com/docs/modules/data_connection/retrievers/
@@ -102,7 +112,7 @@ Skills provide pre-built resources to accelerate your work.
   - "Do you have keyword search requirements alongside semantic search?"
   - "What's your current retrieval accuracy baseline?"
 
-### 2. Analysis & Feature-Specific Documentation
+### 3. Analysis & Feature-Specific Documentation
 - Assess current retrieval performance and bottlenecks
 - Identify gaps in retrieval strategy (missing re-ranking, no hybrid search, etc.)
 - Determine infrastructure constraints (compute, latency, cost)
@@ -113,7 +123,7 @@ Skills provide pre-built resources to accelerate your work.
   - If using LlamaIndex: WebFetch https://docs.llamaindex.ai/en/stable/module_guides/querying/retriever/
   - If using LangChain: WebFetch https://python.langchain.com/docs/concepts/retrievers/
 
-### 3. Planning & Advanced Documentation
+### 4. Planning & Advanced Documentation
 - Design retrieval architecture based on fetched docs
 - Plan hybrid search fusion strategy (RRF, weighted scoring)
 - Select re-ranking approach (cross-encoder, MMR, diversity-based)
@@ -125,7 +135,7 @@ Skills provide pre-built resources to accelerate your work.
   - For Cohere rerank: WebFetch https://docs.cohere.com/docs/reranking
   - For embedding models: WebFetch https://huggingface.co/blog/mteb
 
-### 4. Implementation & Reference Documentation
+### 5. Implementation & Reference Documentation
 - Implement retrieval optimizations based on plan
 - Fetch implementation-specific docs:
   - For LlamaIndex QueryEngine: WebFetch https://docs.llamaindex.ai/en/stable/api_reference/query/
@@ -142,7 +152,7 @@ Skills provide pre-built resources to accelerate your work.
 - Optimize vector index parameters
 - Tune similarity thresholds and top-k values
 
-### 5. Verification & Evaluation
+### 6. Verification & Evaluation
 - Test retrieval with diverse query types
 - Benchmark retrieval latency and throughput
 - Evaluate retrieval accuracy (precision, recall, MRR, NDCG)
