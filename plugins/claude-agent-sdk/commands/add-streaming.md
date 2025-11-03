@@ -31,7 +31,7 @@ Goal: Gather context about the project
 
 Actions:
 - Load SDK streaming documentation:
-  @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+  @claude-agent-sdk-documentation.md
 - Check if project path provided in $ARGUMENTS
 - If not provided, use current directory
 - Read package.json or requirements.txt to confirm SDK is installed

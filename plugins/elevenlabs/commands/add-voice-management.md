@@ -33,7 +33,7 @@ Goal: Understand voice management needs
 
 Actions:
 - Load SDK documentation:
-  @plugins/domain-plugin-builder/docs/sdks/elevenlabs-documentation.md
+  @elevenlabs-documentation.md
 - Check setup: !{bash npm list @elevenlabs/elevenlabs-js 2>/dev/null || pip show elevenlabs 2>/dev/null}
 - Detect framework: @package.json or @pyproject.toml
 - Parse $ARGUMENTS for specific voice features

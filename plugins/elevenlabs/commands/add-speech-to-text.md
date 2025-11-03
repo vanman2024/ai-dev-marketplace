@@ -33,7 +33,7 @@ Goal: Understand project setup and STT requirements
 
 Actions:
 - Load SDK documentation:
-  @plugins/domain-plugin-builder/docs/sdks/elevenlabs-documentation.md
+  @elevenlabs-documentation.md
 - Check existing setup:
   - SDK installed: !{bash npm list @elevenlabs/elevenlabs-js @ai-sdk/elevenlabs 2>/dev/null || pip show elevenlabs 2>/dev/null}
   - Framework: @package.json or @pyproject.toml

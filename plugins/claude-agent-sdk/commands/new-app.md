@@ -43,7 +43,7 @@ Goal: Load SDK documentation and determine setup approach
 
 Actions:
 - Load Claude Agent SDK documentation for reference:
-  @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+  @claude-agent-sdk-documentation.md
 - Check for latest SDK versions
 - Identify required dependencies based on language choice
 - Determine project structure needs

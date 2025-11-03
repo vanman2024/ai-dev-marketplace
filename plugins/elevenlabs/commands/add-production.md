@@ -34,7 +34,7 @@ Goal: Understand production requirements
 
 Actions:
 - Load SDK documentation:
-  @plugins/domain-plugin-builder/docs/sdks/elevenlabs-documentation.md
+  @elevenlabs-documentation.md
 - Check current implementation:
   !{bash find . -name "*.ts" -o -name "*.py" | grep -E "(eleven|voice|audio)" | head -10}
 - Detect framework: @package.json or @pyproject.toml

@@ -31,7 +31,7 @@ Goal: Gather context about the project
 
 Actions:
 - Load SDK slash commands documentation:
-  @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+  @claude-agent-sdk-documentation.md
 - Check if project path provided in $ARGUMENTS
 - Read package.json or requirements.txt to confirm SDK is installed
 - Identify main application files

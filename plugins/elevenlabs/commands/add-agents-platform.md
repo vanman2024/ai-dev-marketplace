@@ -33,7 +33,7 @@ Goal: Understand agents and MCP requirements
 
 Actions:
 - Load SDK documentation:
-  @plugins/domain-plugin-builder/docs/sdks/elevenlabs-documentation.md
+  @elevenlabs-documentation.md
 - Load MCP examples:
   @docs/elevenlabs/docs/mcp-integration-examples.md
 - Check setup: !{bash npm list @elevenlabs/elevenlabs-js 2>/dev/null || pip show elevenlabs 2>/dev/null}

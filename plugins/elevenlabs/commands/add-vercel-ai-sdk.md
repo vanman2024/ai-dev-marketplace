@@ -33,7 +33,7 @@ Goal: Understand existing AI SDK setup
 
 Actions:
 - Load SDK documentation:
-  @plugins/domain-plugin-builder/docs/sdks/elevenlabs-documentation.md
+  @elevenlabs-documentation.md
 - Check for Vercel AI SDK:
   !{bash npm list ai @ai-sdk/openai @ai-sdk/anthropic @ai-sdk/elevenlabs 2>/dev/null}
 - Detect framework: @package.json

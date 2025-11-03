@@ -65,7 +65,7 @@ Your verification should prioritize SDK functionality and best practices over ge
 
 6. **SDK Best Practices** (based on official docs):
    - Load documentation reference:
-     @plugins/domain-plugin-builder/docs/sdks/claude-agent-sdk-documentation.md
+     @claude-agent-sdk-documentation.md
    - Proper tool permissions configuration
    - Appropriate use of subagents
    - System prompt customization

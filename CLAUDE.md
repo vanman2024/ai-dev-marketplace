@@ -392,16 +392,16 @@ Before building components, commands MUST load relevant templates:
 ```markdown
 Phase 1: Load Templates
 
-@plugins/domain-plugin-builder/skills/build-assistant/templates/commands/template-command-patterns.md
-@plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+@template-command-patterns.md
+@component-decision-framework.md
 ```
 
 **Example for agent creation:**
 ```markdown
 Phase 1: Load Agent Templates
 
-@plugins/domain-plugin-builder/skills/build-assistant/templates/agents/agent-with-phased-webfetch.md
-@plugins/domain-plugin-builder/docs/frameworks/claude/component-decision-framework.md
+@agent-with-phased-webfetch.md
+@component-decision-framework.md
 ```
 
 **Never build without loading templates first!**
