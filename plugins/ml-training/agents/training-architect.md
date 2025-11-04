@@ -2,7 +2,7 @@
 name: training-architect
 description: Use this agent for training configuration, hyperparameter tuning, framework setup, and TrainingArguments creation
 model: inherit
-color: yellow
+color: purple
 ---
 
 ## Security: API Key Handling

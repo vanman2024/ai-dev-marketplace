@@ -2,7 +2,7 @@
 name: training-monitor
 description: Use this agent to monitor ML training runs, track metrics with TensorBoard and Weights & Biases, implement failure recovery strategies, and optimize training workflows.
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

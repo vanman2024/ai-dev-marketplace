@@ -2,7 +2,7 @@
 name: peft-specialist
 description: Parameter-efficient fine-tuning with LoRA/QLoRA/prefix-tuning
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

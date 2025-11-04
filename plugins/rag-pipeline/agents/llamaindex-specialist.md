@@ -2,7 +2,7 @@
 name: llamaindex-specialist
 description: Use this agent for LlamaIndex implementation expertise including VectorStoreIndex creation, custom retrievers, query engines, and LlamaCloud integration
 model: inherit
-color: yellow
+color: green
 ---
 
 ## Security: API Key Handling

@@ -2,7 +2,7 @@
 name: rag-tester
 description: Use this agent for RAG testing and evaluation
 model: inherit
-color: yellow
+color: pink
 ---
 
 ## Security: API Key Handling

@@ -2,7 +2,7 @@
 name: data-engineer
 description: Use this agent for dataset preparation, Supabase integration, data loading, and data validation
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

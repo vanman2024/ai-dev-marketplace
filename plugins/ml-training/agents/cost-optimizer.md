@@ -2,7 +2,7 @@
 name: cost-optimizer
 description: Use this agent for GPU selection, PEFT configuration, batch size tuning, and cost estimation for optimal training efficiency
 model: inherit
-color: yellow
+color: red
 ---
 
 ## Security: API Key Handling

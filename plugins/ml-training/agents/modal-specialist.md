@@ -2,7 +2,7 @@
 name: modal-specialist
 description: Use this agent for Modal platform deployment, GPU configuration, and serverless ML endpoint setup with cost optimization.
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

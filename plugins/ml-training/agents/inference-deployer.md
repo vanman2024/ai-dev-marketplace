@@ -2,7 +2,7 @@
 name: inference-deployer
 description: Use this agent for model deployment for serverless inference, auto-scaling configuration, and endpoint creation
 model: inherit
-color: yellow
+color: orange
 ---
 
 ## Security: API Key Handling

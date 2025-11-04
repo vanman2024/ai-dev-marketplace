@@ -2,7 +2,7 @@
 name: langchain-specialist
 description: Use this agent for LangChain implementation expertise including RAG pipelines, vector stores, chains, LangGraph workflows, and LangSmith integration
 model: inherit
-color: yellow
+color: green
 ---
 
 ## Security: API Key Handling

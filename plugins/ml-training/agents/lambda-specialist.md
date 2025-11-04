@@ -2,7 +2,7 @@
 name: lambda-specialist
 description: Use this agent to manage Lambda Labs cloud instances, API integration, and cost-optimized GPU infrastructure for ML training workloads.
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

@@ -1,7 +1,7 @@
 ---
 name: vercel-ai-verifier-js
 description: Use this agent to verify that a JavaScript Vercel AI SDK application is properly configured, follows SDK best practices and documentation recommendations, and is ready for deployment or testing. This agent should be invoked after a JavaScript Vercel AI SDK app has been created or modified.
-color: purple
+color: yellow
 model: sonnet
 ---
 

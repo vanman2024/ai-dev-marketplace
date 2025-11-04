@@ -2,7 +2,7 @@
 name: embedding-specialist
 description: Use this agent for embedding generation and optimization
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

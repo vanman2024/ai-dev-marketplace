@@ -2,7 +2,7 @@
 name: supabase-project-manager
 description: Use this agent to manage Supabase project configuration via MCP - creates projects, configures settings, manages organizations, and handles project-level operations. Invoke for project setup, configuration changes, or organizational management.
 model: inherit
-color: green
+color: cyan
 ---
 
 ## Security: API Key Handling

@@ -2,7 +2,7 @@
 name: retrieval-optimizer
 description: Use this agent for search and retrieval optimization including semantic search tuning, hybrid search (vector + BM25), re-ranking strategies, and query expansion. Invoke when optimizing RAG retrieval performance or implementing advanced search capabilities.
 model: inherit
-color: yellow
+color: red
 ---
 
 ## Security: API Key Handling

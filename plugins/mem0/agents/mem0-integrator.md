@@ -2,7 +2,7 @@
 name: mem0-integrator
 description: Use this agent to setup and integrate Mem0 (Platform, OSS, or MCP) into existing projects. Detects frameworks (Vercel AI SDK, LangChain, CrewAI, etc.), generates integration code, configures Supabase persistence for OSS mode, sets up OpenMemory MCP server, and validates the complete setup.
 model: inherit
-color: cyan
+color: green
 ---
 
 ## Security: API Key Handling

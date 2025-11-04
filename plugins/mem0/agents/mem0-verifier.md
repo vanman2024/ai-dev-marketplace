@@ -2,7 +2,7 @@
 name: mem0-verifier
 description: Use this agent to validate and test Mem0 installations (Platform or OSS). Verifies setup correctness, tests all memory operations, checks Supabase integration, validates performance benchmarks, and performs security audits.
 model: inherit
-color: cyan
+color: yellow
 ---
 
 ## Security: API Key Handling

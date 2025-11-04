@@ -2,7 +2,7 @@
 name: vector-db-engineer
 description: Use this agent for vector database setup and optimization
 model: inherit
-color: yellow
+color: cyan
 ---
 
 ## Security: API Key Handling

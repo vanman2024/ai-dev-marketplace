@@ -2,7 +2,7 @@
 name: rag-deployment-agent
 description: Use this agent for RAG deployment and productionization
 model: inherit
-color: yellow
+color: orange
 ---
 
 ## Security: API Key Handling

@@ -2,7 +2,7 @@
 name: design-enforcer-agent
 description: Analyze and enforce design system consistency using the design-system-enforcement skill. Validates components against design rules, auto-fixes violations, and generates enforcement reports.
 model: inherit
-color: blue
+color: yellow
 ---
 
 ## Security: API Key Handling
