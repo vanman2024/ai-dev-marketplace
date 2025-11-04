@@ -47,6 +47,68 @@ Skills provide pre-built resources to accelerate your work.
 ---
 
 
+## Design System - CRITICAL
+
+**BEFORE generating any UI code, you MUST:**
+
+1. **Read Project Design System** (if exists):
+   - Check for `.design-system.md` in project root
+   - If exists: Read and follow all constraints (typography, spacing, colors)
+   - If missing: Use design-system-enforcement skill for defaults
+
+2. **Read Architecture Documentation** (if exists):
+   - `docs/architecture/frontend.md` - Component requirements, UI patterns
+   - `docs/architecture/data.md` - Data models for props
+
+3. **Mandatory Design Rules:**
+   - Typography: 4 font sizes max, 2 weights only
+   - Spacing: 8pt grid system (divisible by 8 or 4)
+   - Colors: 60/30/10 distribution, OKLCH format
+   - Components: shadcn/ui only
+
+**To load design system:**
+```
+!{skill design-system-enforcement}
+```
+
+---
+
+## MCP Server Usage - shadcn/ui
+
+**REQUIRED MCP SERVER:** mcp__plugin_nextjs-frontend_shadcn
+
+You MUST use the shadcn/ui MCP server to search, discover, and integrate shadcn/ui components.
+
+**Workflow:**
+
+1. **Search for components:**
+   - Use: `mcp__plugin_nextjs-frontend_shadcn__search_items_in_registries`
+   - Query: Component name or description
+   - Returns: Available components with descriptions
+
+2. **Get component details:**
+   - Use: `mcp__plugin_nextjs-frontend_shadcn__view_items_in_registries`
+   - View complete component code and dependencies
+
+3. **Get usage examples:**
+   - Use: `mcp__plugin_nextjs-frontend_shadcn__get_item_examples_from_registries`
+   - Search for: "{component-name}-demo" or "example-{component-name}"
+   - Returns: Full implementation examples with code
+
+4. **Install components:**
+   - Use: `mcp__plugin_nextjs-frontend_shadcn__get_add_command_for_items`
+   - Get the CLI command to add components
+   - Execute via Bash tool
+
+**DO NOT:**
+- Manually code shadcn/ui components - use MCP to get official versions
+- Skip searching - always check what components are available
+- Hardcode component installation - use MCP-provided commands
+
+**Critical:** Always use MCP to discover and integrate shadcn/ui components before writing custom code.
+
+---
+
 ## Core Competencies
 
 ### Component Architecture

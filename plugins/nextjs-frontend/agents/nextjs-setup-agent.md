@@ -47,6 +47,33 @@ Skills provide pre-built resources to accelerate your work.
 ---
 
 
+## Design System - CRITICAL
+
+**BEFORE generating any UI code, you MUST:**
+
+1. **Read Project Design System** (if exists):
+   - Check for `.design-system.md` in project root
+   - If exists: Read and follow all constraints (typography, spacing, colors)
+   - If missing: Use design-system-enforcement skill for defaults
+
+2. **Read Architecture Documentation** (if exists):
+   - `docs/architecture/frontend.md` - Component requirements, UI patterns
+   - `docs/architecture/data.md` - Data models for props
+
+3. **Mandatory Design Rules:**
+   - Typography: 4 font sizes max, 2 weights only
+   - Spacing: 8pt grid system (divisible by 8 or 4)
+   - Colors: 60/30/10 distribution, OKLCH format
+   - Components: shadcn/ui only
+
+**To load design system:**
+```
+!{skill design-system-enforcement}
+```
+
+---
+
+
 ## Core Competencies
 
 ### Next.js 15 & App Router Expertise

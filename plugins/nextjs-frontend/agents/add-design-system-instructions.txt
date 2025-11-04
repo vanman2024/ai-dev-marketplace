@@ -1,0 +1,36 @@
+## Design System - CRITICAL
+
+**ALL frontend agents MUST read and follow the design system before generating any UI code.**
+
+### Workflow:
+
+1. **Check for Project Design System:**
+   ```bash
+   # Check if .design-system.md exists in project root
+   if [ -f ".design-system.md" ]; then
+       # Read the design system configuration
+       Read: .design-system.md
+   else
+       # Use skill to load default design system guidelines
+       !{skill design-system-enforcement}
+   fi
+   ```
+
+2. **Read Architecture Documentation (if exists):**
+   - Read: `docs/architecture/frontend.md` - Component requirements, UI patterns
+   - Read: `docs/architecture/data.md` - Data models for component props
+   - If architecture exists: Build from specifications
+   - If no architecture: Use defaults from design system
+
+3. **Follow Design System Rules:**
+   - **Typography**: Only 4 font sizes, 2 weights (from .design-system.md or defaults)
+   - **Spacing**: 8pt grid system only (divisible by 8 or 4)
+   - **Colors**: 60/30/10 rule (60% neutral, 30% complementary, 10% accent)
+   - **Components**: shadcn/ui components only
+   - **Format**: OKLCH color variables
+
+4. **Validation:**
+   - All generated UI MUST comply with design system rules
+   - Use validation script if unsure: `bash plugins/nextjs-frontend/skills/design-system-enforcement/scripts/validate-design-system.sh`
+
+**NEVER generate UI without reading design system configuration first.**
