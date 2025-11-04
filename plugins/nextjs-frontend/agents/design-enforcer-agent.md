@@ -3,7 +3,7 @@ name: design-enforcer-agent
 description: Analyze and enforce design system consistency using the design-system-enforcement skill. Validates components against design rules, auto-fixes violations, and generates enforcement reports.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, Grep, Glob, mcp__shadcn, mcp__tailwind-ui, Skill
+tools: Bash, Read, Write, Edit, Grep, Glob, mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system, Skill
 ---
 
 ## Security: API Key Handling

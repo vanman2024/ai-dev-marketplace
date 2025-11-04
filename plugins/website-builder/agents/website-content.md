@@ -3,7 +3,7 @@ name: website-content
 description: Use this agent to create and manage Astro content including pages, blog posts, layouts, and MDX components with proper integration
 model: inherit
 color: yellow
-tools: Task, Read, Write, Edit, Bash, Glob, Grep, mcp__context7, mcp__content-image-generation, Skill
+tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling

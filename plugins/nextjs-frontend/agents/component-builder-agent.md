@@ -3,7 +3,7 @@ name: component-builder-agent
 description: Use this agent to build React components with shadcn/ui, TypeScript, and Tailwind CSS. Invoke when creating UI components with proper typing, styling, and Next.js best practices.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, Grep, Glob, mcp__shadcn, mcp__tailwind-ui, mcp__figma-application, Skill
+tools: Bash, Read, Write, Edit, Grep, Glob, mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

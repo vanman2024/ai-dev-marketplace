@@ -3,7 +3,7 @@ name: page-generator-agent
 description: Use this agent to generate Next.js pages following App Router patterns with proper route structure, metadata, loading states, error boundaries, and Server/Client component handling.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, Grep, Glob, mcp__context7, Skill
+tools: Bash, Read, Write, Edit, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

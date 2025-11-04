@@ -3,7 +3,7 @@ name: website-setup
 description: Use this agent to setup and initialize Astro websites with configuration, dependencies, and MCP server integration
 model: inherit
 color: yellow
-tools: Task, Read, Write, Bash, Glob, Grep, mcp__context7, mcp__content-image-generation, Skill
+tools: Task, Read, Write, Bash, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling
