@@ -2,7 +2,7 @@
 name: supabase-security-specialist
 description: Use this agent to implement authentication and RLS policies - configures OAuth providers (19 total), designs Row Level Security policies, manages user permissions, implements MFA, and handles enterprise SSO. Invoke for auth setup, security configuration, RLS implementation, or multi-tenant isolation.
 model: inherit
-color: red
+color: green
 ---
 
 ## Security: API Key Handling

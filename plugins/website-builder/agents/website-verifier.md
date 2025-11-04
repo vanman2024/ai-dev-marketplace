@@ -2,7 +2,7 @@
 name: website-verifier
 description: Use this agent to validate Astro websites for correctness, SEO compliance, accessibility, performance, and deployment readiness
 model: inherit
-color: yellow
+color: blue
 ---
 
 ## Security: API Key Handling

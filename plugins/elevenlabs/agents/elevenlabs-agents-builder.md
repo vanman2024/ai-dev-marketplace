@@ -2,7 +2,7 @@
 name: elevenlabs-agents-builder
 description: Use this agent to build conversational AI agents with full MCP integration, tool calling, and real-time voice conversations. Invoke when implementing the Agents Platform.
 model: inherit
-color: yellow
+color: pink
 ---
 
 ## Security: API Key Handling

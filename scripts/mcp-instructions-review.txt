@@ -1,0 +1,1218 @@
+=== Plugin: claude-agent-sdk ===
+
+MCP Servers: NONE
+
+--- Agent: claude-agent-features ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/agents/claude-agent-features.md
+
+---
+
+--- Agent: claude-agent-setup ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/agents/claude-agent-setup.md
+
+---
+
+--- Agent: claude-agent-verifier-py ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/agents/claude-agent-verifier-py.md
+
+---
+
+--- Agent: claude-agent-verifier-ts ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/agents/claude-agent-verifier-ts.md
+
+---
+
+
+
+=== Plugin: elevenlabs ===
+
+MCP Servers: NONE
+
+--- Agent: elevenlabs-agents-builder ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-agents-builder.md
+
+---
+
+--- Agent: elevenlabs-production-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-production-agent.md
+
+---
+
+--- Agent: elevenlabs-setup ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-setup.md
+
+---
+
+--- Agent: elevenlabs-stt-integrator ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-stt-integrator.md
+
+---
+
+--- Agent: elevenlabs-tts-integrator ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-tts-integrator.md
+
+---
+
+--- Agent: elevenlabs-voice-manager ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/elevenlabs/agents/elevenlabs-voice-manager.md
+
+---
+
+
+
+=== Plugin: fastapi-backend ===
+
+MCP Servers: NONE
+
+--- Agent: database-architect-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/fastapi-backend/agents/database-architect-agent.md
+
+---
+
+--- Agent: deployment-architect-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/fastapi-backend/agents/deployment-architect-agent.md
+
+---
+
+--- Agent: endpoint-generator-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/fastapi-backend/agents/endpoint-generator-agent.md
+
+---
+
+--- Agent: fastapi-setup-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/fastapi-backend/agents/fastapi-setup-agent.md
+
+---
+
+
+
+=== Plugin: mem0 ===
+
+MCP Servers: NONE
+
+--- Agent: mem0-integrator ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/mem0/agents/mem0-integrator.md
+
+---
+
+--- Agent: mem0-memory-architect ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/mem0/agents/mem0-memory-architect.md
+
+---
+
+--- Agent: mem0-verifier ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/mem0/agents/mem0-verifier.md
+
+---
+
+
+
+=== Plugin: ml-training ===
+
+MCP Servers: NONE
+
+--- Agent: cost-optimizer ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/cost-optimizer.md
+
+---
+
+--- Agent: data-engineer ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/data-engineer.md
+
+---
+
+--- Agent: data-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/data-specialist.md
+
+---
+
+--- Agent: distributed-training-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/distributed-training-specialist.md
+
+---
+
+--- Agent: inference-deployer ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/inference-deployer.md
+
+---
+
+--- Agent: integration-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/integration-specialist.md
+
+---
+
+--- Agent: lambda-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/lambda-specialist.md
+
+---
+
+--- Agent: ml-architect ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/ml-architect.md
+
+---
+
+--- Agent: ml-tester ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/ml-tester.md
+
+---
+
+--- Agent: modal-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/modal-specialist.md
+
+---
+
+--- Agent: peft-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/peft-specialist.md
+
+---
+
+--- Agent: runpod-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/runpod-specialist.md
+
+---
+
+--- Agent: training-architect ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/training-architect.md
+
+---
+
+--- Agent: training-monitor ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/ml-training/agents/training-monitor.md
+
+---
+
+
+
+=== Plugin: nextjs-frontend ===
+
+MCP Servers: mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+--- Agent: ai-sdk-integration-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/ai-sdk-integration-agent.md
+
+---
+
+--- Agent: component-builder-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/component-builder-agent.md
+
+---
+
+--- Agent: design-enforcer-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/design-enforcer-agent.md
+
+---
+
+--- Agent: nextjs-setup-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/nextjs-setup-agent.md
+
+---
+
+--- Agent: page-generator-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/page-generator-agent.md
+
+---
+
+--- Agent: supabase-integration-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/supabase-integration-agent.md
+
+---
+
+--- Agent: ui-search-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/agents/ui-search-agent.md
+
+---
+
+
+
+=== Plugin: openrouter ===
+
+MCP Servers: NONE
+
+--- Agent: openrouter-langchain-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/agents/openrouter-langchain-agent.md
+
+---
+
+--- Agent: openrouter-routing-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/agents/openrouter-routing-agent.md
+
+---
+
+--- Agent: openrouter-setup-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/agents/openrouter-setup-agent.md
+
+---
+
+--- Agent: openrouter-vercel-integration-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/openrouter/agents/openrouter-vercel-integration-agent.md
+
+---
+
+
+
+=== Plugin: plugin-docs-loader ===
+
+MCP Servers: NONE
+
+--- Agent: doc-loader-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/plugin-docs-loader/agents/doc-loader-agent.md
+
+---
+
+
+
+=== Plugin: rag-pipeline ===
+
+MCP Servers: NONE
+
+--- Agent: document-processor ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/document-processor.md
+
+---
+
+--- Agent: embedding-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/embedding-specialist.md
+
+---
+
+--- Agent: langchain-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/langchain-specialist.md
+
+---
+
+--- Agent: llamaindex-specialist ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/llamaindex-specialist.md
+
+---
+
+--- Agent: rag-architect ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/rag-architect.md
+
+---
+
+--- Agent: rag-deployment-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/rag-deployment-agent.md
+
+---
+
+--- Agent: rag-tester ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/rag-tester.md
+
+---
+
+--- Agent: retrieval-optimizer ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/retrieval-optimizer.md
+
+---
+
+--- Agent: vector-db-engineer ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/vector-db-engineer.md
+
+---
+
+--- Agent: web-scraper-agent ---
+
+## MCP Server Usage
+
+**This agent does not require MCP server access.**
+
+Use standard tools (Bash, Read, Write, Edit) for file operations.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/rag-pipeline/agents/web-scraper-agent.md
+
+---
+
+
+
+=== Plugin: supabase ===
+
+MCP Servers: mcp__plugin_supabase_supabase
+
+--- Agent: supabase-ai-specialist ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-ai-specialist.md
+
+---
+
+--- Agent: supabase-architect ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-architect.md
+
+---
+
+--- Agent: supabase-code-reviewer ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-code-reviewer.md
+
+---
+
+--- Agent: supabase-database-executor ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-database-executor.md
+
+---
+
+--- Agent: supabase-migration-applier ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-migration-applier.md
+
+---
+
+--- Agent: supabase-performance-analyzer ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-performance-analyzer.md
+
+---
+
+--- Agent: supabase-project-manager ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-project-manager.md
+
+---
+
+--- Agent: supabase-realtime-builder ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-realtime-builder.md
+
+---
+
+--- Agent: supabase-schema-validator ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-schema-validator.md
+
+---
+
+--- Agent: supabase-security-auditor ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-security-auditor.md
+
+---
+
+--- Agent: supabase-security-specialist ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-security-specialist.md
+
+---
+
+--- Agent: supabase-tester ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-tester.md
+
+---
+
+--- Agent: supabase-ui-generator ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-ui-generator.md
+
+---
+
+--- Agent: supabase-validator ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_supabase_supabase
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/supabase/agents/supabase-validator.md
+
+---
+
+
+
+=== Plugin: vercel-ai-sdk ===
+
+MCP Servers: mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+--- Agent: vercel-ai-advanced-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-advanced-agent.md
+
+---
+
+--- Agent: vercel-ai-data-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-data-agent.md
+
+---
+
+--- Agent: vercel-ai-production-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-production-agent.md
+
+---
+
+--- Agent: vercel-ai-ui-agent ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-ui-agent.md
+
+---
+
+--- Agent: vercel-ai-verifier-js ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-verifier-js.md
+
+---
+
+--- Agent: vercel-ai-verifier-py ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-verifier-py.md
+
+---
+
+--- Agent: vercel-ai-verifier-ts ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/vercel-ai-sdk/agents/vercel-ai-verifier-ts.md
+
+---
+
+
+
+=== Plugin: website-builder ===
+
+MCP Servers: mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+--- Agent: website-ai-generator ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/agents/website-ai-generator.md
+
+---
+
+--- Agent: website-architect ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/agents/website-architect.md
+
+---
+
+--- Agent: website-content ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/agents/website-content.md
+
+---
+
+--- Agent: website-setup ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/agents/website-setup.md
+
+---
+
+--- Agent: website-verifier ---
+
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVERS:** mcp__plugin_website-builder_shadcn, mcp__plugin_website-builder_design-system
+
+You have access to multiple MCP servers, but you MUST use ONLY the servers listed above.
+
+**DO NOT USE:**
+- Other plugin MCP servers (they are for different purposes)
+- MCP servers not listed above will cause errors
+
+All operations must use the MCP servers specified above.
+
+File: /home/gotime2022/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/website-builder/agents/website-verifier.md
+
+---
+
+
+

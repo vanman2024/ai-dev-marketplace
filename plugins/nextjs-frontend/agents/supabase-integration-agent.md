@@ -2,7 +2,7 @@
 name: supabase-integration-agent
 description: Use this agent to integrate Supabase client, authentication, database setup, and type generation into Next.js applications
 model: inherit
-color: yellow
+color: blue
 ---
 
 ## Security: API Key Handling

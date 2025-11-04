@@ -2,7 +2,7 @@
 name: endpoint-generator-agent
 description: Use this agent to generate production-ready FastAPI endpoints with async functions, Pydantic validation, OpenAPI documentation, proper error handling, and RESTful best practices. Invoke when creating API routes that need request/response models, path/query parameters, dependency injection, or database integration.
 model: inherit
-color: yellow
+color: orange
 ---
 
 ## Security: API Key Handling

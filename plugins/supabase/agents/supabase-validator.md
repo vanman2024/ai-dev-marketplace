@@ -2,7 +2,7 @@
 name: supabase-validator
 description: Use this agent for setup and configuration validation - validates Supabase project setup, MCP connectivity, environment configuration, and deployment readiness. Invoke after setup or before production deployment.
 model: inherit
-color: yellow
+color: green
 ---
 
 ## Security: API Key Handling

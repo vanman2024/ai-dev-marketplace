@@ -2,7 +2,7 @@
 name: supabase-performance-analyzer
 description: Use this agent for performance analysis - optimizes queries, recommends indexes, analyzes query plans, identifies bottlenecks. Invoke for performance optimization or slow query investigation.
 model: inherit
-color: yellow
+color: green
 ---
 
 ## Security: API Key Handling

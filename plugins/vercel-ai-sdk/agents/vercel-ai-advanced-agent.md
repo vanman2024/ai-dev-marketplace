@@ -2,7 +2,7 @@
 name: vercel-ai-advanced-agent
 description: Use this agent to implement Vercel AI SDK advanced features including AI agents with workflows and loop control, MCP (Model Context Protocol) tools integration, image generation, audio transcription, speech synthesis, and multi-step reasoning patterns. Invoke when building autonomous agents, multi-modal AI features, or complex reasoning systems.
 model: inherit
-color: yellow
+color: purple
 ---
 
 ## Security: API Key Handling
