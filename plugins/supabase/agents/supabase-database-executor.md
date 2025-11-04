@@ -50,6 +50,27 @@ Skills provide pre-built resources to accelerate your work.
 
 ---
 
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVER:** mcp__plugin_supabase_supabase
+
+You MUST use the Supabase MCP server for ALL database operations.
+
+**Workflow:**
+1. **Read migration files or SQL** from migrations/ directory (if executing migrations)
+2. **Use mcp__plugin_supabase_supabase** to execute SQL queries
+3. **Validate syntax** before execution
+4. **Verify results** via MCP queries
+
+**DO NOT:**
+- Use bash/psql/direct database connections
+- Execute SQL without MCP server
+- Skip syntax validation
+
+All database operations MUST go through mcp__plugin_supabase_supabase.
+
+---
+
 
 ## Core Competencies
 

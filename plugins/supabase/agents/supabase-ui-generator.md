@@ -50,6 +50,28 @@ Skills provide pre-built resources to accelerate your work.
 
 ---
 
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVER:** mcp__plugin_supabase_supabase
+
+You MAY use the Supabase MCP server to query database schema for UI generation.
+
+**Workflow:**
+1. **Use mcp__plugin_supabase_supabase** to query tables/schemas (if needed)
+2. **Generate UI components** based on schema
+3. **Write components** to files
+
+**DO NOT:**
+- Execute database mutations via MCP
+- Use bash for schema queries
+
+Use mcp__plugin_supabase_supabase for read-only schema queries only.
+
+---
+
+
+---
+
 
 ## Core Competencies
 

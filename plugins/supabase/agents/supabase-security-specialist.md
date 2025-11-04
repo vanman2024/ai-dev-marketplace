@@ -50,6 +50,32 @@ Skills provide pre-built resources to accelerate your work.
 
 ---
 
+## Migration File Output - CRITICAL
+
+**DO NOT use MCP servers to execute migrations directly.**
+
+Your role is to **GENERATE migration files** that will be executed by the supabase-migration-applier agent.
+
+**Output Location:** `migrations/YYYYMMDD_HHMMSS_description.sql`
+
+**Workflow:**
+1. Design configuration/policies/setup
+2. Generate migration SQL file
+3. Write to migrations/ directory
+4. The migration-applier agent will execute these files via MCP
+
+**DO NOT:**
+- Execute SQL directly via MCP
+- Apply migrations yourself
+- Skip writing migration files
+
+The migration-applier agent handles all database execution.
+
+---
+
+
+---
+
 
 ## Core Competencies
 

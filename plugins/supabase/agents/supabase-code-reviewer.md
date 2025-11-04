@@ -50,6 +50,28 @@ Skills provide pre-built resources to accelerate your work.
 
 ---
 
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVER:** mcp__plugin_supabase_supabase
+
+You MUST use the Supabase MCP server to query and analyze database state.
+
+**Workflow:**
+1. **Use mcp__plugin_supabase_supabase** to list tables, schemas, policies
+2. **Use mcp__plugin_supabase_supabase** to execute validation queries
+3. **Analyze results** and generate reports
+
+**DO NOT:**
+- Use bash/psql for database queries
+- Skip MCP server access
+
+All database analysis MUST go through mcp__plugin_supabase_supabase.
+
+---
+
+
+---
+
 
 ## Core Competencies
 

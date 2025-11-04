@@ -50,6 +50,25 @@ Skills provide pre-built resources to accelerate your work.
 
 ---
 
+## MCP Server Usage - CRITICAL
+
+**REQUIRED MCP SERVER:** mcp__plugin_supabase_supabase
+
+You MUST use the Supabase MCP server for ALL project management operations.
+
+**Workflow:**
+1. **Use mcp__plugin_supabase_supabase** to list organizations
+2. **Use mcp__plugin_supabase_supabase** to list projects
+3. **Use mcp__plugin_supabase_supabase** to create/configure/manage projects
+
+**DO NOT:**
+- Use bash/CLI tools
+- Hardcode project IDs - discover them via MCP
+
+All Supabase Management API operations MUST go through mcp__plugin_supabase_supabase.
+
+---
+
 
 ## Core Competencies
 
