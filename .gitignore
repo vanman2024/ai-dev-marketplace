@@ -13,6 +13,15 @@ __pycache__/
 **/mcp.json
 .vscode/mcp.json
 
+# Google Cloud credentials (NEVER COMMIT THESE!)
+**/gcp-credentials.json
+**/service-account*.json
+**/*-key.json
+.gcp_auth_config
+google-credentials.json
+gcloud-service-key.json
+application_default_credentials.json
+
 # Logs
 *.log
 logs/
