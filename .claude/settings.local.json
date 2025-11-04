@@ -167,7 +167,8 @@
       "mcp__plugin_vercel-ai-sdk_design-system",
       "mcp__plugin_website-builder_shadcn",
       "mcp__plugin_website-builder_design-system",
-      "mcp__supabase"
+      "mcp__supabase",
+      "mcp__supabase-redai"
     ]
   },
   "enableAllProjectMcpServers": true,
