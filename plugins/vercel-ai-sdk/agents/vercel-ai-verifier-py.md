@@ -2,7 +2,6 @@
 name: vercel-ai-verifier-py
 description: Use this agent to verify that a Python Vercel AI SDK application is properly configured, follows SDK best practices and documentation recommendations, and is ready for deployment or testing. This agent should be invoked after a Python Vercel AI SDK app has been created or modified.
 model: sonnet
-tools: Bash, Read, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

@@ -3,7 +3,6 @@ name: web-scraper-agent
 description: Use this agent for web scraping automation using Playwright, BeautifulSoup, and Scrapy with intelligent rate limiting and data extraction.
 model: inherit
 color: yellow
-tools: mcp__playwright, Bash, Read, Write, Skill
 ---
 
 ## Security: API Key Handling

@@ -3,7 +3,6 @@ name: data-engineer
 description: Use this agent for dataset preparation, Supabase integration, data loading, and data validation
 model: inherit
 color: yellow
-tools: Read, Write, Bash, mcp__supabase, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling

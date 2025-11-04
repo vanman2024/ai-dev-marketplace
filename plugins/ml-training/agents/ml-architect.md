@@ -3,7 +3,6 @@ name: ml-architect
 description: Use this agent for high-level ML pipeline design, framework selection, platform recommendation, and project initialization
 model: inherit
 color: yellow
-tools: Read, Write, WebFetch, Task, AskUserQuestion, Bash, Glob, Grep, Skill
 ---
 
 ## Security: API Key Handling

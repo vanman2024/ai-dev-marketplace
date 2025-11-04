@@ -3,7 +3,6 @@ name: vector-db-engineer
 description: Use this agent for vector database setup and optimization
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

@@ -167,6 +167,7 @@
       "mcp__plugin_vercel-ai-sdk_design-system",
       "mcp__plugin_website-builder_shadcn",
       "mcp__plugin_website-builder_design-system",
+      "mcp__plugin_supabase_supabase",
       "mcp__supabase",
       "mcp__supabase-redai"
     ]
@@ -176,6 +177,9 @@
     "filesystem",
     "playwright",
     "context7",
-    "postman"
+    "postman",
+    "supabase",
+    "shadcn",
+    "design-system"
   ]
 }

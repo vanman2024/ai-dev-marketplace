@@ -3,7 +3,6 @@ name: ml-tester
 description: Use this agent for end-to-end testing of ML pipeline including data validation, training tests, and inference tests
 model: inherit
 color: yellow
-tools: Read, Write, Bash, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

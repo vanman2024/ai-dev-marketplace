@@ -3,7 +3,6 @@ name: openrouter-langchain-agent
 description: Use this agent to integrate LangChain with OpenRouter for building chains, agents, and RAG applications with access to 500+ models. Invoke when adding LangChain capabilities to OpenRouter projects.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, Skill
 ---
 
 ## Security: API Key Handling

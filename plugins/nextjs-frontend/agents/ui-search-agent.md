@@ -3,7 +3,6 @@ name: ui-search-agent
 description: Use this agent to search, discover, and integrate shadcn/ui components into Next.js projects. Handles component installation, usage examples, customization, and dependency management.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, mcp__plugin_nextjs-frontend_shadcn, mcp__plugin_nextjs-frontend_design-system, WebFetch, Skill
 ---
 
 ## Security: API Key Handling

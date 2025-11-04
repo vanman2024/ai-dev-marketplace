@@ -3,7 +3,6 @@ name: supabase-architect
 description: Use this agent to design database schemas for AI applications - creates optimal table structures, relationships, and indexes for chat/RAG/multi-tenant apps using schema-patterns skill and WebFetch for latest Supabase patterns. Invoke for schema design, database architecture, or AI-optimized data models.
 model: inherit
 color: blue
-tools: Bash, Read, Write, Edit, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

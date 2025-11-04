@@ -3,7 +3,6 @@ name: claude-agent-verifier-ts
 description: Use this agent to verify that a TypeScript Claude Agent SDK application is properly configured, follows SDK best practices and documentation recommendations, and is ready for deployment or testing. This agent should be invoked after a TypeScript Claude Agent SDK app has been created or modified.
 model: inherit
 color: yellow
-tools: Bash, Read, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling

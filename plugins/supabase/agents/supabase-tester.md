@@ -3,7 +3,6 @@ name: supabase-tester
 description: Use this agent for end-to-end testing - orchestrates comprehensive testing workflows including database, auth, realtime, AI features using e2e-test-scenarios skill. Invoke for complete validation or pre-deployment testing.
 model: inherit
 color: green
-tools: Bash, Read, Write, Edit, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

@@ -3,7 +3,6 @@ name: vercel-ai-production-agent
 description: Use this agent to implement Vercel AI SDK production features including telemetry/observability with OpenTelemetry, rate limiting, comprehensive error handling, testing setup with mocks, and middleware for logging/auth/validation. Invoke when preparing AI applications for production deployment.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, mcp__plugin_vercel-ai-sdk_shadcn, mcp__plugin_vercel-ai-sdk_design-system, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling

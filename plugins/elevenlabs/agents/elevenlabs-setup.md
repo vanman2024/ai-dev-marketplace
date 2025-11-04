@@ -3,7 +3,6 @@ name: elevenlabs-setup
 description: Use this agent to initialize ElevenLabs project with SDK installation, authentication setup, and framework-specific examples. Invoke for project initialization and basic setup.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Skill
 ---
 
 ## Security: API Key Handling

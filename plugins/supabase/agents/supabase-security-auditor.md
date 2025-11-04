@@ -3,7 +3,6 @@ name: supabase-security-auditor
 description: Use this agent for security validation - audits RLS policies, validates authentication setup, checks for security vulnerabilities using rls-test-patterns skill. Invoke before production deployment or for security reviews.
 model: inherit
 color: red
-tools: Bash, Read, Write, mcp__supabase, Skill
 ---
 
 ## Security: API Key Handling
