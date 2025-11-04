@@ -159,7 +159,15 @@
       "Task",
       "Skill",
       "mcp__plugin_02-develop_filesystem__directory_tree",
-      "mcp__context7__resolve-library-id"
+      "mcp__context7__resolve-library-id",
+      "mcp__plugin_mem0_memory",
+      "mcp__plugin_nextjs-frontend_shadcn",
+      "mcp__plugin_nextjs-frontend_design-system",
+      "mcp__plugin_vercel-ai-sdk_shadcn",
+      "mcp__plugin_vercel-ai-sdk_design-system",
+      "mcp__plugin_website-builder_shadcn",
+      "mcp__plugin_website-builder_design-system",
+      "mcp__supabase"
     ]
   },
   "enableAllProjectMcpServers": true,

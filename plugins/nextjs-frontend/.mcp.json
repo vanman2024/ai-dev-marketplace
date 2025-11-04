@@ -1,19 +1,13 @@
 {
   "mcpServers": {
-    "supabase": {
+    "design-system": {
       "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=wsmhiiharnhqupdniwgw"
+      "url": "https://mcp.supabase.com/mcp?project_ref=wsmhiiharnhqupdniwgw",
+      "description": "Shared design system - UI components, shadcn registry, design tokens"
     },
     "shadcn": {
       "command": "npx",
       "args": ["shadcn@latest", "mcp"]
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp"],
-      "env": {
-        "CONTEXT7_API_KEY": "ctx7sk-b1d17407-af5d-47ef-8879-eb0d2e7e0146"
-      }
     }
   }
 }

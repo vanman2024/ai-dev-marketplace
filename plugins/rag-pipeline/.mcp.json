@@ -1,9 +1,3 @@
 {
-  "mcpServers": {
-    "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp?project_ref=PROJECT_ID_PLACEHOLDER",
-      "description": "Supabase MCP server for RAG vector storage - MUST be overridden per-project with actual project_ref"
-    }
-  }
+  "mcpServers": {}
 }
