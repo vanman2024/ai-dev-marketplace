@@ -3,7 +3,7 @@ name: fastapi-setup-agent
 description: Use this agent to initialize FastAPI projects with complete structure, dependencies, configuration, CORS setup, environment management, and MCP server configuration. Invoke when setting up new FastAPI backends.
 model: inherit
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, mcp__context7, Skill
+tools: Bash, Read, Write, Edit, WebFetch, Grep, Glob, Skill
 ---
 
 ## Security: API Key Handling
