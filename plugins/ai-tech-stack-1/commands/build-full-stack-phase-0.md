@@ -100,9 +100,48 @@ Actions:
 
 - Verify specs created:
   !{bash test -d specs && ls -d specs/*/ | wc -l && echo "✅ Feature specs generated" || echo "❌ Spec generation failed"}
+- Count total specs: !{bash ls -d specs/*/ | wc -l}
 - Mark planning complete
 
-Phase 4: Project Detection (Existing Projects Only)
+Phase 4: Validate All Specs
+Goal: Ensure all specs are complete before worktree creation
+
+Actions:
+- Execute spec validation: !{slashcommand /planning:analyze-project}
+- This launches spec-analyzer agents in parallel for each spec
+- Outputs: gaps-analysis.json with completeness scores and recommendations
+- Verify validation completed: !{bash test -f gaps-analysis.json && echo "✅ Validation complete" || echo "❌ Validation failed"}
+- Display results: !{bash cat gaps-analysis.json | jq '{total_specs, avg_completeness, critical_gaps, incomplete_specs}'}
+- Mark validation complete
+
+Phase 5: Bulk Worktree Creation + Mem0 Registration
+Goal: Create isolated git worktrees for ALL agents across ALL specs and register in Mem0
+
+Actions:
+- Count specs: !{bash ls -d specs/*/ | wc -l}
+- Display: "Creating worktrees for X specs..."
+
+- FOR EACH spec in specs/, run supervisor:
+  Example for 5 specs:
+  !{slashcommand /supervisor:init 001-user-auth}
+  !{slashcommand /supervisor:init 002-product-catalog}
+  !{slashcommand /supervisor:init 003-shopping-cart}
+  !{slashcommand /supervisor:init 004-checkout-flow}
+  !{slashcommand /supervisor:init 005-order-tracking}
+
+- Each /supervisor:init call:
+  - Reads layered-tasks.md for that spec
+  - Creates worktrees for all agents (@claude, @copilot, @qwen, @gemini, @codex)
+  - Registers in Mem0 "worktrees" collection automatically
+  - Stores: worktree paths, branches, agent assignments, dependencies
+
+- Verify creation: !{bash git worktree list}
+- Count worktrees: !{bash git worktree list | grep -c "agent-"}
+- Update config: !{bash jq '.worktreesSetup = true | .worktreeCount = '$(git worktree list | grep -c "agent-")'' .ai-stack-config.json > tmp && mv tmp .ai-stack-config.json}
+- Display: "✅ X worktrees created and registered in Mem0"
+- Mark worktree setup complete
+
+Phase 6: Project Detection (Existing Projects Only)
 Goal: Detect existing project structure and tech stack
 
 Actions:
@@ -116,7 +155,7 @@ Actions:
   - Skip detection
 - Mark detection complete
 
-Phase 5: Environment Verification
+Phase 7: Environment Verification
 Goal: Verify all required development tools are installed
 
 Actions:
@@ -131,7 +170,7 @@ Actions:
 - Verify: !{bash node --version && python --version && npm --version && echo "✅ Environment ready" || echo "❌ Missing tools"}
 - Mark environment complete
 
-Phase 6: Git Hooks Setup
+Phase 8: Git Hooks Setup
 Goal: Install security and validation git hooks
 
 Actions:
@@ -143,7 +182,7 @@ Actions:
 - Verify: !{bash test -d .git/hooks && echo "✅ Hooks installed" || echo "❌ No git repo"}
 - Mark git hooks complete
 
-Phase 7: MCP Configuration Note
+Phase 9: MCP Configuration Note
 Goal: Document MCP server approach
 
 Actions:
@@ -161,7 +200,7 @@ Actions:
 - Create .env.example with placeholders
 - Mark MCP note complete
 
-Phase 8: Summary Phase 0
+Phase 10: Summary Phase 0
 Goal: Save state and prepare for Phase 1
 
 Actions:
@@ -176,18 +215,21 @@ Actions:
 
   - Requirements clarified through interactive questions
   - Comprehensive planning (specs, architecture, roadmap, ADRs)
+  - Specs validated for completeness (gaps-analysis.json)
+  - Worktrees created for parallel agent development (git worktree list)
+  - Agents registered in Mem0 for coordination (~/.claude/mem0-chroma/)
   - Project detected/initialized
   - Environment verified (Node, Python, tools)
   - Git hooks installed (security, validation)
   - MCP servers documented (configured in plugins)
-  - Specs ready for task layering in Phase 1
 
   Ready for Phase 1: Implementation
   Run: /ai-tech-stack-1:build-full-stack-phase-1
 
-  Note: Phase 1 will create task layers from specs for parallel execution
+  Note: Agents can query Mem0 for worktree locations and task assignments
+  Example: python register-worktree.py query --query "where does copilot work?"
 
-  Time: ~15-20 minutes
+  Time: ~20-30 minutes (includes spec validation + worktree creation)
 
 ## Usage
 
