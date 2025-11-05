@@ -39,7 +39,7 @@ Actions:
 
 Phase 3: Create Webhook Infrastructure
 
-Task(description="Create webhook infrastructure", subagent_type="webhook-builder", prompt="You are the webhook-builder agent. Create secure Stripe webhook infrastructure.
+Task(description="Create webhook infrastructure", subagent_type="payments:webhook-handler-agent", prompt="You are the webhook-handler-agent. Create secure Stripe webhook infrastructure.
 
 **SECURITY:** Use placeholder STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
 
@@ -57,7 +57,7 @@ Deliverable: backend/app/api/routes/webhooks.py with signature verification and 
 
 Phase 4: Database Schema
 
-Task(description="Create webhook events schema", subagent_type="database-architect", prompt="You are the database-architect agent. Create Supabase schema for webhook event storage.
+Task(description="Create webhook events schema", subagent_type="payments:payments-architect", prompt="You are the payments-architect agent. Create Supabase schema for webhook event storage.
 
 Create supabase/migrations/YYYYMMDDHHMMSS_create_webhook_events.sql with:
 - webhook_events table: id uuid, event_id text unique, event_type text, payload jsonb, status text, error_message text, processed_at timestamp, created_at timestamp, updated_at timestamp
@@ -69,7 +69,7 @@ Deliverable: Migration file with complete schema and indexes")
 
 Phase 5: Event Handlers
 
-Task(description="Implement event handlers", subagent_type="event-handler-builder", prompt="You are the event-handler-builder agent. Create event handler functions for Stripe webhooks.
+Task(description="Implement event handlers", subagent_type="payments:webhook-handler-agent", prompt="You are the webhook-handler-agent. Create event handler functions for Stripe webhooks.
 
 Create backend/app/services/webhook_handlers.py with handlers for:
 - handle_payment_intent_succeeded: Update payment status, send confirmation, update subscription
@@ -92,7 +92,7 @@ Deliverable: webhook_handlers.py with all event handlers and error handling")
 
 Phase 6: Testing Setup
 
-Task(description="Setup webhook testing", subagent_type="test-setup-specialist", prompt="You are the test-setup-specialist agent. Create local webhook testing infrastructure.
+Task(description="Setup webhook testing", subagent_type="payments:stripe-integration-agent", prompt="You are the stripe-integration-agent. Create local webhook testing infrastructure.
 
 Create:
 1. docs/webhooks/LOCAL_TESTING.md with Stripe CLI installation, webhook forwarding, testing workflow

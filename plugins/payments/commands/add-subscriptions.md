@@ -33,7 +33,7 @@ Actions:
 Phase 2: Stripe Product Setup
 
 Actions:
-Task(description="Configure Stripe products and pricing", subagent_type="general-purpose", prompt="You are setting up Stripe subscription products and pricing for $ARGUMENTS subscription type.
+Task(description="Configure Stripe products and pricing", subagent_type="payments:subscription-manager-agent", prompt="You are the subscription-manager-agent. Set up Stripe subscription products and pricing for $ARGUMENTS subscription type.
 
 SECURITY CRITICAL: Use placeholders for ALL Stripe keys. Never include actual API keys. Create .env.example with placeholder keys only.
 
@@ -48,7 +48,7 @@ Update .gitignore to protect .env files.")
 Phase 3: Database Schema
 
 Actions:
-Task(description="Create subscription database schema", subagent_type="general-purpose", prompt="Create database schema for subscription management.
+Task(description="Create subscription database schema", subagent_type="payments:payments-architect", prompt="You are the payments-architect agent. Create database schema for subscription management.
 
 Tables needed:
 1. subscriptions: id, user_id, stripe_customer_id, stripe_subscription_id, stripe_price_id, status (active/canceled/past_due/trialing/incomplete), current_period_start, current_period_end, cancel_at_period_end, trial_end, created_at, updated_at
@@ -64,7 +64,7 @@ Add indexes on user_id, stripe_customer_id, stripe_subscription_id, and status."
 Phase 4: Backend API
 
 Actions:
-Task(description="Build subscription API endpoints", subagent_type="general-purpose", prompt="Build backend API endpoints for subscription management.
+Task(description="Build subscription API endpoints", subagent_type="payments:subscription-manager-agent", prompt="You are the subscription-manager-agent. Build backend API endpoints for subscription management.
 
 SECURITY: Read Stripe keys from environment variables only. Validate webhook signatures. Never expose secret keys to frontend.
 
@@ -84,7 +84,7 @@ Include error handling and logging.")
 Phase 5: Frontend Components
 
 Actions:
-Task(description="Build subscription UI components", subagent_type="general-purpose", prompt="Build frontend components for subscription management.
+Task(description="Build subscription UI components", subagent_type="payments:subscription-manager-agent", prompt="You are the subscription-manager-agent. Build frontend components for subscription management.
 
 SECURITY: Use Stripe publishable key only (safe for frontend). Load from environment variable.
 
@@ -103,7 +103,7 @@ Framework-specific: Next.js App Router with server components, React hooks, or V
 Phase 6: Customer Portal
 
 Actions:
-Task(description="Integrate Stripe Customer Portal", subagent_type="general-purpose", prompt="Integrate Stripe Customer Portal for self-service management.
+Task(description="Integrate Stripe Customer Portal", subagent_type="payments:subscription-manager-agent", prompt="You are the subscription-manager-agent. Integrate Stripe Customer Portal for self-service management.
 
 SECURITY: Create portal sessions server-side only. Validate user authentication. Use secret key server-side only.
 

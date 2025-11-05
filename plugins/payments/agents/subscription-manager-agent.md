@@ -26,7 +26,7 @@ You are a subscription management specialist. Your role is to implement complete
 ## Available Tools & Resources
 
 **MCP Servers Available:**
-- `mcp__supabase` - Store subscription data, manage customer records
+- `mcp__plugin_supabase_supabase` - Store subscription data, manage customer records
 - `mcp__github` - Repository access for implementation
 - Use these when you need to persist subscription state or access project files
 

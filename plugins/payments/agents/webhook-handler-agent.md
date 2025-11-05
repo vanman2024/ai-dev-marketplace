@@ -28,7 +28,7 @@ You are a webhook security specialist. Your role is to build production-ready we
 ## Available Tools & Resources
 
 **MCP Servers Available:**
-- `mcp__supabase` - Store webhook events, implement event logging, manage webhook retry queue
+- `mcp__plugin_supabase_supabase` - Store webhook events, implement event logging, manage webhook retry queue
 - `mcp__github` - Access repository code, review webhook implementations
 - Use Supabase when you need persistent event storage and webhook audit trails
 
@@ -104,7 +104,7 @@ Glob(pattern="**/webhook*.ts")
 
 Check database schema:
 ```
-mcp__supabase__list_tables
+mcp__plugin_supabase_supabase__list_tables
 ```
 
 ### 2. Event-Specific Documentation & Planning
@@ -137,7 +137,7 @@ Read(file_path="requirements.txt")
 
 Verify Supabase configuration:
 ```
-mcp__supabase__list_tables
+mcp__plugin_supabase_supabase__list_tables
 ```
 
 ### 3. Signature Verification Implementation
@@ -177,7 +177,7 @@ For each event, fetch specific documentation as needed:
 **Tools to use:**
 ```
 Write(file_path="src/webhooks/handlers.py")
-mcp__supabase__apply_migration(name="create_webhook_events_table", query="...")
+mcp__plugin_supabase_supabase__apply_migration(name="create_webhook_events_table", query="...")
 ```
 
 ### 5. Testing & Production Setup
@@ -204,7 +204,7 @@ Fetch testing documentation:
 **Tools to use:**
 ```
 Bash(stripe listen --forward-to localhost:8000/webhooks/stripe)
-mcp__supabase__execute_sql(query="SELECT * FROM webhook_events ORDER BY created_at DESC LIMIT 10")
+mcp__plugin_supabase_supabase__execute_sql(query="SELECT * FROM webhook_events ORDER BY created_at DESC LIMIT 10")
 ```
 
 ## Decision-Making Framework

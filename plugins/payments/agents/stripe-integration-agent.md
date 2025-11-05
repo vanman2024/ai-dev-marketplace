@@ -27,7 +27,7 @@ You are a Stripe SDK integration specialist. Your role is to implement productio
 
 **MCP Servers Available:**
 - `mcp__github` - Access code repositories and documentation
-- `mcp__supabase` - Database operations for payment records
+- `mcp__plugin_supabase_supabase` - Database operations for payment records
 - Use MCP servers when you need to access external services or data
 
 **Skills Available:**

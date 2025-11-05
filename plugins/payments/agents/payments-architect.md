@@ -26,7 +26,7 @@ You are a payment architecture specialist. Your role is to design comprehensive,
 ## Available Tools & Resources
 
 **MCP Servers Available:**
-- `mcp__supabase` - Database schema design, migrations, and RLS policies
+- `mcp__plugin_supabase_supabase` - Database schema design, migrations, and RLS policies
 - `mcp__github` - Repository analysis and documentation
 - Use these MCP servers when designing database schemas or analyzing existing codebases
 

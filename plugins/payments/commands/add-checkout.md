@@ -48,7 +48,7 @@ Goal: Create Stripe Checkout session endpoint in FastAPI
 
 Actions:
 
-Task(description="Implement Stripe Checkout backend", subagent_type="payments-backend-builder", prompt="You are the payments-backend-builder agent. Implement Stripe Checkout backend for $ARGUMENTS.
+Task(description="Implement Stripe Checkout backend", subagent_type="payments:stripe-integration-agent", prompt="You are the stripe-integration-agent. Implement Stripe Checkout backend for $ARGUMENTS.
 
 SECURITY CRITICAL: Use placeholder keys only, read from environment, never hardcode.
 
@@ -74,7 +74,7 @@ Goal: Build Next.js checkout page with Stripe Elements
 
 Actions:
 
-Task(description="Implement Stripe Checkout frontend", subagent_type="payments-frontend-builder", prompt="You are the payments-frontend-builder agent. Build Next.js checkout page for $ARGUMENTS.
+Task(description="Implement Stripe Checkout frontend", subagent_type="payments:stripe-integration-agent", prompt="You are the stripe-integration-agent. Build Next.js checkout page for $ARGUMENTS.
 
 SECURITY CRITICAL: Use placeholder publishable key, read from environment, never hardcode.
 
