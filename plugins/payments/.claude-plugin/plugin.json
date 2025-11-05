@@ -1,0 +1,26 @@
+{
+  "name": "payments",
+  "version": "1.0.0",
+  "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
+  "author": {
+    "name": "Plugin Builder",
+    "email": "builder@example.com"
+  },
+  "license": "MIT",
+  "keywords": [
+    "payments",
+    "stripe",
+    "subscriptions",
+    "checkout",
+    "webhooks",
+    "billing",
+    "saas"
+  ],
+  "type": "SDK Integration",
+  "stack": [
+    "FastAPI",
+    "Next.js",
+    "Supabase",
+    "Stripe"
+  ]
+}
