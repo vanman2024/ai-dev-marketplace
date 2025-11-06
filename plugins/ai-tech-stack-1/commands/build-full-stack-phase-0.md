@@ -19,91 +19,34 @@ allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 
 **Arguments**: $ARGUMENTS
 
-Goal: Establish dev lifecycle foundation BEFORE implementation - clarify requirements, plan architecture, create specs, verify environment, setup git hooks.
+Goal: Establish dev lifecycle foundation BEFORE implementation - read wizard output (requirements, architecture, specs), verify environment, setup git hooks.
 
 Core Principles:
-- Clarify what we're building through interactive questions
-- Plan architecture and roadmap before coding
-- Create comprehensive specifications
+- Read wizard planning output (docs/requirements/, docs/architecture/, docs/ROADMAP.md, specs/)
 - Verify development environment
 - Setup git hooks for security
 - Prepare for implementation phases
+- NO planning/clarification here - wizard handles that
 
-Phase 1: Clarification
-Goal: Understand what we're building through interactive questions
+Phase 1: Read Wizard Output
+Goal: Load planning documentation created by /planning:wizard
 
 Actions:
 - Update .ai-stack-config.json to track phase 0
-- Check if this is new or existing project: !{bash test -d specs && echo "existing" || echo "new"}
-- If NEW project:
-  - Ask user clarifying questions with AskUserQuestion:
-    - What does $ARGUMENTS do? (main purpose)
-    - Key features needed? (list 3-5 core features)
-    - Target users? (who will use this)
-    - Any specific requirements? (tech constraints, integrations)
-  - Save clarification responses to .ai-stack-config.json
-  - Mark clarification complete
-- If EXISTING project:
-  - Load existing specs
-  - Skip to Phase 3 (Detection)
+- Check for wizard output: !{bash test -d docs/requirements && test -d docs/architecture && test -f docs/ROADMAP.md && echo "wizard-complete" || echo "run-wizard-first"}
+- If wizard output exists:
+  - Read requirements: @docs/requirements/*/01-initial-request.md
+  - Read extracted data: @docs/requirements/*/.wizard/extracted-requirements.json
+  - Read Q&A: @docs/requirements/*/02-wizard-qa.md
+  - Read architecture: @docs/architecture/README.md
+  - Read roadmap: @docs/ROADMAP.md
+  - Count specs: !{bash ls -d specs/features/*/ 2>/dev/null | wc -l || echo "0"}
+  - Mark wizard output loaded
+- If wizard output missing:
+  - Display: "❌ Run /planning:wizard first to create requirements, architecture, and specs"
+  - Exit: Cannot proceed without wizard output
 
-Phase 2: Architecture & Decisions FIRST
-Goal: Create comprehensive architecture documentation BEFORE generating specs
-
-Actions:
-- Execute architecture design FIRST:
-  !{slashcommand /planning:architecture design $ARGUMENTS}
-- This creates docs/architecture/ with:
-  - frontend.md (pages, components, routing)
-  - backend.md (API endpoints, services, architecture)
-  - data.md (database schema, entities, relationships)
-  - ai.md (AI architecture, agents, tools, prompts)
-  - infrastructure.md (deployment, scaling, monitoring)
-  - security.md (auth, RLS, encryption)
-  - integrations.md (third-party services)
-  - Total: ~150KB of comprehensive technical specifications
-
-- Execute decision documentation:
-  !{slashcommand /planning:decide "AI Tech Stack 1 Architecture"}
-- This creates docs/adr/ with:
-  - 0001-adoption-of-ai-tech-stack-1.md
-  - 0002-nextjs-15-for-frontend.md
-  - 0003-fastapi-for-backend.md
-  - 0004-supabase-for-database.md
-  - 0005-multi-ai-provider-strategy.md
-  - 0006-mem0-for-user-memory.md
-  - 0007-vercel-and-flyio-deployment.md
-  - Total: ~88KB of architectural decision records
-
-- Execute roadmap creation:
-  !{slashcommand /planning:roadmap}
-- This creates docs/ROADMAP.md with:
-  - Development timeline
-  - Phase milestones
-  - Gantt chart
-
-- Verify architecture docs exist:
-  !{bash test -d docs/architecture && test -d docs/adr && test -f docs/ROADMAP.md && echo "✅ Architecture docs created (~250KB)" || echo "❌ Architecture creation failed"}
-
-Phase 3: Generate Feature Specs FROM Architecture
-Goal: Break architecture into implementable feature specifications
-
-Actions:
-- Execute spec generation FROM architecture docs:
-  !{slashcommand /planning:init-project}
-- This reads docs/architecture/*, docs/adr/*, docs/ROADMAP.md and creates:
-  - specs/001-feature-name/ (10-20 focused features)
-  - Each with: spec.md, plan.md, tasks.md, data-model.md, contracts/
-  - Each spec: 200-300 lines (not 647!)
-  - Each feature: 15-25 tasks (not 45!)
-  - References architecture docs instead of duplicating
-
-- Verify specs created:
-  !{bash test -d specs && ls -d specs/*/ | wc -l && echo "✅ Feature specs generated" || echo "❌ Spec generation failed"}
-- Count total specs: !{bash ls -d specs/*/ | wc -l}
-- Mark planning complete
-
-Phase 4: Validate All Specs
+Phase 2: Validate All Specs
 Goal: Ensure all specs are complete before worktree creation
 
 Actions:
@@ -114,7 +57,7 @@ Actions:
 - Display results: !{bash cat gaps-analysis.json | jq '{total_specs, avg_completeness, critical_gaps, incomplete_specs}'}
 - Mark validation complete
 
-Phase 5: Bulk Worktree Creation + Mem0 Registration
+Phase 3: Bulk Worktree Creation + Mem0 Registration
 Goal: Create isolated git worktrees for ALL agents across ALL specs and register in Mem0
 
 Actions:
@@ -141,7 +84,7 @@ Actions:
 - Display: "✅ X worktrees created and registered in Mem0"
 - Mark worktree setup complete
 
-Phase 6: Project Detection (Existing Projects Only)
+Phase 4: Project Detection (Existing Projects Only)
 Goal: Detect existing project structure and tech stack
 
 Actions:
@@ -155,7 +98,7 @@ Actions:
   - Skip detection
 - Mark detection complete
 
-Phase 7: Environment Verification
+Phase 5: Environment Verification
 Goal: Verify all required development tools are installed
 
 Actions:
@@ -170,19 +113,35 @@ Actions:
 - Verify: !{bash node --version && python --version && npm --version && echo "✅ Environment ready" || echo "❌ Missing tools"}
 - Mark environment complete
 
-Phase 8: Git Hooks Setup
-Goal: Install security and validation git hooks
+Phase 6: GitHub Repository Initialization
+Goal: Create GitHub repository with comprehensive security configuration
 
 Actions:
-- Execute git hooks setup: !{slashcommand /foundation:hooks-setup}
-- This installs:
-  - pre-commit: Secret scanning (prevents .env commits)
-  - commit-msg: Commit message validation
-  - pre-push: Security checks
-- Verify: !{bash test -d .git/hooks && echo "✅ Hooks installed" || echo "❌ No git repo"}
-- Mark git hooks complete
+- Execute GitHub init: !{slashcommand /foundation:github-init $ARGUMENTS --private}
+- This creates and configures:
+  - GitHub repository (private by default)
+  - Comprehensive .gitignore (protects .mcp.json, .env, secrets, keys)
+  - Issue and PR templates
+  - Branch protection rules (require PR reviews, block force push)
+  - Git hooks (pre-commit, commit-msg, pre-push)
+  - GitHub Actions security workflow
+- CRITICAL: .gitignore template protects:
+  - .mcp.json (all variants - CAN CONTAIN API KEYS)
+  - .env* (all environment files)
+  - credentials.json, secrets/, service-account*.json
+  - *.key, *.pem (private keys)
+- Verify: !{bash gh repo view --json nameWithOwner,url}
+- Mark GitHub init complete
 
-Phase 9: MCP Configuration Note
+Phase 7: Verify Git Hooks Installed
+Goal: Confirm git hooks from GitHub init are active
+
+Actions:
+- Verify hooks: !{bash test -x .git/hooks/pre-commit && test -x .git/hooks/commit-msg && echo "✅ Hooks active" || echo "❌ Hooks missing"}
+- Verify workflow: !{bash test -f .github/workflows/security-scan.yml && echo "✅ Security workflow ready" || echo "❌ Workflow missing"}
+- Mark verification complete
+
+Phase 8: MCP Configuration Note
 Goal: Document MCP server approach
 
 Actions:
@@ -200,6 +159,32 @@ Actions:
 - Create .env.example with placeholders
 - Mark MCP note complete
 
+Phase 9: Doppler Secret Management Setup
+Goal: Setup Doppler for centralized secret management and key rotation
+
+Actions:
+- Execute Doppler setup: !{slashcommand /foundation:doppler-setup $ARGUMENTS}
+- This will:
+  - Check if Doppler CLI installed, install if needed
+  - Authenticate user (prompt for browser login if needed)
+  - Create Doppler project: $ARGUMENTS
+  - Create environments: dev, dev_personal, stg, prd
+  - Import existing .env secrets to Doppler dev environment
+  - Create bidirectional sync script: doppler-sync.sh
+  - Add npm/package.json scripts for Doppler integration
+  - Generate DOPPLER.md documentation
+- Display: "✓ Doppler setup complete"
+- Show quick commands:
+  - `doppler run -- npm run dev` (run with Doppler secrets)
+  - `doppler secrets` (view all secrets)
+  - `./doppler-sync.sh from-doppler dev` (sync Doppler → .env)
+  - `./doppler-sync.sh to-doppler dev` (sync .env → Doppler)
+  - Dashboard: https://dashboard.doppler.com
+- Update .ai-stack-config.json:
+  - dopplerEnabled: true
+  - dopplerProject: $ARGUMENTS
+- Mark Doppler setup complete
+
 Phase 10: Summary Phase 0
 Goal: Save state and prepare for Phase 1
 
@@ -213,23 +198,43 @@ Actions:
 - Display summary:
   ✅ Phase 0 Complete: Dev Lifecycle Foundation
 
-  - Requirements clarified through interactive questions
-  - Comprehensive planning (specs, architecture, roadmap, ADRs)
+  Wizard Output Loaded:
+  - Requirements: docs/requirements/ (project description, extracted requirements, Q&A)
+  - Architecture: docs/architecture/ (frontend, backend, data, AI, security, integrations)
+  - ADRs: docs/adr/ (architectural decision records)
+  - Roadmap: docs/ROADMAP.md (timeline, milestones, priorities)
+  - Specs: specs/features/ (custom feature specifications)
+
+  Infrastructure Setup:
   - Specs validated for completeness (gaps-analysis.json)
   - Worktrees created for parallel agent development (git worktree list)
   - Agents registered in Mem0 for coordination (~/.claude/mem0-chroma/)
-  - Project detected/initialized
+  - Project detected/initialized (.claude/project.json)
   - Environment verified (Node, Python, tools)
-  - Git hooks installed (security, validation)
+  - GitHub repository created with security templates ✓
+  - Comprehensive .gitignore (protects .mcp.json, .env, secrets) ✓
+  - Git hooks installed (pre-commit, commit-msg, pre-push) ✓
+  - GitHub Actions security scanning enabled ✓
+  - Branch protection rules configured ✓
   - MCP servers documented (configured in plugins)
+  - Secret management: Doppler enabled ✓
 
   Ready for Phase 1: Implementation
   Run: /ai-tech-stack-1:build-full-stack-phase-1
 
-  Note: Agents can query Mem0 for worktree locations and task assignments
-  Example: python register-worktree.py query --query "where does copilot work?"
+  Note: Run /planning:wizard FIRST if you haven't created requirements/architecture yet
 
-  Time: ~20-30 minutes (includes spec validation + worktree creation)
+  Agent Coordination:
+  - Query Mem0 for worktree locations: python register-worktree.py query --query "where does copilot work?"
+
+  Doppler Commands:
+  - Run with secrets: doppler run -- npm run dev
+  - View secrets: doppler secrets
+  - Sync to .env: ./doppler-sync.sh from-doppler dev
+  - Sync from .env: ./doppler-sync.sh to-doppler dev
+  - Dashboard: https://dashboard.doppler.com/workplace/projects/$ARGUMENTS
+
+  Time: ~10-15 minutes (reads wizard output + infrastructure setup)
 
 ## Usage
 
