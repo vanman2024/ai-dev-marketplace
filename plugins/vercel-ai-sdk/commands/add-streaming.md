@@ -1,7 +1,6 @@
 ---
 description: Add text streaming capability to existing Vercel AI SDK project
 argument-hint: none
-allowed-tools: WebFetch, Read, Write, Edit, Bash(*), Glob, Grep, Skill
 ---
 ## Available Skills
 

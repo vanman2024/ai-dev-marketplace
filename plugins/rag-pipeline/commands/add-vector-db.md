@@ -1,7 +1,6 @@
 ---
 description: Configure vector database (pgvector, Chroma, Pinecone, Weaviate, Qdrant, FAISS)
 argument-hint: [database-type]
-allowed-tools: Task, Read, Write, Edit, Bash, AskUserQuestion, Glob, Grep, mcp__supabase, Skill
 ---
 ## Available Skills
 

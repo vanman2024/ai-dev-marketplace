@@ -1,7 +1,6 @@
 ---
 description: Generate new API endpoint with validation and documentation
 argument-hint: endpoint-path
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, WebFetch, Skill
 ---
 ## Available Skills
 

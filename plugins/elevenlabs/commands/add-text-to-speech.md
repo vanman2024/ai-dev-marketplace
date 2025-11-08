@@ -1,7 +1,6 @@
 ---
 description: Add comprehensive text-to-speech capabilities with multiple voice models (v3, Flash, Turbo, Multilingual) and streaming support
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

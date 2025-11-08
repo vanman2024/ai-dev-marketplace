@@ -1,7 +1,6 @@
 ---
 description: Integrate Supabase client, auth, and database into Next.js project
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, mcp__supabase, Skill
 ---
 ## Available Skills
 

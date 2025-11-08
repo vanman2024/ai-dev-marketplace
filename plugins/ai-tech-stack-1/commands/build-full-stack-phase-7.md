@@ -1,7 +1,6 @@
 ---
 description: "Phase 7: RAG Features - Document ingestion, vector search, hybrid retrieval (standard for most AI apps)"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill, AskUserQuestion
 ---
 
 ## Security Requirements

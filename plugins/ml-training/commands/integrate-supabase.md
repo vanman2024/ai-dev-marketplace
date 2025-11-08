@@ -1,7 +1,6 @@
 ---
 description: Connect ML pipeline to Supabase storage
 argument-hint: [table-name]
-allowed-tools: Task, Read, Write, Bash, Grep, Glob, mcp__supabase, AskUserQuestion, Skill
 ---
 ## Available Skills
 

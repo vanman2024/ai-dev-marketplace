@@ -114,10 +114,13 @@ First, load design system configuration:
 Skill(nextjs-frontend:design-system-enforcement)
 ```
 
-Check if project has custom design system:
+Check if project has custom design system and architecture:
 - Read: `.design-system.md` (if exists in project root)
-- Read: `docs/architecture/frontend.md` (if exists - contains component requirements)
-- Read: `docs/architecture/data.md` (if exists - contains data models for props)
+- **Discover** architecture docs using Glob (don't hardcode paths!):
+  ```bash
+  !{glob docs/architecture/**/frontend.md}  # Component requirements, UI patterns
+  !{glob docs/architecture/**/data.md}      # Data models for props
+  ```
 
 Search for similar components in shadcn/ui registry:
 ```

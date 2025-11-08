@@ -1,7 +1,6 @@
 ---
 description: "Phase 4: Testing & Quality Assurance - Newman API tests, Playwright E2E, security scans"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

@@ -1,7 +1,6 @@
 ---
 description: Add user preference and profile memory tracking across conversations
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, Skill
 ---
 ## Available Skills
 

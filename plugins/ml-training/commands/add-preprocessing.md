@@ -1,7 +1,6 @@
 ---
 description: Add data preprocessing pipelines (tokenization/transforms)
 argument-hint: [tokenizer|transforms]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Create and setup a new Claude Agent SDK application
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

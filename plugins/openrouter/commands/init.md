@@ -1,7 +1,6 @@
 ---
 description: Initialize OpenRouter SDK with API key configuration, model selection, and framework integration setup
 argument-hint: [project-path]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

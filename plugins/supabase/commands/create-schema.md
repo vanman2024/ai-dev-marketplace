@@ -1,7 +1,6 @@
 ---
 description: Generate database schema for AI applications - creates tables, relationships, indexes based on app type
 argument-hint: <schema-type> [chat|rag|multi-tenant|complete]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

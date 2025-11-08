@@ -1,7 +1,6 @@
 ---
 description: Add ML UI components to Next.js frontend
 argument-hint: [feature]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

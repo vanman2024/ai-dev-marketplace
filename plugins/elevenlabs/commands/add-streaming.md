@@ -1,7 +1,6 @@
 ---
 description: Add real-time WebSocket audio streaming for both TTS and STT with low latency optimization
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

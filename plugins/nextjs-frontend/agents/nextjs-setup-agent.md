@@ -101,14 +101,37 @@ Skills provide pre-built resources to accelerate your work.
 
 ### 1. Architecture & Documentation Discovery
 
-Before building, check for project architecture documentation:
+**CRITICAL**: Use dynamic discovery - planning wizard creates subdirectories!
 
-- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
-- Read: docs/architecture/data.md (if exists - API integration, data fetching)
-- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
-- Extract requirements from architecture
-- If architecture exists: Build from specifications
-- If no architecture: Use defaults and best practices
+Before building, **discover** project architecture documentation using Glob:
+
+```bash
+# Find architecture docs (handles subdirectories like ml-dashboard/, project-name/, etc.)
+!{glob docs/architecture/**/frontend.md}
+!{glob docs/architecture/**/data.md}
+!{glob docs/architecture/**/component-hierarchy.md}
+!{glob docs/ROADMAP.md}
+```
+
+**Why dynamic discovery?**
+- ❌ **WRONG**: Hardcoded `docs/architecture/frontend.md` misses files
+- ✅ **RIGHT**: Glob `docs/architecture/**/frontend.md` finds all variants
+- Planning wizard creates paths like: `docs/architecture/PROJECT-NAME/frontend.md`
+- Hardcoded paths cause agents to miss architecture specs completely
+
+**What to extract from architecture docs:**
+- `frontend.md` - **Layout components** (header, sidebar, footer), navigation routes, page structure, state management
+- `data.md` - API integration, data fetching, Supabase queries
+- `component-hierarchy.md` - Component tree, shared components
+- `ROADMAP.md` - Feature priorities, timeline
+
+**If architecture exists:**
+- Build **complete scaffold** from specifications (don't skip layout components!)
+- Create all routes specified in architecture
+- Build navigation/header/sidebar/footer as specified
+
+**If no architecture:**
+- Use defaults and best practices
 
 
 

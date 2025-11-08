@@ -1,7 +1,6 @@
 ---
 description: "Phase 6: Versioning & Release - Breaking change detection, release notes, approval workflow, GitHub release"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

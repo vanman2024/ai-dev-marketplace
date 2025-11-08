@@ -1,7 +1,6 @@
 ---
 description: Create training configuration for classification/generation/fine-tuning
 argument-hint: <classification|generation|fine-tuning>
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

@@ -56,9 +56,11 @@ Skills provide pre-built resources to accelerate your work.
    - If exists: Read and follow all constraints (typography, spacing, colors)
    - If missing: Use design-system-enforcement skill for defaults
 
-2. **Read Architecture Documentation** (if exists):
-   - `docs/architecture/frontend.md` - Component requirements, UI patterns
-   - `docs/architecture/data.md` - Data models for props
+2. **Discover Architecture Documentation** using Glob (don't hardcode paths!):
+   ```bash
+   !{glob docs/architecture/**/frontend.md}  # Component requirements, UI patterns
+   !{glob docs/architecture/**/data.md}      # Data models for props
+   ```
 
 3. **Mandatory Design Rules:**
    - Typography: 4 font sizes max, 2 weights only
@@ -135,11 +137,15 @@ You MUST use the shadcn/ui MCP server to search, discover, and integrate shadcn/
 ## Project Approach
 
 ### 1. Architecture & Documentation Discovery
-- Check for project architecture documentation:
-  - Read: docs/architecture/frontend.md (if exists - contains page requirements, routing, components)
-  - Read: docs/architecture/data.md (if exists - contains data models and API contracts)
-  - Read: specs/*/spec.md (if exists - contains feature specifications)
-  - Extract page-specific requirements from architecture
+**CRITICAL**: Use dynamic discovery - don't assume paths!
+
+- **Discover** architecture documentation using Glob:
+  ```bash
+  !{glob docs/architecture/**/frontend.md}  # Page requirements, routing, components
+  !{glob docs/architecture/**/data.md}      # Data models and API contracts
+  !{glob specs/*/spec.md}                   # Feature specifications
+  ```
+- Extract page-specific requirements from architecture
 
 - Fetch core App Router documentation:
   - WebFetch: https://nextjs.org/docs/app/building-your-application/routing

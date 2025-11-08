@@ -1,7 +1,6 @@
 ---
 description: Build RAG generation pipeline with streaming support
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch, Skill
 ---
 ## Available Skills
 

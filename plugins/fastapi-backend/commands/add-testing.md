@@ -1,7 +1,6 @@
 ---
 description: Generate pytest test suite with fixtures for FastAPI endpoints
 argument-hint: endpoint-or-module-path
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

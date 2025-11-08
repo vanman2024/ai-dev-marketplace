@@ -1,7 +1,6 @@
 ---
 description: Setup hosted Mem0 Platform with API keys and quick configuration
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, Skill
 ---
 ## Available Skills
 

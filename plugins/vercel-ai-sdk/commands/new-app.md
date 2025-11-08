@@ -1,7 +1,6 @@
 ---
 description: Create initial Vercel AI SDK project scaffold with basic setup
 argument-hint: [project-name]
-allowed-tools: WebFetch, WebSearch(*), Read, Write, Edit, Bash(*), AskUserQuestion, Skill
 ---
 ## Available Skills
 

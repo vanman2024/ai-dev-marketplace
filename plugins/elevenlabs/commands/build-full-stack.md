@@ -1,7 +1,6 @@
 ---
 description: Orchestrate complete ElevenLabs integration by chaining all feature commands for production-ready voice application
 argument-hint: [app-name]
-allowed-tools: SlashCommand, Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, Skill
 ---
 ## Available Skills
 

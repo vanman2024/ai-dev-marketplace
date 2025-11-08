@@ -1,7 +1,6 @@
 ---
 description: Configure intelligent model routing and cost optimization with fallback strategies
 argument-hint: [routing-strategy]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Install Supabase UI components - adds auth, realtime, file upload React components
 argument-hint: [component1,component2,...]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

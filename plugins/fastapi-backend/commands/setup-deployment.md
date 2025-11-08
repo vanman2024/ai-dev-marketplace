@@ -1,7 +1,6 @@
 ---
 description: Configure deployment for FastAPI (Docker, Railway, DigitalOcean)
 argument-hint: <platform> (docker|railway|digitalocean|all)
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, Skill
 ---
 ## Available Skills
 

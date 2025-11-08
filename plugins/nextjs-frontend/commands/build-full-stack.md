@@ -1,7 +1,6 @@
 ---
 description: Complete Next.js application from initialization to deployment
 argument-hint: <project-name>
-allowed-tools: SlashCommand, Task, Read, Write, Bash, AskUserQuestion, TodoWrite, Skill
 ---
 ## Available Skills
 
@@ -63,17 +62,19 @@ Phase 2: Feature Discovery
 Goal: Determine what features to integrate - auto-detect from architecture or ask user
 
 Actions:
-- Check if architecture docs exist:
-  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+- **Discover** architecture docs dynamically (don't assume path!):
+  !{bash find docs/architecture -name "frontend.md" 2>/dev/null | head -1 | grep -q . && echo "spec-driven" || echo "interactive"}
 
 - If spec-driven (architecture docs exist):
-  - Load frontend architecture: @docs/architecture/frontend.md
+  - Find and load architecture file dynamically:
+    !{bash ARCH_FILE=$(find docs/architecture -name "frontend.md" 2>/dev/null | head -1); echo "$ARCH_FILE"}
+  - Load frontend architecture: @$ARCH_FILE
   - Auto-detect features:
     - Supabase: Search for "Supabase", "database", "auth" in architecture
     - AI SDK: Search for "Vercel AI SDK", "chat", "streaming" in architecture
   - Extract pages from architecture (look for "Pages:", "Routes:", etc.)
   - Extract components from architecture (look for "Components:", etc.)
-  - Display: "📋 Auto-detected from docs/architecture/frontend.md"
+  - Display: "📋 Auto-detected from architecture docs (found: $ARCH_FILE)"
   - Store in config
 
 - If interactive (no architecture docs):
@@ -103,15 +104,17 @@ Phase 5: Page Creation
 Goal: Build main application pages from architecture or user input
 
 Actions:
-- Check if architecture docs exist:
-  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+- **Discover** architecture docs dynamically:
+  !{bash find docs/architecture -name "frontend.md" 2>/dev/null | head -1 | grep -q . && echo "spec-driven" || echo "interactive"}
 
 - If spec-driven:
+  - Find architecture file:
+    !{bash ARCH_FILE=$(find docs/architecture -name "frontend.md" 2>/dev/null | head -1); echo "$ARCH_FILE"}
   - Extract page list from architecture:
-    !{bash grep "^### Page:" docs/architecture/frontend.md | sed 's/^### Page: //' | head -20}
+    !{bash ARCH_FILE=$(find docs/architecture -name "frontend.md" 2>/dev/null | head -1); grep "^### Page:" "$ARCH_FILE" | sed 's/^### Page: //' | head -20}
   - For each page found: /nextjs-frontend:add-page <route-name>
-  - NOTE: page-generator-agent will read full docs/architecture/frontend.md for details
-  - Display: "✅ Creating pages from architecture (agents will read full details)"
+  - NOTE: page-generator-agent will use Glob to find and read architecture docs
+  - Display: "✅ Creating pages from architecture (agents will discover docs dynamically)"
 
 - If interactive:
   - Ask user: "List pages to create (one per line, format: PageName - /route)"
@@ -123,15 +126,17 @@ Phase 6: Component Creation
 Goal: Build reusable components from architecture or user input
 
 Actions:
-- Check if architecture docs exist:
-  !{bash test -f docs/architecture/frontend.md && echo "spec-driven" || echo "interactive"}
+- **Discover** architecture docs dynamically:
+  !{bash find docs/architecture -name "frontend.md" 2>/dev/null | head -1 | grep -q . && echo "spec-driven" || echo "interactive"}
 
 - If spec-driven:
+  - Find architecture file:
+    !{bash ARCH_FILE=$(find docs/architecture -name "frontend.md" 2>/dev/null | head -1); echo "$ARCH_FILE"}
   - Extract component list from architecture:
-    !{bash grep "^### Component:" docs/architecture/frontend.md | sed 's/^### Component: //' | head -20}
+    !{bash ARCH_FILE=$(find docs/architecture -name "frontend.md" 2>/dev/null | head -1); grep "^### Component:" "$ARCH_FILE" | sed 's/^### Component: //' | head -20}
   - For each component found: /nextjs-frontend:add-component <component-name>
-  - NOTE: component-builder-agent will read full docs/architecture/frontend.md for details
-  - Display: "✅ Creating components from architecture (agents will read full details)"
+  - NOTE: component-builder-agent will use Glob to find and read architecture docs
+  - Display: "✅ Creating components from architecture (agents will discover docs dynamically)"
 
 - If interactive:
   - Ask user: "List components to create (one per line, e.g., Header, Footer, Card)"

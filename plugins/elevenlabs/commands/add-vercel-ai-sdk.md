@@ -1,7 +1,6 @@
 ---
 description: Add Vercel AI SDK integration with @ai-sdk/elevenlabs provider for multi-modal AI workflows
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

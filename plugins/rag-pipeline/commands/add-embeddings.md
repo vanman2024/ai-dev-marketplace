@@ -1,7 +1,6 @@
 ---
 description: Configure embedding models (OpenAI, HuggingFace, Cohere, Voyage)
 argument-hint: [model-provider]
-allowed-tools: Task, Read, Write, Edit, Bash, AskUserQuestion, Glob, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Configure pgvector for vector search - enables extension, creates embedding tables, sets up HNSW/IVFFlat indexes
 argument-hint: [--dimensions=1536] [--index=hnsw|ivfflat]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

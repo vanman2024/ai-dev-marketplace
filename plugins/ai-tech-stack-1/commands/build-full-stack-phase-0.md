@@ -1,7 +1,6 @@
 ---
 description: "Phase 0: Dev Lifecycle Foundation - Project detection, specs, environment setup, git hooks"
 argument-hint: [app-name]
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

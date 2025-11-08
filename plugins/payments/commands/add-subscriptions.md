@@ -1,7 +1,6 @@
 ---
 description: Add subscription billing with plans, upgrades, downgrades, and lifecycle management
 argument-hint: "[subscription-type]"
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 ---
 
 ## Security Requirements

@@ -1,7 +1,6 @@
 ---
 description: Deploy Astro website to Vercel with optimized build configuration and environment variables
 argument-hint: none
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7, Skill
 ---
 ## Available Skills
 

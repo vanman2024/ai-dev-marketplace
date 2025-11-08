@@ -1,7 +1,6 @@
 ---
 description: Setup Supabase Realtime - enables realtime on tables, configures subscriptions, presence, broadcast
 argument-hint: [table1,table2,...] [--features=subscriptions,presence,broadcast]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

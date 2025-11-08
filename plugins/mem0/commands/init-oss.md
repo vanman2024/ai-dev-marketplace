@@ -1,7 +1,6 @@
 ---
 description: Setup self-hosted Mem0 OSS with Supabase backend and pgvector
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, SlashCommand, Skill
 ---
 ## Available Skills
 

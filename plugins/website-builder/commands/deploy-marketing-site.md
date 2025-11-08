@@ -1,7 +1,6 @@
 ---
 description: Deploy complete Astro website with all integrations automatically - analyzes project, orchestrates all setup commands
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, SlashCommand, mcp__context7, Skill
 ---
 
 ## Security Requirements

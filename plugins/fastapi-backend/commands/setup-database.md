@@ -1,7 +1,6 @@
 ---
 description: Configure async SQLAlchemy with PostgreSQL/Supabase
 argument-hint: <database-type>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

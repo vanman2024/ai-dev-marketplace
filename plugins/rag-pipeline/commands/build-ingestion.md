@@ -1,7 +1,6 @@
 ---
 description: Build document ingestion pipeline (load, parse, chunk, embed, store)
 argument-hint: none
-allowed-tools: Task, WebFetch, Read, Write, Edit, Bash, Grep, Glob, Skill
 ---
 ## Available Skills
 

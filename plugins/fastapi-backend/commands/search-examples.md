@@ -1,7 +1,6 @@
 ---
 description: Search and add FastAPI examples/patterns to your project
 argument-hint: <topic>
-allowed-tools: Read, Write, Bash, Glob, Grep, WebFetch, Skill
 ---
 ## Available Skills
 

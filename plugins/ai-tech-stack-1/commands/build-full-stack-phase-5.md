@@ -1,7 +1,6 @@
 ---
 description: "Phase 5: Production Deployment - Deploy with observability, feature flags, auto-rollback, and performance baselines"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

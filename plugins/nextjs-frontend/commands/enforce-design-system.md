@@ -1,7 +1,6 @@
 ---
 description: Enforce design system consistency across Next.js components
 argument-hint: [component-path] [--fix]
-allowed-tools: Task, Read, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Configure training framework (HuggingFace/PyTorch Lightning/Ray)
 argument-hint: <huggingface|pytorch-lightning|ray>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

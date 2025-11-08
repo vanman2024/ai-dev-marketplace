@@ -1,7 +1,6 @@
 ---
 description: Generate TypeScript types from database schema
 argument-hint: [--output=types/supabase.ts]
-allowed-tools: Task, Bash, Skill
 ---
 ## Available Skills
 

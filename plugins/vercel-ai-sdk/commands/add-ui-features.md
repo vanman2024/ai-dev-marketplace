@@ -1,7 +1,6 @@
 ---
 description: Add advanced UI features to Vercel AI SDK app including generative UI, useObject, useCompletion, message persistence, and attachments
 argument-hint: [feature-requests]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

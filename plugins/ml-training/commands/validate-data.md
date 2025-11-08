@@ -1,7 +1,6 @@
 ---
 description: Validate training data quality and format
 argument-hint: [dataset-path]
-allowed-tools: Bash, Read, Grep, Glob, Skill
 ---
 ## Available Skills
 

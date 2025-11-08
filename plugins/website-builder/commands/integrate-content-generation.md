@@ -1,7 +1,6 @@
 ---
 description: Setup content-image-generation MCP server for AI-powered content and image generation
 argument-hint: none
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__content-image-generation, mcp__context7, Skill
 ---
 ## Available Skills
 

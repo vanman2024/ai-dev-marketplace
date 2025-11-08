@@ -1,7 +1,6 @@
 ---
 description: Setup secure webhook handlers for payment events and subscription updates
 argument-hint: "[webhook-events]"
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 **Arguments**: $ARGUMENTS

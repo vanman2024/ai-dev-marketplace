@@ -1,7 +1,6 @@
 ---
 description: Add voice cloning, library access, voice design, and voice customization capabilities
 argument-hint: [options]
-allowed-tools: Task, Read, Write, Edit, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

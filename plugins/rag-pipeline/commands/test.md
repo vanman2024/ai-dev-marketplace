@@ -1,7 +1,6 @@
 ---
 description: Run comprehensive RAG pipeline tests
 argument-hint: [--coverage]
-allowed-tools: Task, Bash, Read, Grep, Glob, Write, Skill
 ---
 ## Available Skills
 

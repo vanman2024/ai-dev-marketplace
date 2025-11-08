@@ -1,7 +1,6 @@
 ---
 description: Add Mem0 memory layer to FastAPI endpoints with user context and conversation history
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, Skill
 ---
 ## Available Skills
 

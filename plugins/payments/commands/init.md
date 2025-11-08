@@ -1,7 +1,6 @@
 ---
 description: Initialize payment infrastructure with Stripe SDK, environment variables, database schemas
 argument-hint: "[project-path]"
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 **Arguments**: $ARGUMENTS

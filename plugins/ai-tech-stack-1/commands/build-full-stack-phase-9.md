@@ -1,7 +1,6 @@
 ---
 description: "Phase 9: Marketing Website - Astro static site with AI content generation (optional companion site)"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill, AskUserQuestion
 ---
 
 ## Security Requirements

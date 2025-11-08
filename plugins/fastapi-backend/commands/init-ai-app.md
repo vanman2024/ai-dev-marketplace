@@ -1,7 +1,6 @@
 ---
 description: Initialize complete AI backend with Mem0, PostgreSQL, and async SQLAlchemy
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash, Glob, Grep, AskUserQuestion, TodoWrite, WebFetch, Skill
 ---
 ## Available Skills
 

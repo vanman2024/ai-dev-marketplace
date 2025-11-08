@@ -1,7 +1,6 @@
 ---
 description: Add Vercel AI SDK integration with OpenRouter provider for streaming, chat, and tool calling
 argument-hint: [feature]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

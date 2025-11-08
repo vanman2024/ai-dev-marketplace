@@ -1,7 +1,6 @@
 ---
 description: Integrate Vercel AI SDK for streaming AI responses
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, Skill
 ---
 ## Available Skills
 

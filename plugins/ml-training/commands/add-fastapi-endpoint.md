@@ -1,7 +1,6 @@
 ---
 description: Add ML inference endpoint to FastAPI backend
 argument-hint: [model-name]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, Skill
 ---
 ## Available Skills
 

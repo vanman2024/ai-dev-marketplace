@@ -1,7 +1,6 @@
 ---
 description: Initialize new Astro website project with AI content generation, MDX, and optional integrations
 argument-hint: project-name
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, TodoWrite, mcp__context7, mcp__content-image-generation, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Optimize RAG performance and reduce costs
 argument-hint: none
-allowed-tools: Task, Read, Write, Edit, Bash, Grep, Glob, AskUserQuestion, WebFetch, Skill
 ---
 ## Available Skills
 

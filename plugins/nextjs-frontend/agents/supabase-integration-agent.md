@@ -71,11 +71,17 @@ Skills provide pre-built resources to accelerate your work.
 
 ### 1. Architecture & Documentation Discovery
 
-Before building, check for project architecture documentation:
+**CRITICAL**: Use dynamic discovery - planning wizard creates subdirectories!
 
-- Read: docs/architecture/frontend.md (if exists - pages, components, routing, state)
-- Read: docs/architecture/data.md (if exists - API integration, data fetching)
-- Read: docs/ROADMAP.md (if exists - project timeline, milestones, feature priorities)
+Before building, **discover** architecture documentation using Glob:
+
+```bash
+# Find architecture docs (handles subdirectories)
+!{glob docs/architecture/**/frontend.md}  # Pages, components, routing, state
+!{glob docs/architecture/**/data.md}      # API integration, data fetching
+!{glob docs/ROADMAP.md}                   # Project timeline, milestones
+```
+
 - Extract requirements from architecture
 - If architecture exists: Build from specifications
 - If no architecture: Use defaults and best practices

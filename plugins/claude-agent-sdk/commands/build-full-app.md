@@ -1,7 +1,6 @@
 ---
 description: Build a complete production-ready Claude Agent SDK application from scratch by chaining all feature commands together
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, SlashCommand, TodoWrite, Skill
 ---
 ## Available Skills
 

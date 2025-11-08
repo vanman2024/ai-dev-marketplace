@@ -1,7 +1,6 @@
 ---
 description: Add Stripe Checkout flow with payment intents and success/cancel pages
 argument-hint: "[checkout-type]"
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 
 **Arguments**: $ARGUMENTS

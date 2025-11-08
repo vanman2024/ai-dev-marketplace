@@ -1,7 +1,6 @@
 ---
 description: Add component with shadcn/ui integration and TypeScript
 argument-hint: <component-name>
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, mcp__context7, mcp__shadcn, mcp__tailwind-ui, mcp__figma-application, Skill
 ---
 ## Available Skills
 

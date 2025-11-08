@@ -1,7 +1,6 @@
 ---
 description: Validate database schema integrity - checks constraints, indexes, naming conventions
 argument-hint: [schema-file.sql|--live]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

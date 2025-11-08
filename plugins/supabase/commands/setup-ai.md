@@ -1,7 +1,6 @@
 ---
 description: Complete AI setup - pgvector, embeddings, schemas, RLS, validation (parallel multi-agent)
 argument-hint: [--app-type=chat|rag|multi-tenant]
-allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite, Skill
 ---
 ## Available Skills
 

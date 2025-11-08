@@ -1,7 +1,6 @@
 ---
 description: Configure OpenRouter settings, API keys, and preferences
 argument-hint: [setting-name] [value]
-allowed-tools: Read, Write, Edit, Bash, Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

@@ -1,7 +1,6 @@
 ---
 description: Add system prompts configuration to Claude Agent SDK application
 argument-hint: [project-path]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

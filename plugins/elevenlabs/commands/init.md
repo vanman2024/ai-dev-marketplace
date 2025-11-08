@@ -1,7 +1,6 @@
 ---
 description: Initialize ElevenLabs project with SDK installation, authentication setup, and framework detection
 argument-hint: [project-name]
-allowed-tools: Task, Read, Write, Bash(*), Glob, Grep, AskUserQuestion, Skill
 ---
 ## Available Skills
 

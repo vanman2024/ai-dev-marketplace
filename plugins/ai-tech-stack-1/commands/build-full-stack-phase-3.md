@@ -1,7 +1,6 @@
 ---
 description: "Phase 3: Integration - Wire services, add UI components, deployment configs"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill
 ---
 
 ## Security Requirements

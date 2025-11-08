@@ -1,6 +1,5 @@
 ---
 description: Test if skills are properly loaded and used by agents
-allowed-tools: Task, Skill, Read
 ---
 
 ## Security Requirements

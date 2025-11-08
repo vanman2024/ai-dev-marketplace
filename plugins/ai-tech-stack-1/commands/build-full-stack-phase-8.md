@@ -1,7 +1,6 @@
 ---
 description: "Phase 8: Voice Features - Text-to-speech, speech-to-text, voice agents (optional)"
 argument-hint: none
-allowed-tools: SlashCommand, TodoWrite, Read, Write, Bash(*), Skill, AskUserQuestion
 ---
 
 ## Security Requirements
