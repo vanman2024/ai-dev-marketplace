@@ -43,17 +43,22 @@ Skills provide pre-built resources to accelerate your work.
 
 Goal: Add Model Context Protocol (MCP) integration to an existing Claude Agent SDK application
 
+Supports:
+- Local STDIO MCP servers (e.g., Google Workspace MCPs running locally)
+- Remote HTTP MCP servers (e.g., FastMCP Cloud hosted servers)
+
 Core Principles:
 - Understand existing code before modifying
 - Load SDK documentation for MCP patterns
 - Follow official SDK examples
+- Configure appropriate transport (STDIO for local, HTTP for remote)
 
 Phase 1: Discovery
 Goal: Gather context about the project
 
 Actions:
 - Load SDK MCP documentation:
-  @claude-agent-sdk-documentation.md
+  Read SDK documentation: ~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/docs/sdk-documentation.md
 - Check if project path provided in $ARGUMENTS
 - Read package.json or requirements.txt to confirm SDK is installed
 - Identify main application files
@@ -66,7 +71,11 @@ Actions:
 - Check if MCP is already configured
 - Identify query() function configuration
 - Determine language (TypeScript or Python)
-- Ask user which MCP servers to integrate
+- Ask user:
+  1. Which MCP servers to integrate (name/purpose)
+  2. Server type: Local STDIO or Remote HTTP/FastMCP Cloud
+  3. If local: Path to MCP server directory
+  4. If remote: FastMCP Cloud URL and whether API key is needed
 
 Phase 3: Planning
 Goal: Design MCP integration
@@ -82,7 +91,39 @@ Goal: Add MCP integration with agent
 
 Actions:
 
-INVOKE the fastmcp-integration skill to load MCP patterns:
+FOR LOCAL STDIO MCP SERVERS:
+Configure with STDIO transport (e.g., Google Workspace MCPs):
+
+```typescript
+// TypeScript example
+mcp_servers: {
+  "google-tasks": {
+    type: "stdio",
+    command: "node",
+    args: ["/path/to/google-tasks/build/index.js"],
+    env: {
+      GOOGLE_APPLICATION_CREDENTIALS: process.env.GOOGLE_APPLICATION_CREDENTIALS
+    }
+  }
+}
+```
+
+```python
+# Python example
+mcp_servers={
+    "google-tasks": {
+        "type": "stdio",
+        "command": "node",
+        "args": ["/path/to/google-tasks/build/index.js"],
+        "env": {
+            "GOOGLE_APPLICATION_CREDENTIALS": os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+        }
+    }
+}
+```
+
+FOR REMOTE HTTP/FASTMCP CLOUD SERVERS:
+INVOKE the fastmcp-integration skill to load HTTP patterns:
 
 !{skill fastmcp-integration}
 
@@ -93,20 +134,36 @@ This loads:
 - Real-world examples with status checking
 - Common pitfalls (SSE vs HTTP, missing API keys)
 
+Configure with HTTP transport:
+
+```typescript
+// TypeScript example
+mcp_servers: {
+  "your-server": {
+    type: "http",
+    url: "https://your-server.fastmcp.app/mcp",
+    headers: {
+      Authorization: `Bearer ${process.env.FASTMCP_CLOUD_API_KEY}`
+    }
+  }
+}
+```
+
 Then invoke the claude-agent-features agent to add MCP.
 
 The agent should:
-- Use patterns from fastmcp-integration skill
-- Configure MCP server connections (HTTP for FastMCP Cloud!)
-- Add MCP tool permissions
+- For LOCAL: Configure STDIO transport with command/args/env
+- For REMOTE: Use patterns from fastmcp-integration skill with HTTP transport
+- Add MCP tool permissions (allowed_tools)
 - Implement createSdkMcpServer() if creating custom MCP servers
 - Add proper error handling for MCP connections
-- Add FASTMCP_CLOUD_API_KEY to .env and .env.example
+- For STDIO: Add any required env vars to .env/.env.example
+- For HTTP: Add FASTMCP_CLOUD_API_KEY to .env/.env.example
 
 Provide the agent with:
-- Context: Project language, structure, and desired MCP servers
+- Context: Project language, structure, MCP server type (STDIO/HTTP), and paths/URLs
 - Target: $ARGUMENTS (project path)
-- Expected output: Updated files with MCP integration
+- Expected output: Updated files with appropriate MCP transport configuration
 
 Phase 5: Review
 Goal: Verify MCP works correctly
@@ -116,13 +173,24 @@ Actions:
   - TypeScript: claude-agent-verifier-ts
   - Python: claude-agent-verifier-py
 - Check that MCP patterns match SDK documentation
-- Verify MCP servers connect properly
+- Verify MCP servers connect properly:
+  - For STDIO: Verify command paths exist and are executable
+  - For HTTP: Verify URL is accessible and API key is configured
+- Test MCP tool calls work (list available tools from server)
+- Check error handling for connection failures
 
 Phase 6: Summary
 Goal: Document what was added
 
 Actions:
-- Summarize MCP capabilities added
-- Show example usage
+- Summarize MCP capabilities added:
+  - Server name and type (STDIO/HTTP)
+  - Available tools from the MCP server
+  - Configuration location in code
+- Show example usage for calling MCP tools
+- Provide configuration details:
+  - For STDIO: Command path, args, required env vars
+  - For HTTP: URL, API key setup, headers
 - Link to SDK MCP documentation
 - Suggest testing with MCP tool calls
+- Document any troubleshooting steps for connection issues
