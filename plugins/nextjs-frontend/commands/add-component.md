@@ -82,7 +82,18 @@ Actions:
 - Note import patterns and common utilities
 - Example: !{bash ls -la app/components/ src/components/ components/ 2>/dev/null | head -20}
 
-Phase 4: Implementation
+Phase 4: Load Design System (MANDATORY)
+Goal: Ensure design system exists and load it into context
+
+Actions:
+- Check if design system exists: !{bash test -f .design-system.md && echo "✅ Design system found" || echo "❌ ERROR: Design system missing - run /nextjs-frontend:init first"}
+- If missing, STOP and tell user to run /nextjs-frontend:init first
+- Read design system rules: @.design-system.md
+
+**Design System Rules Now Loaded from .design-system.md:**
+(Agent now has design system in context and will follow these rules automatically)
+
+Phase 5: Implementation
 Goal: Create the component using component-builder-agent
 
 Actions:
@@ -95,6 +106,13 @@ Context from Discovery:
 - Available: shadcn/ui primitives, Tailwind CSS
 - Component conventions: Follow existing patterns identified
 
+**MANDATORY: Design System Rules (MUST FOLLOW):**
+- Typography: 4 font sizes max (text-sm, text-base, text-lg, text-xl), 2 weights (font-normal, font-semibold)
+- Spacing: 8pt grid ONLY (p-2, p-4, p-6, p-8 = 8px, 16px, 24px, 32px)
+- Colors: 60/30/10 rule (60% bg-background, 30% text-foreground, 10% bg-primary)
+- Use OKLCH colors from theme (bg-background, text-foreground, bg-primary, etc.)
+- WCAG AA accessibility (4.5:1 contrast for text)
+
 Requirements:
 - Create component file with proper TypeScript types
 - Use functional component with React.FC or direct typing
@@ -104,12 +122,14 @@ Requirements:
 - Include proper imports and exports
 - Add JSDoc comments for props
 - Follow existing project structure
+- **APPLY DESIGN SYSTEM RULES ABOVE**
 
 Deliverable:
 - Component file at appropriate location
 - Proper TypeScript types
 - shadcn/ui integration if needed
-- Export statement for easy imports")
+- Export statement for easy imports
+- **Design system compliant styling**")
 
 Phase 5: Verification & Design System Enforcement
 Goal: Verify component was created correctly and follows design system
