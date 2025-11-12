@@ -1,0 +1,28 @@
+{
+  "display_name": "My RAG Store",
+  "description": "File search store for document retrieval and semantic search",
+  "notes": {
+    "usage": "This configuration is used when creating a new file search store",
+    "customization": [
+      "Update 'display_name' to reflect your use case",
+      "Add descriptive 'description' for documentation",
+      "Store names are immutable after creation"
+    ],
+    "storage_tiers": {
+      "free": "1 GB total storage",
+      "tier_1": "10 GB total storage",
+      "tier_2": "100 GB total storage",
+      "tier_3": "1 TB total storage"
+    },
+    "best_practices": [
+      "Use clear, descriptive names for easy identification",
+      "Separate stores by domain or project",
+      "Keep individual stores under 20 GB for optimal performance",
+      "Name stores after their content domain (e.g., 'Technical Documentation', 'Legal Contracts')"
+    ]
+  },
+  "example_usage": {
+    "python": "client.file_search_stores.create(config={'display_name': 'My RAG Store', 'description': 'Product documentation store'})",
+    "typescript": "await ai.fileSearchStores.create({ config: { displayName: 'My RAG Store', description: 'Product documentation store' } })"
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "metadata_schema": {
+    "description": "Custom metadata fields for filtering and organization",
+    "supported_types": {
+      "string_value": "Text-based metadata (author, category, source)",
+      "numeric_value": "Numeric metadata (year, version, priority)"
+    },
+    "examples": [
+      {
+        "key": "author",
+        "string_value": "John Doe"
+      },
+      {
+        "key": "category",
+        "string_value": "technical-documentation"
+      },
+      {
+        "key": "year",
+        "numeric_value": 2024
+      },
+      {
+        "key": "version",
+        "numeric_value": 2.5
+      },
+      {
+        "key": "department",
+        "string_value": "engineering"
+      },
+      {
+        "key": "priority",
+        "numeric_value": 1
+      }
+    ]
+  },
+  "filter_syntax": {
+    "description": "AIP-160 compliant filter expressions for querying",
+    "operators": {
+      "equality": "field=value",
+      "inequality": "field!=value",
+      "greater_than": "field>value",
+      "less_than": "field<value",
+      "and": "field1=value1 AND field2=value2",
+      "or": "field1=value1 OR field2=value2"
+    },
+    "examples": [
+      {
+        "description": "Filter by single author",
+        "filter": "author=John Doe"
+      },
+      {
+        "description": "Filter by year range",
+        "filter": "year>=2020 AND year<=2024"
+      },
+      {
+        "description": "Filter by category OR department",
+        "filter": "category=documentation OR department=engineering"
+      },
+      {
+        "description": "Multiple conditions",
+        "filter": "author=John Doe AND year=2024 AND category=technical"
+      }
+    ]
+  },
+  "best_practices": {
+    "naming": [
+      "Use lowercase with underscores or hyphens",
+      "Be consistent across all documents",
+      "Choose clear, self-documenting names"
+    ],
+    "values": [
+      "Use consistent date formats (prefer numeric timestamps)",
+      "Standardize category names (create a controlled vocabulary)",
+      "Avoid special characters in string values",
+      "Use numeric values for ranges and comparisons"
+    ],
+    "planning": [
+      "Plan metadata schema before uploading documents",
+      "Document your metadata fields and their purposes",
+      "Consider future filtering needs",
+      "Keep metadata minimal but sufficient"
+    ]
+  },
+  "common_metadata_fields": {
+    "document_management": [
+      "title",
+      "author",
+      "created_date",
+      "modified_date",
+      "version",
+      "status"
+    ],
+    "organization": [
+      "category",
+      "department",
+      "project",
+      "tags",
+      "priority"
+    ],
+    "source_tracking": [
+      "source_url",
+      "source_system",
+      "import_date",
+      "last_validated"
+    ],
+    "content_classification": [
+      "content_type",
+      "language",
+      "sensitivity_level",
+      "audience"
+    ]
+  },
+  "python_usage": {
+    "adding_metadata": "custom_metadata=[{'key': 'author', 'string_value': 'John Doe'}, {'key': 'year', 'numeric_value': 2024}]",
+    "filtering": "metadata_filter='author=John Doe AND year=2024'"
+  },
+  "typescript_usage": {
+    "adding_metadata": "customMetadata: [{ key: 'author', stringValue: 'John Doe' }, { key: 'year', numericValue: 2024 }]",
+    "filtering": "metadataFilter: 'author=John Doe AND year=2024'"
+  }
+}

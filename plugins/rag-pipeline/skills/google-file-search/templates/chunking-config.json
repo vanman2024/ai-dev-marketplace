@@ -1,0 +1,56 @@
+{
+  "chunking_config": {
+    "white_space_config": {
+      "max_tokens_per_chunk": 200,
+      "max_overlap_tokens": 20
+    }
+  },
+  "notes": {
+    "description": "Configuration for document chunking during indexing",
+    "token_definition": "A token is approximately 4 characters or 0.75 words in English",
+    "overlap_purpose": "Overlap preserves context across chunk boundaries",
+    "tuning_guidelines": {
+      "max_tokens_per_chunk": {
+        "small_100": "Code, structured data, precise lookups",
+        "medium_200-300": "General content, articles, documentation",
+        "large_400-500": "Technical docs, scientific papers, long-form content"
+      },
+      "max_overlap_tokens": {
+        "rule": "Typically 10-20% of max_tokens_per_chunk",
+        "minimum": "At least 10 tokens for basic context",
+        "maximum": "Should not exceed 30% of chunk size"
+      }
+    }
+  },
+  "presets": {
+    "code": {
+      "max_tokens_per_chunk": 150,
+      "max_overlap_tokens": 15,
+      "use_case": "Function-level chunks for code repositories"
+    },
+    "general": {
+      "max_tokens_per_chunk": 200,
+      "max_overlap_tokens": 20,
+      "use_case": "General content, articles, blog posts"
+    },
+    "technical_docs": {
+      "max_tokens_per_chunk": 400,
+      "max_overlap_tokens": 40,
+      "use_case": "Technical documentation, API references"
+    },
+    "legal": {
+      "max_tokens_per_chunk": 300,
+      "max_overlap_tokens": 30,
+      "use_case": "Legal documents requiring precise boundaries"
+    },
+    "scientific": {
+      "max_tokens_per_chunk": 500,
+      "max_overlap_tokens": 75,
+      "use_case": "Scientific papers, research documents"
+    }
+  },
+  "example_usage": {
+    "python": "config={'chunking_config': {'white_space_config': {'max_tokens_per_chunk': 200, 'max_overlap_tokens': 20}}}",
+    "typescript": "config: { chunkingConfig: { whiteSpaceConfig: { maxTokensPerChunk: 200, maxOverlapTokens: 20 } } }"
+  }
+}
