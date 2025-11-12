@@ -195,7 +195,67 @@ Bash: python upload_documents.py --file sample.pdf
 Bash: python search_query.py --query "test query"
 ```
 
-### 5. Verification
+### 5. Batch Operations & Parallel Orchestration
+
+**CRITICAL: Use Google Batch API for massive scale operations**
+
+Google's Batch API provides:
+- **50% cost discount** vs real-time API calls
+- Processing of thousands of requests in one job
+- Automatic parallelization by Google
+- 24-hour turnaround (usually faster)
+
+**When to use Batch API:**
+- Uploading 100+ documents at once
+- Generating 1000+ questions from manuals
+- Bulk processing of large document sets
+- Cost-sensitive operations at scale
+
+**Batch Upload Script** (`batch-upload-manuals.py`):
+```python
+# Upload hundreds/thousands of PDFs to File Search
+python batch-upload-manuals.py \
+  --directory /path/to/manuals \
+  --trade "Heavy Equipment" \
+  --store-id fileSearchStores/your_store_id
+```
+
+**Batch Question Generation** (`batch-generate-questions.py`):
+```python
+# Generate 9,000 questions at 50% cost
+python batch-generate-questions.py \
+  --manifest questions-manifest.json \
+  --store-id fileSearchStores/your_store_id
+```
+
+**Parallel Store Creation:**
+When setting up multiple trades/projects, create stores in parallel:
+
+```python
+# Launch multiple agents to create stores in parallel
+Task(subagent_type="google-file-search-specialist",
+     prompt="Create File Search store for Heavy Equipment trade with chunking optimized for service manuals")
+
+Task(subagent_type="google-file-search-specialist",
+     prompt="Create File Search store for Automotive trade with chunking optimized for repair guides")
+
+Task(subagent_type="google-file-search-specialist",
+     prompt="Create File Search store for Millwright trade with chunking optimized for technical specs")
+
+# All stores created simultaneously
+```
+
+**Orchestration Pattern:**
+1. Create stores in parallel (multiple agents)
+2. Batch upload documents per store (50% cost savings)
+3. Batch generate questions per store (50% cost savings)
+4. Validate all stores concurrently
+
+**Cost Example:**
+- Real-time: 9,000 questions = $18
+- Batch API: 9,000 questions = $9 (50% discount!)
+
+### 6. Verification
 - Run compilation/type checking (TypeScript: `npx tsc --noEmit`, Python: `mypy`)
 - Test store creation and file upload
 - Verify search retrieval works correctly
@@ -204,6 +264,7 @@ Bash: python search_query.py --query "test query"
 - Ensure error handling covers API rate limits
 - Verify chunking configuration is optimal
 - Test with sample documents
+- Validate batch operations complete successfully
 
 **Tools to use in this phase:**
 
