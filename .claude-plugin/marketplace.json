@@ -360,6 +360,39 @@
                 "scheduled-tasks",
                 "task-routing"
             ]
+        },
+        {
+            "name": "clerk",
+            "description": "Comprehensive Clerk authentication plugin with OAuth (19 providers), organizations, billing, MFA, Next.js integration, and Supabase sync for building secure multi-tenant applications",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/clerk",
+            "category": "development",
+            "keywords": [
+                "clerk",
+                "authentication",
+                "auth",
+                "oauth",
+                "social-login",
+                "organizations",
+                "multi-tenant",
+                "billing",
+                "subscriptions",
+                "mfa",
+                "two-factor",
+                "nextjs",
+                "react",
+                "supabase",
+                "jwt",
+                "session-management",
+                "rbac",
+                "user-management",
+                "webhooks",
+                "api-authentication"
+            ]
         }
     ]
 }
