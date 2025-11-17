@@ -8,18 +8,6 @@
     },
     "plugins": [
         {
-            "name": "ai-tech-stack-1",
-            "description": "AI application stack orchestrator - deploys complete Next.js + Vercel AI SDK + Supabase + Mem0 + FastMCP applications with progressive context management",
-            "version": "1.0.0",
-            "author": {
-                "name": "vanman2024",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/ai-tech-stack-1",
-            "category": "development",
-            "keywords": []
-        },
-        {
             "name": "claude-agent-sdk",
             "description": "Complete Claude Agent SDK plugin for building AI agents",
             "version": "1.0.0",
@@ -343,6 +331,34 @@
                 "fastapi",
                 "nextjs",
                 "supabase"
+            ]
+        },
+        {
+            "name": "celery",
+            "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "builder@example.com"
+            },
+            "source": "./plugins/celery",
+            "category": "development",
+            "keywords": [
+                "celery",
+                "task-queue",
+                "distributed-tasks",
+                "async-tasks",
+                "worker-management",
+                "celery-beat",
+                "flower",
+                "rabbitmq",
+                "redis",
+                "django",
+                "flask",
+                "fastapi",
+                "background-tasks",
+                "scheduled-tasks",
+                "task-routing"
             ]
         }
     ]

@@ -1,0 +1,49 @@
+{
+  "name": "celery",
+  "version": "1.0.0",
+  "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
+  "category": "development",
+  "keywords": [
+    "celery",
+    "task-queue",
+    "distributed-tasks",
+    "async-tasks",
+    "worker-management",
+    "celery-beat",
+    "flower",
+    "rabbitmq",
+    "redis",
+    "django",
+    "flask",
+    "fastapi",
+    "background-tasks",
+    "scheduled-tasks",
+    "task-routing"
+  ],
+  "author": {
+    "name": "AI Dev Marketplace",
+    "email": "builder@example.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/ai-dev-marketplace"
+  },
+  "commands": [],
+  "agents": [],
+  "skills": [],
+  "hooks": [],
+  "dependencies": {
+    "mcp_servers": [],
+    "system_packages": [],
+    "python_packages": [
+      "celery>=5.5.0",
+      "redis>=5.0.0",
+      "flower>=2.0.1"
+    ],
+    "node_packages": []
+  },
+  "configuration": {
+    "requires_api_keys": false,
+    "env_vars": []
+  }
+}
