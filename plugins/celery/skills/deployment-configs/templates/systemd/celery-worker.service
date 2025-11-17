@@ -1,0 +1,52 @@
+[Unit]
+Description=Celery Worker Instance %i
+After=network.target redis.service postgresql.service
+Wants=redis.service postgresql.service
+
+[Service]
+Type=forking
+User=celery
+Group=celery
+
+# Environment configuration
+EnvironmentFile=/etc/celery/celery.conf
+EnvironmentFile=/etc/celery/secrets.env
+WorkingDirectory=/opt/celery
+
+# Worker command
+ExecStart=/opt/celery/venv/bin/celery -A myapp worker \
+    --loglevel=info \
+    --logfile=/var/log/celery/worker-%i.log \
+    --pidfile=/var/run/celery/worker-%i.pid \
+    --hostname=worker%i@%%h \
+    --concurrency=4 \
+    --max-tasks-per-child=1000 \
+    --detach
+
+# Signal handling for graceful shutdown
+ExecStop=/bin/kill -s TERM $MAINPID
+ExecReload=/bin/kill -s HUP $MAINPID
+
+# Restart policy
+Restart=always
+RestartSec=10s
+
+# Resource limits
+CPUQuota=100%
+MemoryLimit=1G
+TasksMax=4096
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/celery /var/run/celery /opt/celery
+
+# Log management
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=celery-worker-%i
+
+[Install]
+WantedBy=multi-user.target

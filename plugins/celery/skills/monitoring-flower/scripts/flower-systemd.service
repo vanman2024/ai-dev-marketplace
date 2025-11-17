@@ -1,0 +1,190 @@
+# Systemd Service File for Flower
+#
+# Installation:
+#   1. Copy this file to /etc/systemd/system/flower.service
+#   2. Edit configuration values below
+#   3. Reload systemd: sudo systemctl daemon-reload
+#   4. Enable service: sudo systemctl enable flower
+#   5. Start service: sudo systemctl start flower
+#   6. Check status: sudo systemctl status flower
+#
+# Logs:
+#   View logs: sudo journalctl -u flower -f
+#
+# Management:
+#   Restart: sudo systemctl restart flower
+#   Stop: sudo systemctl stop flower
+#   Disable: sudo systemctl disable flower
+
+[Unit]
+Description=Flower Celery Monitoring
+After=network.target redis.service
+Wants=redis.service
+
+[Service]
+Type=simple
+User=celery
+Group=celery
+
+# Working directory (change to your project directory)
+WorkingDirectory=/opt/yourproject
+
+# Environment variables
+Environment="CELERY_BROKER_URL=redis://localhost:6379/0"
+Environment="FLOWER_PORT=5555"
+Environment="FLOWER_PERSISTENT=True"
+Environment="FLOWER_DB=/var/lib/flower/flower.db"
+Environment="FLOWER_MAX_TASKS=10000"
+
+# SECURITY: Set authentication credentials
+# Option 1: Basic Authentication
+Environment="FLOWER_BASIC_AUTH=admin:your_password_here"
+
+# Option 2: OAuth2 Authentication (uncomment to use)
+# Environment="FLOWER_OAUTH2_KEY=your_google_client_id_here"
+# Environment="FLOWER_OAUTH2_SECRET=your_google_client_secret_here"
+# Environment="FLOWER_OAUTH2_REDIRECT_URI=http://localhost:5555/login"
+# Environment="FLOWER_AUTH_REGEX=.*@yourcompany\.com"
+
+# Python path (if using virtual environment)
+Environment="PATH=/opt/yourproject/venv/bin:/usr/local/bin:/usr/bin:/bin"
+
+# Flower command
+ExecStart=/opt/yourproject/venv/bin/flower \
+    --broker=${CELERY_BROKER_URL} \
+    --port=${FLOWER_PORT} \
+    --persistent=${FLOWER_PERSISTENT} \
+    --db=${FLOWER_DB} \
+    --max_tasks=${FLOWER_MAX_TASKS} \
+    --basic_auth=${FLOWER_BASIC_AUTH}
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Memory limit (adjust based on max_tasks setting)
+MemoryLimit=2G
+
+# CPU limit (adjust based on server capacity)
+CPUQuota=100%
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=flower
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/flower /var/log/flower /opt/yourproject
+
+[Install]
+WantedBy=multi-user.target
+
+
+# ============================================================================
+# Configuration Notes
+# ============================================================================
+
+# User and Group:
+#   - Create dedicated user: sudo useradd -r -s /bin/false celery
+#   - Add to groups: sudo usermod -aG redis celery
+#   - Set permissions: sudo chown -R celery:celery /opt/yourproject
+
+# Database Directory:
+#   - Create directory: sudo mkdir -p /var/lib/flower
+#   - Set permissions: sudo chown celery:celery /var/lib/flower
+#   - Set SELinux context (if enabled):
+#       sudo chcon -R -t celery_var_lib_t /var/lib/flower
+
+# Log Directory:
+#   - Create directory: sudo mkdir -p /var/log/flower
+#   - Set permissions: sudo chown celery:celery /var/log/flower
+
+# Firewall:
+#   - Allow port 5555: sudo firewall-cmd --add-port=5555/tcp --permanent
+#   - Reload firewall: sudo firewall-cmd --reload
+
+# Reverse Proxy (Nginx):
+#   location /flower/ {
+#       proxy_pass http://localhost:5555/;
+#       proxy_set_header Host $host;
+#       proxy_set_header X-Real-IP $remote_addr;
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header X-Forwarded-Proto $scheme;
+#       proxy_http_version 1.1;
+#       proxy_set_header Upgrade $http_upgrade;
+#       proxy_set_header Connection "upgrade";
+#   }
+
+# SSL/TLS:
+#   - Use Let's Encrypt: sudo certbot --nginx -d flower.yourdomain.com
+#   - Or configure SSL in Nginx and proxy to Flower
+
+# Monitoring:
+#   - Systemd watchdog: WatchdogSec=30
+#   - Health check script: ExecStartPost=/usr/local/bin/flower-health-check.sh
+#   - Prometheus metrics: Configure prometheus-metrics.py as separate service
+
+# Backup:
+#   - Backup database: cp /var/lib/flower/flower.db /backup/
+#   - Automated backup: Add to cron or use backup service
+
+# ============================================================================
+# Environment File Alternative
+# ============================================================================
+
+# Instead of inline Environment directives, you can use an environment file:
+#
+# 1. Create /etc/flower/flower.env:
+#    CELERY_BROKER_URL=redis://localhost:6379/0
+#    FLOWER_PORT=5555
+#    FLOWER_BASIC_AUTH=admin:your_password_here
+#
+# 2. Reference in service file:
+#    EnvironmentFile=/etc/flower/flower.env
+#
+# 3. Secure the file:
+#    sudo chmod 600 /etc/flower/flower.env
+#    sudo chown celery:celery /etc/flower/flower.env
+
+# ============================================================================
+# Multi-Instance Deployment
+# ============================================================================
+
+# To run multiple Flower instances (e.g., for different Celery apps):
+#
+# 1. Create flower@.service template:
+#    cp flower.service /etc/systemd/system/flower@.service
+#
+# 2. Use %i for instance name:
+#    WorkingDirectory=/opt/yourproject/%i
+#    EnvironmentFile=/etc/flower/%i.env
+#
+# 3. Start instances:
+#    sudo systemctl start flower@app1
+#    sudo systemctl start flower@app2
+
+# ============================================================================
+# Production Checklist
+# ============================================================================
+
+# Before deploying to production:
+#   [ ] Change default passwords
+#   [ ] Set proper user and group
+#   [ ] Configure SSL/TLS
+#   [ ] Set up reverse proxy
+#   [ ] Configure firewall rules
+#   [ ] Set resource limits
+#   [ ] Enable automatic backups
+#   [ ] Configure monitoring
+#   [ ] Test restart behavior
+#   [ ] Document recovery procedures
+#   [ ] Set up log rotation
+#   [ ] Review security settings

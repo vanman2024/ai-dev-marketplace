@@ -1,0 +1,149 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: celery-beat
+  namespace: default
+  labels:
+    app: celery-beat
+    component: scheduler
+spec:
+  serviceName: celery-beat
+  replicas: 1  # MUST be 1 - only one beat scheduler
+  selector:
+    matchLabels:
+      app: celery-beat
+  template:
+    metadata:
+      labels:
+        app: celery-beat
+        component: scheduler
+    spec:
+      # Security context
+      securityContext:
+        runAsUser: 1000
+        runAsNonRoot: true
+        fsGroup: 1000
+
+      # Init container to wait for dependencies
+      initContainers:
+      - name: wait-for-redis
+        image: busybox:1.36
+        command: ['sh', '-c', 'until nc -z redis-service 6379; do echo waiting for redis; sleep 2; done']
+
+      containers:
+      - name: celery-beat
+        image: your-registry/celery-worker:latest
+        imagePullPolicy: Always
+        command:
+        - celery
+        - -A
+        - myapp
+        - beat
+        - --loglevel=info
+        - --scheduler=django_celery_beat.schedulers:DatabaseScheduler
+        - --pidfile=/var/lib/celery/celerybeat.pid
+
+        env:
+        - name: CELERY_BROKER_URL
+          valueFrom:
+            secretKeyRef:
+              name: celery-secrets
+              key: broker-url
+        - name: CELERY_RESULT_BACKEND
+          valueFrom:
+            secretKeyRef:
+              name: celery-secrets
+              key: result-backend-url
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: APP_ENV
+          valueFrom:
+            configMapKeyRef:
+              name: celery-config
+              key: app-env
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: celery-config
+              key: log-level
+
+        # Resource limits and requests
+        resources:
+          requests:
+            cpu: 250m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+
+        # Liveness probe - check if beat is running
+        livenessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - test -f /var/lib/celery/celerybeat.pid
+          initialDelaySeconds: 30
+          periodSeconds: 60
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Readiness probe - check schedule file
+        readinessProbe:
+          exec:
+            command:
+            - /bin/sh
+            - -c
+            - test -f /var/lib/celery/celerybeat-schedule
+          initialDelaySeconds: 15
+          periodSeconds: 30
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        # Graceful shutdown
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "sleep 10"]
+
+        # Volume mounts
+        volumeMounts:
+        - name: celery-beat-schedule
+          mountPath: /var/lib/celery
+        - name: celery-logs
+          mountPath: /var/log/celery
+
+      # Graceful termination period
+      terminationGracePeriodSeconds: 30
+
+      volumes:
+      - name: celery-logs
+        emptyDir: {}
+
+  # Volume claim templates for persistent storage
+  volumeClaimTemplates:
+  - metadata:
+      name: celery-beat-schedule
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: celery-beat-service
+  namespace: default
+  labels:
+    app: celery-beat
+spec:
+  selector:
+    app: celery-beat
+  ports:
+  - name: metrics
+    port: 8000
+    targetPort: 8000
+    protocol: TCP
+  clusterIP: None  # Headless service for StatefulSet

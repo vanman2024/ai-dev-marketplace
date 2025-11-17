@@ -1,0 +1,73 @@
+# Multi-stage Dockerfile for Celery workers
+# Optimized for production with security best practices
+
+# Stage 1: Base image with system dependencies
+FROM python:3.11-slim as base
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 -s /bin/bash celery && \
+    mkdir -p /app /var/log/celery /var/lib/celery && \
+    chown -R celery:celery /app /var/log/celery /var/lib/celery
+
+# Stage 2: Builder - install Python dependencies
+FROM base as builder
+
+WORKDIR /build
+
+# Copy requirements first for layer caching
+COPY requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir --user -r requirements.txt
+
+# Stage 3: Runtime - final slim image
+FROM python:3.11-slim
+
+# Install only runtime dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create non-root user
+RUN useradd -m -u 1000 -s /bin/bash celery && \
+    mkdir -p /app /var/log/celery /var/lib/celery && \
+    chown -R celery:celery /app /var/log/celery /var/lib/celery
+
+# Copy Python packages from builder
+COPY --from=builder /root/.local /home/celery/.local
+
+# Set environment variables
+ENV PATH=/home/celery/.local/bin:$PATH \
+    PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    CELERY_APP=myapp \
+    C_FORCE_ROOT=false
+
+# Set working directory
+WORKDIR /app
+
+# Copy application code
+COPY --chown=celery:celery . .
+
+# Switch to non-root user
+USER celery
+
+# Health check script
+HEALTHCHECK --interval=30s --timeout=10s --retries=3 --start-period=30s \
+    CMD celery -A ${CELERY_APP} inspect ping || exit 1
+
+# Default command (can be overridden in docker-compose.yml)
+CMD ["celery", "-A", "myapp", "worker", "--loglevel=info"]
+
+# Labels for metadata
+LABEL maintainer="your_email_here" \
+      version="1.0.0" \
+      description="Production-ready Celery worker container"

@@ -1,0 +1,49 @@
+[Unit]
+Description=Celery Beat Scheduler
+After=network.target redis.service postgresql.service
+Wants=redis.service postgresql.service
+
+[Service]
+Type=forking
+User=celery
+Group=celery
+
+# Environment configuration
+EnvironmentFile=/etc/celery/celery.conf
+EnvironmentFile=/etc/celery/secrets.env
+WorkingDirectory=/opt/celery
+
+# Beat command
+ExecStart=/opt/celery/venv/bin/celery -A myapp beat \
+    --loglevel=info \
+    --logfile=/var/log/celery/beat.log \
+    --pidfile=/var/run/celery/beat.pid \
+    --scheduler=django_celery_beat.schedulers:DatabaseScheduler \
+    --detach
+
+# Signal handling for graceful shutdown
+ExecStop=/bin/kill -s TERM $MAINPID
+
+# Restart policy
+Restart=always
+RestartSec=10s
+
+# Resource limits
+CPUQuota=50%
+MemoryLimit=512M
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/celery /var/run/celery /opt/celery /var/lib/celery
+
+# Log management
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=celery-beat
+
+# Ensure only one instance runs
+[Install]
+WantedBy=multi-user.target
