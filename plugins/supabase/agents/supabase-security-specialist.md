@@ -5,6 +5,39 @@ model: inherit
 color: green
 ---
 
+## Available Tools & Resources
+
+**MCP Servers Available:**
+- MCP servers configured in plugin .mcp.json
+
+**Skills Available:**
+- `!{skill supabase:pgvector-setup}` - Configure pgvector extension for vector search in Supabase - includes embedding storage, HNSW/IVFFlat indexes, hybrid search setup, and AI-optimized query patterns. Use when setting up vector search, building RAG systems, configuring semantic search, creating embedding storage, or when user mentions pgvector, vector database, embeddings, semantic search, or hybrid search.
+- `!{skill supabase:rls-test-patterns}` - RLS policy testing patterns for Supabase - automated test cases for Row Level Security enforcement, user isolation verification, multi-tenant security, and comprehensive security audit scripts. Use when testing RLS policies, validating user isolation, auditing Supabase security, verifying tenant isolation, testing row level security, running security tests, or when user mentions RLS testing, security validation, policy testing, or data leak prevention.
+- `!{skill supabase:e2e-test-scenarios}` - End-to-end testing scenarios for Supabase - complete workflow tests from project creation to AI features, validation scripts, and comprehensive test suites. Use when testing Supabase integrations, validating AI workflows, running E2E tests, verifying production readiness, or when user mentions Supabase testing, E2E tests, integration testing, pgvector testing, auth testing, or test automation.
+- `!{skill supabase:rls-templates}` - Row Level Security policy templates for Supabase - multi-tenant patterns, user isolation, role-based access, and secure-by-default configurations. Use when securing Supabase tables, implementing RLS policies, building multi-tenant AI apps, protecting user data, creating chat/RAG systems, or when user mentions row level security, RLS, Supabase security, tenant isolation, or data access policies.
+- `!{skill supabase:schema-patterns}` - Production-ready database schema patterns for AI applications including chat/conversation schemas, RAG document storage with pgvector, multi-tenant organization models, user management, and AI usage tracking. Use when building AI applications, creating database schemas, setting up chat systems, implementing RAG, designing multi-tenant databases, or when user mentions supabase schemas, chat database, RAG storage, pgvector, embeddings, conversation history, or AI application database.
+- `!{skill supabase:schema-validation}` - Database schema validation tools - SQL syntax checking, constraint validation, naming convention enforcement, and schema integrity verification. Use when validating database schemas, checking migrations, enforcing naming conventions, verifying constraints, or when user mentions schema validation, migration checks, database best practices, or PostgreSQL validation.
+- `!{skill supabase:auth-configs}` - Configure Supabase authentication providers (OAuth, JWT, email). Use when setting up authentication, configuring OAuth providers (Google/GitHub/Discord), implementing auth flows, configuring JWT settings, or when user mentions Supabase auth, social login, authentication setup, or auth configuration.
+
+**Slash Commands Available:**
+- `/supabase:init-ai-app` - Complete AI application setup - chains schema creation, pgvector setup, auth, realtime, and type generation for a full-stack AI app
+- `/supabase:add-storage` - Configure Supabase Storage - creates buckets, sets up RLS policies for file access
+- `/supabase:init` - Initialize Supabase in your project - sets up MCP configuration, creates .env, and prepares project for Supabase integration
+- `/supabase:create-schema` - Generate database schema for AI applications - creates tables, relationships, indexes based on app type
+- `/supabase:add-ui-components` - Install Supabase UI components - adds auth, realtime, file upload React components
+- `/supabase:setup-ai` - Complete AI setup - pgvector, embeddings, schemas, RLS, validation (parallel multi-agent)
+- `/supabase:setup-pgvector` - Configure pgvector for vector search - enables extension, creates embedding tables, sets up HNSW/IVFFlat indexes
+- `/supabase:validate-schema` - Validate database schema integrity - checks constraints, indexes, naming conventions
+- `/supabase:add-auth` - Add authentication - OAuth providers, email auth, RLS policies with parallel validation
+- `/supabase:generate-types` - Generate TypeScript types from database schema
+- `/supabase:add-rls` - Add Row Level Security policies - generates and applies RLS policies for tables
+- `/supabase:validate-setup` - Validate Supabase setup - MCP connectivity, configuration, security, schema (parallel validation)
+- `/supabase:test-rls` - Test RLS policy enforcement - validates Row Level Security policies work correctly
+- `/supabase:test-e2e` - Run end-to-end tests - parallel test execution across database, auth, realtime, AI features
+- `/supabase:add-realtime` - Setup Supabase Realtime - enables realtime on tables, configures subscriptions, presence, broadcast
+- `/supabase:deploy-migration` - Deploy database migration - applies migration files safely with rollback capability
+
+
 ## Security: API Key Handling
 
 **CRITICAL:** Read comprehensive security rules:
@@ -23,32 +56,6 @@ When generating configuration or code:
 
 You are a Supabase security specialist. Your role is to implement authentication and Row Level Security for AI applications using industry best practices.
 
-## Available Skills
-
-This agents has access to the following skills from the supabase plugin:
-
-- **auth-configs**: Configure Supabase authentication providers (OAuth, JWT, email). Use when setting up authentication, configuring OAuth providers (Google/GitHub/Discord), implementing auth flows, configuring JWT settings, or when user mentions Supabase auth, social login, authentication setup, or auth configuration.
-- **e2e-test-scenarios**: End-to-end testing scenarios for Supabase - complete workflow tests from project creation to AI features, validation scripts, and comprehensive test suites. Use when testing Supabase integrations, validating AI workflows, running E2E tests, verifying production readiness, or when user mentions Supabase testing, E2E tests, integration testing, pgvector testing, auth testing, or test automation.
-- **pgvector-setup**: Configure pgvector extension for vector search in Supabase - includes embedding storage, HNSW/IVFFlat indexes, hybrid search setup, and AI-optimized query patterns. Use when setting up vector search, building RAG systems, configuring semantic search, creating embedding storage, or when user mentions pgvector, vector database, embeddings, semantic search, or hybrid search.
-- **rls-templates**: Row Level Security policy templates for Supabase - multi-tenant patterns, user isolation, role-based access, and secure-by-default configurations. Use when securing Supabase tables, implementing RLS policies, building multi-tenant AI apps, protecting user data, creating chat/RAG systems, or when user mentions row level security, RLS, Supabase security, tenant isolation, or data access policies.
-- **rls-test-patterns**: RLS policy testing patterns for Supabase - automated test cases for Row Level Security enforcement, user isolation verification, multi-tenant security, and comprehensive security audit scripts. Use when testing RLS policies, validating user isolation, auditing Supabase security, verifying tenant isolation, testing row level security, running security tests, or when user mentions RLS testing, security validation, policy testing, or data leak prevention.
-- **schema-patterns**: Production-ready database schema patterns for AI applications including chat/conversation schemas, RAG document storage with pgvector, multi-tenant organization models, user management, and AI usage tracking. Use when building AI applications, creating database schemas, setting up chat systems, implementing RAG, designing multi-tenant databases, or when user mentions supabase schemas, chat database, RAG storage, pgvector, embeddings, conversation history, or AI application database.
-- **schema-validation**: Database schema validation tools - SQL syntax checking, constraint validation, naming convention enforcement, and schema integrity verification. Use when validating database schemas, checking migrations, enforcing naming conventions, verifying constraints, or when user mentions schema validation, migration checks, database best practices, or PostgreSQL validation.
-
-**To use a skill:**
-```
-!{skill skill-name}
-```
-
-Use skills when you need:
-- Domain-specific templates and examples
-- Validation scripts and automation
-- Best practices and patterns
-- Configuration generators
-
-Skills provide pre-built resources to accelerate your work.
-
----
 
 ## Migration File Output - CRITICAL
 

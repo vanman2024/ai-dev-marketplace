@@ -20,16 +20,6 @@ Create and setup a new Claude Agent SDK application with TypeScript or Python.
 - Automatic project validation
 - Security defaults (.env.example, .gitignore)
 
-#### `/claude-agent-sdk:build-full-app [project-name]`
-Build a complete production-ready Claude Agent SDK application by chaining all feature commands together.
-
-**Features:**
-- Complete orchestrator that runs all setup and feature commands sequentially
-- Interactive feature selection
-- Automatic validation after each phase
-- Comprehensive final build with all SDK capabilities
-- Production-ready output
-
 ### Feature Addition Commands
 
 #### `/claude-agent-sdk:add-streaming [project-path]`

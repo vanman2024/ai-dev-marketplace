@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from claude_agent_sdk import query
 from claude_agent_sdk.types import ClaudeAgentOptions
 
-load_dotenv()
+load_dotenv(override=True)  # Override inherited env vars with .env file
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 FASTMCP_CLOUD_API_KEY = os.getenv("FASTMCP_CLOUD_API_KEY")
@@ -49,10 +49,7 @@ async def main():
 
             max_turns=5,
 
-            env={
-                "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
-                "FASTMCP_CLOUD_API_KEY": FASTMCP_CLOUD_API_KEY
-            }
+            env=env
         )
     ):
         # Print system messages to see connection status

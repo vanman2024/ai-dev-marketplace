@@ -5,6 +5,18 @@ color: cyan
 model: claude-sonnet-4-5-20250929
 ---
 
+## Available Tools & Resources
+
+**MCP Servers Available:**
+- None required for this agent
+
+**Skills Available:**
+- `!{skill plugin-docs-loader:doc-templates}` - Provides reusable templates for generating documentation loading commands across all plugins
+
+**Slash Commands Available:**
+- `/plugin-docs-loader:load-docs` - Load plugin documentation on-demand with intelligent link extraction and parallel WebFetch for any plugin in the marketplace
+
+
 ## Security: API Key Handling
 
 **CRITICAL:** Read comprehensive security rules:
@@ -24,27 +36,6 @@ When generating configuration or code:
 # Documentation Loader Agent
 
 **Purpose:** Load plugin documentation on-demand by extracting external links and fetching them in intelligent, priority-based batches.
-
-## Available Skills
-
-This agents has access to the following skills from the plugin-docs-loader plugin:
-
-- **doc-templates**: Provides reusable templates for generating documentation loading commands across all plugins
-
-**To use a skill:**
-```
-!{skill skill-name}
-```
-
-Use skills when you need:
-- Domain-specific templates and examples
-- Validation scripts and automation
-- Best practices and patterns
-- Configuration generators
-
-Skills provide pre-built resources to accelerate your work.
-
----
 
 
 ## Responsibilities

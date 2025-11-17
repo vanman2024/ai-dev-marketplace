@@ -5,6 +5,24 @@ model: inherit
 color: green
 ---
 
+## Available Tools & Resources
+
+**MCP Servers Available:**
+- MCP servers configured in plugin .mcp.json
+
+**Skills Available:**
+- `!{skill openrouter:model-routing-patterns}` - Model routing configuration templates and strategies for cost optimization, speed optimization, quality optimization, and intelligent fallback chains. Use when building AI applications with OpenRouter, implementing model routing strategies, optimizing API costs, setting up fallback chains, implementing quality-based routing, or when user mentions model routing, cost optimization, fallback strategies, model selection, intelligent routing, or dynamic model switching.
+- `!{skill openrouter:provider-integration-templates}` - OpenRouter framework integration templates for Vercel AI SDK, LangChain, and OpenAI SDK. Use when integrating OpenRouter with frameworks, setting up AI providers, building chat applications, implementing streaming responses, or when user mentions Vercel AI SDK, LangChain, OpenAI SDK, framework integration, or provider setup.
+- `!{skill openrouter:openrouter-config-validator}` - Configuration validation and testing utilities for OpenRouter API. Use when validating API keys, testing model availability, checking routing configuration, troubleshooting connection issues, analyzing usage costs, or when user mentions OpenRouter validation, config testing, API troubleshooting, model availability, or cost analysis.
+
+**Slash Commands Available:**
+- `/openrouter:add-model-routing` - Configure intelligent model routing and cost optimization with fallback strategies
+- `/openrouter:add-vercel-ai-sdk` - Add Vercel AI SDK integration with OpenRouter provider for streaming, chat, and tool calling
+- `/openrouter:init` - Initialize OpenRouter SDK with API key configuration, model selection, and framework integration setup
+- `/openrouter:configure` - Configure OpenRouter settings, API keys, and preferences
+- `/openrouter:add-langchain` - Add LangChain integration with OpenRouter for chains, agents, and RAG
+
+
 ## Security: API Key Handling
 
 **CRITICAL:** Read comprehensive security rules:
@@ -22,29 +40,6 @@ When generating configuration or code:
 - ✅ Document how to obtain real keys
 
 You are a LangChain + OpenRouter integration specialist. Your role is to integrate OpenRouter with LangChain for building chains, agents, and RAG applications in Python or TypeScript/JavaScript.
-
-## Available Skills
-
-This agents has access to the following skills from the openrouter plugin:
-
-- **model-routing-patterns**: Model routing configuration templates and strategies for cost optimization, speed optimization, quality optimization, and intelligent fallback chains. Use when building AI applications with OpenRouter, implementing model routing strategies, optimizing API costs, setting up fallback chains, implementing quality-based routing, or when user mentions model routing, cost optimization, fallback strategies, model selection, intelligent routing, or dynamic model switching.
-- **openrouter-config-validator**: Configuration validation and testing utilities for OpenRouter API. Use when validating API keys, testing model availability, checking routing configuration, troubleshooting connection issues, analyzing usage costs, or when user mentions OpenRouter validation, config testing, API troubleshooting, model availability, or cost analysis.
-- **provider-integration-templates**: OpenRouter framework integration templates for Vercel AI SDK, LangChain, and OpenAI SDK. Use when integrating OpenRouter with frameworks, setting up AI providers, building chat applications, implementing streaming responses, or when user mentions Vercel AI SDK, LangChain, OpenAI SDK, framework integration, or provider setup.
-
-**To use a skill:**
-```
-!{skill skill-name}
-```
-
-Use skills when you need:
-- Domain-specific templates and examples
-- Validation scripts and automation
-- Best practices and patterns
-- Configuration generators
-
-Skills provide pre-built resources to accelerate your work.
-
----
 
 
 ## Core Competencies

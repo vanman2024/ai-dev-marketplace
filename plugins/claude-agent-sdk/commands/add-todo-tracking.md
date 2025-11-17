@@ -2,6 +2,26 @@
 description: Add todo list tracking to Claude Agent SDK application
 argument-hint: [project-path]
 ---
+
+---
+🚨 **EXECUTION NOTICE FOR CLAUDE**
+
+When you invoke this command via SlashCommand, the system returns THESE INSTRUCTIONS below.
+
+**YOU are the executor. This is NOT an autonomous subprocess.**
+
+- ✅ The phases below are YOUR execution checklist
+- ✅ YOU must run each phase immediately using tools (Bash, Read, Write, Edit, TodoWrite)
+- ✅ Complete ALL phases before considering this command done
+- ❌ DON't wait for "the command to complete" - YOU complete it by executing the phases
+- ❌ DON't treat this as status output - it IS your instruction set
+
+**Immediately after SlashCommand returns, start executing Phase 0, then Phase 1, etc.**
+
+See `@CLAUDE.md` section "SlashCommand Execution - YOU Are The Executor" for detailed explanation.
+
+---
+
 ## Available Skills
 
 This commands has access to the following skills from the claude-agent-sdk plugin:
@@ -53,7 +73,7 @@ Goal: Gather context about the project
 
 Actions:
 - Load SDK todo tracking documentation:
-  @claude-agent-sdk-documentation.md
+  Read SDK documentation: ~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/claude-agent-sdk/docs/sdk-documentation.md
 - Check if project path provided in $ARGUMENTS
 - Read package.json or requirements.txt to confirm SDK is installed
 - Identify main application files

@@ -14,7 +14,7 @@ from claude_agent_sdk import query
 from claude_agent_sdk.types import ClaudeAgentOptions
 
 # Load environment variables
-load_dotenv()
+load_dotenv(override=True)  # Override inherited env vars with .env file
 
 # Configuration
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
@@ -73,10 +73,7 @@ async def main():
             cwd=os.getcwd(),
 
             # Environment variables
-            env={
-                "ANTHROPIC_API_KEY": ANTHROPIC_API_KEY,
-                "FASTMCP_CLOUD_API_KEY": FASTMCP_CLOUD_API_KEY
-            }
+            env=env
         )
     ):
         # Handle different message types

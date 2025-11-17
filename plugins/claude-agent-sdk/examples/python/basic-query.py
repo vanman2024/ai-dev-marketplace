@@ -11,7 +11,7 @@ from claude_agent_sdk import query
 from claude_agent_sdk.types import ClaudeAgentOptions
 
 # Load environment variables
-load_dotenv()
+load_dotenv(override=True)  # Override inherited env vars with .env file
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 
@@ -25,13 +25,19 @@ async def main():
 
     print("Asking Claude a question...")
 
+    # Create environment with API key
+    # IMPORTANT: Copy full environment, then override API key
+    # This ensures subprocess gets PATH and other required env vars
+    env = os.environ.copy()
+    env["ANTHROPIC_API_KEY"] = ANTHROPIC_API_KEY
+
     # Simple query
     async for message in query(
         prompt="Hello! Tell me about the Claude Agent SDK in 2 sentences.",
         options=ClaudeAgentOptions(
             model="claude-sonnet-4-20250514",
             max_turns=1,
-            env={"ANTHROPIC_API_KEY": ANTHROPIC_API_KEY}
+            env=env  # Pass full environment to subprocess
         )
     ):
         if hasattr(message, 'type') and message.type == 'text':

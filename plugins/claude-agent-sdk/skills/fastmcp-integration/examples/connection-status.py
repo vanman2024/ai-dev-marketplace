@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from claude_agent_sdk import query
 from claude_agent_sdk.types import ClaudeAgentOptions
 
-load_dotenv()
+load_dotenv(override=True)  # Override inherited env vars with .env file
 
 
 async def test_connection():
@@ -19,6 +19,12 @@ async def test_connection():
 
     print("Testing FastMCP Cloud connection...")
     print("=" * 60)
+
+    # Create environment with required API keys
+    # IMPORTANT: Copy full environment to preserve PATH, etc.
+    env = os.environ.copy()
+    env["ANTHROPIC_API_KEY"] = os.getenv("ANTHROPIC_API_KEY")
+    env["FASTMCP_CLOUD_API_KEY"] = os.getenv("FASTMCP_CLOUD_API_KEY")
 
     async for message in query(
         prompt="Hello",
@@ -33,10 +39,7 @@ async def test_connection():
                 }
             },
             max_turns=1,
-            env={
-                "ANTHROPIC_API_KEY": os.getenv("ANTHROPIC_API_KEY"),
-                "FASTMCP_CLOUD_API_KEY": os.getenv("FASTMCP_CLOUD_API_KEY")
-            }
+            env=env  # Pass full environment to subprocess
         )
     ):
         # Check system message for MCP server status
