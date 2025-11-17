@@ -72,7 +72,7 @@ Actions:
 
 Based on framework selection from Phase 1, invoke the appropriate setup agent:
 
-Task(description="Set up Clerk for selected framework", subagent_type="clerk-setup", prompt="You are the clerk-setup agent. Set up Clerk authentication for the framework selected in Phase 1.
+Task(description="Set up Clerk for selected framework", subagent_type="clerk-setup-agent", prompt="You are the clerk-setup-agent. Set up Clerk authentication for the framework selected in Phase 1.
 
 Framework: [Insert framework from Phase 1]
 
@@ -95,25 +95,25 @@ Actions:
 Based on feature selections from Phase 2, invoke feature-specific agents:
 
 For OAuth Providers:
-Task(description="Configure OAuth providers", subagent_type="clerk-oauth-agent", prompt="Configure OAuth providers (Google, GitHub, etc.) for Clerk. Create provider setup documentation and .env variables.")
+Task(description="Configure OAuth providers", subagent_type="clerk-oauth-specialist", prompt="Configure OAuth providers (Google, GitHub, etc.) for Clerk. Create provider setup documentation and .env variables.")
 
 For Organizations:
-Task(description="Add organization support", subagent_type="clerk-org-agent", prompt="Implement Clerk organizations with role-based access control, organization switching, and member management.")
+Task(description="Add organization support", subagent_type="clerk-organization-builder", prompt="Implement Clerk organizations with role-based access control, organization switching, and member management.")
 
 For Billing Integration:
-Task(description="Set up billing integration", subagent_type="clerk-billing-agent", prompt="Integrate Clerk with billing provider (Stripe recommended). Add subscription checks and billing portal.")
+Task(description="Set up billing integration", subagent_type="clerk-billing-integrator", prompt="Integrate Clerk with billing provider (Stripe recommended). Add subscription checks and billing portal.")
 
 For MFA:
-Task(description="Configure MFA", subagent_type="clerk-mfa-agent", prompt="Set up multi-factor authentication with SMS and authenticator app support.")
+Task(description="Configure MFA", subagent_type="clerk-mfa-specialist", prompt="Set up multi-factor authentication with SMS and authenticator app support.")
 
 For Custom User Fields:
-Task(description="Add custom user metadata", subagent_type="clerk-metadata-agent", prompt="Configure custom user fields and metadata management in Clerk.")
+Task(description="Add custom user metadata", subagent_type="clerk-setup-agent", prompt="Configure custom user fields and metadata management in Clerk using user metadata API.")
 
 For Session Management:
-Task(description="Configure session management", subagent_type="clerk-session-agent", prompt="Set up advanced session management with custom claims and session callbacks.")
+Task(description="Configure session management", subagent_type="clerk-api-builder", prompt="Set up advanced session management with custom JWT claims and API authentication patterns.")
 
 For Webhooks:
-Task(description="Set up Clerk webhooks", subagent_type="clerk-webhook-agent", prompt="Configure Clerk webhooks for user events (user.created, user.updated, etc.) with webhook handler endpoints.")
+Task(description="Set up Clerk webhooks", subagent_type="clerk-api-builder", prompt="Configure Clerk webhooks for user events (user.created, user.updated, etc.) with webhook handler endpoints and signature verification.")
 
 Wait for all feature agents to complete.
 
@@ -131,7 +131,7 @@ For Vercel AI SDK:
 Task(description="Integrate Clerk with Vercel AI SDK", subagent_type="clerk-vercel-ai-integrator", prompt="Integrate Clerk user context with Vercel AI SDK. Add user-specific chat history, personalized AI responses, and session management.")
 
 For Sentry:
-Task(description="Integrate Clerk with Sentry", subagent_type="clerk-sentry-integrator", prompt="Configure Sentry error tracking with Clerk user context. Add user identification to error reports and session replay.")
+Task(description="Integrate Clerk with Sentry", subagent_type="clerk-api-builder", prompt="Configure Sentry error tracking with Clerk user context. Add user identification to error reports using Clerk session data.")
 
 Wait for all integration agents to complete.
 
