@@ -1,0 +1,31 @@
+{
+  "name": "supabase",
+  "claims": {
+    "aud": "authenticated",
+    "exp": "{{user.session.expires_at}}",
+    "iat": "{{user.session.issued_at}}",
+    "iss": "https://your-domain.clerk.accounts.dev",
+    "nbf": "{{user.session.issued_at}}",
+    "sub": "{{user.id}}",
+    "email": "{{user.primary_email_address}}",
+    "email_verified": "{{user.primary_email_address_verified}}",
+    "phone": "{{user.primary_phone_number}}",
+    "phone_verified": "{{user.primary_phone_number_verified}}",
+    "role": "{{user.public_metadata.role}}",
+    "org_id": "{{user.organization_id}}",
+    "org_slug": "{{user.organization_slug}}",
+    "org_role": "{{user.organization_role}}",
+    "app_metadata": {
+      "provider": "clerk",
+      "role": "{{user.public_metadata.role}}"
+    },
+    "user_metadata": {
+      "avatar_url": "{{user.image_url}}",
+      "full_name": "{{user.full_name}}",
+      "first_name": "{{user.first_name}}",
+      "last_name": "{{user.last_name}}",
+      "username": "{{user.username}}"
+    }
+  },
+  "lifetime": 3600
+}
