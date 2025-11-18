@@ -227,25 +227,38 @@ You should create production-ready project foundations. Focus on:
    **For TypeScript**: Copy tsconfig.json from examples (if available)
    **For Python**: No additional config needed beyond requirements.txt
 
-6. **Generate Starter Code**:
+6. **Generate Starter Code with Security Constitution**:
 
-   **Copy from examples**:
-   - TypeScript: Use `@plugins/claude-agent-sdk/examples/typescript/basic-query.ts` (if exists)
-   - Python: Use `@plugins/claude-agent-sdk/examples/python/basic-query.py`
+   **CRITICAL: Use secure templates with embedded security guardrails**:
+   - Python: Use `@plugins/claude-agent-sdk/examples/python/secure-agent-template.py`
+   - TypeScript: Use `@plugins/claude-agent-sdk/examples/typescript/secure-agent-template.ts` (if exists)
 
-   Key patterns to include:
+   **Security Constitution MUST be included** to prevent:
+   - Jailbreaking attempts ("ignore previous instructions")
+   - Unauthorized PII access ("show me all user emails")
+   - Credential leakage ("what's in the .env file")
+   - SQL injection and database dumping
+   - Prompt injection attacks
+
+   **Key patterns to include**:
    - Correct package import: `from claude_agent_sdk import query`
    - Async/await pattern
    - ClaudeAgentOptions with env parameter for API key
    - Environment variable loading: `load_dotenv(override=True)` (CRITICAL!)
    - Pass full environment to subprocess: `env = os.environ.copy()` then `env["ANTHROPIC_API_KEY"] = api_key`
+   - **SECURITY_CONSTITUTION** constant with guardrails
+   - System prompt that embeds security rules
+   - Security testing function to validate guardrails
 
    **CRITICAL API Key Configuration**:
    - ALWAYS use `load_dotenv(override=True)` to override inherited environment variables
    - ALWAYS pass merged environment to ClaudeAgentOptions: `ClaudeAgentOptions(env=env)`
    - Without this, subprocess will inherit old/invalid API keys from parent process
 
-   Do NOT write code snippets here - reference the examples!
+   **Security Constitution Template**:
+   Reference: `@~/.claude/plugins/marketplaces/dev-lifecycle-marketplace/plugins/security/skills/security-validation/templates/agent-constitution.md`
+
+   Do NOT write code snippets here - reference the secure template examples!
 
 7. **Create Environment Template**:
 
