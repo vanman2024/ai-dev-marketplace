@@ -1,8 +1,1 @@
-{
-  "PreToolUse": [],
-  "PostToolUse": [],
-  "UserPromptSubmit": [],
-  "SessionStart": [],
-  "SessionEnd": [],
-  "PreCompact": []
-}
+{"hooks": {}}
