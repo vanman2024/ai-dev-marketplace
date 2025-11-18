@@ -1,0 +1,16 @@
+# Docker Compose Redis Template
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=redis_your_password_here
+    volumes:
+      - redis_data:/data
+    command: redis-server --requirepass redis_your_password_here
+
+volumes:
+  redis_data:

@@ -1,0 +1,18 @@
+# Redis Basic Configuration Template (Python)
+import redis
+import os
+
+# Load from environment
+REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379")
+REDIS_PASSWORD = os.getenv("REDIS_PASSWORD", "redis_your_password_here")
+
+# Create connection pool
+pool = redis.ConnectionPool.from_url(
+    REDIS_URL,
+    password=REDIS_PASSWORD,
+    max_connections=50,
+    decode_responses=True
+)
+
+# Create client
+redis_client = redis.Redis(connection_pool=pool)
