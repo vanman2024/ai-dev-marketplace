@@ -393,6 +393,42 @@
                 "webhooks",
                 "api-authentication"
             ]
+        },
+        {
+            "name": "redis",
+            "description": "Production-ready Redis integration for caching, sessions, rate limiting, pub/sub, and AI embedding cache with multi-framework support",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "builder@example.com"
+            },
+            "source": "./plugins/redis",
+            "category": "development",
+            "keywords": [
+                "redis",
+                "cache",
+                "caching",
+                "session-store",
+                "session-management",
+                "rate-limiting",
+                "pub-sub",
+                "messaging",
+                "ai-cache",
+                "embedding-cache",
+                "vector-cache",
+                "semantic-cache",
+                "fastapi",
+                "nextjs",
+                "express",
+                "django",
+                "flask",
+                "celery",
+                "high-availability",
+                "sentinel",
+                "cluster",
+                "redis-stack",
+                "production-ready"
+            ]
         }
     ]
 }
