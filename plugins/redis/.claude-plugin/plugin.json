@@ -1,0 +1,38 @@
+{
+  "name": "redis",
+  "version": "1.0.0",
+  "description": "Production-ready Redis integration for caching, sessions, rate limiting, pub/sub, and AI embedding cache with multi-framework support",
+  "category": "development",
+  "author": {
+    "name": "AI Dev Marketplace",
+    "email": "builder@example.com"
+  },
+  "homepage": "https://github.com/ai-dev-marketplace/redis",
+  "repository": "https://github.com/ai-dev-marketplace/redis",
+  "license": "MIT",
+  "keywords": [
+    "redis",
+    "cache",
+    "caching",
+    "session-store",
+    "session-management",
+    "rate-limiting",
+    "pub-sub",
+    "messaging",
+    "ai-cache",
+    "embedding-cache",
+    "vector-cache",
+    "semantic-cache",
+    "fastapi",
+    "nextjs",
+    "express",
+    "django",
+    "flask",
+    "celery",
+    "high-availability",
+    "sentinel",
+    "cluster",
+    "redis-stack",
+    "production-ready"
+  ]
+  }

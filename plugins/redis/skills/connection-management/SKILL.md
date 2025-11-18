@@ -1,34 +1,40 @@
 ---
 name: connection-management
-description: Pooling, retries, failover, circuit breakers
+description: Redis connection pooling, client configuration, and reconnection strategies. Use when setting up Redis clients, managing connection pools, handling reconnection logic, or configuring sentinel/cluster modes.
 allowed-tools: Read, Bash, Grep, Glob
 ---
 
 # connection-management
 
-**Purpose**: Pooling, retries, failover, circuit breakers for Redis implementations.
+**Purpose**: Redis connection pooling, client configuration, and reconnection strategies.
 
 **Activation Triggers**:
-- When implementing connection management
-- When user mentions Redis Pooling, retries, failover, circuit breakers
-- When designing Redis architecture
+- When setting up Redis connections
+- When user mentions connection pooling, client configuration
+- When implementing high-availability Redis setups
 
 ## Quick Reference
 
-See templates/, scripts/, and examples/ for implementation patterns.
-
-## Templates
-
-- `templates/` - Configuration file templates
-- All templates use placeholders (no hardcoded credentials)
+This skill provides templates, scripts, and examples for Redis connection management.
 
 ## Scripts
 
-- `scripts/` - Automation and testing scripts
+- `scripts/setup-redis.sh` - Initial Redis setup and configuration
+- `scripts/validate-config.sh` - Validate Redis configuration
+- `scripts/test-connection.sh` - Test Redis connectivity
+
+## Templates
+
+- `templates/basic-config.ts.template` - TypeScript Redis connection config
+- `templates/basic-config.py.template` - Python Redis connection config
+- `templates/redis-config.env.template` - Environment variables template
+- `templates/docker-compose.yml.template` - Docker Compose setup
 
 ## Examples
 
-- `examples/` - Implementation examples for common use cases
+- `examples/basic-usage.md` - Basic connection patterns
+- `examples/fastapi-example.md` - FastAPI integration example
+- `examples/nextjs-example.md` - Next.js integration example
 
 ## Security Compliance
 

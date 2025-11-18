@@ -16,7 +16,12 @@
     "billing",
     "saas"
   ],
-  "type": "SDK Integration",
+  "type": "plugin",
+  "tags": ["payments", "stripe", "saas"],
+  "dependencies": {
+    "python_packages": ["stripe>=5.0.0", "fastapi>=0.104.0"],
+    "npm_packages": ["@stripe/stripe-js", "@stripe/react-stripe-js"]
+  },
   "stack": [
     "FastAPI",
     "Next.js",

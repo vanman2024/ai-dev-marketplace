@@ -1,34 +1,40 @@
 ---
 name: rate-limiting-patterns
-description: Token bucket, sliding window algorithms
+description: Redis-based rate limiting implementations with token bucket, leaky bucket, and sliding window algorithms. Use when implementing API rate limiting, throttling, or request quota management.
 allowed-tools: Read, Bash, Grep, Glob
 ---
 
 # rate-limiting-patterns
 
-**Purpose**: Token bucket, sliding window algorithms for Redis implementations.
+**Purpose**: Redis-based rate limiting implementations with various algorithms.
 
 **Activation Triggers**:
-- When implementing rate limiting patterns
-- When user mentions Redis Token bucket, sliding window algorithms
-- When designing Redis architecture
+- When implementing rate limiting
+- When user mentions API throttling, request quotas
+- When designing rate-limited endpoints
 
 ## Quick Reference
 
-See templates/, scripts/, and examples/ for implementation patterns.
-
-## Templates
-
-- `templates/` - Configuration file templates
-- All templates use placeholders (no hardcoded credentials)
+This skill provides templates, scripts, and examples for Redis rate limiting.
 
 ## Scripts
 
-- `scripts/` - Automation and testing scripts
+- `scripts/setup-redis.sh` - Initial Redis setup and configuration
+- `scripts/validate-config.sh` - Validate Redis configuration
+- `scripts/test-connection.sh` - Test Redis connectivity
+
+## Templates
+
+- `templates/basic-config.ts.template` - TypeScript rate limiting config
+- `templates/basic-config.py.template` - Python rate limiting config
+- `templates/redis-config.env.template` - Environment variables template
+- `templates/docker-compose.yml.template` - Docker Compose setup
 
 ## Examples
 
-- `examples/` - Implementation examples for common use cases
+- `examples/basic-usage.md` - Basic rate limiting patterns
+- `examples/fastapi-example.md` - FastAPI integration example
+- `examples/nextjs-example.md` - Next.js integration example
 
 ## Security Compliance
 

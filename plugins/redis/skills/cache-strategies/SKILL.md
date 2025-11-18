@@ -1,6 +1,6 @@
 ---
 name: cache-strategies
-description: Caching patterns, TTL management, eviction policies
+description: Caching patterns, TTL management, eviction policies for Redis implementations. Use when implementing cache-aside, write-through, write-back patterns, TTL management, or cache invalidation strategies.
 allowed-tools: Read, Bash, Grep, Glob
 ---
 
@@ -15,20 +15,26 @@ allowed-tools: Read, Bash, Grep, Glob
 
 ## Quick Reference
 
-See templates/, scripts/, and examples/ for implementation patterns.
-
-## Templates
-
-- `templates/` - Configuration file templates
-- All templates use placeholders (no hardcoded credentials)
+This skill provides templates, scripts, and examples for Redis caching patterns.
 
 ## Scripts
 
-- `scripts/` - Automation and testing scripts
+- `scripts/setup-redis.sh` - Initial Redis setup and configuration
+- `scripts/validate-config.sh` - Validate Redis configuration
+- `scripts/test-connection.sh` - Test Redis connectivity
+
+## Templates
+
+- `templates/basic-config.ts.template` - TypeScript Redis configuration
+- `templates/basic-config.py.template` - Python Redis configuration
+- `templates/redis-config.env.template` - Environment variables template
+- `templates/docker-compose.yml.template` - Docker Compose setup
 
 ## Examples
 
-- `examples/` - Implementation examples for common use cases
+- `examples/basic-usage.md` - Basic caching patterns and usage
+- `examples/fastapi-example.md` - FastAPI integration example
+- `examples/nextjs-example.md` - Next.js integration example
 
 ## Security Compliance
 
