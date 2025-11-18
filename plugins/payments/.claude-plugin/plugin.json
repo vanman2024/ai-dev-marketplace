@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
   "author": {
-    "name": "Plugin Builder",
-    "email": "builder@example.com"
+    "name": "AI Dev Marketplace",
+    "email": "noreply@ai-dev-marketplace.dev"
   },
+  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/payments",
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
   "license": "MIT",
   "keywords": [
     "payments",
@@ -14,18 +16,9 @@
     "checkout",
     "webhooks",
     "billing",
-    "saas"
-  ],
-  "type": "plugin",
-  "tags": ["payments", "stripe", "saas"],
-  "dependencies": {
-    "python_packages": ["stripe>=5.0.0", "fastapi>=0.104.0"],
-    "npm_packages": ["@stripe/stripe-js", "@stripe/react-stripe-js"]
-  },
-  "stack": [
-    "FastAPI",
-    "Next.js",
-    "Supabase",
-    "Stripe"
+    "saas",
+    "fastapi",
+    "nextjs",
+    "supabase"
   ]
 }
