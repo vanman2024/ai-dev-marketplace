@@ -118,9 +118,62 @@ When creating new similar scripts:
 3. Make script executable: `chmod +x script.sh`
 4. Add documentation to this README
 
+### validate-marketplace-sync.sh ⭐ NEW
+Comprehensive validation of all marketplace components against settings.json and Airtable.
+
+**What it validates:**
+- All plugins enabled in `~/.claude/settings.json`
+- All slash commands registered in settings.json
+- All skills registered in settings.json
+- Lists components that should be in Airtable
+
+**Usage:**
+```bash
+bash scripts/validate-marketplace-sync.sh
+```
+
+**Exit codes:**
+- `0` - All validations passed ✅
+- `1` - Validation failures detected ❌
+
+### fix-marketplace-sync.sh ⭐ NEW
+Auto-fix registration issues and sync to Airtable.
+
+**What it does:**
+- Creates backup of settings.json
+- Identifies missing commands and skills
+- Provides items to add to settings.json
+- Syncs all components to Airtable (if AIRTABLE_TOKEN set)
+
+**Usage:**
+```bash
+# Without Airtable sync
+bash scripts/fix-marketplace-sync.sh
+
+# With Airtable sync
+export AIRTABLE_TOKEN=your_token_here
+bash scripts/fix-marketplace-sync.sh
+```
+
+**Validation + Fix Workflow:**
+```bash
+# 1. Check what's missing
+bash scripts/validate-marketplace-sync.sh
+
+# 2. Auto-fix (creates backup first)
+bash scripts/fix-marketplace-sync.sh
+
+# 3. Manually add the listed items to settings.json
+
+# 4. Verify fix worked
+bash scripts/validate-marketplace-sync.sh
+```
+
 ## Notes
 
 - Scripts use `sed` for simple replacements and `perl` for complex regex
 - All scripts skip files that already have the desired content
 - Summary output shows how many files were updated vs skipped
 - Scripts are designed to be safe to run on the entire marketplace
+- **Validation scripts create backups** before any modifications
+- Marketplace stats: 15 plugins, 162 commands, 115 agents, 84 skills
