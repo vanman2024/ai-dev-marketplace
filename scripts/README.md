@@ -136,22 +136,28 @@ bash scripts/validate-marketplace-sync.sh
 - `0` - All validations passed ✅
 - `1` - Validation failures detected ❌
 
-### fix-marketplace-sync.sh ⭐ NEW
-Auto-fix registration issues and sync to Airtable.
+### fix-marketplace-sync.sh ⭐ UPDATED
+Auto-fix registration issues and sync to Airtable using existing tools.
 
 **What it does:**
 - Creates backup of settings.json
-- Identifies missing commands and skills
-- Provides items to add to settings.json
-- Syncs all components to Airtable (if AIRTABLE_TOKEN set)
+- Uses `register-all-commands.sh` to auto-register ALL commands
+- Uses `register-skills-in-settings.sh` to auto-register ALL skills
+- Uses `sync-validator.py --auto-sync` for intelligent Airtable sync
+- No manual editing required!
+
+**Existing tools it uses:**
+- `~/claude/plugins/marketplaces/dev-lifecycle-marketplace/scripts/register-all-commands.sh`
+- `~/claude/plugins/marketplaces/domain-plugin-builder/plugins/domain-plugin-builder/skills/build-assistant/scripts/register-skills-in-settings.sh`
+- `~/claude/plugins/marketplaces/domain-plugin-builder/plugins/domain-plugin-builder/scripts/sync-validator.py`
 
 **Usage:**
 ```bash
-# Without Airtable sync
+# Full auto-fix (commands + skills + Airtable)
+export AIRTABLE_TOKEN=your_token_here
 bash scripts/fix-marketplace-sync.sh
 
-# With Airtable sync
-export AIRTABLE_TOKEN=your_token_here
+# Without Airtable sync (just settings.json registration)
 bash scripts/fix-marketplace-sync.sh
 ```
 
