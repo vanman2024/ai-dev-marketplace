@@ -40,8 +40,8 @@ Goal: Fetch framework-specific Redis docs
 Actions:
 - WebFetch: https://redis.io/docs/latest/develop/connect/clients/
 - Based on framework:
-  - If Python: WebFetch https://redis.io/docs/latest/develop/connect/clients/python/
-  - If Node.js: WebFetch https://redis.io/docs/latest/develop/connect/clients/nodejs/
+  - If Python: WebFetch https://redis.io/docs/latest/develop/clients/redis-py/
+  - If Node.js: WebFetch https://redis.io/docs/latest/develop/clients/node-redis/
 
 **Phase 3: Implementation**
 Goal: Set up Redis client and configuration

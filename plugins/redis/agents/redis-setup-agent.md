@@ -88,9 +88,9 @@ Skill(redis:deployment-configs)
   - Python: redis, redis-om, async support
   - Node.js: redis, ioredis
 - Based on detected framework, fetch relevant docs:
-  - If FastAPI: WebFetch https://redis.io/docs/latest/develop/connect/clients/python/
-  - If Next.js: WebFetch https://redis.io/docs/latest/develop/connect/clients/nodejs/
-  - If Express: WebFetch https://redis.io/docs/latest/develop/connect/clients/nodejs/
+  - If FastAPI: WebFetch https://redis.io/docs/latest/develop/clients/redis-py/
+  - If Next.js: WebFetch https://redis.io/docs/latest/develop/clients/node-redis/
+  - If Express: WebFetch https://redis.io/docs/latest/develop/clients/node-redis/
 - Check for existing .env files and Redis configuration
 
 **Tools to use in this phase:**
