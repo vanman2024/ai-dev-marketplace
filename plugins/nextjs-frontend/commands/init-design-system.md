@@ -1,5 +1,5 @@
 ---
-description: Initialize design system interactively with colors, typography, and generate .design-system.md
+description: Initialize design system interactively with colors, typography, and generate design-system.md
 argument-hint: [project-name]
 allowed-tools: Read, Write, Edit, Bash, AskUserQuestion, TodoWrite
 ---
@@ -10,7 +10,7 @@ Goal: Interactively configure and generate a complete design system with brand c
 
 Core Principles:
 - Use AskUserQuestion for interactive design decisions
-- Generate .design-system.md with user preferences
+- Generate design-system.md with user preferences
 - Create/update globals.css with OKLCH color variables
 - Support both light and dark modes
 - Follow 60/30/10 color distribution rule
@@ -20,7 +20,7 @@ Goal: Determine if design system already exists
 
 Actions:
 - Create todo list using TodoWrite
-- Check for existing design system: !{bash test -f .design-system.md && echo "EXISTS" || echo "NOT_FOUND"}
+- Check for existing design system: !{bash test -f design-system.md && echo "EXISTS" || echo "NOT_FOUND"}
 - If exists, warn user and ask to overwrite or exit
 - Parse $ARGUMENTS for project name (optional)
 
@@ -59,13 +59,13 @@ Actions:
 - Map color scheme to background OKLCH (Neutral→oklch(1 0 0), Warm→oklch(0.995 0.005 85), Cool→oklch(0.995 0.005 240))
 - Generate dark mode variants if selected
 
-Phase 5: Generate .design-system.md
+Phase 5: Generate design-system.md
 Goal: Create the design system configuration file
 
 Actions:
 - Load template: @~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/nextjs-frontend/skills/design-system-enforcement/templates/design-system-template.md
 - Replace all placeholders with user selections
-- Write file: !{Write .design-system.md}
+- Write file: !{Write design-system.md}
 
 Phase 6: Update globals.css
 Goal: Add or update CSS color variables
@@ -83,5 +83,5 @@ Actions:
 - Mark all todos complete
 - Display configuration summary (project, brand color, scheme, typography, dark mode)
 - List files created/updated
-- Show next steps: Review .design-system.md, Build components with /nextjs-frontend:add-component, Validate with /nextjs-frontend:enforce-design-system
+- Show next steps: Review design-system.md, Build components with /nextjs-frontend:add-component, Validate with /nextjs-frontend:enforce-design-system
 - Remind user of enforced constraints: 4 font sizes, 2 weights, 8pt grid, 60/30/10 colors

@@ -75,7 +75,7 @@ Goal: Understand target scope and check for design system configuration
 
 Actions:
 - Parse $ARGUMENTS to extract component path and --fix flag
-- Check if design system is configured: !{bash test -f .design-system.md && echo "Found" || echo "Not configured"}
+- Check if design system is configured: !{bash test -f design-system.md && echo "Found" || echo "Not configured"}
 - If not configured, warn user to run initialization first
 - Determine validation scope (single component or all components)
 - Example: !{bash echo "$ARGUMENTS" | grep -q "\-\-fix" && echo "Fix mode enabled" || echo "Validation only"}
@@ -84,7 +84,7 @@ Phase 2: Load Design System
 Goal: Read current design system configuration
 
 Actions:
-- Load design system file: @.design-system.md
+- Load design system file: @design-system.md
 - Load validation script for reference
 - Identify target components to validate
 - If $ARGUMENTS contains specific path, validate that component only
@@ -134,13 +134,13 @@ Actions:
 Task(description="Fix design system violations", subagent_type="component-builder-agent", prompt="You are the component-builder-agent. Fix design system violations in components identified by validation.
 
 Design System Configuration:
-@.design-system.md
+@design-system.md
 
 Violations to Fix:
 [Based on validation results from Phase 3]
 
 Fix Requirements:
-- Consolidate to 4 font sizes maximum (from .design-system.md)
+- Consolidate to 4 font sizes maximum (from design-system.md)
 - Use only Semibold and Regular font weights
 - Ensure all spacing divisible by 8 or 4 (use Tailwind classes: p-2, p-4, p-6, p-8, m-2, m-4, gap-2, gap-4, etc.)
 - Enforce 60/30/10 color distribution (60% bg-background, 30% text-foreground, 10% bg-primary)
