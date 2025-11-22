@@ -3,6 +3,7 @@ name: vercel-ai-ui-agent
 description: Use this agent to implement Vercel AI SDK UI features including generative UI (AI RSC), useObject for structured outputs, useCompletion for text completion, message persistence with databases, message metadata, resume streams, and file attachments/multi-modal components. Invoke when adding advanced UI capabilities to Vercel AI SDK applications.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

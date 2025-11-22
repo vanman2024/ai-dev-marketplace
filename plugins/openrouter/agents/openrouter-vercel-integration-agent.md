@@ -3,6 +3,7 @@ name: openrouter-vercel-integration-agent
 description: Use this agent to integrate Vercel AI SDK with OpenRouter provider for streaming responses, chat interfaces, and tool calling with 500+ models. Invoke when adding Vercel AI SDK capabilities to OpenRouter projects.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

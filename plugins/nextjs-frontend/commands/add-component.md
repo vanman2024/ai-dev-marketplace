@@ -106,9 +106,9 @@ Phase 4: Load Design System (MANDATORY)
 Goal: Ensure design system exists and load it into context
 
 Actions:
-- Check if design system exists: !{bash test -f .design-system.md && echo "✅ Design system found" || echo "❌ ERROR: Design system missing - run /nextjs-frontend:init first"}
-- If missing, STOP and tell user to run /nextjs-frontend:init first
-- Read design system rules: @.design-system.md
+- Check if design system exists: !{bash test -f design-system.md && echo "✅ Design system found" || echo "❌ ERROR: Design system missing - run /nextjs-frontend:init-design-system first"}
+- If missing, STOP and tell user to run /nextjs-frontend:init-design-system first
+- Read design system rules: @design-system.md
 
 **Design System Rules Now Loaded from .design-system.md:**
 (Agent now has design system in context and will follow these rules automatically)
@@ -127,11 +127,14 @@ Context from Discovery:
 - Component conventions: Follow existing patterns identified
 
 **MANDATORY: Design System Rules (MUST FOLLOW):**
-- Typography: 4 font sizes max (text-sm, text-base, text-lg, text-xl), 2 weights (font-normal, font-semibold)
-- Spacing: 8pt grid ONLY (p-2, p-4, p-6, p-8 = 8px, 16px, 24px, 32px)
+- Typography: 4 font sizes ONLY (text-sm=14px, text-base=16px, text-2xl=24px, text-3xl=32px), 2 weights (font-normal, font-semibold)
+- FORBIDDEN: text-xs, text-lg, text-xl, text-4xl, font-bold, font-light, font-medium
+- Spacing: 8pt grid ONLY - values divisible by 4 (p-1, p-2, p-4, p-6, p-8)
+- FORBIDDEN spacing: p-5, m-7, gap-3, space-y-1.5, px-2.5, py-0.5
 - Colors: 60/30/10 rule (60% bg-background, 30% text-foreground, 10% bg-primary)
 - Use OKLCH colors from theme (bg-background, text-foreground, bg-primary, etc.)
 - WCAG AA accessibility (4.5:1 contrast for text)
+- Buttons: Use variant and size props, never custom h-X or px-X classes
 
 Requirements:
 - Create component file with proper TypeScript types

@@ -85,6 +85,7 @@ Goal: Read current design system configuration
 
 Actions:
 - Load design system file: @design-system.md
+  - This file contains ALL component standards: button variants/sizes, card patterns, form layouts, typography, spacing, colors
 - Load validation script for reference
 - Identify target components to validate
 - If $ARGUMENTS contains specific path, validate that component only

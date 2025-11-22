@@ -1,8 +1,9 @@
 ---
 name: clerk-framework-detector
 description: Use this agent to detect project framework (Next.js version, React, etc.), analyze project structure, and recommend Clerk integration patterns based on the detected stack.
-model: inherit
+model: haiku
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

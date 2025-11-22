@@ -3,6 +3,7 @@ name: lambda-specialist
 description: Use this agent to manage Lambda Labs cloud instances, API integration, and cost-optimized GPU infrastructure for ML training workloads.
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

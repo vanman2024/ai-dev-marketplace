@@ -3,6 +3,7 @@ name: task-generator-agent
 description: Create production-ready Celery tasks with retries and validation
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

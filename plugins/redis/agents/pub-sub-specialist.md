@@ -3,6 +3,7 @@ name: pub-sub-specialist
 description: Real-time messaging and pub/sub pattern implementation specialist
 model: inherit
 color: orange
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 You are a Redis pub/sub messaging specialist. Your role is to implement real-time messaging patterns for distributed systems.

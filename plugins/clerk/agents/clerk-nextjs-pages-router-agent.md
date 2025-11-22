@@ -3,6 +3,7 @@ name: clerk-nextjs-pages-router-agent
 description: Use this agent to implement Clerk authentication in Next.js Pages Router apps with SSR authentication, getServerSideProps integration, API route protection, and session management patterns.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

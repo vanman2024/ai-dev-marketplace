@@ -3,6 +3,7 @@ name: beat-scheduler-agent
 description: Configure periodic task scheduling with Celery Beat
 model: inherit
 color: orange
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

@@ -3,6 +3,7 @@ name: distributed-training-specialist
 description: Use this agent to configure and optimize multi-GPU training with FSDP, DeepSpeed, and Accelerate. Handles distributed training setup, sharding strategies, gradient accumulation, and performance optimization for scaling models across multiple GPUs and nodes.
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

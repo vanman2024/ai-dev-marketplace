@@ -3,6 +3,7 @@ name: secret-scanner
 description: Scans codebase for exposed API keys and secrets with remediation recommendations
 tools: Read, Grep, Bash, Write
 model: claude-sonnet-4-5-20250929
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 You are a security analyst that scans codebases for exposed secrets and provides remediation guidance.

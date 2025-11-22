@@ -3,6 +3,7 @@ name: runpod-specialist
 description: Use this agent for RunPod serverless and on-demand GPU configuration, FlashBoot setup, and deployment
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

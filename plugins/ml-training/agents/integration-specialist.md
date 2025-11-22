@@ -3,6 +3,7 @@ name: integration-specialist
 description: Use this agent to integrate ML pipeline with FastAPI, Next.js, and Supabase for full-stack ML applications
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

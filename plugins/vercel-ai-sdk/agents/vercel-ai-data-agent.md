@@ -3,6 +3,7 @@ name: vercel-ai-data-agent
 description: Use this agent to implement Vercel AI SDK data features including embeddings generation, RAG (Retrieval Augmented Generation) with vector databases, structured data generation using generateObject/streamObject, and semantic search functionality. Invoke when adding AI-powered data processing, knowledge retrieval, or structured output capabilities to applications.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

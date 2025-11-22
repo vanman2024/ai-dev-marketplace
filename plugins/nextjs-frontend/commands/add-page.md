@@ -105,9 +105,9 @@ Phase 3.5: Load Design System (MANDATORY)
 Goal: Ensure design system exists and load it into context
 
 Actions:
-- Check if design system exists: !{bash test -f .design-system.md && echo "✅ Design system found" || echo "❌ ERROR: Design system missing - run /nextjs-frontend:init first"}
-- If missing, STOP and tell user to run /nextjs-frontend:init first
-- Read design system rules: @.design-system.md
+- Check if design system exists: !{bash test -f design-system.md && echo "✅ Design system found" || echo "❌ ERROR: Design system missing - run /nextjs-frontend:init-design-system first"}
+- If missing, STOP and tell user to run /nextjs-frontend:init-design-system first
+- Read design system rules: @design-system.md
 
 Phase 4: Page Generation
 Goal: Generate page with proper structure
@@ -130,11 +130,14 @@ Context from codebase:
 - Layout structure: [from analyzed layouts]
 
 **MANDATORY: Design System Rules (MUST FOLLOW):**
-- Typography: 4 font sizes max (text-sm, text-base, text-lg, text-xl), 2 weights (font-normal, font-semibold)
-- Spacing: 8pt grid ONLY (p-2, p-4, p-6, p-8 = 8px, 16px, 24px, 32px)
+- Typography: 4 font sizes ONLY (text-sm=14px, text-base=16px, text-2xl=24px, text-3xl=32px), 2 weights (font-normal, font-semibold)
+- FORBIDDEN: text-xs, text-lg, text-xl, text-4xl, font-bold, font-light, font-medium
+- Spacing: 8pt grid ONLY - values divisible by 4 (p-1, p-2, p-4, p-6, p-8)
+- FORBIDDEN spacing: p-5, m-7, gap-3, space-y-1.5, px-2.5, py-0.5
 - Colors: 60/30/10 rule (60% bg-background, 30% text-foreground, 10% bg-primary)
 - Use OKLCH colors from theme
 - WCAG AA accessibility standards
+- Buttons: Use variant and size props from design-system.md
 
 Tasks:
 1. Create page.tsx at correct location (app/[page-name]/page.tsx)

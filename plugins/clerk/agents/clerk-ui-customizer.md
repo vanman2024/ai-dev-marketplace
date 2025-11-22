@@ -3,6 +3,7 @@ name: clerk-ui-customizer
 description: Use this agent to customize Clerk UI components through theme configuration, component styling, localization setup, and email template customization
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

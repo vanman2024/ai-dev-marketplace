@@ -3,6 +3,7 @@ name: stripe-integration-agent
 description: Use this agent to implement Stripe SDK integration for FastAPI and Next.js with API integration and error handling
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

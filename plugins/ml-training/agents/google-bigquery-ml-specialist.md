@@ -3,6 +3,7 @@ name: google-bigquery-ml-specialist
 description: Use this agent to manage BigQuery ML for SQL-based machine learning training. Handles model creation with SQL queries, integration with Vertex AI, remote model deployment, and cost estimation for BigQuery compute.
 model: inherit
 color: yellow
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

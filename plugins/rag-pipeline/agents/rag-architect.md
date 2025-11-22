@@ -3,6 +3,7 @@ name: rag-architect
 description: Use this agent for high-level RAG system design and framework selection
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -3,6 +3,7 @@ name: data-specialist
 description: Use this agent for advanced preprocessing, tokenization, augmentation, and data quality checks
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

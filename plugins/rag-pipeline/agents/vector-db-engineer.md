@@ -3,6 +3,7 @@ name: vector-db-engineer
 description: Use this agent for vector database setup and optimization
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

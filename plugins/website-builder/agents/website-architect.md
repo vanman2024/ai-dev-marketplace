@@ -3,6 +3,7 @@ name: website-architect
 description: Use this agent to design database schemas, SEO configuration, and technical architecture for Astro websites with Supabase CMS integration
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

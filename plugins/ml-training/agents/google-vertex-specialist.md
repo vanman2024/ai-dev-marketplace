@@ -4,6 +4,7 @@ description: Use this agent to manage Vertex AI custom training jobs for deep le
 model: inherit
 color: yellow
 tools: Bash, Read, Write, Edit, WebFetch, Skill
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

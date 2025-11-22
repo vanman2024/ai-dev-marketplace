@@ -3,6 +3,7 @@ name: website-content
 description: Use this agent to create and manage Astro content including pages, blog posts, layouts, and MDX components with proper integration
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

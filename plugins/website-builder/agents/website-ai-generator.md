@@ -3,6 +3,7 @@ name: website-ai-generator
 description: Use this agent to generate AI-powered content and images using content-image-generation MCP with Google Imagen, Veo, Claude Sonnet, and Gemini for Astro websites
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

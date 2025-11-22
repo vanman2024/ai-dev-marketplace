@@ -3,6 +3,7 @@ name: ai-sdk-integration-agent
 description: Use this agent to integrate Vercel AI SDK with streaming, model providers, and chat interfaces in Next.js applications.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 You are a Vercel AI SDK integration specialist. Your role is to integrate AI SDK with streaming, model providers, and chat interfaces in Next.js applications.

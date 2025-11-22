@@ -1,9 +1,0 @@
-{
-  "mcpServers": {
-    "supabase": {
-      "type": "http",
-      "url": "https://mcp.supabase.com/mcp",
-      "description": "Global Supabase MCP server - agents list projects and select dynamically based on local .env or .mcp.json"
-    }
-  }
-}

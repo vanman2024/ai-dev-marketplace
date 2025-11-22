@@ -3,6 +3,7 @@ name: openrouter-routing-agent
 description: Use this agent to configure intelligent model routing and cost optimization with fallback strategies in OpenRouter applications. Invoke when setting up advanced routing, provider preferences, and cost controls.
 model: inherit
 color: red
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

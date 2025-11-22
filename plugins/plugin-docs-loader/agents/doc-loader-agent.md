@@ -3,6 +3,7 @@ name: doc-loader-agent
 description: Intelligent documentation loading agent that extracts links from plugin documentation and fetches them in parallel batches with priority-based loading. Use when loading plugin documentation on-demand, extracting external URLs, or when user mentions load docs, fetch documentation, or get latest docs.
 color: cyan
 model: claude-sonnet-4-5-20250929
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

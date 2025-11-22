@@ -3,6 +3,7 @@ name: celery-setup-agent
 description: Initialize Celery in projects with framework detection, broker selection, and configuration
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

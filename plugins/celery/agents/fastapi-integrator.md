@@ -3,6 +3,7 @@ name: fastapi-integrator
 description: Integrate Celery with FastAPI with async support
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

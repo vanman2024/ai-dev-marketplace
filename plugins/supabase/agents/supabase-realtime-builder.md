@@ -3,6 +3,7 @@ name: supabase-realtime-builder
 description: Use this agent to implement Supabase Realtime features - configures realtime subscriptions, presence tracking, broadcast messaging for AI applications. Invoke for realtime chat, collaborative features, or live updates.
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

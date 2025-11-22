@@ -3,6 +3,7 @@ name: peft-specialist
 description: Parameter-efficient fine-tuning with LoRA/QLoRA/prefix-tuning
 model: inherit
 color: cyan
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -1,8 +1,9 @@
 ---
 name: supabase-schema-validator
 description: Use this agent to validate database schemas before deployment - checks SQL syntax, naming conventions, constraints, indexes, and RLS policies using schema-validation skill. Invoke before applying migrations or deploying schemas.
-model: inherit
+model: haiku
 color: yellow
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

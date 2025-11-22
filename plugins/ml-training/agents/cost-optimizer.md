@@ -3,6 +3,7 @@ name: cost-optimizer
 description: Use this agent for GPU selection, PEFT configuration, batch size tuning, and cost estimation for optimal training efficiency
 model: inherit
 color: red
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

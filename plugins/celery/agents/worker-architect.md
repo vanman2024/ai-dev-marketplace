@@ -3,6 +3,7 @@ name: worker-architect
 description: Design worker configurations and pool management
 model: inherit
 color: red
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

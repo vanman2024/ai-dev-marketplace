@@ -3,6 +3,7 @@ name: clerk-mfa-specialist
 description: Use this agent to configure multi-factor authentication (MFA) in Clerk applications, setup TOTP/SMS authentication flows, generate MFA UI components, and implement backup codes with secure session handling.
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

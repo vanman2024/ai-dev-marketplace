@@ -3,6 +3,7 @@ name: deployment-architect
 description: Production deployment configurations (Docker, K8s, systemd)
 model: inherit
 color: orange
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

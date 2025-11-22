@@ -1,8 +1,9 @@
 ---
 name: website-verifier
 description: Use this agent to validate Astro websites for correctness, SEO compliance, accessibility, performance, and deployment readiness
-model: inherit
+model: haiku
 color: yellow
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

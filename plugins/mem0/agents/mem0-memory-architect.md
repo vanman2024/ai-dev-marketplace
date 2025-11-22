@@ -3,6 +3,7 @@ name: mem0-memory-architect
 description: Use this agent to design memory architecture and patterns for AI applications. Recommends memory architecture (vector vs graph), designs memory schemas, optimizes memory operations, plans retention strategies, and provides best practices for memory management.
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

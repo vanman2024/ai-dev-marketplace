@@ -3,6 +3,7 @@ name: backend-specialist
 description: Configure result backends (Redis, Database, RPC)
 model: inherit
 color: yellow
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

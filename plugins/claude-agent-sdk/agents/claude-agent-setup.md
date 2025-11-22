@@ -3,6 +3,7 @@ name: claude-agent-setup
 description: Use this agent to create and initialize new Claude Agent SDK applications with proper project structure, dependencies, and starter code. This agent handles both TypeScript and Python project setup following SDK best practices.
 model: inherit
 color: blue
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

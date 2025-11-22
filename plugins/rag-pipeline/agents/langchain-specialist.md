@@ -3,6 +3,7 @@ name: langchain-specialist
 description: Use this agent for LangChain implementation expertise including RAG pipelines, vector stores, chains, LangGraph workflows, and LangSmith integration
 model: inherit
 color: green
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

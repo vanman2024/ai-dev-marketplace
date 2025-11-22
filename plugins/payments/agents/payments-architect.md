@@ -3,6 +3,7 @@ name: payments-architect
 description: Design payment system architecture, platform selection, and schema planning for SaaS applications
 model: inherit
 color: purple
+allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling
