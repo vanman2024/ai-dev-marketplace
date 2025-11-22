@@ -1,7 +1,7 @@
 ---
 name: fastapi-integrator
 description: FastAPI framework Redis integration specialist
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

@@ -1,7 +1,7 @@
 ---
 name: inference-deployer
 description: Use this agent for model deployment for serverless inference, auto-scaling configuration, and endpoint creation
-model: inherit
+model: haiku
 color: orange
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

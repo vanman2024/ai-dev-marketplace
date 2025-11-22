@@ -1,7 +1,7 @@
 ---
 name: nextjs-setup-agent
 description: Use this agent to set up Next.js 15 projects with TypeScript, Tailwind CSS, App Router, and shadcn/ui. Invoke when initializing new Next.js projects or configuring modern frontend stacks.
-model: inherit
+model: haiku
 color: blue
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

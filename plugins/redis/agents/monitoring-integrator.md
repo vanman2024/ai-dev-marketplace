@@ -1,7 +1,7 @@
 ---
 name: monitoring-integrator
 description: Redis metrics, health checks, and observability integration specialist
-model: inherit
+model: haiku
 color: yellow
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

@@ -1,7 +1,7 @@
 ---
 name: nextjs-integrator
 description: Next.js framework Redis integration specialist
-model: inherit
+model: haiku
 color: cyan
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

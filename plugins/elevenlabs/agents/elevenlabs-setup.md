@@ -1,7 +1,7 @@
 ---
 name: elevenlabs-setup
 description: Use this agent to initialize ElevenLabs project with SDK installation, authentication setup, and framework-specific examples. Invoke for project initialization and basic setup.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

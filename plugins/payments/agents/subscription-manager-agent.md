@@ -1,7 +1,7 @@
 ---
 name: subscription-manager-agent
 description: Use this agent to manage subscription lifecycle including creation, upgrades, downgrades, cancellations, and trial periods
-model: inherit
+model: haiku
 color: yellow
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

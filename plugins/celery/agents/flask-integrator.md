@@ -1,7 +1,7 @@
 ---
 name: flask-integrator
 description: Integrate Celery with Flask applications
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

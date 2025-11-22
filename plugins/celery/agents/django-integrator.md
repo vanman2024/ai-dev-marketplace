@@ -1,7 +1,7 @@
 ---
 name: django-integrator
 description: Integrate Celery with Django projects
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

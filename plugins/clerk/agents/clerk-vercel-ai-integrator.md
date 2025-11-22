@@ -1,7 +1,7 @@
 ---
 name: clerk-vercel-ai-integrator
 description: Use this agent to setup authentication for Vercel AI SDK applications, protect AI routes, and provide user context in AI apps using Clerk.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

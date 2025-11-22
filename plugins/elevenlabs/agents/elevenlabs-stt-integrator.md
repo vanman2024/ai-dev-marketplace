@@ -1,7 +1,7 @@
 ---
 name: elevenlabs-stt-integrator  
 description: Use this agent to implement speech-to-text with Scribe v1, Vercel AI SDK integration, and file upload handling. Invoke when adding STT transcription capabilities.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

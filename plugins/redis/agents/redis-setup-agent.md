@@ -1,7 +1,7 @@
 ---
 name: redis-setup-agent
 description: Initial Redis configuration and framework detection specialist
-model: inherit
+model: haiku
 color: blue
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

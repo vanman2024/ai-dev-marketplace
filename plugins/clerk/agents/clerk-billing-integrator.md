@@ -1,7 +1,7 @@
 ---
 name: clerk-billing-integrator
 description: Use this agent to setup Clerk Billing, configure pricing plans, implement subscription flows, add payment webhooks, and integrate Stripe for payment processing.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

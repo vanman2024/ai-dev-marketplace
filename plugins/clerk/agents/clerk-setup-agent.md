@@ -1,7 +1,7 @@
 ---
 name: clerk-setup-agent
 description: Use this agent to install and configure Clerk SDK, generate environment files, and setup authentication provider configuration across Next.js, React, and Node.js applications.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

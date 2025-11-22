@@ -1,7 +1,7 @@
 ---
 name: openrouter-setup-agent
 description: Use this agent to initialize OpenRouter SDK with framework detection, dependency installation, environment setup, and configuration for TypeScript, Python, or JavaScript projects. Invoke when setting up OpenRouter integration for the first time.
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---

@@ -1,7 +1,7 @@
 ---
 name: session-manager
 description: Session store implementation specialist across frameworks
-model: inherit
+model: haiku
 color: green
 allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
