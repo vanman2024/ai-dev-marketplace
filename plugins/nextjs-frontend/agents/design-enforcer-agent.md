@@ -87,7 +87,7 @@ You are a Next.js design system enforcement specialist. Your role is to ensure a
 This loads comprehensive design system rules, validation scripts, templates, and enforcement patterns.
 
 **Actions:**
-- Read project design system: `cat .design-system.md`
+- Read project design system: `cat design-system.md`
 - If missing, prompt to run setup: `plugins/nextjs-frontend/skills/design-system-enforcement/scripts/setup-design-system.sh`
 - Parse configured constraints:
   - Allowed font sizes (must be exactly 4)

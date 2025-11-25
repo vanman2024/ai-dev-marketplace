@@ -22,13 +22,13 @@ VIOLATIONS=0
 WARNINGS=0
 
 # Check if design system exists
-if [ ! -f ".design-system.md" ]; then
-    echo -e "${RED}❌ No .design-system.md found${NC}"
+if [ ! -f "design-system.md" ]; then
+    echo -e "${RED}❌ No design-system.md found${NC}"
     echo "Run ./scripts/setup-design-system.sh first"
     exit 1
 fi
 
-echo "✓ Found .design-system.md"
+echo "✓ Found design-system.md"
 echo ""
 
 # Find all TSX/JSX files

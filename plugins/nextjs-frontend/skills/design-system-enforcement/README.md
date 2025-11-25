@@ -30,14 +30,14 @@ Run the setup script to create project-specific design system guidelines:
 This will:
 
 1. Ask for project configuration (brand color, font sizes, etc.)
-2. Generate `.design-system.md` in the project root
+2. Generate `design-system.md` in the project root
 3. Configure it based on conversation with the agent
 
 ### During Development
 
 All agents MUST:
 
-1. Read `.design-system.md` before creating ANY UI
+1. Read `design-system.md` before creating ANY UI
 2. Validate all code against the design system checklist
 3. Reject any violations
 

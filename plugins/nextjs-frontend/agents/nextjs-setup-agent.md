@@ -54,7 +54,7 @@ When generating configuration or code:
 **BEFORE generating any UI code, you MUST:**
 
 1. **Read Project Design System** (if exists):
-   - Check for `.design-system.md` in project root
+   - Check for `design-system.md` in project root
    - If exists: Read and follow all constraints (typography, spacing, colors)
    - If missing: Use design-system-enforcement skill for defaults
 

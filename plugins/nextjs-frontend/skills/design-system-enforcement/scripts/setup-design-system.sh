@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Design System Setup Script
-# Generates a configured .design-system.md file in the project root
+# Generates a configured design-system.md file in the project root
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 TEMPLATE_FILE="$SCRIPT_DIR/design-system-template.md"
 PROJECT_ROOT="${1:-.}"
-OUTPUT_FILE="$PROJECT_ROOT/.design-system.md"
+OUTPUT_FILE="$PROJECT_ROOT/design-system.md"
 
 echo "🎨 Design System Setup"
 echo "====================="
@@ -140,7 +140,7 @@ echo ""
 echo "📄 File created: $OUTPUT_FILE"
 echo ""
 echo "🚀 Next Steps:"
-echo "   1. Review the generated .design-system.md file"
+echo "   1. Review the generated design-system.md file"
 echo "   2. All agents will automatically read this file before creating UI"
 echo "   3. Configure your globals.css with the color variables"
 echo "   4. Install shadcn/ui components as needed"

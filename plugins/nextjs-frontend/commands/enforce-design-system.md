@@ -135,7 +135,7 @@ Actions:
 Task(description="Fix design system violations", subagent_type="component-builder-agent", prompt="You are the component-builder-agent. Fix design system violations in components identified by validation.
 
 Design System Configuration:
-@design-system.md
+Read design-system.md from project root
 
 Violations to Fix:
 [Based on validation results from Phase 3]

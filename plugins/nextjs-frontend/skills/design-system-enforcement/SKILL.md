@@ -102,7 +102,7 @@ Run setup script during project initialization:
 # 4. Dark mode colors
 # 5. Figma design system URL
 
-# Generates: .design-system.md in project root
+# Generates: design-system.md in project root
 ```
 
 **What Gets Configured:**
@@ -148,7 +148,7 @@ Check if existing code follows design system:
 
 ```bash
 # 1. Read design system (REQUIRED)
-cat .design-system.md
+cat design-system.md
 
 # 2. Understand constraints
 # - Only 4 font sizes from config
@@ -223,7 +223,7 @@ Size 4: text-sm (14px) - Small text
 
 **MANDATORY CHECKLIST:**
 
-1. [ ] Read `.design-system.md` file
+1. [ ] Read `design-system.md` file
 2. [ ] Understand font size constraints (4 only)
 3. [ ] Understand font weight constraints (2 only)
 4. [ ] Understand spacing constraints (divisible by 8/4)
@@ -333,7 +333,7 @@ export function ExampleComponent() {
 Phase 1: Parse Arguments
 Actions:
 
-- **FIRST**: Read design system: !{bash cat .design-system.md}
+- **FIRST**: Read design system: !{bash cat design-system.md}
 - Parse page name from $ARGUMENTS
 
 Phase 4: Page Generation
@@ -347,7 +347,7 @@ Phase 4: Page Generation
 Phase 1: Parse Arguments
 Actions:
 
-- **FIRST**: Read design system: !{bash cat .design-system.md}
+- **FIRST**: Read design system: !{bash cat design-system.md}
 - Parse component name from $ARGUMENTS
 
 Phase 4: Implementation
@@ -369,7 +369,7 @@ Expected: 4 font sizes only
 
 **Fix:**
 
-1. Review configured sizes in `.design-system.md`
+1. Review configured sizes in `design-system.md`
 2. Consolidate to 4 sizes (typically: 2xl, lg, base, sm)
 3. Update components to use only allowed sizes
 

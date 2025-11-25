@@ -110,7 +110,7 @@ Actions:
 - If missing, STOP and tell user to run /nextjs-frontend:init-design-system first
 - Read design system rules: @design-system.md
 
-**Design System Rules Now Loaded from .design-system.md:**
+**Design System Rules Now Loaded from design-system.md:**
 (Agent now has design system in context and will follow these rules automatically)
 
 Phase 5: Implementation
