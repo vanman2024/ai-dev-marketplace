@@ -1,0 +1,94 @@
+// Email delivery tracking
+model Email {
+  id              String    @id @default(cuid())
+  resendId        String    @unique
+  from            String
+  to              String
+  subject         String
+  status          String    @default("pending") // pending, sent, delivered, bounced, complained
+  sentAt          DateTime?
+  deliveredAt     DateTime?
+  bouncedAt       DateTime?
+  complainedAt    DateTime?
+  bounceReason    String?
+
+  // Relations
+  events          EmailEvent[]
+  webhookLogs     WebhookLog[]
+
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([status])
+  @@index([to])
+  @@index([createdAt])
+}
+
+// Individual email events (opens, clicks, etc.)
+model EmailEvent {
+  id          String    @id @default(cuid())
+  emailId     String
+  email       Email     @relation(fields: [emailId], references: [id], onDelete: Cascade)
+  eventType   String    // opened, clicked
+  link        String?
+  userAgent   String?
+  ipAddress   String?
+
+  createdAt   DateTime  @default(now())
+
+  @@index([emailId])
+  @@index([eventType])
+  @@index([createdAt])
+}
+
+// Bounced email addresses (hard bounces)
+model BouncedEmail {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  reason      String?
+  bouncedAt   DateTime
+
+  createdAt   DateTime  @default(now())
+
+  @@index([email])
+  @@index([bouncedAt])
+}
+
+// Suppressed email addresses (complaints, unsubscribes)
+model SuppressedEmail {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  reason      String    // complaint, unsubscribe, bounce
+
+  createdAt   DateTime  @default(now())
+
+  @@index([email])
+  @@index([reason])
+}
+
+// Webhook event log for debugging and audit
+model WebhookLog {
+  id          String    @id @default(cuid())
+  eventType   String
+  emailId     String
+  email       Email     @relation(fields: [emailId], references: [id], onDelete: Cascade)
+  payload     Json
+  processed   Boolean   @default(false)
+  error       String?
+
+  createdAt   DateTime  @default(now())
+
+  @@index([emailId])
+  @@index([processed])
+  @@index([createdAt])
+}
+
+// Track processed webhooks for idempotency
+model ProcessedWebhook {
+  emailId     String
+  eventType   String
+  timestamp   DateTime  @default(now())
+
+  @@id([emailId, eventType])
+  @@index([timestamp])
+}
