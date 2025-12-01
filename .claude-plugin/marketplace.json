@@ -429,6 +429,37 @@
                 "redis-stack",
                 "production-ready"
             ]
+        },
+        {
+            "name": "resend",
+            "description": "Complete Resend email API integration for transactional emails, React Email templates, contacts, broadcasts, webhooks, and domain management",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/resend",
+            "category": "development",
+            "keywords": [
+                "resend",
+                "email",
+                "transactional-email",
+                "react-email",
+                "email-templates",
+                "smtp",
+                "contacts",
+                "broadcasts",
+                "campaigns",
+                "webhooks",
+                "email-tracking",
+                "domains",
+                "dkim",
+                "spf",
+                "typescript",
+                "python",
+                "nextjs",
+                "fastapi"
+            ]
         }
     ]
 }
