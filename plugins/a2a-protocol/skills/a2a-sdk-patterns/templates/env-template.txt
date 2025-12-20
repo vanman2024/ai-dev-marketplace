@@ -1,0 +1,31 @@
+# A2A Protocol Environment Configuration Template
+# Copy this file to .env and fill in actual values
+# IMPORTANT: Never commit .env with real credentials to git
+
+# Required Configuration
+A2A_API_KEY=your_api_key_here
+A2A_BASE_URL=https://api.a2a.example.com
+
+# Optional Configuration
+A2A_TIMEOUT=30
+A2A_RETRY_ATTEMPTS=3
+A2A_LOG_LEVEL=info
+
+# Multi-Environment Setup (if needed)
+# Development
+A2A_DEV_API_KEY=a2a_dev_your_key_here
+A2A_DEV_BASE_URL=https://dev-api.a2a.example.com
+
+# Staging
+A2A_STAGING_API_KEY=a2a_staging_your_key_here
+A2A_STAGING_BASE_URL=https://staging-api.a2a.example.com
+
+# Production
+A2A_PROD_API_KEY=a2a_prod_your_key_here
+A2A_PROD_BASE_URL=https://api.a2a.example.com
+
+# Security Notes:
+# 1. Add .env to .gitignore
+# 2. Use different API keys for each environment
+# 3. Rotate keys regularly
+# 4. Use secret management in production (Vault, AWS Secrets Manager, etc.)

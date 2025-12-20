@@ -1,0 +1,171 @@
+{
+  "id": "urn:example:agent:multi-capability",
+  "name": "Multi-Capability Agent",
+  "description": "An advanced agent with multiple skills and capabilities for complex task execution.",
+  "logo": "https://example.com/logo.png",
+  "version": "2.1.0",
+  "protocolVersion": "0.3",
+  "serviceEndpoint": "https://api.example.com/multi-agent",
+  "provider": {
+    "name": "Advanced AI Solutions",
+    "contactEmail": "support@example.com",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "bearer_auth": {
+      "type": "http",
+      "scheme": "bearer"
+    }
+  },
+  "security": [
+    {
+      "bearer_auth": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "text-analysis",
+      "description": "Analyze text for sentiment, entities, and key topics",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "description": "Text to analyze"
+          },
+          "analysisType": {
+            "type": "string",
+            "enum": ["sentiment", "entities", "topics"],
+            "description": "Type of analysis to perform"
+          }
+        },
+        "required": ["text", "analysisType"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "sentiment": {
+            "type": "object",
+            "properties": {
+              "score": { "type": "number" },
+              "label": { "type": "string" }
+            }
+          },
+          "entities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "text": { "type": "string" },
+                "type": { "type": "string" },
+                "confidence": { "type": "number" }
+              }
+            }
+          }
+        }
+      },
+      "inputModes": ["text/plain", "application/json"],
+      "outputModes": ["application/json"],
+      "tags": ["nlp", "analysis", "text"],
+      "examples": [
+        {
+          "input": {
+            "text": "This is a great product!",
+            "analysisType": "sentiment"
+          },
+          "output": {
+            "sentiment": {
+              "score": 0.92,
+              "label": "positive"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "data-transformation",
+      "description": "Transform data between various formats (JSON, CSV, XML)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "Input data to transform"
+          },
+          "sourceFormat": {
+            "type": "string",
+            "enum": ["json", "csv", "xml"]
+          },
+          "targetFormat": {
+            "type": "string",
+            "enum": ["json", "csv", "xml"]
+          }
+        },
+        "required": ["data", "sourceFormat", "targetFormat"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "transformedData": {
+            "type": "string",
+            "description": "Data in target format"
+          }
+        }
+      },
+      "tags": ["data", "transformation", "conversion"]
+    },
+    {
+      "name": "image-analysis",
+      "description": "Analyze images for objects, text, and visual content",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "imageUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL of the image to analyze"
+          },
+          "features": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["objects", "text", "faces", "labels"]
+            }
+          }
+        },
+        "required": ["imageUrl", "features"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "objects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string" },
+                "confidence": { "type": "number" }
+              }
+            }
+          },
+          "text": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      },
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"],
+      "tags": ["vision", "image", "analysis"]
+    }
+  ],
+  "metadata": {
+    "rateLimit": "1000 requests/hour",
+    "maxConcurrentTasks": 10,
+    "averageResponseTime": "200ms"
+  }
+}

@@ -1,0 +1,94 @@
+<!-- A2A Protocol C# Project Configuration -->
+<!-- Add this to your .csproj file -->
+
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- A2A Protocol C# SDK -->
+    <PackageReference Include="A2A.Protocol" Version="1.0.0" />
+
+    <!-- For environment variable management -->
+    <PackageReference Include="DotNetEnv" Version="3.0.0" />
+
+    <!-- For dependency injection (optional) -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
+  </ItemGroup>
+</Project>
+
+<!-- Example Configuration Class -->
+<!--
+using A2A.Protocol;
+using DotNetEnv;
+using Microsoft.Extensions.Configuration;
+
+namespace MyApp.Configuration
+{
+    public class A2AConfig
+    {
+        private readonly IConfiguration _configuration;
+
+        public A2AConfig()
+        {
+            // Load .env file
+            Env.Load();
+
+            _configuration = new ConfigurationBuilder()
+                .AddEnvironmentVariables()
+                .Build();
+        }
+
+        public A2AClient CreateClient()
+        {
+            var apiKey = _configuration["A2A_API_KEY"]
+                ?? throw new InvalidOperationException("A2A_API_KEY environment variable is required");
+
+            var baseUrl = _configuration["A2A_BASE_URL"] ?? "https://api.a2a.example.com";
+            var timeout = int.Parse(_configuration["A2A_TIMEOUT"] ?? "30");
+            var retryAttempts = int.Parse(_configuration["A2A_RETRY_ATTEMPTS"] ?? "3");
+
+            return new A2AClient(new A2AClientOptions
+            {
+                ApiKey = apiKey,
+                BaseUrl = baseUrl,
+                Timeout = TimeSpan.FromSeconds(timeout),
+                RetryAttempts = retryAttempts
+            });
+        }
+
+        public A2AClient CreateClient(string environment)
+        {
+            string apiKeyVar = environment switch
+            {
+                "development" => "A2A_DEV_API_KEY",
+                "staging" => "A2A_STAGING_API_KEY",
+                _ => "A2A_PROD_API_KEY"
+            };
+
+            string baseUrlVar = environment switch
+            {
+                "development" => "A2A_DEV_BASE_URL",
+                "staging" => "A2A_STAGING_BASE_URL",
+                _ => "A2A_PROD_BASE_URL"
+            };
+
+            var apiKey = _configuration[apiKeyVar]
+                ?? throw new InvalidOperationException($"API key not set for {environment} environment");
+
+            var baseUrl = _configuration[baseUrlVar]
+                ?? throw new InvalidOperationException($"Base URL not set for {environment} environment");
+
+            return new A2AClient(new A2AClientOptions
+            {
+                ApiKey = apiKey,
+                BaseUrl = baseUrl
+            });
+        }
+    }
+}
+-->

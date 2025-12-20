@@ -1,0 +1,208 @@
+{
+  "id": "urn:example:agent:realtime-stream",
+  "name": "Real-time Streaming Agent",
+  "description": "Agent optimized for streaming responses and real-time data processing with push notifications.",
+  "logo": "https://example.com/streaming-logo.png",
+  "version": "1.5.0",
+  "protocolVersion": "0.3",
+  "serviceEndpoint": "https://streaming.example.com/agent",
+  "provider": {
+    "name": "StreamTech Solutions",
+    "contactEmail": "streaming@example.com",
+    "url": "https://streamtech.example.com"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true
+  },
+  "securitySchemes": {
+    "bearer_auth": {
+      "type": "http",
+      "scheme": "bearer"
+    },
+    "webhook_secret": {
+      "type": "apiKey",
+      "name": "X-Webhook-Secret",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "bearer_auth": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "stream-processing",
+      "description": "Process data streams in real-time with Server-Sent Events (SSE)",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "streamUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "Source stream URL"
+          },
+          "filters": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "field": { "type": "string" },
+                "operator": { "type": "string", "enum": ["equals", "contains", "gt", "lt"] },
+                "value": { "type": "string" }
+              }
+            }
+          },
+          "transformations": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["normalize", "aggregate", "enrich", "deduplicate"]
+            }
+          }
+        },
+        "required": ["streamUrl"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "streamId": {
+            "type": "string",
+            "description": "Identifier for the processing stream"
+          },
+          "sseEndpoint": {
+            "type": "string",
+            "format": "uri",
+            "description": "Server-Sent Events endpoint for results"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["active", "paused", "completed"]
+          }
+        }
+      },
+      "inputModes": ["application/json"],
+      "outputModes": ["text/event-stream", "application/json"],
+      "tags": ["streaming", "realtime", "sse"]
+    },
+    {
+      "name": "webhook-subscription",
+      "description": "Subscribe to events via WebHook push notifications",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive webhook notifications"
+          },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["task.started", "task.progress", "task.completed", "task.failed"]
+            },
+            "description": "Event types to subscribe to"
+          },
+          "secret": {
+            "type": "string",
+            "description": "Secret for webhook signature validation (placeholder only)"
+          }
+        },
+        "required": ["callbackUrl", "events"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "subscriptionId": {
+            "type": "string",
+            "description": "Unique subscription identifier"
+          },
+          "expiresAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Subscription expiration time"
+          },
+          "signatureHeader": {
+            "type": "string",
+            "description": "Header name for webhook signatures"
+          }
+        }
+      },
+      "tags": ["webhook", "notifications", "events"]
+    },
+    {
+      "name": "live-data-aggregation",
+      "description": "Aggregate streaming data with time-window operations",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uri"
+            },
+            "description": "Data source endpoints"
+          },
+          "windowSize": {
+            "type": "integer",
+            "description": "Time window size in seconds",
+            "minimum": 1,
+            "maximum": 3600
+          },
+          "aggregationType": {
+            "type": "string",
+            "enum": ["sum", "average", "count", "min", "max"]
+          }
+        },
+        "required": ["sources", "windowSize", "aggregationType"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "aggregationId": {
+            "type": "string"
+          },
+          "resultEndpoint": {
+            "type": "string",
+            "format": "uri",
+            "description": "SSE endpoint for aggregated results"
+          }
+        }
+      },
+      "outputModes": ["text/event-stream"],
+      "tags": ["aggregation", "streaming", "analytics"],
+      "examples": [
+        {
+          "input": {
+            "sources": ["https://sensor1.example.com/data", "https://sensor2.example.com/data"],
+            "windowSize": 60,
+            "aggregationType": "average"
+          },
+          "output": {
+            "aggregationId": "agg_abc123",
+            "resultEndpoint": "https://streaming.example.com/results/agg_abc123"
+          }
+        }
+      ]
+    }
+  ],
+  "extensions": [
+    {
+      "name": "sse-keepalive",
+      "version": "1.0"
+    },
+    {
+      "name": "webhook-retry",
+      "version": "1.0"
+    }
+  ],
+  "metadata": {
+    "streamingProtocols": ["SSE", "WebSocket", "HTTP/2"],
+    "maxConcurrentStreams": 100,
+    "webhookRetryPolicy": "exponential-backoff",
+    "keepaliveInterval": "30s"
+  }
+}

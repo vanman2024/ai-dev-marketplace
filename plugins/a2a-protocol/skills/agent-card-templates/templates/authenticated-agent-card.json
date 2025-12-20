@@ -1,0 +1,160 @@
+{
+  "id": "urn:example:agent:secure-service",
+  "name": "Secure Enterprise Agent",
+  "description": "Enterprise-grade agent with multiple authentication schemes and security layers.",
+  "version": "3.0.0",
+  "protocolVersion": "0.3",
+  "serviceEndpoint": "https://api.enterprise.example.com/secure-agent",
+  "provider": {
+    "name": "Enterprise Security Solutions",
+    "contactEmail": "security@enterprise.example.com",
+    "url": "https://enterprise.example.com"
+  },
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
+    },
+    "bearer_token": {
+      "type": "http",
+      "scheme": "bearer"
+    },
+    "oauth2_auth": {
+      "type": "oauth2",
+      "flows": {
+        "authorizationCode": {
+          "authorizationUrl": "https://auth.enterprise.example.com/oauth/authorize",
+          "tokenUrl": "https://auth.enterprise.example.com/oauth/token",
+          "refreshUrl": "https://auth.enterprise.example.com/oauth/refresh",
+          "scopes": {
+            "read": "Read access to agent resources",
+            "write": "Write access to agent resources",
+            "admin": "Administrative access to agent configuration"
+          }
+        },
+        "clientCredentials": {
+          "tokenUrl": "https://auth.enterprise.example.com/oauth/token",
+          "scopes": {
+            "service": "Service-to-service communication"
+          }
+        }
+      }
+    },
+    "basic_auth": {
+      "type": "http",
+      "scheme": "basic"
+    },
+    "openid": {
+      "type": "openIdConnect",
+      "openIdConnectUrl": "https://auth.enterprise.example.com/.well-known/openid-configuration"
+    }
+  },
+  "security": [
+    {
+      "oauth2_auth": ["read", "write"]
+    },
+    {
+      "bearer_token": [],
+      "api_key": []
+    },
+    {
+      "openid": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "secure-data-processing",
+      "description": "Process sensitive data with encryption and audit logging",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "string",
+            "description": "Encrypted data payload"
+          },
+          "encryptionKey": {
+            "type": "string",
+            "description": "Encryption key identifier (not the actual key)"
+          },
+          "operation": {
+            "type": "string",
+            "enum": ["encrypt", "decrypt", "hash", "sign"]
+          }
+        },
+        "required": ["data", "operation"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "string",
+            "description": "Processed data result"
+          },
+          "auditId": {
+            "type": "string",
+            "description": "Audit trail identifier"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "tags": ["security", "encryption", "compliance"]
+    },
+    {
+      "name": "access-control-check",
+      "description": "Verify user permissions and access control policies",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "userId": {
+            "type": "string",
+            "description": "User identifier"
+          },
+          "resource": {
+            "type": "string",
+            "description": "Resource identifier"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["read", "write", "delete", "admin"]
+          }
+        },
+        "required": ["userId", "resource", "action"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "allowed": {
+            "type": "boolean"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Explanation for the decision"
+          },
+          "policies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Applied policy identifiers"
+          }
+        }
+      },
+      "tags": ["authorization", "rbac", "security"]
+    }
+  ],
+  "supportsExtendedAgentCard": true,
+  "metadata": {
+    "complianceStandards": ["SOC2", "GDPR", "HIPAA"],
+    "encryptionAlgorithms": ["AES-256-GCM", "RSA-4096"],
+    "auditRetention": "7 years",
+    "mfaRequired": true
+  }
+}

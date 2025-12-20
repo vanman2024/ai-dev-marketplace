@@ -1,0 +1,55 @@
+{
+  "id": "urn:example:agent:your-agent-id",
+  "name": "Your Agent Name",
+  "description": "A brief description of what your agent does and its primary capabilities.",
+  "version": "1.0.0",
+  "protocolVersion": "0.3",
+  "serviceEndpoint": "https://api.example.com/your-agent",
+  "provider": {
+    "name": "Your Organization Name",
+    "contactEmail": "support@example.com",
+    "url": "https://example.com"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false
+  },
+  "securitySchemes": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "X-API-Key",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ],
+  "skills": [
+    {
+      "name": "example-skill",
+      "description": "Description of what this skill does",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "input": {
+            "type": "string",
+            "description": "Input parameter description"
+          }
+        },
+        "required": ["input"]
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "string",
+            "description": "Output result description"
+          }
+        }
+      },
+      "tags": ["category", "feature"]
+    }
+  ]
+}

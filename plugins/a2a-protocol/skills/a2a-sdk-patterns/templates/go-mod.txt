@@ -1,0 +1,114 @@
+// A2A Protocol Go Module Configuration
+// This is an example go.mod file structure
+
+module example.com/myproject
+
+go 1.20
+
+require (
+    github.com/a2a/protocol-go v1.0.0
+    github.com/joho/godotenv v1.5.1  // For .env file loading
+)
+
+// Example Configuration File (config.go)
+/*
+package config
+
+import (
+    "fmt"
+    "os"
+    "strconv"
+    "time"
+
+    "github.com/a2a/protocol-go"
+    "github.com/joho/godotenv"
+)
+
+// Config holds A2A client configuration
+type Config struct {
+    APIKey        string
+    BaseURL       string
+    Timeout       time.Duration
+    RetryAttempts int
+}
+
+// LoadConfig loads configuration from environment variables
+func LoadConfig() (*Config, error) {
+    // Load .env file (ignore error if file doesn't exist)
+    _ = godotenv.Load()
+
+    apiKey := os.Getenv("A2A_API_KEY")
+    if apiKey == "" {
+        return nil, fmt.Errorf("A2A_API_KEY environment variable is required")
+    }
+
+    baseURL := os.Getenv("A2A_BASE_URL")
+    if baseURL == "" {
+        baseURL = "https://api.a2a.example.com"
+    }
+
+    timeout := getEnvInt("A2A_TIMEOUT", 30)
+    retryAttempts := getEnvInt("A2A_RETRY_ATTEMPTS", 3)
+
+    return &Config{
+        APIKey:        apiKey,
+        BaseURL:       baseURL,
+        Timeout:       time.Duration(timeout) * time.Second,
+        RetryAttempts: retryAttempts,
+    }, nil
+}
+
+// LoadConfigForEnv loads configuration for specific environment
+func LoadConfigForEnv(env string) (*Config, error) {
+    _ = godotenv.Load()
+
+    var apiKeyVar, baseURLVar string
+
+    switch env {
+    case "development":
+        apiKeyVar = "A2A_DEV_API_KEY"
+        baseURLVar = "A2A_DEV_BASE_URL"
+    case "staging":
+        apiKeyVar = "A2A_STAGING_API_KEY"
+        baseURLVar = "A2A_STAGING_BASE_URL"
+    default: // production
+        apiKeyVar = "A2A_PROD_API_KEY"
+        baseURLVar = "A2A_PROD_BASE_URL"
+    }
+
+    apiKey := os.Getenv(apiKeyVar)
+    if apiKey == "" {
+        return nil, fmt.Errorf("API key not set for %s environment", env)
+    }
+
+    baseURL := os.Getenv(baseURLVar)
+    if baseURL == "" {
+        return nil, fmt.Errorf("Base URL not set for %s environment", env)
+    }
+
+    return &Config{
+        APIKey:  apiKey,
+        BaseURL: baseURL,
+    }, nil
+}
+
+// CreateClient creates A2A client from config
+func (c *Config) CreateClient() (*a2a.Client, error) {
+    return a2a.NewClient(&a2a.ClientOptions{
+        APIKey:        c.APIKey,
+        BaseURL:       c.BaseURL,
+        Timeout:       c.Timeout,
+        RetryAttempts: c.RetryAttempts,
+    })
+}
+
+// Helper function to get integer from environment
+func getEnvInt(key string, defaultValue int) int {
+    if value := os.Getenv(key); value != "" {
+        if intValue, err := strconv.Atoi(value); err == nil {
+            return intValue
+        }
+    }
+    return defaultValue
+}
+*/

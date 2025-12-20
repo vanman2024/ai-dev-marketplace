@@ -1,0 +1,90 @@
+<!-- A2A Protocol Java Maven Configuration -->
+<!-- Add this dependency to your pom.xml -->
+
+<dependencies>
+    <!-- A2A Protocol Java SDK -->
+    <dependency>
+        <groupId>com.a2a</groupId>
+        <artifactId>protocol-java</artifactId>
+        <version>1.0.0</version>
+    </dependency>
+
+    <!-- Optional: For environment variable management -->
+    <dependency>
+        <groupId>io.github.cdimascio</groupId>
+        <artifactId>dotenv-java</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+
+    <!-- Optional: For logging -->
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>2.0.9</version>
+    </dependency>
+    <dependency>
+        <groupId>ch.qos.logback</groupId>
+        <artifactId>logback-classic</artifactId>
+        <version>1.4.11</version>
+    </dependency>
+</dependencies>
+
+<!-- Example Configuration Class -->
+<!--
+package com.example.a2a;
+
+import com.a2a.protocol.A2AClient;
+import io.github.cdimascio.dotenv.Dotenv;
+
+public class A2AConfig {
+    private static final Dotenv dotenv = Dotenv.load();
+
+    // Load environment variables
+    private static final String API_KEY = dotenv.get("A2A_API_KEY");
+    private static final String BASE_URL = dotenv.get("A2A_BASE_URL", "https://api.a2a.example.com");
+    private static final int TIMEOUT = Integer.parseInt(dotenv.get("A2A_TIMEOUT", "30"));
+    private static final int RETRY_ATTEMPTS = Integer.parseInt(dotenv.get("A2A_RETRY_ATTEMPTS", "3"));
+
+    public static A2AClient createClient() {
+        if (API_KEY == null || API_KEY.isEmpty()) {
+            throw new IllegalStateException("A2A_API_KEY environment variable is required");
+        }
+
+        return A2AClient.builder()
+                .apiKey(API_KEY)
+                .baseUrl(BASE_URL)
+                .timeout(TIMEOUT)
+                .retryAttempts(RETRY_ATTEMPTS)
+                .build();
+    }
+
+    // Multi-environment support
+    public static A2AClient createClient(String environment) {
+        String apiKey;
+        String baseUrl;
+
+        switch (environment) {
+            case "development":
+                apiKey = dotenv.get("A2A_DEV_API_KEY");
+                baseUrl = dotenv.get("A2A_DEV_BASE_URL");
+                break;
+            case "staging":
+                apiKey = dotenv.get("A2A_STAGING_API_KEY");
+                baseUrl = dotenv.get("A2A_STAGING_BASE_URL");
+                break;
+            default: // production
+                apiKey = dotenv.get("A2A_PROD_API_KEY");
+                baseUrl = dotenv.get("A2A_PROD_BASE_URL");
+        }
+
+        if (apiKey == null || apiKey.isEmpty()) {
+            throw new IllegalStateException("API key not set for " + environment + " environment");
+        }
+
+        return A2AClient.builder()
+                .apiKey(apiKey)
+                .baseUrl(baseUrl)
+                .build();
+    }
+}
+-->

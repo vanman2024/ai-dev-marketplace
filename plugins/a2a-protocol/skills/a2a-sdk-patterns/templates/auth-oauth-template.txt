@@ -1,0 +1,124 @@
+# OAuth 2.0 Authentication Template
+# For user-delegated access and third-party integrations
+
+## Environment Setup
+A2A_OAUTH_CLIENT_ID=your_client_id_here
+A2A_OAUTH_CLIENT_SECRET=your_client_secret_here
+A2A_OAUTH_REDIRECT_URI=https://yourapp.com/oauth/callback
+A2A_OAUTH_SCOPE=read write
+
+## Python Example
+```python
+from a2a_protocol import A2AClient, OAuth2Flow
+import os
+
+oauth = OAuth2Flow(
+    client_id=os.getenv("A2A_OAUTH_CLIENT_ID"),
+    client_secret=os.getenv("A2A_OAUTH_CLIENT_SECRET"),
+    redirect_uri=os.getenv("A2A_OAUTH_REDIRECT_URI")
+)
+
+# Step 1: Get authorization URL
+auth_url = oauth.get_authorization_url(scope="read write")
+print(f"Visit: {auth_url}")
+
+# Step 2: Exchange code for token (after user authorizes)
+token = oauth.exchange_code(authorization_code)
+
+# Step 3: Create client with token
+client = A2AClient(access_token=token.access_token)
+
+# Step 4: Refresh token when expired
+if token.is_expired():
+    new_token = oauth.refresh_token(token.refresh_token)
+    client = A2AClient(access_token=new_token.access_token)
+```
+
+## TypeScript Example
+```typescript
+import { A2AClient, OAuth2Flow } from '@a2a/protocol';
+
+const oauth = new OAuth2Flow({
+    clientId: process.env.A2A_OAUTH_CLIENT_ID!,
+    clientSecret: process.env.A2A_OAUTH_CLIENT_SECRET!,
+    redirectUri: process.env.A2A_OAUTH_REDIRECT_URI!
+});
+
+// Step 1: Get authorization URL
+const authUrl = oauth.getAuthorizationUrl({ scope: 'read write' });
+console.log(`Visit: ${authUrl}`);
+
+// Step 2: Exchange code for token
+const token = await oauth.exchangeCode(authorizationCode);
+
+// Step 3: Create client with token
+const client = new A2AClient({
+    accessToken: token.accessToken
+});
+
+// Step 4: Refresh token
+if (token.isExpired()) {
+    const newToken = await oauth.refreshToken(token.refreshToken);
+    client.setAccessToken(newToken.accessToken);
+}
+```
+
+## Java Example
+```java
+OAuth2Flow oauth = OAuth2Flow.builder()
+    .clientId(System.getenv("A2A_OAUTH_CLIENT_ID"))
+    .clientSecret(System.getenv("A2A_OAUTH_CLIENT_SECRET"))
+    .redirectUri(System.getenv("A2A_OAUTH_REDIRECT_URI"))
+    .build();
+
+// Get authorization URL
+String authUrl = oauth.getAuthorizationUrl("read write");
+
+// Exchange code for token
+OAuth2Token token = oauth.exchangeCode(authorizationCode);
+
+// Create client
+A2AClient client = A2AClient.builder()
+    .accessToken(token.getAccessToken())
+    .build();
+
+// Refresh token
+if (token.isExpired()) {
+    OAuth2Token newToken = oauth.refreshToken(token.getRefreshToken());
+    client.setAccessToken(newToken.getAccessToken());
+}
+```
+
+## OAuth 2.0 Flow Types
+
+### Authorization Code Flow (most secure)
+- User redirects to authorization server
+- User grants permissions
+- Server redirects back with authorization code
+- Exchange code for access token
+- Use access token for API requests
+
+### Client Credentials Flow (service-to-service)
+```python
+token = oauth.get_client_credentials_token()
+client = A2AClient(access_token=token.access_token)
+```
+
+## Best Practices
+1. Use PKCE (Proof Key for Code Exchange) for mobile/SPA
+2. Store tokens securely (encrypted storage, not localStorage)
+3. Implement token refresh before expiration
+4. Use short-lived access tokens (1 hour)
+5. Validate redirect URIs strictly
+6. Use state parameter to prevent CSRF
+7. Never expose client secret in frontend code
+
+## Security Checklist
+- [ ] HTTPS only for OAuth endpoints
+- [ ] Client secret stored securely (backend only)
+- [ ] Redirect URI whitelist configured
+- [ ] State parameter used for CSRF protection
+- [ ] PKCE enabled for public clients
+- [ ] Token storage encrypted
+- [ ] Automatic token refresh implemented
+- [ ] Scope permissions minimized

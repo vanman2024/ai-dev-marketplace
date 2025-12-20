@@ -1,0 +1,201 @@
+# JWT Authentication Template
+# For service-to-service authentication with custom claims
+
+## Environment Setup
+A2A_JWT_SECRET=your_jwt_secret_here
+A2A_JWT_ALGORITHM=HS256
+A2A_JWT_EXPIRY=3600
+
+## Python Example
+```python
+from a2a_protocol import A2AClient, JWTAuth
+import os
+import jwt
+from datetime import datetime, timedelta
+
+# Create JWT token
+def create_jwt_token():
+    secret = os.getenv("A2A_JWT_SECRET")
+    payload = {
+        "sub": "service-account-id",
+        "iss": "your-service-name",
+        "aud": "a2a-api",
+        "exp": datetime.utcnow() + timedelta(hours=1),
+        "iat": datetime.utcnow(),
+        "custom_claim": "value"
+    }
+    return jwt.encode(payload, secret, algorithm="HS256")
+
+# Use JWT with client
+token = create_jwt_token()
+client = A2AClient(jwt_token=token)
+
+# Alternative: Use JWT auth handler
+jwt_auth = JWTAuth(
+    secret=os.getenv("A2A_JWT_SECRET"),
+    algorithm="HS256",
+    service_id="your-service-id"
+)
+client = A2AClient(auth=jwt_auth)
+```
+
+## TypeScript Example
+```typescript
+import { A2AClient, JWTAuth } from '@a2a/protocol';
+import * as jwt from 'jsonwebtoken';
+
+// Create JWT token
+function createJWTToken(): string {
+    const secret = process.env.A2A_JWT_SECRET!;
+    const payload = {
+        sub: 'service-account-id',
+        iss: 'your-service-name',
+        aud: 'a2a-api',
+        exp: Math.floor(Date.now() / 1000) + 3600,
+        iat: Math.floor(Date.now() / 1000),
+        custom_claim: 'value'
+    };
+    return jwt.sign(payload, secret, { algorithm: 'HS256' });
+}
+
+// Use JWT with client
+const token = createJWTToken();
+const client = new A2AClient({
+    jwtToken: token
+});
+
+// Alternative: Use JWT auth handler
+const jwtAuth = new JWTAuth({
+    secret: process.env.A2A_JWT_SECRET!,
+    algorithm: 'HS256',
+    serviceId: 'your-service-id'
+});
+const clientWithAuth = new A2AClient({ auth: jwtAuth });
+```
+
+## Java Example
+```java
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
+
+// Create JWT token
+String createJWTToken() {
+    String secret = System.getenv("A2A_JWT_SECRET");
+    long now = System.currentTimeMillis();
+    long expiration = now + 3600000; // 1 hour
+
+    return Jwts.builder()
+        .setSubject("service-account-id")
+        .setIssuer("your-service-name")
+        .setAudience("a2a-api")
+        .setIssuedAt(new Date(now))
+        .setExpiration(new Date(expiration))
+        .claim("custom_claim", "value")
+        .signWith(SignatureAlgorithm.HS256, secret)
+        .compact();
+}
+
+// Use JWT with client
+String token = createJWTToken();
+A2AClient client = A2AClient.builder()
+    .jwtToken(token)
+    .build();
+```
+
+## Go Example
+```go
+import (
+    "github.com/golang-jwt/jwt/v5"
+    "time"
+    "os"
+)
+
+// Create JWT token
+func createJWTToken() (string, error) {
+    secret := os.Getenv("A2A_JWT_SECRET")
+
+    claims := jwt.MapClaims{
+        "sub": "service-account-id",
+        "iss": "your-service-name",
+        "aud": "a2a-api",
+        "exp": time.Now().Add(time.Hour).Unix(),
+        "iat": time.Now().Unix(),
+        "custom_claim": "value",
+    }
+
+    token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+    return token.SignedString([]byte(secret))
+}
+
+// Use JWT with client
+token, err := createJWTToken()
+if err != nil {
+    return err
+}
+
+client, err := a2a.NewClient(&a2a.ClientOptions{
+    JWTToken: token,
+})
+```
+
+## JWT Claims Structure
+```json
+{
+  "sub": "service-account-id",      // Subject (service identifier)
+  "iss": "your-service-name",       // Issuer (your service)
+  "aud": "a2a-api",                 // Audience (A2A API)
+  "exp": 1699999999,                // Expiration time (Unix timestamp)
+  "iat": 1699996399,                // Issued at (Unix timestamp)
+  "nbf": 1699996399,                // Not before (optional)
+  "jti": "unique-token-id",         // JWT ID (optional)
+  "custom_claim": "value"           // Custom claims as needed
+}
+```
+
+## Best Practices
+1. Use strong secrets (256-bit minimum for HS256)
+2. Rotate secrets regularly
+3. Keep token expiry short (1 hour or less)
+4. Include audience claim to prevent token reuse
+5. Use asymmetric algorithms (RS256) for public distribution
+6. Validate all claims on server side
+7. Implement token refresh mechanism
+
+## Asymmetric JWT (RS256) Example
+```python
+# Generate RSA key pair
+from cryptography.hazmat.primitives.asymmetric import rsa
+from cryptography.hazmat.primitives import serialization
+
+private_key = rsa.generate_private_key(
+    public_exponent=65537,
+    key_size=2048
+)
+
+# Sign with private key
+token = jwt.encode(
+    payload,
+    private_key,
+    algorithm="RS256"
+)
+
+# Verify with public key
+public_key = private_key.public_key()
+decoded = jwt.decode(
+    token,
+    public_key,
+    algorithms=["RS256"],
+    audience="a2a-api"
+)
+```
+
+## Security Checklist
+- [ ] Strong secret (256-bit+ for symmetric)
+- [ ] Short token expiry (≤1 hour)
+- [ ] Audience claim included
+- [ ] Signature verification enabled
+- [ ] Claims validation implemented
+- [ ] Token refresh mechanism
+- [ ] Secrets stored securely (not in code)
+- [ ] HTTPS only for token transmission
