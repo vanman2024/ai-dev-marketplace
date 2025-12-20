@@ -11,6 +11,12 @@
   "license": "Apache-2.0",
   "keywords": ["a2a", "protocol", "agent-communication", "multi-agent", "interoperability"],
   "commands": {
-    "add-streaming": "commands/add-streaming.md"
+    "init": "commands/init.md",
+    "add-agent": "commands/add-agent.md",
+    "add-client": "commands/add-client.md",
+    "add-discovery": "commands/add-discovery.md",
+    "add-streaming": "commands/add-streaming.md",
+    "add-production": "commands/add-production.md",
+    "test": "commands/test.md"
   }
 }
