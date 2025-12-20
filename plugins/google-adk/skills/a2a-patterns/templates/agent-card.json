@@ -1,0 +1,58 @@
+{
+  "id": "example-agent",
+  "name": "Example Agent",
+  "description": "An example A2A agent demonstrating the Agent Card format",
+  "version": "1.0.0",
+  "url": "https://example-agent.example.com",
+  "capabilities": {
+    "skills": [
+      {
+        "name": "information-retrieval",
+        "description": "Retrieve and synthesize information from various sources"
+      },
+      {
+        "name": "data-analysis",
+        "description": "Analyze data and identify patterns and insights"
+      },
+      {
+        "name": "task-automation",
+        "description": "Automate repetitive tasks and workflows"
+      }
+    ],
+    "modalities": [
+      "text",
+      "image"
+    ],
+    "streaming": true,
+    "supportedLanguages": [
+      "en",
+      "es",
+      "fr"
+    ]
+  },
+  "protocol": {
+    "version": "0.3",
+    "transport": "grpc",
+    "endpoints": {
+      "task": "/v1/task",
+      "stream": "/v1/stream"
+    }
+  },
+  "security": {
+    "authMethods": [
+      "bearer",
+      "api-key"
+    ],
+    "tlsRequired": true
+  },
+  "metadata": {
+    "created": "2025-01-01T00:00:00Z",
+    "updated": "2025-01-01T00:00:00Z",
+    "framework": "google-adk",
+    "deploymentPlatform": "cloud-run",
+    "tags": [
+      "general-purpose",
+      "production-ready"
+    ]
+  }
+}
