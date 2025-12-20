@@ -460,6 +460,54 @@
                 "nextjs",
                 "fastapi"
             ]
+        },
+        {
+            "name": "a2a-protocol",
+            "description": "Complete A2A Protocol integration for multi-agent systems",
+            "version": "1.0.0",
+            "author": {
+                "name": "Plugin Developer",
+                "email": "noreply@a2a-protocol.dev"
+            },
+            "source": "./plugins/a2a-protocol",
+            "category": "development",
+            "keywords": [
+                "a2a",
+                "protocol",
+                "agent-communication",
+                "multi-agent",
+                "interoperability",
+                "agent-to-agent",
+                "google",
+                "linux-foundation",
+                "mcp",
+                "sdk",
+                "python",
+                "javascript",
+                "typescript",
+                "java",
+                "csharp",
+                "golang"
+            ]
+        },
+        {
+            "name": "google-adk",
+            "description": "Build AI agents with Google's Agent Development Kit (ADK) - supports Python, TypeScript, Go, and Java",
+            "version": "1.0.0",
+            "author": {
+                "name": "Plugin Developer",
+                "email": "noreply@google-adk.dev"
+            },
+            "source": "./plugins/google-adk",
+            "category": "development",
+            "keywords": [
+                "google",
+                "adk",
+                "ai-agents",
+                "gemini",
+                "vertex-ai",
+                "agent-development"
+            ]
         }
     ]
 }
