@@ -183,6 +183,7 @@
       "SlashCommand(/google-adk:add-observability)",
       "SlashCommand(/google-adk:add-evaluation)",
       "SlashCommand(/google-adk:deploy)",
+      "SlashCommand(/google-adk:build-full-stack)",
       "Bash",
       "Write",
       "Read",
