@@ -1,0 +1,76 @@
+# A2A + MCP Integration Environment Configuration
+# Copy this file to .env and configure with your actual values
+
+# ==========================================
+# Hybrid Agent Configuration
+# ==========================================
+HYBRID_AGENT_ID=agent-001
+HYBRID_AGENT_NAME=Hybrid Agent
+ENABLE_A2A=true
+ENABLE_MCP=true
+
+# ==========================================
+# A2A Protocol Configuration
+# ==========================================
+# A2A API authentication
+A2A_API_KEY=your_a2a_key_here
+A2A_BASE_URL=https://a2a.example.com
+
+# A2A connection settings
+A2A_TIMEOUT=30
+A2A_RETRY_ATTEMPTS=3
+A2A_LOG_LEVEL=info
+
+# A2A agent discovery
+A2A_DISCOVERY_ENABLED=true
+A2A_AGENT_CARD_URL=http://localhost:8000/agent-card
+
+# ==========================================
+# MCP Configuration
+# ==========================================
+# MCP server connection
+MCP_SERVER_URL=http://localhost:3000
+MCP_TRANSPORT=stdio
+MCP_TIMEOUT=15
+
+# MCP authentication (if required)
+MCP_API_KEY=your_mcp_key_here
+
+# ==========================================
+# Integration Settings
+# ==========================================
+# Message routing
+ROUTE_AGENT_TASKS_VIA_A2A=true
+ROUTE_TOOL_CALLS_VIA_MCP=true
+
+# Caching
+ENABLE_AGENT_DISCOVERY_CACHE=true
+AGENT_CACHE_TTL=300
+ENABLE_TOOL_SCHEMA_CACHE=true
+TOOL_CACHE_TTL=600
+
+# Performance
+A2A_CONNECTION_POOL_SIZE=10
+MCP_CONNECTION_POOL_SIZE=5
+
+# ==========================================
+# Logging and Monitoring
+# ==========================================
+LOG_LEVEL=info
+LOG_FORMAT=json
+LOG_FILE=hybrid-agent.log
+
+# Metrics
+ENABLE_METRICS=true
+METRICS_PORT=9090
+
+# ==========================================
+# Security
+# ==========================================
+# NEVER commit actual values for these
+# Use placeholders in committed files
+# Read from secure secret management in production
+
+# Example secure secret management (uncomment in production)
+# A2A_SECRET_SOURCE=vault://path/to/a2a/credentials
+# MCP_SECRET_SOURCE=vault://path/to/mcp/credentials

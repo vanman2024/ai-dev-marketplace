@@ -1,0 +1,160 @@
+# Authentication Configuration for A2A + MCP Integration
+
+# ==========================================
+# Authentication Strategy
+# ==========================================
+#
+# Hybrid systems need authentication for both protocols:
+# 1. A2A authentication for agent-to-agent communication
+# 2. MCP authentication for tool access
+# 3. Identity mapping between protocols
+#
+# ==========================================
+
+# ==========================================
+# Option 1: Separate Authentication (Recommended)
+# ==========================================
+# Each protocol uses independent credentials
+# Pros: Clear separation, easier security management
+# Cons: More credentials to manage
+
+[a2a_auth]
+type = api_key
+api_key = your_a2a_key_here
+# OR
+type = oauth2
+oauth_client_id = your_a2a_client_id_here
+oauth_client_secret = your_a2a_client_secret_here
+oauth_token_url = https://a2a.example.com/oauth/token
+
+[mcp_auth]
+type = api_key
+api_key = your_mcp_key_here
+# OR
+type = none  # MCP server may not require auth for local development
+
+# ==========================================
+# Option 2: Shared Identity with Separate Tokens
+# ==========================================
+# Same agent identity across both protocols
+# But different authentication tokens
+
+[agent_identity]
+agent_id = hybrid-agent-001
+agent_name = Hybrid Agent
+shared_identity = true
+
+[a2a_auth]
+identity_token = your_a2a_identity_token_here
+scope = agent:communicate,task:delegate
+
+[mcp_auth]
+identity_token = your_mcp_identity_token_here
+scope = tool:execute,resource:read
+
+# ==========================================
+# Option 3: JWT with Claims for Both Protocols
+# ==========================================
+# Use JWT tokens with protocol-specific claims
+
+[jwt_auth]
+# Shared JWT secret
+jwt_secret = your_jwt_secret_here  # NEVER commit real secret!
+jwt_algorithm = HS256
+jwt_expiration = 3600
+
+# JWT claims for A2A
+[jwt_claims_a2a]
+iss = hybrid-agent-001
+aud = a2a-protocol
+scope = agent:all
+
+# JWT claims for MCP
+[jwt_claims_mcp]
+iss = hybrid-agent-001
+aud = mcp-server
+scope = tool:all
+
+# ==========================================
+# Security Best Practices
+# ==========================================
+
+# 1. NEVER hardcode credentials
+#    - Use environment variables
+#    - Use secret management (Vault, AWS Secrets Manager)
+#    - Rotate credentials regularly
+
+# 2. Separate dev/staging/prod credentials
+A2A_API_KEY_DEV = your_a2a_dev_key_here
+A2A_API_KEY_STAGING = your_a2a_staging_key_here
+A2A_API_KEY_PROD = your_a2a_prod_key_here
+
+# 3. Use TLS/SSL for all connections
+A2A_USE_TLS = true
+MCP_USE_TLS = true
+
+# 4. Implement token refresh
+A2A_TOKEN_REFRESH_ENABLED = true
+A2A_TOKEN_REFRESH_BEFORE = 300  # Refresh 5 min before expiry
+
+# ==========================================
+# Example: Python Implementation
+# ==========================================
+#
+# from a2a import Client as A2AClient
+# from mcp import Client as MCPClient
+# import os
+#
+# # Separate authentication
+# a2a_client = A2AClient(
+#     api_key=os.getenv("A2A_API_KEY")
+# )
+#
+# mcp_client = MCPClient(
+#     server_url=os.getenv("MCP_SERVER_URL"),
+#     api_key=os.getenv("MCP_API_KEY")
+# )
+#
+
+# ==========================================
+# Example: TypeScript Implementation
+# ==========================================
+#
+# import { Client as A2AClient } from '@a2a/protocol';
+# import { Client as MCPClient } from '@modelcontextprotocol/sdk';
+#
+# const a2aClient = new A2AClient({
+#   apiKey: process.env.A2A_API_KEY
+# });
+#
+# const mcpClient = new MCPClient({
+#   serverUrl: process.env.MCP_SERVER_URL,
+#   apiKey: process.env.MCP_API_KEY
+# });
+#
+
+# ==========================================
+# Credential Forwarding (Use with Caution)
+# ==========================================
+# In some scenarios, you may need to pass credentials through A2A
+#
+# WARNING: Only do this for:
+# - Encrypted A2A channels
+# - Trusted agent networks
+# - Non-sensitive operations
+#
+# NEVER forward:
+# - Production credentials
+# - Long-lived tokens
+# - Master keys
+
+[credential_forwarding]
+enabled = false
+allow_a2a_to_mcp = false  # NEVER pass MCP creds via A2A
+allow_mcp_to_a2a = false  # NEVER pass A2A creds via MCP
+
+# If you must forward (use temporary tokens only):
+[temp_tokens]
+temp_token_ttl = 300  # 5 minutes max
+temp_token_scope = limited  # Minimal permissions
+temp_token_single_use = true
