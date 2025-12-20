@@ -1,0 +1,93 @@
+[
+  {
+    "name": "timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Event recording time"
+  },
+  {
+    "name": "event_type",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Event category (LLM_REQUEST, TOOL_STARTING, etc.)"
+  },
+  {
+    "name": "content",
+    "type": "JSON",
+    "mode": "NULLABLE",
+    "description": "Event-specific JSON payload"
+  },
+  {
+    "name": "content_parts",
+    "type": "RECORD",
+    "mode": "REPEATED",
+    "description": "Structured multimodal data",
+    "fields": [
+      {
+        "name": "mime_type",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "storage_mode",
+        "type": "STRING",
+        "mode": "NULLABLE",
+        "description": "INLINE or GCS_REFERENCE"
+      },
+      {
+        "name": "inline_data",
+        "type": "STRING",
+        "mode": "NULLABLE"
+      },
+      {
+        "name": "object_ref",
+        "type": "RECORD",
+        "mode": "NULLABLE",
+        "fields": [
+          {
+            "name": "uri",
+            "type": "STRING",
+            "mode": "NULLABLE",
+            "description": "GCS URI (gs://bucket/path)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "trace_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "OpenTelemetry trace ID"
+  },
+  {
+    "name": "span_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "OpenTelemetry span ID"
+  },
+  {
+    "name": "agent",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Agent name"
+  },
+  {
+    "name": "user_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "User identifier"
+  },
+  {
+    "name": "session_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Session identifier"
+  },
+  {
+    "name": "parent_span_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Parent span ID for nested operations"
+  }
+]
