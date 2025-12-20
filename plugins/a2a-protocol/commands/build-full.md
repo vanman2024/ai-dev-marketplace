@@ -1,248 +1,414 @@
 ---
 name: build-full
-description: Complete A2A Protocol setup - initializes project, adds all features (agents, clients, discovery, streaming, production), and validates everything
-allowed-tools: SlashCommand, Read, Write, Bash, Grep, Glob, TodoWrite, AskUserQuestion
+description: Intelligent A2A Protocol setup - analyzes your project (project.json, features.json, specs/) and builds complete A2A integration tailored to your stack
+allowed-tools: Task, Read, Write, Bash, Grep, Glob, TodoWrite
 ---
 
-# Build Complete A2A Protocol Stack
+# Build Complete A2A Protocol Stack (Intelligent)
 
-This command orchestrates the entire A2A Protocol setup by running all individual commands in the correct order.
+This command intelligently analyzes your entire project and builds the appropriate A2A Protocol integration.
 
-**What this command does:**
-1. Initializes A2A Protocol in your project
-2. Adds agent implementation
-3. Adds client implementation
-4. Sets up agent discovery
-5. Adds streaming support
-6. Adds production features
-7. Runs comprehensive tests
-8. Validates the complete setup
+**Execution Flow:**
+1. **Analyze Project** - Read all project files to understand what you're building
+2. **Plan Integration** - Determine which A2A features your project needs
+3. **Build Stack** - Delegate to appropriate commands to implement everything
 
-**Usage:**
-```bash
-/a2a-protocol:build-full
-```
+## Phase 1: Project Analysis
 
-## Execution Steps
-
-### Phase 1: Create Todo List
-
-Create a comprehensive todo list to track the full build:
+### Step 1: Create Analysis Todo List
 
 ```
 TodoWrite([
-  { content: "Initialize A2A Protocol project", status: "pending", activeForm: "Initializing A2A Protocol project" },
-  { content: "Add agent implementation", status: "pending", activeForm: "Adding agent implementation" },
-  { content: "Add client implementation", status: "pending", activeForm: "Adding client implementation" },
-  { content: "Setup agent discovery", status: "pending", activeForm: "Setting up agent discovery" },
-  { content: "Add streaming support", status: "pending", activeForm: "Adding streaming support" },
-  { content: "Add production features", status: "pending", activeForm: "Adding production features" },
-  { content: "Run comprehensive tests", status: "pending", activeForm: "Running comprehensive tests" },
-  { content: "Display summary", status: "pending", activeForm: "Displaying summary" }
+  { content: "Analyze project structure and configuration", status: "in_progress", activeForm: "Analyzing project structure and configuration" },
+  { content: "Plan A2A integration strategy", status: "pending", activeForm: "Planning A2A integration strategy" },
+  { content: "Execute A2A Protocol setup", status: "pending", activeForm: "Executing A2A Protocol setup" },
+  { content: "Validate and summarize", status: "pending", activeForm: "Validating and summarizing" }
 ])
 ```
 
-### Phase 2: Ask User Preferences
+### Step 2: Read All Project Configuration Files
 
-Use AskUserQuestion to understand what features they want:
+Read the following files to understand the project:
 
+**Core Configuration:**
 ```
-AskUserQuestion({
-  questions: [
-    {
-      question: "Which programming language will you use for A2A implementation?",
-      header: "Language",
-      multiSelect: false,
-      options: [
-        { label: "Python", description: "Python with async/await support" },
-        { label: "TypeScript", description: "TypeScript with Node.js" },
-        { label: "JavaScript", description: "JavaScript with Node.js" },
-        { label: "Java", description: "Java with Spring Boot or standalone" },
-        { label: "Go", description: "Go with standard library" }
-      ]
-    },
-    {
-      question: "Which features do you want to include?",
-      header: "Features",
-      multiSelect: true,
-      options: [
-        { label: "Agents (Recommended)", description: "Build A2A-compatible agents" },
-        { label: "Clients (Recommended)", description: "Create clients to communicate with agents" },
-        { label: "Discovery", description: "Enable agent discovery mechanisms" },
-        { label: "Streaming", description: "Add streaming response support" }
-      ]
-    },
-    {
-      question: "What type of deployment?",
-      header: "Deployment",
-      multiSelect: false,
-      options: [
-        { label: "Development", description: "Local development setup" },
-        { label: "Production", description: "Production-ready with monitoring, security, scaling" }
-      ]
-    }
-  ]
-})
+Read(.claude/project.json)
+Read(features.json)  # If exists
+Read(.claude/features.json)  # Alternative location
+Read(package.json)  # If exists
+Read(requirements.txt)  # If exists
+Read(pyproject.toml)  # If exists
+Read(pom.xml)  # If exists
+Read(go.mod)  # If exists
 ```
 
-### Phase 3: Initialize Project
-
-Mark first todo as in_progress and run init:
-
+**Architecture Documentation:**
 ```
-TodoWrite(update first todo to in_progress)
-SlashCommand(/a2a-protocol:init)
-TodoWrite(mark first todo completed)
-```
+Glob(pattern="docs/architecture/**/*.md")
+Read all architecture docs found
 
-Wait for initialization to complete before proceeding.
+Glob(pattern="docs/specs/**/*.md")
+Read all spec files found
 
-### Phase 4: Add Agent Implementation (if selected)
-
-If user selected "Agents" feature:
-
-```
-TodoWrite(update second todo to in_progress)
-SlashCommand(/a2a-protocol:add-agent)
-TodoWrite(mark second todo completed)
+Glob(pattern="specs/**/*.md")
+Read all spec files (alternative location)
 ```
 
-**CRITICAL:** Wait for this command to complete before moving to next step.
-
-### Phase 5: Add Client Implementation (if selected)
-
-If user selected "Clients" feature:
-
+**Feature Specifications:**
 ```
-TodoWrite(update third todo to in_progress)
-SlashCommand(/a2a-protocol:add-client)
-TodoWrite(mark third todo completed)
+Glob(pattern="specs/features/*/spec.md")
+Read all feature specs
+
+Glob(pattern="specs/features/*/tasks.md")
+Read all feature task lists
 ```
 
-**CRITICAL:** Wait for this command to complete before moving to next step.
-
-### Phase 6: Setup Discovery (if selected)
-
-If user selected "Discovery" feature:
-
+**Application Design:**
 ```
-TodoWrite(update fourth todo to in_progress)
-SlashCommand(/a2a-protocol:add-discovery)
-TodoWrite(mark fourth todo completed)
+Read(.claude/application-design.json)  # If exists
+Read(docs/application-design.json)  # If exists
 ```
 
-**CRITICAL:** Wait for this command to complete before moving to next step.
+### Step 3: Analyze Project with Agent
 
-### Phase 7: Add Streaming (if selected)
-
-If user selected "Streaming" feature:
+**CRITICAL:** Use the Task tool to delegate analysis to an exploration agent:
 
 ```
-TodoWrite(update fifth todo to in_progress)
-SlashCommand(/a2a-protocol:add-streaming)
-TodoWrite(mark fifth todo completed)
+Task(
+  description="Analyze project for A2A integration",
+  subagent_type="Explore",
+  prompt="Analyze this entire project to determine A2A Protocol integration needs.
+
+**Read and analyze ALL of the following:**
+
+1. **Project Configuration:**
+   - .claude/project.json
+   - features.json or .claude/features.json
+   - package.json / requirements.txt / pyproject.toml / pom.xml / go.mod
+
+2. **Architecture Documentation:**
+   - All files in docs/architecture/
+   - All files in docs/specs/
+   - All files in specs/
+
+3. **Feature Specifications:**
+   - All spec.md files in specs/features/
+   - All tasks.md files in specs/features/
+
+4. **Application Design:**
+   - .claude/application-design.json
+   - docs/application-design.json
+
+**Provide comprehensive analysis including:**
+
+- **Project Type:** (web app, API, microservices, CLI tool, etc.)
+- **Tech Stack:**
+  - Primary language(s)
+  - Frameworks (FastAPI, Next.js, Spring Boot, etc.)
+  - Database(s)
+  - Frontend framework (if applicable)
+  - Backend framework (if applicable)
+
+- **Existing Features:**
+  - List all features from features.json
+  - Summarize what the project does
+
+- **A2A Integration Opportunities:**
+  - Would this project benefit from A2A agents? (yes/no and why)
+  - Would this project benefit from A2A clients? (yes/no and why)
+  - Does this project need agent discovery? (yes/no and why)
+  - Does this project need streaming? (yes/no and why)
+  - Does this project need production features? (yes/no and why)
+
+- **Recommended A2A Features:**
+  - Prioritized list of A2A features to add
+  - Justification for each recommendation
+
+- **Implementation Strategy:**
+  - Which files would be modified
+  - Where A2A code should be added
+  - Integration points with existing code
+
+Return this analysis in structured format."
+)
 ```
 
-**CRITICAL:** Wait for this command to complete before moving to next step.
+Wait for analysis agent to complete and return results.
 
-### Phase 8: Add Production Features (if production deployment)
-
-If user selected "Production" deployment:
+### Step 4: Mark Analysis Complete
 
 ```
-TodoWrite(update sixth todo to in_progress)
-SlashCommand(/a2a-protocol:add-production)
-TodoWrite(mark sixth todo completed)
+TodoWrite(mark first todo completed, second todo in_progress)
 ```
 
-**CRITICAL:** Wait for this command to complete before moving to next step.
+## Phase 2: Planning Integration
 
-### Phase 9: Run Tests
+Based on the analysis from the agent, create an integration plan.
 
-Run comprehensive test suite:
+### Step 1: Extract Key Findings
 
+From the agent's analysis, extract:
+- Primary language
+- Recommended A2A features
+- Integration strategy
+
+### Step 2: Create Implementation Plan
+
+Determine which commands to run in sequence:
+
+**Example decision logic:**
 ```
-TodoWrite(update seventh todo to in_progress)
-SlashCommand(/a2a-protocol:test)
-TodoWrite(mark seventh todo completed)
+If analysis recommends "agents":
+  → Queue /a2a-protocol:add-agent
+
+If analysis recommends "clients":
+  → Queue /a2a-protocol:add-client
+
+If analysis recommends "discovery":
+  → Queue /a2a-protocol:add-discovery
+
+If analysis recommends "streaming":
+  → Queue /a2a-protocol:add-streaming
+
+If analysis recommends "production":
+  → Queue /a2a-protocol:add-production
+
+Always queue: /a2a-protocol:test (at the end)
 ```
 
-### Phase 10: Display Summary
+### Step 3: Display Plan to User
 
-Mark final todo as in_progress and display completion summary:
-
-```
-TodoWrite(update eighth todo to in_progress)
-```
-
-Display summary showing:
+Before executing, show the user what will be done:
 
 ```markdown
-# A2A Protocol - Build Complete ✅
+# A2A Protocol Integration Plan
 
-## Configuration
-- **Language:** [selected language]
-- **Features Installed:**
-  - ✅ A2A Protocol initialized
-  - [✅/❌] Agent implementation
-  - [✅/❌] Client implementation
-  - [✅/❌] Agent discovery
-  - [✅/❌] Streaming support
-  - [✅/❌] Production features
-- **Deployment Type:** [Development/Production]
+Based on analysis of your project, here's what will be added:
 
-## What Was Created
-- Configuration files
-- [If agents] Agent implementation with A2A protocol support
-- [If clients] Client library for communicating with A2A agents
-- [If discovery] Discovery service for finding agents
-- [If streaming] Streaming response handlers
-- [If production] Monitoring, security, and scaling configuration
-- Test suite and validation scripts
+## Project Summary
+- **Type:** [detected project type]
+- **Language:** [primary language]
+- **Stack:** [key technologies]
+
+## Recommended A2A Features
+✅ [Feature 1] - [Reason why]
+✅ [Feature 2] - [Reason why]
+✅ [Feature 3] - [Reason why]
+
+## Commands That Will Run
+1. /a2a-protocol:init
+2. /a2a-protocol:add-agent (because: [reason])
+3. /a2a-protocol:add-client (because: [reason])
+4. /a2a-protocol:add-streaming (because: [reason])
+5. /a2a-protocol:test
+
+## Integration Points
+- [Where A2A code will be added]
+- [Which files will be modified]
+- [New files that will be created]
+
+Proceeding with implementation...
+```
+
+### Step 4: Mark Planning Complete
+
+```
+TodoWrite(mark second todo completed, third todo in_progress)
+```
+
+## Phase 3: Execute Integration
+
+### Step 1: Initialize A2A Protocol
+
+**ALWAYS run init first:**
+
+```
+SlashCommand(/a2a-protocol:init)
+```
+
+**CRITICAL:** Wait for init to complete before proceeding.
+
+### Step 2: Run Recommended Commands Sequentially
+
+Based on the plan, run each command **ONE AT A TIME**:
+
+```
+If plan includes "add-agent":
+  SlashCommand(/a2a-protocol:add-agent)
+  Wait for completion
+
+If plan includes "add-client":
+  SlashCommand(/a2a-protocol:add-client)
+  Wait for completion
+
+If plan includes "add-discovery":
+  SlashCommand(/a2a-protocol:add-discovery)
+  Wait for completion
+
+If plan includes "add-streaming":
+  SlashCommand(/a2a-protocol:add-streaming)
+  Wait for completion
+
+If plan includes "add-production":
+  SlashCommand(/a2a-protocol:add-production)
+  Wait for completion
+```
+
+**CRITICAL RULES:**
+- Run commands ONE AT A TIME
+- WAIT for each to complete before starting next
+- DO NOT run in parallel
+- DO NOT skip waiting
+
+### Step 3: Run Tests
+
+After all features are added:
+
+```
+SlashCommand(/a2a-protocol:test)
+```
+
+Wait for tests to complete.
+
+### Step 4: Mark Execution Complete
+
+```
+TodoWrite(mark third todo completed, fourth todo in_progress)
+```
+
+## Phase 4: Validation & Summary
+
+### Step 1: Validate Integration
+
+Check that everything was created correctly:
+
+```
+Read integration files to verify they exist
+Check for common issues
+Validate configuration
+```
+
+### Step 2: Display Comprehensive Summary
+
+```markdown
+# A2A Protocol Integration - Complete ✅
+
+## Project Analysis Results
+- **Project Type:** [type]
+- **Primary Language:** [language]
+- **Tech Stack:** [stack]
+- **Features Analyzed:** [count] features from features.json
+
+## What Was Added
+
+### A2A Features Installed
+✅ A2A Protocol initialized
+[✅] Agent implementation (added because: [reason])
+[✅] Client implementation (added because: [reason])
+[✅] Agent discovery (added because: [reason])
+[✅] Streaming support (added because: [reason])
+[✅] Production features (added because: [reason])
+
+### Files Created
+- [List of new files]
+- [Configuration files]
+- [Implementation files]
+
+### Files Modified
+- [List of modified files]
+- [Integration points]
+
+## Integration Points
+Your A2A Protocol integration is connected to:
+- [Integration point 1]
+- [Integration point 2]
+- [Integration point 3]
 
 ## Next Steps
-1. Review generated code in your project
-2. Configure environment variables in .env
-3. Start your A2A agent/client:
-   - Python: `python main.py`
-   - TypeScript: `npm start`
-   - Java: `mvn spring-boot:run`
-   - Go: `go run main.go`
-4. Test the implementation:
+
+1. **Review generated code:**
+   - Check files in [directories]
+   - Review integration points
+
+2. **Configure environment:**
+   ```bash
+   cp .env.example .env
+   # Edit .env with your actual API keys
+   ```
+
+3. **Start your application:**
+   - [Language-specific start command]
+
+4. **Test A2A features:**
    ```bash
    /a2a-protocol:test
    ```
-5. Explore the documentation in docs/a2a/
+
+5. **Explore documentation:**
+   - See docs/a2a/ for detailed usage
+   - Review generated examples
 
 ## Available Commands
+Run these to modify your A2A setup:
 - `/a2a-protocol:add-agent` - Add more agents
 - `/a2a-protocol:add-client` - Add more clients
-- `/a2a-protocol:add-discovery` - Update discovery config
-- `/a2a-protocol:add-streaming` - Modify streaming setup
+- `/a2a-protocol:add-discovery` - Update discovery
+- `/a2a-protocol:add-streaming` - Modify streaming
 - `/a2a-protocol:test` - Run tests again
 
-Your A2A Protocol stack is ready! 🚀
+Your intelligent A2A Protocol integration is complete! 🚀
 ```
 
-Mark final todo as completed.
+### Step 3: Mark Final Todo Complete
 
-## Important Notes
+```
+TodoWrite(mark fourth todo completed)
+```
+
+## Error Handling
+
+If any step fails:
+
+1. **Stop execution immediately**
+2. **Display error details:**
+   ```
+   ❌ A2A Protocol Integration Failed
+
+   Failed at: [which command/step]
+   Error: [error message]
+
+   What to do:
+   - [Specific guidance for this error]
+   - [How to fix]
+   - [How to retry]
+   ```
+3. **Provide recovery options:**
+   - Manual command to retry
+   - How to continue from where it failed
+   - How to rollback if needed
+
+## Key Principles
+
+**Intelligence First:**
+- Analyze before acting
+- Understand the project before building
+- Tailor integration to actual needs
+
+**Project-Driven:**
+- Read project.json to understand stack
+- Read features.json to understand features
+- Read specs/ to understand requirements
+- Read architecture docs to understand design
+
+**Context-Aware:**
+- Different integration for FastAPI vs Next.js
+- Different features for API vs full-stack app
+- Different approach for microservices vs monolith
 
 **Sequential Execution:**
-- This command runs other slash commands ONE AT A TIME
-- Each command must complete before the next one starts
-- DO NOT run commands in parallel - they will queue and fail
+- One command at a time
+- Wait for completion
+- Handle errors gracefully
+- Track progress clearly
 
-**Error Handling:**
-- If any command fails, stop execution
-- Display error message and which step failed
-- Provide guidance on how to fix the issue
-- Allow user to retry or continue manually
-
-**Customization:**
-- User chooses which features to install
-- Only selected features are added
-- Minimal setup if user wants basic features
-- Full stack if user wants everything
-
-This orchestrator command provides a streamlined way to get a complete A2A Protocol setup without running each command individually.
+This intelligent orchestrator adapts to YOUR project and builds exactly what YOU need.
