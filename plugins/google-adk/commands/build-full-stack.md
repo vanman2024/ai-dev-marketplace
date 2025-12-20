@@ -9,10 +9,82 @@ allowed-tools: Task, Read, Write, Edit, Bash, Glob, Grep, TodoWrite
 Goal: Complete end-to-end Google ADK project setup from initialization through deployment
 
 Core Principles:
+- Analyze project requirements FIRST before building
 - Execute sequentially - wait for each command to complete before proceeding
 - Track progress with TodoWrite
 - Validate at checkpoints
 - Each phase builds on previous output
+
+Phase 0: Project Analysis and Requirements Gathering
+Goal: Analyze existing project files to understand what needs to be built
+
+Actions:
+
+**Read Project Configuration Files:**
+
+1. Read `.claude/project.json`:
+   !{Read .claude/project.json}
+   Extract:
+   - Tech stack (languages, frameworks)
+   - Infrastructure components
+   - Deployment targets
+   - Project name and description
+
+2. Read `features.json`:
+   !{Read features.json}
+   Extract:
+   - Feature list with IDs (F001, F002, etc.)
+   - Feature descriptions and requirements
+   - Dependencies between features
+   - Implementation status
+
+3. Read `execution.json` (if exists):
+   !{bash test -f execution.json && cat execution.json}
+   Extract:
+   - What's already been executed
+   - What's pending
+   - What failed and needs retry
+
+4. Scan `specs/` directory:
+   !{bash find specs/ -name "*.md" -type f 2>/dev/null | head -20}
+   Extract:
+   - Feature specifications
+   - Technical requirements
+   - API contracts
+   - Architecture decisions
+
+**Analyze Requirements:**
+
+Parse project.json to determine:
+- Language: Python/TypeScript/Go/Java
+- Agent types needed: LLM/Custom/Workflow
+- Tools required: Gemini API, Google Cloud, Custom
+- Streaming needed: Yes/No (check for voice/video features)
+- A2A needed: Yes/No (check for multi-agent features)
+- Observability: Development/Production
+- Deployment target: Vertex AI/Cloud Run/GKE/Local
+
+Parse features.json to determine:
+- Which features require agents
+- Which features need streaming
+- Which features need A2A protocol
+- Which features are already implemented
+
+**Create Customized Build Plan:**
+
+Based on analysis, determine execution order:
+- Skip init if SDK already configured
+- Only add components required by specs
+- Prioritize features with dependencies first
+- Use language-specific configurations
+- Target deployment platform from project.json
+
+Store analysis results:
+- $LANGUAGE (from project.json)
+- $AGENT_TYPES (from features.json)
+- $TOOLS_NEEDED (from specs)
+- $FEATURES_TO_BUILD (from features.json + execution.json)
+- $DEPLOYMENT_TARGET (from project.json)
 
 Phase 1: Initialize Progress Tracking
 Goal: Create todo list for all workflow phases
