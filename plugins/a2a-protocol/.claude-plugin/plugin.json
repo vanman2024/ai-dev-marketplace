@@ -1,0 +1,16 @@
+{
+  "name": "a2a-protocol",
+  "version": "1.0.0",
+  "description": "Complete A2A Protocol integration for multi-agent systems",
+  "author": {
+    "name": "Plugin Developer",
+    "email": "noreply@a2a-protocol.dev"
+  },
+  "homepage": "https://github.com/username/a2a-protocol",
+  "repository": "https://github.com/username/a2a-protocol",
+  "license": "Apache-2.0",
+  "keywords": ["a2a", "protocol", "agent-communication", "multi-agent", "interoperability"],
+  "commands": {
+    "add-streaming": "commands/add-streaming.md"
+  }
+}
