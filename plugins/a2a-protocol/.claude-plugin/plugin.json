@@ -9,14 +9,5 @@
   "homepage": "https://github.com/username/a2a-protocol",
   "repository": "https://github.com/username/a2a-protocol",
   "license": "Apache-2.0",
-  "keywords": ["a2a", "protocol", "agent-communication", "multi-agent", "interoperability"],
-  "commands": {
-    "init": "commands/init.md",
-    "add-agent": "commands/add-agent.md",
-    "add-client": "commands/add-client.md",
-    "add-discovery": "commands/add-discovery.md",
-    "add-streaming": "commands/add-streaming.md",
-    "add-production": "commands/add-production.md",
-    "test": "commands/test.md"
-  }
+  "keywords": ["a2a", "protocol", "agent-communication", "multi-agent", "interoperability", "agent-to-agent", "google", "linux-foundation", "mcp", "sdk", "python", "javascript", "typescript", "java", "csharp", "golang"]
 }
