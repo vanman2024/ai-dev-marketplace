@@ -1,0 +1,51 @@
+# Gitleaks configuration for RedAI
+# Prevents API keys and secrets from being committed
+
+title = "RedAI Gitleaks Configuration"
+
+# Strict mode: catch ALL potential secrets in documentation files
+[allowlist]
+  description = "Allowlist for safe patterns"
+  regexes = [
+    '''your_.*_key_here''',
+    '''your_.*_token_here''',
+    '''your_.*_secret_here''',
+    '''sk_test_''',  # Test Stripe keys are OK
+    '''whsec_test_''',  # Test webhook secrets
+  ]
+
+# Custom rules for documentation files
+[[rules]]
+  id = "google-api-key-in-docs"
+  description = "Google API keys should never be in documentation"
+  regex = '''AIza[0-9A-Za-z\-_]{35}'''
+  path = '''(\.md|\.mdx|\.txt|docs/)'''
+  tags = ["key", "google", "documentation"]
+
+[[rules]]
+  id = "any-api-key-in-docs"
+  description = "Generic API keys in documentation must be placeholders"
+  regex = '''(?i)(api[_-]?key|apikey|api_secret|token)\s*[:=]\s*["']?(?!your_|sk_test_|whsec_test_)[a-zA-Z0-9\-_]{20,}["']?'''
+  path = '''(\.md|\.mdx|\.txt|docs/)'''
+  tags = ["key", "documentation"]
+
+[[rules]]
+  id = "supabase-keys-in-docs"
+  description = "Supabase keys in documentation"
+  regex = '''eyJ[A-Za-z0-9_-]{10,}'''
+  path = '''(\.md|\.mdx|\.txt|docs/)'''
+  tags = ["jwt", "supabase", "documentation"]
+
+[[rules]]
+  id = "clerk-keys-in-docs"
+  description = "Clerk keys in documentation"
+  regex = '''(sk|pk)_(test|live)_[a-zA-Z0-9]{20,}'''
+  path = '''(\.md|\.mdx|\.txt|docs/)'''
+  tags = ["clerk", "documentation"]
+
+[[rules]]
+  id = "stripe-keys-in-docs"
+  description = "Stripe keys in documentation (non-test)"
+  regex = '''(sk|pk)_live_[a-zA-Z0-9]{20,}'''
+  path = '''(\.md|\.mdx|\.txt|docs/)'''
+  tags = ["stripe", "documentation"]
