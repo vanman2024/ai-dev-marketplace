@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+# pre-commit hook: Gitleaks secret scanning
+
+echo "🔍 Scanning for secrets with Gitleaks..."
+
+# Run gitleaks on staged files
+if command -v gitleaks &> /dev/null; then
+  gitleaks protect --staged --verbose --redact --no-banner 2>&1
+
+  if [ $? -eq 1 ]; then
+    echo ""
+    echo "❌ Gitleaks found secrets in staged files!"
+    echo "Fix the issues above or use 'git commit --no-verify' to bypass (not recommended)"
+    exit 1
+  fi
+
+  echo "✅ No secrets detected"
+else
+  echo "⚠️  Gitleaks not installed, skipping secret scan"
+  echo "Install with: brew install gitleaks (macOS) or https://github.com/gitleaks/gitleaks"
+fi
+
+exit 0
