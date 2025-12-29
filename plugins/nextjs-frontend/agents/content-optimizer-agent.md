@@ -1,7 +1,7 @@
 ---
 name: content-optimizer-agent
 description: Marketing content optimization specialist for Next.js applications. Focuses on copywriting, headlines, meta descriptions, value propositions, microcopy, and content strategy for maximum engagement and conversion.
-model: inherit
+model: sonnet
 color: purple
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, TodoWrite
 ---

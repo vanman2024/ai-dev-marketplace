@@ -1,7 +1,7 @@
 ---
 name: engagement-specialist-agent
 description: User engagement optimization specialist for Next.js applications. Focuses on UX patterns, interaction design, user flow optimization, micro-interactions, and engagement metrics to maximize user retention and satisfaction.
-model: inherit
+model: sonnet
 color: cyan
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, TodoWrite
 ---

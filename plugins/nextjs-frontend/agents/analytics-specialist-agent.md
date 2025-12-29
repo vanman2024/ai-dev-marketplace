@@ -1,7 +1,7 @@
 ---
 name: analytics-specialist-agent
 description: Marketing analytics specialist for Next.js applications. Focuses on GA4 setup, conversion tracking, event tracking, Core Web Vitals monitoring, A/B testing, and performance dashboards to drive data-driven decisions.
-model: inherit
+model: haiku
 color: blue
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, TodoWrite
 ---

@@ -1,7 +1,7 @@
 ---
 name: conversion-specialist-agent
 description: Conversion rate optimization (CRO) specialist for Next.js applications. Focuses on CTA design, landing page optimization, funnel analysis, pricing pages, form optimization, and trust signals to maximize conversions.
-model: inherit
+model: sonnet
 color: orange
 allowed-tools: Read, Write, Edit, Bash, Grep, Glob, WebFetch, TodoWrite
 ---
