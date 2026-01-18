@@ -1,6 +1,6 @@
 {
   "name": "claude-agent-sdk",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Complete Claude Agent SDK plugin for building AI agents",
   "author": {
     "name": "AI Dev Marketplace",

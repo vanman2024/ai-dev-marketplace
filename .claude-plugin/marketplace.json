@@ -10,7 +10,7 @@
         {
             "name": "claude-agent-sdk",
             "description": "Complete Claude Agent SDK plugin for building AI agents",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "author": {
                 "name": "AI Dev Marketplace",
                 "email": "dev@example.com"
@@ -507,6 +507,55 @@
                 "gemini",
                 "vertex-ai",
                 "agent-development"
+            ]
+        },
+        {
+            "name": "mobile",
+            "description": "Mobile development plugin for React Native/Expo apps, responsive web design, PWAs, with Supabase/Clerk integration and app store deployment via EAS Build",
+            "version": "1.0.0",
+            "author": {
+                "name": "Plugin Developer",
+                "email": "noreply@mobile.dev"
+            },
+            "source": "./plugins/mobile",
+            "category": "development",
+            "keywords": [
+                "mobile",
+                "react-native",
+                "expo",
+                "pwa",
+                "responsive",
+                "ios",
+                "android",
+                "eas-build",
+                "supabase",
+                "clerk",
+                "app-store",
+                "push-notifications"
+            ]
+        },
+        {
+            "name": "sveltekit-frontend",
+            "description": "SvelteKit frontend development with Tailwind CSS v4, shadcn-svelte, and Bun server integration. Includes HTML-to-Svelte migration, app shell, routing, and component generators.",
+            "version": "1.0.0",
+            "author": {
+                "name": "AI Dev Marketplace",
+                "email": "noreply@ai-dev-marketplace.dev"
+            },
+            "source": "./plugins/sveltekit-frontend",
+            "category": "development",
+            "keywords": [
+                "svelte",
+                "sveltekit",
+                "frontend",
+                "tailwind",
+                "shadcn-svelte",
+                "design-system",
+                "components",
+                "ui",
+                "bun",
+                "migration",
+                "html-to-svelte"
             ]
         }
     ]
