@@ -1,0 +1,64 @@
+/**
+ * Claude Agent SDK Types
+ *
+ * Type definitions for the agent service request and response objects.
+ */
+
+/**
+ * Request object for agent execution
+ */
+export interface AgentRequest {
+  /** The prompt to send to the agent */
+  prompt: string;
+
+  /** Optional session ID for continuing a conversation */
+  sessionId?: string;
+
+  /** Optional maximum number of turns before stopping */
+  maxTurns?: number;
+
+  /** Optional context or metadata to pass to the agent */
+  context?: Record<string, unknown>;
+}
+
+/**
+ * Response object from agent execution
+ */
+export interface AgentResponse {
+  /** The agent's response content */
+  content: string;
+
+  /** Session ID for continuing this conversation */
+  sessionId: string;
+
+  /** Whether the execution was successful */
+  success: boolean;
+
+  /** Optional error message if success is false */
+  error?: string;
+}
+
+/**
+ * Streaming chunk from agent execution
+ */
+export interface AgentStreamChunk {
+  /** Type of chunk: 'chunk' for partial content, 'result' for final */
+  type: 'chunk' | 'result';
+
+  /** Content of this chunk */
+  content: string;
+
+  /** Session ID (only present on 'result' type) */
+  sessionId?: string;
+}
+
+/**
+ * Configuration options for the agent service
+ */
+export interface AgentServiceConfig {
+  /** Default maximum turns for agent execution */
+  defaultMaxTurns?: number;
+
+  /** Whether to enable streaming by default */
+  streamByDefault?: boolean;
+}

@@ -1,0 +1,64 @@
+"""
+Claude Agent Routes - FastAPI
+
+HTTP routes for the Claude Agent SDK service.
+Designed for FastAPI applications.
+
+Usage in main.py:
+    from api.routes.claude_agent import router as claude_agent_router
+    app.include_router(claude_agent_router, prefix="/api/agent", tags=["agent"])
+"""
+
+from fastapi import APIRouter, HTTPException
+from fastapi.responses import StreamingResponse
+import json
+
+from services.{{SERVICE_NAME}} import execute_agent, stream_agent
+from services.{{SERVICE_NAME}}.schemas import AgentRequest, AgentResponse
+
+router = APIRouter()
+
+
+@router.post("/execute", response_model=AgentResponse)
+async def execute_agent_endpoint(request: AgentRequest) -> AgentResponse:
+    """
+    Execute an agent query and return the complete response.
+    """
+    try:
+        result = await execute_agent(request)
+        return result
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/stream")
+async def stream_agent_endpoint(request: AgentRequest) -> StreamingResponse:
+    """
+    Execute an agent query with streaming response.
+    """
+
+    async def generate():
+        try:
+            async for chunk in stream_agent(request):
+                data = json.dumps(chunk.model_dump())
+                yield f"data: {data}\n\n"
+            yield "data: [DONE]\n\n"
+        except Exception as e:
+            yield f'data: {{"error": "{str(e)}"}}\n\n'
+
+    return StreamingResponse(
+        generate(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "Connection": "keep-alive",
+        },
+    )
+
+
+@router.get("/health")
+async def health_check():
+    """
+    Health check endpoint for the agent service.
+    """
+    return {"status": "ok", "service": "claude-agent"}

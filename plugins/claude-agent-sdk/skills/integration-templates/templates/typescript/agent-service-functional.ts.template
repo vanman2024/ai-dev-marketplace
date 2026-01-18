@@ -1,0 +1,81 @@
+/**
+ * Claude Agent SDK Service - Functional Style
+ *
+ * This service provides a wrapper around the Claude Agent SDK for executing
+ * agent queries within your existing application.
+ *
+ * Usage:
+ *   import { executeAgent, streamAgent } from './{{SERVICE_NAME}}';
+ *   const result = await executeAgent({ prompt: 'Hello!' });
+ */
+
+import { query, ClaudeAgentOptions } from '@anthropic-ai/claude-agent-sdk';
+import type { AgentRequest, AgentResponse, AgentStreamChunk } from './types';
+
+/**
+ * Execute an agent query and return the complete response.
+ *
+ * @param request - The agent request containing prompt and optional session ID
+ * @returns Promise resolving to the agent response with content and session ID
+ * @throws Error if no result is returned from the agent
+ */
+export async function executeAgent(request: AgentRequest): Promise<AgentResponse> {
+  const messages: string[] = [];
+
+  const options: ClaudeAgentOptions = {};
+  if (request.sessionId) {
+    options.resume = request.sessionId;
+  }
+  if (request.maxTurns) {
+    options.max_turns = request.maxTurns;
+  }
+
+  for await (const message of query(request.prompt, options)) {
+    if (message.type === 'assistant') {
+      messages.push(message.content);
+    }
+    if (message.type === 'result') {
+      return {
+        content: messages.join(''),
+        sessionId: message.session_id,
+        success: true,
+      };
+    }
+  }
+
+  throw new Error('No result returned from agent');
+}
+
+/**
+ * Execute an agent query with streaming responses.
+ *
+ * @param request - The agent request
+ * @yields AgentStreamChunk objects containing partial content or final result
+ */
+export async function* streamAgent(
+  request: AgentRequest
+): AsyncGenerator<AgentStreamChunk> {
+  const options: ClaudeAgentOptions = {};
+  if (request.sessionId) {
+    options.resume = request.sessionId;
+  }
+  if (request.maxTurns) {
+    options.max_turns = request.maxTurns;
+  }
+
+  for await (const message of query(request.prompt, options)) {
+    if (message.type === 'assistant') {
+      yield {
+        type: 'chunk',
+        content: message.content,
+      };
+    }
+    if (message.type === 'result') {
+      yield {
+        type: 'result',
+        content: '',
+        sessionId: message.session_id,
+      };
+    }
+  }
+}

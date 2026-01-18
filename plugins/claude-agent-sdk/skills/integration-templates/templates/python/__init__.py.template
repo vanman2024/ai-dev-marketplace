@@ -1,0 +1,16 @@
+"""
+Claude Agent SDK Service
+
+Provides Claude Agent SDK integration as a service.
+"""
+
+from .service import execute_agent, stream_agent
+from .schemas import AgentRequest, AgentResponse, AgentStreamChunk
+
+__all__ = [
+    "execute_agent",
+    "stream_agent",
+    "AgentRequest",
+    "AgentResponse",
+    "AgentStreamChunk",
+]

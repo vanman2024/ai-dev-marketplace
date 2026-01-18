@@ -1,0 +1,6 @@
+// Add this export to your existing services/index.ts:
+export * from './{{SERVICE_NAME}}';
+
+// Or if using named exports:
+export { executeAgent, streamAgent } from './{{SERVICE_NAME}}';
+export type { AgentRequest, AgentResponse, AgentStreamChunk } from './{{SERVICE_NAME}}/types';

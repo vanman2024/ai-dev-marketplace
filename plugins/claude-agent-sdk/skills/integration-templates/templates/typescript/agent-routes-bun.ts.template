@@ -1,0 +1,87 @@
+/**
+ * Claude Agent Routes - Bun/Hono Style
+ *
+ * HTTP routes for the Claude Agent SDK service.
+ * Designed for Bun with Hono router pattern.
+ *
+ * Usage in server.ts:
+ *   import { claudeAgentRoutes } from './routes/claude-agent';
+ *   app.route('/api/agent', claudeAgentRoutes);
+ */
+
+import { Hono } from 'hono';
+import { executeAgent, streamAgent } from '../services/{{SERVICE_NAME}}';
+import type { AgentRequest } from '../services/{{SERVICE_NAME}}/types';
+
+export const claudeAgentRoutes = new Hono();
+
+/**
+ * POST /execute
+ * Execute an agent query and return the complete response.
+ */
+claudeAgentRoutes.post('/execute', async (c) => {
+  try {
+    const body = await c.req.json<AgentRequest>();
+
+    if (!body.prompt) {
+      return c.json({ error: 'prompt is required' }, 400);
+    }
+
+    const result = await executeAgent(body);
+    return c.json(result);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return c.json({ error: message, success: false }, 500);
+  }
+});
+
+/**
+ * POST /stream
+ * Execute an agent query with streaming response.
+ */
+claudeAgentRoutes.post('/stream', async (c) => {
+  try {
+    const body = await c.req.json<AgentRequest>();
+
+    if (!body.prompt) {
+      return c.json({ error: 'prompt is required' }, 400);
+    }
+
+    const stream = new ReadableStream({
+      async start(controller) {
+        const encoder = new TextEncoder();
+        try {
+          for await (const chunk of streamAgent(body)) {
+            const data = JSON.stringify(chunk) + '\n';
+            controller.enqueue(encoder.encode(`data: ${data}\n`));
+          }
+          controller.enqueue(encoder.encode('data: [DONE]\n\n'));
+        } catch (error) {
+          const message = error instanceof Error ? error.message : 'Unknown error';
+          controller.enqueue(encoder.encode(`data: {"error": "${message}"}\n\n`));
+        } finally {
+          controller.close();
+        }
+      },
+    });
+
+    return new Response(stream, {
+      headers: {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive',
+      },
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return c.json({ error: message, success: false }, 500);
+  }
+});
+
+/**
+ * GET /health
+ * Health check endpoint for the agent service.
+ */
+claudeAgentRoutes.get('/health', (c) => {
+  return c.json({ status: 'ok', service: 'claude-agent' });
+});

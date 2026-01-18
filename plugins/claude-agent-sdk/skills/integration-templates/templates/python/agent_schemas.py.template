@@ -1,0 +1,59 @@
+"""
+Claude Agent SDK Schemas
+
+Pydantic models for the agent service request and response objects.
+"""
+
+from typing import Optional, Any
+from pydantic import BaseModel, Field
+
+
+class AgentRequest(BaseModel):
+    """Request object for agent execution."""
+
+    prompt: str = Field(..., description="The prompt to send to the agent")
+    session_id: Optional[str] = Field(
+        None, description="Optional session ID for continuing a conversation"
+    )
+    max_turns: Optional[int] = Field(
+        None, description="Optional maximum number of turns before stopping"
+    )
+    context: Optional[dict[str, Any]] = Field(
+        None, description="Optional context or metadata to pass to the agent"
+    )
+
+
+class AgentResponse(BaseModel):
+    """Response object from agent execution."""
+
+    content: str = Field(..., description="The agent's response content")
+    session_id: str = Field(
+        ..., description="Session ID for continuing this conversation"
+    )
+    success: bool = Field(..., description="Whether the execution was successful")
+    error: Optional[str] = Field(
+        None, description="Error message if success is false"
+    )
+
+
+class AgentStreamChunk(BaseModel):
+    """Streaming chunk from agent execution."""
+
+    type: str = Field(
+        ..., description="Type of chunk: 'chunk' for partial content, 'result' for final"
+    )
+    content: str = Field(..., description="Content of this chunk")
+    session_id: Optional[str] = Field(
+        None, description="Session ID (only present on 'result' type)"
+    )
+
+
+class AgentServiceConfig(BaseModel):
+    """Configuration options for the agent service."""
+
+    default_max_turns: Optional[int] = Field(
+        None, description="Default maximum turns for agent execution"
+    )
+    stream_by_default: bool = Field(
+        False, description="Whether to enable streaming by default"
+    )

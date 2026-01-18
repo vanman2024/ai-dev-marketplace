@@ -1,0 +1,78 @@
+/**
+ * Claude Agent Routes - Express Style
+ *
+ * HTTP routes for the Claude Agent SDK service.
+ * Designed for Express.js applications.
+ *
+ * Usage in server.ts:
+ *   import { claudeAgentRouter } from './routes/claude-agent';
+ *   app.use('/api/agent', claudeAgentRouter);
+ */
+
+import { Router, Request, Response } from 'express';
+import { executeAgent, streamAgent } from '../services/{{SERVICE_NAME}}';
+import type { AgentRequest } from '../services/{{SERVICE_NAME}}/types';
+
+export const claudeAgentRouter = Router();
+
+/**
+ * POST /execute
+ * Execute an agent query and return the complete response.
+ */
+claudeAgentRouter.post('/execute', async (req: Request, res: Response) => {
+  try {
+    const body = req.body as AgentRequest;
+
+    if (!body.prompt) {
+      return res.status(400).json({ error: 'prompt is required' });
+    }
+
+    const result = await executeAgent(body);
+    return res.json(result);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: message, success: false });
+  }
+});
+
+/**
+ * POST /stream
+ * Execute an agent query with streaming response.
+ */
+claudeAgentRouter.post('/stream', async (req: Request, res: Response) => {
+  try {
+    const body = req.body as AgentRequest;
+
+    if (!body.prompt) {
+      return res.status(400).json({ error: 'prompt is required' });
+    }
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    try {
+      for await (const chunk of streamAgent(body)) {
+        const data = JSON.stringify(chunk);
+        res.write(`data: ${data}\n\n`);
+      }
+      res.write('data: [DONE]\n\n');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      res.write(`data: {"error": "${message}"}\n\n`);
+    } finally {
+      res.end();
+    }
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return res.status(500).json({ error: message, success: false });
+  }
+});
+
+/**
+ * GET /health
+ * Health check endpoint for the agent service.
+ */
+claudeAgentRouter.get('/health', (_req: Request, res: Response) => {
+  return res.json({ status: 'ok', service: 'claude-agent' });
+});

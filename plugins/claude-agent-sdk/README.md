@@ -4,21 +4,46 @@ Complete Claude Agent SDK plugin for building AI agents with TypeScript and Pyth
 
 ## Overview
 
-This plugin provides comprehensive tooling for building AI agents using the Claude Agent SDK. It includes 15 commands (2 for initialization, 13 for features, 1 orchestrator) plus 4 specialized agents for setup, feature implementation, and validation.
+This plugin provides comprehensive tooling for building AI agents using the Claude Agent SDK. It includes 15 commands (2 for initialization, 13 for features, 1 orchestrator) plus 5 specialized agents for setup, feature implementation, integration, and validation.
 
 ## Commands
 
 ### Project Initialization
 
 #### `/claude-agent-sdk:new-app [project-name]`
-Create and setup a new Claude Agent SDK application with TypeScript or Python.
+Create and setup a new Claude Agent SDK application OR integrate into an existing project.
 
-**Features:**
+**Two Modes:**
+
+1. **New Standalone App** - Creates a fresh project directory with Claude Agent SDK
+2. **Integrate into Existing Project** - Adds Claude Agent SDK as a service to your current project
+
+**New App Features:**
 - Interactive project setup with language selection
 - Latest SDK version installation
 - Starter code generation with best practices
 - Automatic project validation
 - Security defaults (.env.example, .gitignore)
+
+**Integration Mode Features:**
+- Automatic project analysis (detects language, framework, structure)
+- Matches existing code patterns (functional vs class-based)
+- Creates service module at detected services directory
+- Creates route handlers at detected routes directory
+- Provides manual wiring instructions (non-destructive)
+
+**Integration Mode Example:**
+```bash
+# Run in your existing project directory
+/claude-agent-sdk:new-app
+
+# Select "Integrate into existing project"
+# Follow prompts to configure service name and features
+```
+
+**Supported Frameworks for Integration:**
+- TypeScript: Bun/Hono, Express, Fastify, Next.js
+- Python: FastAPI, Flask
 
 ### Feature Addition Commands
 
@@ -149,6 +174,22 @@ Creates and initializes new Claude Agent SDK projects with proper structure, dep
 - Starter code generation
 - Security configuration
 - Documentation creation
+
+### `project-integrator`
+Analyzes existing projects and integrates Claude Agent SDK as a service that follows the project's existing patterns and conventions.
+
+**Responsibilities:**
+- Project structure analysis (detect framework, services, routes)
+- Code pattern detection (functional vs class-based)
+- Template selection based on framework
+- Service and route generation matching existing style
+- Non-destructive integration (additive only)
+- Manual wiring instructions
+
+**Supported Detection:**
+- Languages: TypeScript, Python
+- Frameworks: Bun, Express, Hono, Fastify, Next.js, FastAPI, Flask
+- Patterns: Functional services, Class-based services, Barrel exports
 
 ### `claude-agent-features`
 Implements SDK features in existing applications following official documentation patterns. Supports all SDK capabilities including streaming, sessions, MCP, tools, subagents, and more.

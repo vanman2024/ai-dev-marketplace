@@ -1,0 +1,80 @@
+"""
+Claude Agent SDK Service
+
+This service provides a wrapper around the Claude Agent SDK for executing
+agent queries within your existing application.
+
+Usage:
+    from services.{{SERVICE_NAME}} import execute_agent, stream_agent
+    result = await execute_agent(AgentRequest(prompt="Hello!"))
+"""
+
+from typing import AsyncGenerator
+from claude_agent_sdk import query, ClaudeAgentOptions
+from .schemas import AgentRequest, AgentResponse, AgentStreamChunk
+
+
+async def execute_agent(request: AgentRequest) -> AgentResponse:
+    """
+    Execute an agent query and return the complete response.
+
+    Args:
+        request: The agent request containing prompt and optional session ID
+
+    Returns:
+        AgentResponse with content and session ID
+
+    Raises:
+        Exception: If no result is returned from the agent
+    """
+    messages: list[str] = []
+
+    options = ClaudeAgentOptions()
+    if request.session_id:
+        options.resume = request.session_id
+    if request.max_turns:
+        options.max_turns = request.max_turns
+
+    async for message in query(request.prompt, options=options):
+        if message.type == "assistant":
+            messages.append(message.content)
+        if message.type == "result":
+            return AgentResponse(
+                content="".join(messages),
+                session_id=message.session_id,
+                success=True,
+            )
+
+    raise Exception("No result returned from agent")
+
+
+async def stream_agent(
+    request: AgentRequest,
+) -> AsyncGenerator[AgentStreamChunk, None]:
+    """
+    Execute an agent query with streaming responses.
+
+    Args:
+        request: The agent request
+
+    Yields:
+        AgentStreamChunk objects containing partial content or final result
+    """
+    options = ClaudeAgentOptions()
+    if request.session_id:
+        options.resume = request.session_id
+    if request.max_turns:
+        options.max_turns = request.max_turns
+
+    async for message in query(request.prompt, options=options):
+        if message.type == "assistant":
+            yield AgentStreamChunk(
+                type="chunk",
+                content=message.content,
+            )
+        if message.type == "result":
+            yield AgentStreamChunk(
+                type="result",
+                content="",
+                session_id=message.session_id,
+            )
