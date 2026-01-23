@@ -1,0 +1,13 @@
+{
+  "name": "mobile",
+  "version": "1.0.0",
+  "description": "Mobile development plugin for React Native/Expo apps, responsive web design, PWAs, with Supabase/Clerk integration and app store deployment via EAS Build",
+  "author": {
+    "name": "Plugin Developer",
+    "email": "noreply@mobile.dev"
+  },
+  "homepage": "https://github.com/ai-dev-marketplace/mobile",
+  "repository": "https://github.com/ai-dev-marketplace/mobile",
+  "license": "MIT",
+  "keywords": ["mobile", "react-native", "expo", "pwa", "responsive", "ios", "android", "eas-build", "supabase", "clerk"]
+}

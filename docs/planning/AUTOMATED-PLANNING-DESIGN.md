@@ -6,6 +6,39 @@
 
 ---
 
+## 🚨 CRITICAL Requirements (Updated 2025-01)
+
+### Tests are REQUIRED
+Every spec MUST include testing requirements. Every user story MUST have tests (contract, integration, unit) generated in tasks.md. Tests are written BEFORE implementation (TDD approach).
+
+### AI Observability is REQUIRED for AI Features
+If a feature uses AI (LLM, embeddings, agents), it MUST include:
+- **Telemetry**: OpenTelemetry spans, LangSmith/LangFuse tracing, latency/token tracking
+- **Evals**: Eval datasets, accuracy tests, quality tests, baseline metrics
+- **Monitoring**: Sentry AI tracing, error rate alerts, cost tracking dashboards
+- **Guardrails**: Input validation, output validation, hallucination detection, rate limiting
+
+### Task Naming Convention (Verb-First)
+All tasks MUST start with an action verb:
+| Verb | Usage |
+|------|-------|
+| Create | New files, components, schemas |
+| Update | Modify existing code/config |
+| Delete | Remove deprecated code |
+| Configure | Setup configuration/settings |
+| Implement | Business logic, features |
+| Add | Append to existing (middleware, routes) |
+| Build | Construct complex components |
+| Setup | Initialize infrastructure |
+| Integrate | Connect systems/services |
+| Test | Write or run tests |
+| Validate | Verify correctness |
+| Deploy | Production deployment |
+| Refactor | Code restructuring |
+| Optimize | Performance improvements |
+
+---
+
 ## Problem Statement
 
 ### Current Issues:
@@ -526,40 +559,52 @@ Response:
 ```markdown
 # [Feature Name] - Implementation Tasks
 
-## Phase 1: Database Setup
-- [ ] 1.1 Create database tables [P]
-- [ ] 1.2 Add RLS policies [P]
-- [ ] 1.3 Create seed data
-- [ ] 1.4 Test migrations
+## Phase 1: Setup
+- [ ] T001 Create project structure per implementation plan
+- [ ] T002 Configure development environment in .env.example
+- [ ] T003 [P] Setup linting and formatting tools
 
-## Phase 2: Backend API
-- [ ] 2.1 Create FastAPI endpoints [depends: 1.3]
-- [ ] 2.2 Add Pydantic models [P]
-- [ ] 2.3 Implement business logic [depends: 2.1]
-- [ ] 2.4 Add error handling [P]
-- [ ] 2.5 Write API tests [depends: 2.3]
+## Phase 2: Foundational
+- [ ] T004 Create database schema in supabase/migrations/
+- [ ] T005 [P] Configure RLS policies in supabase/policies/
+- [ ] T006 [P] Setup authentication middleware in src/middleware/auth.py
 
-## Phase 3: Frontend UI
-- [ ] 3.1 Create Next.js pages [P]
-- [ ] 3.2 Build UI components [P]
-- [ ] 3.3 Connect to API [depends: 2.1]
-- [ ] 3.4 Add form validation [depends: 3.3]
-- [ ] 3.5 Add loading states [P]
+## Phase 3: User Story 1 - [Title] (P1) 🎯 MVP
 
-## Phase 4: Integration
-- [ ] 4.1 Integrate with 001-exam-system [depends: 3.3]
-- [ ] 4.2 Test end-to-end flow [depends: 4.1]
-- [ ] 4.3 Add monitoring [P]
+### Tests (REQUIRED)
+- [ ] T007 [P] [US1] Create contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T008 [P] [US1] Create integration test for [journey] in tests/integration/test_[name].py
+- [ ] T009 [P] [US1] Create unit tests for [service] in tests/unit/test_[name].py
 
-## Phase 5: Polish
-- [ ] 5.1 Accessibility audit [depends: 4.2]
-- [ ] 5.2 Performance optimization [depends: 4.2]
-- [ ] 5.3 Error messaging [depends: 4.2]
-- [ ] 5.4 Documentation [P]
+### Implementation
+- [ ] T010 [P] [US1] Create [Entity] model in src/models/[entity].py
+- [ ] T011 [US1] Implement [Service] in src/services/[service].py
+- [ ] T012 [US1] Implement [endpoint] in src/api/[endpoint].py
+
+## Phase N-1: AI Observability (REQUIRED for AI features)
+
+### Telemetry
+- [ ] TXXX [P] Setup OpenTelemetry spans in src/lib/telemetry/ai.py
+- [ ] TXXX [P] Configure LangSmith tracing in src/config/observability.py
+
+### Evals
+- [ ] TXXX [P] Create eval dataset in evals/datasets/[feature].json
+- [ ] TXXX [P] Implement accuracy eval in evals/[feature]/test_accuracy.py
+- [ ] TXXX Create baseline metrics in evals/baselines/[feature].json
+
+### Monitoring
+- [ ] TXXX Configure Sentry AI tracing in src/config/sentry.py
+- [ ] TXXX [P] Add error rate alerts in infra/alerts/ai-monitoring.yaml
+
+## Phase N: Polish
+- [ ] TXXX [P] Update documentation in docs/
+- [ ] TXXX Refactor for code quality
+- [ ] TXXX Optimize performance
 
 **Legend**:
 - [P] = Can be done in parallel
-- [depends: X] = Requires task X to be completed first
+- [US1] = User Story 1
+- Task names MUST start with action verb (Create, Implement, Configure, etc.)
 ```
 
 ---

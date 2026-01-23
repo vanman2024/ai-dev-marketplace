@@ -59,14 +59,18 @@ The tasks.md should be immediately executable - each task must be specific enoug
 
 **CRITICAL**: Tasks MUST be organized by user story to enable independent implementation and testing.
 
-**Tests are OPTIONAL**: Only generate test tasks if explicitly requested in the feature specification or if user requests TDD approach.
+**Tests are REQUIRED**: Every user story MUST have tests (contract, integration, unit) written BEFORE implementation (TDD approach).
+
+**AI Observability is REQUIRED**: If the feature uses AI (LLM, embeddings, agents), MUST include an AI Observability phase with telemetry, evals, and monitoring tasks.
+
+**Verb-first naming is REQUIRED**: Every task MUST start with an action verb: Create, Update, Delete, Configure, Implement, Add, Build, Setup, Integrate, Test, Validate, Deploy, Refactor, Optimize.
 
 ### Checklist Format (REQUIRED)
 
 Every task MUST strictly follow this format:
 
 ```text
-- [ ] [TaskID] [P?] [Story?] Description with file path
+- [ ] [TaskID] [P?] [Story?] Verb + Object + Path
 ```
 
 **Format Components**:
@@ -77,21 +81,45 @@ Every task MUST strictly follow this format:
 4. **[Story] label**: REQUIRED for user story phase tasks only
    - Format: [US1], [US2], [US3], etc. (maps to user stories from spec.md)
    - Setup phase: NO story label
-   - Foundational phase: NO story label  
+   - Foundational phase: NO story label
    - User Story phases: MUST have story label
+   - AI Observability phase: NO story label
    - Polish phase: NO story label
-5. **Description**: Clear action with exact file path
+5. **Description**: MUST start with action verb, include object, and exact file path
+
+**Action Verbs (use these)**:
+| Verb | Usage |
+|------|-------|
+| Create | New files, components, schemas |
+| Update | Modify existing code/config |
+| Delete | Remove deprecated code |
+| Configure | Setup configuration/settings |
+| Implement | Business logic, features |
+| Add | Append to existing (middleware, routes) |
+| Build | Construct complex components |
+| Setup | Initialize infrastructure |
+| Integrate | Connect systems/services |
+| Test | Write or run tests |
+| Validate | Verify correctness |
+| Deploy | Production deployment |
+| Refactor | Code restructuring |
+| Optimize | Performance improvements |
 
 **Examples**:
 
 - ✅ CORRECT: `- [ ] T001 Create project structure per implementation plan`
 - ✅ CORRECT: `- [ ] T005 [P] Implement authentication middleware in src/middleware/auth.py`
+- ✅ CORRECT: `- [ ] T010 [P] [US1] Create contract test for user API in tests/contract/test_user.py`
 - ✅ CORRECT: `- [ ] T012 [P] [US1] Create User model in src/models/user.py`
 - ✅ CORRECT: `- [ ] T014 [US1] Implement UserService in src/services/user_service.py`
+- ✅ CORRECT: `- [ ] T050 Setup OpenTelemetry tracing in src/lib/telemetry/ai.py`
+- ✅ CORRECT: `- [ ] T055 Configure eval dataset in evals/datasets/chat.json`
 - ❌ WRONG: `- [ ] Create User model` (missing ID and Story label)
 - ❌ WRONG: `T001 [US1] Create model` (missing checkbox)
 - ❌ WRONG: `- [ ] [US1] Create User model` (missing Task ID)
 - ❌ WRONG: `- [ ] T001 [US1] Create model` (missing file path)
+- ❌ WRONG: `- [ ] T001 User model in src/models/` (missing verb - should be "Create User model")
+- ❌ WRONG: `- [ ] T001 The authentication service` (missing verb - should be "Implement authentication service")
 
 ### Task Organization
 
@@ -123,6 +151,22 @@ Every task MUST strictly follow this format:
 - **Phase 1**: Setup (project initialization)
 - **Phase 2**: Foundational (blocking prerequisites - MUST complete before user stories)
 - **Phase 3+**: User Stories in priority order (P1, P2, P3...)
-  - Within each story: Tests (if requested) → Models → Services → Endpoints → Integration
+  - Within each story: Tests (REQUIRED) → Models → Services → Endpoints → Integration
   - Each phase should be a complete, independently testable increment
+- **Phase N-1**: AI Observability (REQUIRED if feature uses AI - telemetry, evals, monitoring)
 - **Final Phase**: Polish & Cross-Cutting Concerns
+
+### Required Elements Per User Story
+
+Every user story MUST include:
+1. **Tests (REQUIRED)**: Contract tests, integration tests, unit tests - written BEFORE implementation
+2. **Implementation**: Models, services, endpoints
+3. **Checkpoint**: Verify story works independently before next story
+
+### AI Observability Phase (REQUIRED for AI features)
+
+If the feature uses LLM, embeddings, or AI agents, MUST include:
+1. **Telemetry**: OpenTelemetry spans, LangSmith/LangFuse tracing, latency/token tracking
+2. **Evals**: Eval datasets, accuracy tests, quality tests, baseline metrics
+3. **Monitoring**: Sentry AI tracing, error rate alerts, cost tracking dashboards
+4. **Guardrails**: Input validation, output validation, hallucination detection, rate limiting

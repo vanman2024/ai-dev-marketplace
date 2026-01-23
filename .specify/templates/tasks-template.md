@@ -8,15 +8,39 @@ description: "Task list template for feature implementation"
 **Input**: Design documents from `/specs/[###-feature-name]/`
 **Prerequisites**: plan.md (required), spec.md (required for user stories), research.md, data-model.md, contracts/
 
-**Tests**: The examples below include test tasks. Tests are OPTIONAL - only include them if explicitly requested in the feature specification.
+**Tests**: Tests are REQUIRED for every user story. Each story MUST have contract tests and integration tests written BEFORE implementation.
+
+**AI Observability**: Every AI feature MUST include observability tasks for telemetry, evals, and monitoring.
 
 **Organization**: Tasks are grouped by user story to enable independent implementation and testing of each story.
 
-## Format: `[ID] [P?] [Story] Description`
+## Format: `[ID] [P?] [Story] Verb + Object + Path`
 
 - **[P]**: Can run in parallel (different files, no dependencies)
 - **[Story]**: Which user story this task belongs to (e.g., US1, US2, US3)
+- **Verb-first naming**: MUST start with action verb (Create, Update, Delete, Configure, Implement, Add, Build, Setup, Integrate, Test, Validate, Deploy)
 - Include exact file paths in descriptions
+
+## Task Naming Convention (REQUIRED)
+
+Every task MUST start with an action verb:
+
+| Verb | Usage |
+|------|-------|
+| **Create** | New files, components, schemas |
+| **Update** | Modify existing code/config |
+| **Delete** | Remove deprecated code |
+| **Configure** | Setup configuration/settings |
+| **Implement** | Business logic, features |
+| **Add** | Append to existing (middleware, routes) |
+| **Build** | Construct complex components |
+| **Setup** | Initialize infrastructure |
+| **Integrate** | Connect systems/services |
+| **Test** | Write or run tests |
+| **Validate** | Verify correctness |
+| **Deploy** | Production deployment |
+| **Refactor** | Code restructuring |
+| **Optimize** | Performance improvements |
 
 ## Path Conventions
 
@@ -79,21 +103,22 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 1 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 1 (REQUIRED) ✅
 
-> **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
+> **NOTE: Write these tests FIRST, ensure they FAIL before implementation (TDD)**
 
-- [ ] T010 [P] [US1] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T011 [P] [US1] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T010 [P] [US1] Create contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T011 [P] [US1] Create integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T012 [P] [US1] Create unit tests for [service] in tests/unit/test_[name].py
 
 ### Implementation for User Story 1
 
-- [ ] T012 [P] [US1] Create [Entity1] model in src/models/[entity1].py
-- [ ] T013 [P] [US1] Create [Entity2] model in src/models/[entity2].py
-- [ ] T014 [US1] Implement [Service] in src/services/[service].py (depends on T012, T013)
-- [ ] T015 [US1] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T016 [US1] Add validation and error handling
-- [ ] T017 [US1] Add logging for user story 1 operations
+- [ ] T013 [P] [US1] Create [Entity1] model in src/models/[entity1].py
+- [ ] T014 [P] [US1] Create [Entity2] model in src/models/[entity2].py
+- [ ] T015 [US1] Implement [Service] in src/services/[service].py (depends: T013, T014)
+- [ ] T016 [US1] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T017 [US1] Add validation and error handling to [file].py
+- [ ] T018 [US1] Configure logging for user story 1 operations
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
@@ -105,17 +130,18 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 2 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 2 (REQUIRED) ✅
 
-- [ ] T018 [P] [US2] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T019 [P] [US2] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T019 [P] [US2] Create contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T020 [P] [US2] Create integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T021 [P] [US2] Create unit tests for [service] in tests/unit/test_[name].py
 
 ### Implementation for User Story 2
 
-- [ ] T020 [P] [US2] Create [Entity] model in src/models/[entity].py
-- [ ] T021 [US2] Implement [Service] in src/services/[service].py
-- [ ] T022 [US2] Implement [endpoint/feature] in src/[location]/[file].py
-- [ ] T023 [US2] Integrate with User Story 1 components (if needed)
+- [ ] T022 [P] [US2] Create [Entity] model in src/models/[entity].py
+- [ ] T023 [US2] Implement [Service] in src/services/[service].py
+- [ ] T024 [US2] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T025 [US2] Integrate with User Story 1 components (if needed)
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
@@ -127,16 +153,17 @@ Examples of foundational tasks (adjust based on your project):
 
 **Independent Test**: [How to verify this story works on its own]
 
-### Tests for User Story 3 (OPTIONAL - only if tests requested) ⚠️
+### Tests for User Story 3 (REQUIRED) ✅
 
-- [ ] T024 [P] [US3] Contract test for [endpoint] in tests/contract/test_[name].py
-- [ ] T025 [P] [US3] Integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T026 [P] [US3] Create contract test for [endpoint] in tests/contract/test_[name].py
+- [ ] T027 [P] [US3] Create integration test for [user journey] in tests/integration/test_[name].py
+- [ ] T028 [P] [US3] Create unit tests for [service] in tests/unit/test_[name].py
 
 ### Implementation for User Story 3
 
-- [ ] T026 [P] [US3] Create [Entity] model in src/models/[entity].py
-- [ ] T027 [US3] Implement [Service] in src/services/[service].py
-- [ ] T028 [US3] Implement [endpoint/feature] in src/[location]/[file].py
+- [ ] T029 [P] [US3] Create [Entity] model in src/models/[entity].py
+- [ ] T030 [US3] Implement [Service] in src/services/[service].py
+- [ ] T031 [US3] Implement [endpoint/feature] in src/[location]/[file].py
 
 **Checkpoint**: All user stories should now be independently functional
 
@@ -146,16 +173,53 @@ Examples of foundational tasks (adjust based on your project):
 
 ---
 
+## Phase N-1: AI Observability & Evals (REQUIRED for AI features) 🤖
+
+**Purpose**: Telemetry, evaluation, and monitoring for AI-powered features
+
+> **CRITICAL**: If this feature uses AI (LLM, embeddings, agents), this phase is MANDATORY
+
+### Telemetry Setup
+
+- [ ] TXXX [P] Setup OpenTelemetry spans for AI calls in src/lib/telemetry/[feature].py
+- [ ] TXXX [P] Configure LangSmith/LangFuse tracing in src/config/observability.py
+- [ ] TXXX [P] Add latency and token tracking middleware in src/middleware/ai-metrics.py
+
+### Evaluation Framework
+
+- [ ] TXXX [P] Create eval dataset for [AI feature] in evals/datasets/[feature].json
+- [ ] TXXX [P] Implement accuracy eval for [AI output] in evals/[feature]/test_accuracy.py
+- [ ] TXXX [P] Implement quality eval (coherence, relevance) in evals/[feature]/test_quality.py
+- [ ] TXXX Create baseline metrics in evals/baselines/[feature].json
+- [ ] TXXX Setup eval runner script in scripts/run-evals.sh
+
+### Monitoring & Alerts
+
+- [ ] TXXX Configure Sentry AI tracing in src/config/sentry.py
+- [ ] TXXX [P] Add error rate alerts for AI calls in infra/alerts/ai-monitoring.yaml
+- [ ] TXXX [P] Create cost tracking dashboard config in infra/dashboards/ai-costs.json
+- [ ] TXXX [P] Setup hallucination detection in src/lib/guardrails/hallucination.py
+
+### Guardrails
+
+- [ ] TXXX [P] Implement input validation for prompts in src/lib/guardrails/input.py
+- [ ] TXXX [P] Implement output validation in src/lib/guardrails/output.py
+- [ ] TXXX Add rate limiting for AI endpoints in src/middleware/rate-limit.py
+
+**Checkpoint**: AI features should now have full observability, evals, and monitoring
+
+---
+
 ## Phase N: Polish & Cross-Cutting Concerns
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] TXXX [P] Documentation updates in docs/
-- [ ] TXXX Code cleanup and refactoring
-- [ ] TXXX Performance optimization across all stories
-- [ ] TXXX [P] Additional unit tests (if requested) in tests/unit/
-- [ ] TXXX Security hardening
-- [ ] TXXX Run quickstart.md validation
+- [ ] TXXX [P] Update documentation in docs/
+- [ ] TXXX Refactor shared utilities for cleaner code
+- [ ] TXXX Optimize performance across all stories
+- [ ] TXXX [P] Add E2E tests in tests/e2e/
+- [ ] TXXX Implement security hardening (RLS, auth)
+- [ ] TXXX Validate quickstart.md instructions
 
 ---
 
@@ -198,14 +262,37 @@ Examples of foundational tasks (adjust based on your project):
 ## Parallel Example: User Story 1
 
 ```bash
-# Launch all tests for User Story 1 together (if tests requested):
-Task: "Contract test for [endpoint] in tests/contract/test_[name].py"
-Task: "Integration test for [user journey] in tests/integration/test_[name].py"
+# Launch all tests for User Story 1 together (REQUIRED):
+Task: "Create contract test for [endpoint] in tests/contract/test_[name].py"
+Task: "Create integration test for [user journey] in tests/integration/test_[name].py"
+Task: "Create unit tests for [service] in tests/unit/test_[name].py"
 
 # Launch all models for User Story 1 together:
 Task: "Create [Entity1] model in src/models/[entity1].py"
 Task: "Create [Entity2] model in src/models/[entity2].py"
 ```
+
+## Task Naming Examples
+
+**✅ CORRECT (Verb-first):**
+- `Create User model in src/models/user.py`
+- `Implement authentication service in src/services/auth.py`
+- `Configure Supabase RLS policies in supabase/migrations/`
+- `Add rate limiting middleware in src/middleware/rate-limit.py`
+- `Setup OpenTelemetry tracing in src/lib/telemetry/`
+- `Integrate Stripe webhooks in src/api/webhooks/stripe.py`
+- `Test user registration flow in tests/integration/`
+- `Validate API responses in tests/contract/`
+- `Deploy to production environment`
+- `Refactor database queries for performance`
+
+**❌ WRONG (Missing verb or weak verb):**
+- `User model in src/models/` → Should be "Create User model..."
+- `Authentication service` → Should be "Implement authentication service..."
+- `RLS policies` → Should be "Configure RLS policies..."
+- `Rate limiting` → Should be "Add rate limiting..."
+- `The user registration test` → Should be "Test user registration..."
+- `Handle error responses` → Should be "Implement error handling..."
 
 ---
 
