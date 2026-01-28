@@ -118,21 +118,25 @@ Task("Validate API implementation", @endpoint-generator-agent, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - List all created files
 - Show project structure
 - Provide run commands:
+
   ```bash
   # Development
   uvicorn app.main:app --reload
-  
+
   # With Docker
   docker-compose up -d
   ```
+
 - Note any manual steps needed (database migrations, env vars)
 
 ## Utility Commands
 
 For individual tasks, use these commands instead:
+
 - `/fastapi-backend:add-endpoint` - Add single API endpoint
 - `/fastapi-backend:add-auth` - Add authentication to existing project
 - `/fastapi-backend:setup-database` - Configure database only

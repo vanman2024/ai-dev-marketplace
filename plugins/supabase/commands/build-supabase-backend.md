@@ -91,7 +91,7 @@ Task("Setup AI features", @supabase-ai-specialist, {
     Skip if no AI features in architecture docs."
 })
 
-// Agent 4: Realtime Features (if needed)  
+// Agent 4: Realtime Features (if needed)
 Task("Setup realtime features", @supabase-realtime-builder, {
   prompt: "Implement realtime features if specified in architecture:
     - Enable realtime for required tables
@@ -141,24 +141,28 @@ Task("Audit security", @supabase-security-auditor, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - List all migrations created
 - Show RLS policies implemented
 - Provide deployment commands:
+
   ```bash
   # Local development
   supabase start
-  
+
   # Deploy migrations
   supabase db push
-  
+
   # Generate types
   supabase gen types typescript --local > src/types/supabase.ts
   ```
+
 - Note any manual steps needed
 
 ## Utility Commands
 
 For individual tasks, use these commands instead:
+
 - `/supabase:create-schema` - Create database schema only
 - `/supabase:add-auth` - Add authentication configuration
 - `/supabase:add-rls` - Add Row Level Security policies
