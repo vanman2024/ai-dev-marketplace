@@ -1,7 +1,7 @@
 {
   "name": "claude-agent-sdk",
-  "version": "2.0.0",
-  "description": "Claude Agent SDK plugin with 8 specialized agents and parallel orchestration. Build production AI agent systems with MCP, subagents, sessions, tools, and deployment in one command.",
+  "version": "2.1.0",
+  "description": "Claude Agent SDK plugin with 11 specialized agents covering all SDK features. Build complete apps with /build or add features incrementally with /add. Includes streaming, MCP, subagents, sessions, tools, skills, hooks, checkpointing, structured outputs, thinking, caching, batch, vision, web search, code execution, computer use, and memory.",
   "author": {
     "name": "AI Dev Marketplace",
     "email": "dev@example.com"
