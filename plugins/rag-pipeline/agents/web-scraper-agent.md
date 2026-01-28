@@ -1,9 +1,8 @@
 ---
 name: web-scraper-agent
-description: Use this agent for web scraping automation using Playwright, BeautifulSoup, and Scrapy with intelligent rate limiting and data extraction.
-model: inherit
+model: haiku
+description: Web scraping automation using Playwright, BeautifulSoup, and Scrapy with intelligent rate limiting and data extraction
 color: blue
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

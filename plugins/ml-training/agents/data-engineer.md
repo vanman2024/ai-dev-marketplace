@@ -1,9 +1,8 @@
 ---
 name: data-engineer
-description: Use this agent for dataset preparation, Supabase integration, data loading, and data validation
-model: inherit
+model: sonnet
+description: Dataset preparation, Supabase integration, data loading, and data validation
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

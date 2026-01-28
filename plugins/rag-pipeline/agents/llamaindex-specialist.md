@@ -1,9 +1,8 @@
 ---
 name: llamaindex-specialist
-description: Use this agent for LlamaIndex implementation expertise including VectorStoreIndex creation, custom retrievers, query engines, and LlamaCloud integration
-model: inherit
+model: haiku
+description: LlamaIndex implementation including VectorStoreIndex creation, custom retrievers, query engines, and LlamaCloud integration
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -1,9 +1,8 @@
 ---
 name: embedding-specialist
-description: Use this agent for embedding generation and optimization
-model: inherit
+model: sonnet
+description: Embedding generation and optimization
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

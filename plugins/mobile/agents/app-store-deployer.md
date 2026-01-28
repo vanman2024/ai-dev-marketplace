@@ -1,6 +1,7 @@
 ---
 name: app-store-deployer
-description: Expert in mobile app deployment using EAS Build, EAS Submit, and app store configuration for iOS App Store and Google Play
+model: haiku
+description: Mobile app deployment using EAS Build, EAS Submit, and app store configuration for iOS App Store and Google Play
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

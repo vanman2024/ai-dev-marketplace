@@ -1,9 +1,8 @@
 ---
 name: retrieval-optimizer
-description: Use this agent for search and retrieval optimization including semantic search tuning, hybrid search (vector + BM25), re-ranking strategies, and query expansion. Invoke when optimizing RAG retrieval performance or implementing advanced search capabilities.
-model: inherit
+model: sonnet
+description: Search and retrieval optimization including semantic search tuning, hybrid search (vector + BM25), re-ranking strategies, and query expansion
 color: red
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

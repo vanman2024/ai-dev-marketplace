@@ -1,6 +1,7 @@
 ---
 name: pwa-specialist
-description: Expert in Progressive Web App development including service workers, web app manifests, offline support, and installability
+model: haiku
+description: Progressive Web App development including service workers, web app manifests, offline support, and installability
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

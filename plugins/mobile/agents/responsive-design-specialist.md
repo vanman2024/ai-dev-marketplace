@@ -1,6 +1,7 @@
 ---
 name: responsive-design-specialist
-description: Expert in mobile-first responsive web design using Tailwind CSS, CSS Grid, Flexbox, and modern responsive patterns
+model: haiku
+description: Mobile-first responsive web design using Tailwind CSS, CSS Grid, Flexbox, and modern responsive patterns
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

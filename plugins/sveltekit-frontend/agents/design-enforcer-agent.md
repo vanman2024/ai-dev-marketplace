@@ -1,7 +1,7 @@
 ---
 name: design-enforcer-agent
-description: Validates Svelte components against design system rules. Checks typography (4 sizes, 2 weights), spacing (8pt grid), colors (CSS variables only), and component patterns. Use before merging UI changes.
-allowed-tools: Read, Grep, Glob, Bash, Write, Edit
+model: haiku
+description: Validate Svelte components against design system rules - typography (4 sizes, 2 weights), spacing (8pt grid), colors (CSS variables only)
 ---
 
 # Design Enforcer Agent

@@ -1,9 +1,8 @@
 ---
 name: data-specialist
-description: Use this agent for advanced preprocessing, tokenization, augmentation, and data quality checks
-model: inherit
+model: haiku
+description: Advanced preprocessing, tokenization, augmentation, and data quality checks
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

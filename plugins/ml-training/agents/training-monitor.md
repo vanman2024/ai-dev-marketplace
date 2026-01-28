@@ -1,9 +1,8 @@
 ---
 name: training-monitor
-description: Use this agent to monitor ML training runs, track metrics with TensorBoard and Weights & Biases, implement failure recovery strategies, and optimize training workflows.
-model: inherit
+model: haiku
+description: Monitor ML training runs, track metrics with TensorBoard and Weights & Biases, implement failure recovery strategies
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

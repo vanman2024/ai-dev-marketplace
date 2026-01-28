@@ -1,9 +1,8 @@
 ---
 name: langchain-specialist
-description: Use this agent for LangChain implementation expertise including RAG pipelines, vector stores, chains, LangGraph workflows, and LangSmith integration
-model: inherit
+model: haiku
+description: LangChain implementation including RAG pipelines, vector stores, chains, LangGraph workflows, and LangSmith integration
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

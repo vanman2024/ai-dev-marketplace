@@ -1,9 +1,8 @@
 ---
 name: modal-specialist
-description: Use this agent for Modal platform deployment, GPU configuration, and serverless ML endpoint setup with cost optimization.
-model: inherit
+model: haiku
+description: Modal platform deployment, GPU configuration, and serverless ML endpoint setup with cost optimization
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

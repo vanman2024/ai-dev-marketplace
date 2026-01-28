@@ -1,10 +1,8 @@
 ---
 name: google-vertex-specialist
-description: Use this agent to manage Vertex AI custom training jobs for deep learning. Handles GPU/TPU selection, PyTorch/TensorFlow/Hugging Face integration, distributed training setup, and model deployment to endpoints.
-model: inherit
+model: haiku
+description: Vertex AI custom training jobs for deep learning - GPU/TPU selection, PyTorch/TensorFlow/Hugging Face integration, distributed training setup
 color: yellow
-tools: Bash, Read, Write, Edit, WebFetch, Skill
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

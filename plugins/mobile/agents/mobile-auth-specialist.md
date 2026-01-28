@@ -1,6 +1,7 @@
 ---
 name: mobile-auth-specialist
-description: Expert in mobile authentication using Clerk SDK for React Native/Expo with secure token storage, OAuth, and biometric auth
+model: sonnet
+description: Mobile authentication using Clerk SDK for React Native/Expo with secure token storage, OAuth, and biometric auth
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

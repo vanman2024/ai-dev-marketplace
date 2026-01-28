@@ -1,9 +1,8 @@
 ---
 name: document-processor
-description: Use this agent for multi-format document parsing, text extraction, chunking strategies, and metadata extraction from PDFs, DOCX, HTML, and web content
-model: inherit
+model: haiku
+description: Multi-format document parsing, text extraction, chunking strategies, and metadata extraction from PDFs, DOCX, HTML, and web content
 color: blue
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

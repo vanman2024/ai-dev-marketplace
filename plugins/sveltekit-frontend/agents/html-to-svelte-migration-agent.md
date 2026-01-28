@@ -1,7 +1,7 @@
 ---
 name: html-to-svelte-migration-agent
-description: Migrates HTML views to fully-wired SvelteKit pages. Extracts API calls, WebSocket connections, and data flow from existing HTML/JS and generates complete SvelteKit implementation with stores, routes, and backend integration. NOT just visual copy - full functional migration.
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash
+model: haiku
+description: Migrate HTML views to fully-wired SvelteKit pages with stores, routes, and backend integration - full functional migration
 ---
 
 # HTML to SvelteKit Migration Agent

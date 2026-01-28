@@ -1,9 +1,8 @@
 ---
 name: ml-architect
-description: Use this agent for high-level ML pipeline design, framework selection, platform recommendation, and project initialization
-model: inherit
+model: sonnet
+description: High-level ML pipeline design, framework selection, platform recommendation, and project initialization
 color: purple
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

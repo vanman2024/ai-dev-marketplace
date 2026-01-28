@@ -1,9 +1,8 @@
 ---
 name: ml-tester
-description: Use this agent for end-to-end testing of ML pipeline including data validation, training tests, and inference tests
 model: haiku
+description: End-to-end testing of ML pipeline including data validation, training tests, and inference tests
 color: pink
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

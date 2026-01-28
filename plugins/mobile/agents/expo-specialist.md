@@ -1,6 +1,7 @@
 ---
 name: expo-specialist
-description: Expert in Expo and React Native development including project setup, SDK configuration, native modules, and EAS Build
+model: sonnet
+description: Expo and React Native development including project setup, SDK configuration, native modules, and EAS Build
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

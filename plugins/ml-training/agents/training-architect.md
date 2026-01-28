@@ -1,9 +1,8 @@
 ---
 name: training-architect
-description: Use this agent for training configuration, hyperparameter tuning, framework setup, and TrainingArguments creation
-model: inherit
+model: sonnet
+description: Training configuration, hyperparameter tuning, framework setup, and TrainingArguments creation
 color: purple
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

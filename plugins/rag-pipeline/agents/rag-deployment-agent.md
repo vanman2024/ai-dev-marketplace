@@ -1,9 +1,8 @@
 ---
 name: rag-deployment-agent
-description: Use this agent for RAG deployment and productionization
-model: inherit
+model: haiku
+description: RAG deployment and productionization
 color: orange
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -1,6 +1,7 @@
 ---
 name: mobile-navigation-specialist
-description: Expert in React Navigation and Expo Router for mobile app navigation including stacks, tabs, drawers, and deep linking
+model: haiku
+description: React Navigation and Expo Router for mobile app navigation including stacks, tabs, drawers, and deep linking
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

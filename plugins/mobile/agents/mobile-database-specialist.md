@@ -1,6 +1,7 @@
 ---
 name: mobile-database-specialist
-description: Expert in Supabase integration for React Native/Expo including real-time subscriptions, offline sync, and secure data handling
+model: haiku
+description: Supabase integration for React Native/Expo including real-time subscriptions, offline sync, and secure data handling
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---
 

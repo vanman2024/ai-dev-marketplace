@@ -1,5 +1,6 @@
 ---
 name: mobile-architect
+model: sonnet
 description: Design mobile app architecture for React Native/Expo, responsive web, and PWA applications with Supabase/Clerk integration
 tools: Bash, Read, Write, Edit, Glob, Grep, WebFetch, TodoWrite
 ---

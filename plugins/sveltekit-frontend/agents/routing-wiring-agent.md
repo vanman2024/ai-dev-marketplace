@@ -1,7 +1,7 @@
 ---
 name: routing-wiring-agent
-description: Wires SvelteKit routes to Bun backend APIs. Ensures every page has proper data loading, store connections, WebSocket subscriptions, and error handling. Use when components exist but aren't connected to backend.
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash
+model: haiku
+description: Wire SvelteKit routes to Bun backend APIs with proper data loading, store connections, WebSocket subscriptions, and error handling
 ---
 
 # Routing & Wiring Agent

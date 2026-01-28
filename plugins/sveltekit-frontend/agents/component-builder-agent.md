@@ -1,7 +1,7 @@
 ---
 name: component-builder-agent
-description: Builds Svelte components using shadcn-svelte and Tailwind CSS following strict design system rules. MUST read design-system-enforcement skill before generating any code. Ensures 4 font sizes, 2 weights, 8pt grid, semantic colors.
-allowed-tools: Read, Write, Edit, Grep, Glob, Bash, mcp__shadcn
+model: sonnet
+description: Build Svelte components using shadcn-svelte and Tailwind CSS following strict design system rules - 4 font sizes, 2 weights, 8pt grid, semantic colors
 ---
 
 # Component Builder Agent (SvelteKit)

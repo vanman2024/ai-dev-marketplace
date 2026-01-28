@@ -1,9 +1,8 @@
 ---
 name: rag-tester
-description: Use this agent for RAG testing and evaluation
 model: haiku
+description: RAG testing and evaluation
 color: pink
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources
