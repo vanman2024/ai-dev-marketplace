@@ -1,9 +1,8 @@
 ---
 name: clerk-vercel-ai-integrator
-description: Use this agent to setup authentication for Vercel AI SDK applications, protect AI routes, and provide user context in AI apps using Clerk.
+description: Setup Clerk authentication for Vercel AI SDK apps, protect AI routes, provide user context
 model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

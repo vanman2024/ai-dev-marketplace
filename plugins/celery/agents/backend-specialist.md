@@ -1,9 +1,8 @@
 ---
 name: backend-specialist
 description: Configure result backends (Redis, Database, RPC)
-model: inherit
+model: haiku
 color: yellow
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

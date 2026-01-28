@@ -1,9 +1,8 @@
 ---
 name: elevenlabs-voice-manager
-description: Use this agent to implement voice cloning (instant/professional), library browsing, voice design, and customization features. Invoke when adding voice management capabilities.
+description: Implement voice cloning (instant/professional), library browsing, voice design and customization
 model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -1,9 +1,8 @@
 ---
 name: workflow-specialist
 description: Design and implement task workflows (chains, groups, chords)
-model: inherit
+model: sonnet
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

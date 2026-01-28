@@ -1,9 +1,8 @@
 ---
 name: deployment-architect
 description: Production deployment configurations (Docker, K8s, systemd)
-model: inherit
+model: haiku
 color: orange
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

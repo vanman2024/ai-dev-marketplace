@@ -1,9 +1,8 @@
 ---
 name: clerk-organization-builder
-description: Use this agent to setup organization features, configure RBAC, implement organization switching, and generate organization components for Clerk multi-tenant applications.
-model: inherit
+description: Setup organization features, configure RBAC, implement org switching for multi-tenant apps
+model: sonnet
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

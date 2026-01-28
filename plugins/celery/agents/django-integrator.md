@@ -3,7 +3,6 @@ name: django-integrator
 description: Integrate Celery with Django projects
 model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

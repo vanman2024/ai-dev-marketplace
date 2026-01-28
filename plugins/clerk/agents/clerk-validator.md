@@ -1,9 +1,8 @@
 ---
 name: clerk-validator
-description: Use this agent to validate Clerk environment setup, check configuration files, audit security settings, and test authentication flows. Invoke after setup or configuration changes to ensure everything is working correctly.
+description: Validate Clerk environment setup, check configuration, audit security, test auth flows
 model: haiku
 color: yellow
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

@@ -1,9 +1,8 @@
 ---
 name: elevenlabs-agents-builder
-description: Use this agent to build conversational AI agents with full MCP integration, tool calling, and real-time voice conversations. Invoke when implementing the Agents Platform.
-model: inherit
+description: Build conversational AI agents with MCP integration, tool calling, and real-time voice
+model: sonnet
 color: blue
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

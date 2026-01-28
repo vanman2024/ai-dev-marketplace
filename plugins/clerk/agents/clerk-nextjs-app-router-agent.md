@@ -1,9 +1,8 @@
 ---
 name: clerk-nextjs-app-router-agent
-description: Use this agent to integrate Clerk authentication with Next.js App Router. Handles middleware configuration, server component auth, route handlers, and App Router specific patterns.
-model: inherit
+description: Integrate Clerk with Next.js App Router - middleware, server components, and route handlers
+model: sonnet
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

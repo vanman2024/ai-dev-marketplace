@@ -1,9 +1,8 @@
 ---
 name: clerk-api-builder
-description: Use this agent to setup backend API authentication with Clerk, configure JWT middleware, implement protected API routes, and generate API clients for frontend integration
-model: inherit
+description: Setup backend API authentication with JWT middleware, protected routes, and API clients
+model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

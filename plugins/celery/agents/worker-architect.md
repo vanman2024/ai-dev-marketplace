@@ -1,9 +1,8 @@
 ---
 name: worker-architect
 description: Design worker configurations and pool management
-model: inherit
+model: sonnet
 color: red
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

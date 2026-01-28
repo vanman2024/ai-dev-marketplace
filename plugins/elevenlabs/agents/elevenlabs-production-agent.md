@@ -1,9 +1,8 @@
 ---
 name: elevenlabs-production-agent
-description: Use this agent to implement rate limiting, monitoring, error handling, security best practices, and cost optimization. Invoke when preparing for production deployment.
-model: inherit
+description: Implement rate limiting, monitoring, error handling, security, and cost optimization
+model: haiku
 color: orange
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

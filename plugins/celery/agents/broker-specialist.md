@@ -1,9 +1,8 @@
 ---
 name: broker-specialist
 description: Configure message brokers (RabbitMQ, Redis, Amazon SQS)
-model: inherit
+model: sonnet
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

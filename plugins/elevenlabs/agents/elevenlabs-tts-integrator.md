@@ -1,9 +1,8 @@
 ---
 name: elevenlabs-tts-integrator
-description: Use this agent to implement text-to-speech with multiple voice models (v3, Flash, Turbo, Multilingual), streaming support, and audio playback. Invoke when adding TTS capabilities.
+description: Implement text-to-speech with multiple voice models (v3, Flash, Turbo, Multilingual) and streaming
 model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

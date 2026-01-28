@@ -1,9 +1,8 @@
 ---
 name: monitoring-integrator
-description: Set up Flower monitoring and observability for Celery with event tracking, Prometheus integration, and dashboard configuration
+description: Set up Flower monitoring and observability with event tracking and Prometheus
 model: haiku
 color: purple
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

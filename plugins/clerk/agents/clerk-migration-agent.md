@@ -1,9 +1,8 @@
 ---
 name: clerk-migration-agent
-description: Use this agent to migrate from other authentication providers to Clerk, generate migration scripts, and handle user data transformation. Invoke when switching from Auth0, Firebase Auth, Supabase Auth, NextAuth, or custom auth solutions to Clerk.
-model: inherit
+description: Migrate from Auth0, Firebase, Supabase Auth, NextAuth to Clerk with data transformation
+model: sonnet
 color: orange
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

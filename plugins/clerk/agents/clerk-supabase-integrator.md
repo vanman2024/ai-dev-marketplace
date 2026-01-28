@@ -1,9 +1,8 @@
 ---
 name: clerk-supabase-integrator
-description: Use this agent to sync Clerk users to Supabase, configure JWT verification, setup RLS with Clerk authentication, and create webhook handlers for user management
+description: Sync Clerk users to Supabase, configure JWT verification, setup RLS with Clerk auth
 model: haiku
 color: green
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling

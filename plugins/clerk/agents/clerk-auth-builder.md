@@ -1,9 +1,8 @@
 ---
 name: clerk-auth-builder
-description: Use this agent to implement sign-in/sign-up flows, configure authentication providers, generate auth components, and set up Clerk authentication in your application.
-model: inherit
+description: Implement sign-in/sign-up flows, configure authentication providers, and generate auth components
+model: sonnet
 color: blue
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Security: API Key Handling
