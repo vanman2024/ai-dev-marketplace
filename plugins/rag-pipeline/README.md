@@ -1,45 +1,128 @@
 # RAG Pipeline Plugin
 
-Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support.
+**Google File Search RAG** - Fully managed RAG using Google's File Search API.
 
 ## Overview
 
-This plugin provides comprehensive tools for building production-ready Retrieval-Augmented Generation (RAG) systems with support for multiple frameworks, vector databases, and affordable/free options.
+This plugin provides a streamlined approach to building RAG systems using Google's managed File Search API. No vector database setup, no embedding management - just upload documents and search.
+
+## Why Google File Search?
+
+- **No Infrastructure** - No vector DB to manage
+- **Automatic Embeddings** - Built-in semantic understanding
+- **Automatic Chunking** - Smart document splitting
+- **Native Gemini Integration** - Seamless RAG with Gemini models
+- **Grounding Support** - Built-in citations and source attribution
 
 ## Features
 
-- **Framework Support**: LlamaIndex, LangChain, and custom implementations
-- **Vector Databases**: pgvector, Chroma, Pinecone, Weaviate, Qdrant, FAISS
-- **Embedding Models**: OpenAI, HuggingFace, Cohere, Voyage AI
-- **Document Processing**: LlamaParse, Unstructured.io, PyPDF, PDFPlumber
-- **Web Scraping**: Playwright, Selenium, BeautifulSoup, Scrapy
-- **Affordable Options**: Prioritizes free and low-cost solutions
+- **Store Management** - Create and manage document stores
+- **Document Upload** - Support for PDF, DOCX, HTML, Markdown, text, code
+- **Semantic Search** - Automatic embeddings with configurable top_k
+- **RAG Generation** - Complete RAG with Gemini and citations
+- **Streaming** - Real-time streaming responses
+- **Metadata Filtering** - Filter search by document attributes
 
 ## Commands
 
-(Commands will be added during build process)
+### `/rag-pipeline:build`
+Build a complete Google File Search RAG system with:
+- Store creation and configuration
+- Document upload scripts
+- Search API integration
+- RAG endpoint with citations
+- Streaming support
 
 ## Agents
 
-(Agents will be added during build process)
+### `@google-file-search-specialist`
+Expert in Google File Search API implementation:
+- Store management and configuration
+- Document upload and processing
+- Search implementation patterns
+- RAG with Gemini integration
+- FastAPI/Next.js endpoints
+
+### `@document-processor`
+Multi-format document processing:
+- PDF text extraction
+- Word document parsing
+- HTML content extraction
+- Markdown processing
+- Batch processing scripts
 
 ## Skills
 
-(Skills will be added during build process)
+### `google-file-search`
+Templates for Google File Search implementation:
+- Store creation patterns
+- Upload scripts
+- Search queries
+- RAG pipelines
 
-## Getting Started
+### `document-parsers`
+Document parsing utilities:
+- PDF extraction
+- DOCX processing
+- HTML cleaning
+- Text normalization
 
-1. Initialize a new RAG project: `/rag-pipeline:init`
-2. Configure vector database: `/rag-pipeline:add-vector-db`
-3. Setup embeddings: `/rag-pipeline:add-embeddings`
-4. Build your pipeline!
+### `chunking-strategies`
+Chunking configuration for optimal retrieval:
+- Size configuration
+- Overlap settings
+- Format-specific strategies
+
+## Quick Start
+
+```python
+from google import genai
+
+client = genai.Client()
+
+# 1. Create store
+store = client.files.create_store(display_name="my-docs")
+
+# 2. Upload documents
+client.files.upload(path="doc.pdf", config={"store_id": store.id})
+
+# 3. Search
+results = client.files.search(
+    store_id=store.id,
+    query="How does X work?",
+    top_k=5
+)
+
+# 4. Generate with context
+context = "\n".join([r.content for r in results.results])
+response = client.models.generate_content(
+    model="gemini-2.0-flash",
+    contents=f"Context:\n{context}\n\nQuestion: How does X work?"
+)
+```
 
 ## Documentation
 
-Based on comprehensive resource collection including:
-- LlamaIndex: https://developers.llamaindex.ai/python/framework/
-- LangChain: https://python.langchain.com/docs/
-- Vector databases, embedding models, and deployment platforms
+- [Google File Search](https://ai.google.dev/gemini-api/docs/file-search)
+- [Files API](https://ai.google.dev/api/files)
+- [Grounding](https://ai.google.dev/gemini-api/docs/grounding)
+
+## Requirements
+
+```bash
+pip install google-genai
+```
+
+## Environment Variables
+
+```bash
+# Required
+GOOGLE_API_KEY=your_api_key_here
+```
+
+## Version
+
+2.0.0 - Rebuilt for Google File Search (dropped vector DB support)
 
 ## License
 

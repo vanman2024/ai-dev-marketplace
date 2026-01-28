@@ -1,7 +1,7 @@
 {
   "name": "rag-pipeline",
-  "version": "1.0.0",
-  "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
+  "version": "2.0.0",
+  "description": "Google File Search API powered RAG pipeline - managed retrieval-augmented generation with document processing",
   "author": {
     "name": "Plugin Builder",
     "email": "builder@example.com"
@@ -10,18 +10,13 @@
   "keywords": [
     "rag",
     "retrieval-augmented-generation",
-    "llamaindex",
-    "langchain",
-    "vector-database",
-    "embeddings",
-    "semantic-search",
-    "pgvector",
-    "pinecone",
-    "chroma",
+    "google-file-search",
+    "google-store-api",
+    "managed-rag",
     "document-processing",
     "chunking",
-    "hybrid-search",
-    "llm",
+    "semantic-search",
+    "gemini",
     "ai"
   ]
 }
