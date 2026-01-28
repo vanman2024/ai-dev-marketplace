@@ -8,24 +8,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2025-06-17
 
 ### Changed
+
 - **BREAKING**: Complete redesign for Google File Search API
 - Dropped all vector database support (Pinecone, Qdrant, Chroma, pgvector, FAISS, Weaviate)
 - Dropped LlamaIndex and LangChain framework support
 - Now uses Google's fully managed RAG service
 
 ### Removed
+
 - Agents: langchain-specialist, llamaindex-specialist, vector-db-engineer, embedding-specialist, retrieval-optimizer, web-scraper-agent, rag-architect, rag-deployment-agent, rag-tester
 - Skills: vector-database-configs, langchain-patterns, llamaindex-patterns, embedding-models, retrieval-patterns, web-scraping-tools
 - Commands: All old commands replaced with single `/rag-pipeline:build`
 
 ### Added
+
 - `@google-file-search-specialist` agent - Google File Search API implementation
 - `@document-processor` agent - Multi-format document parsing
 - `google-file-search` skill - Store, upload, search, RAG patterns
 - `/rag-pipeline:build` command - Build complete Google File Search RAG
 
 ### Why This Change?
+
 Google File Search provides a fully managed RAG solution:
+
 - No vector database infrastructure to manage
 - Automatic embeddings and chunking
 - Native Gemini integration with grounding
@@ -35,6 +40,7 @@ Google File Search provides a fully managed RAG solution:
 ## [1.0.0] - 2025-10-31
 
 ### Added
+
 - Initial release of RAG Pipeline plugin
 - 15 slash commands for complete RAG workflow
   - `/rag-pipeline:init` - Initialize RAG projects
@@ -80,6 +86,7 @@ Google File Search provides a fully managed RAG solution:
 - Production-ready deployment configurations
 
 ### Documentation
+
 - Comprehensive README.md with getting started guide
 - Skill documentation with usage examples
 - Integration guides for all supported frameworks

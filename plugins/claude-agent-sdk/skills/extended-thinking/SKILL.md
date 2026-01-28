@@ -17,20 +17,23 @@ Enable Claude to "think out loud" before responding - dramatically improves comp
 
 ## Budget Guidance
 
-| Complexity | Budget Tokens | Use Case |
-|------------|---------------|----------|
-| Simple | 1,024 | Quick verification |
-| Medium | 4,000-8,000 | Standard analysis |
-| Complex | 16,000+ | Deep reasoning |
-| Very Complex | 32,000+ | Consider batch processing |
+| Complexity   | Budget Tokens | Use Case                  |
+| ------------ | ------------- | ------------------------- |
+| Simple       | 1,024         | Quick verification        |
+| Medium       | 4,000-8,000   | Standard analysis         |
+| Complex      | 16,000+       | Deep reasoning            |
+| Very Complex | 32,000+       | Consider batch processing |
 
 ## Key Patterns
 
 ### Basic Extended Thinking
+
 See `templates/basic-thinking.ts` and `templates/basic-thinking.py`
 
 ### Interleaved Thinking with Tools
+
 Requires beta header: `anthropic-beta: interleaved-thinking-2025-05-14`
 
 ### Streaming Extended Thinking
+
 Stream thinking blocks for real-time visibility into reasoning process.

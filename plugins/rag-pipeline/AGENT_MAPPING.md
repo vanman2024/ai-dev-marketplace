@@ -2,17 +2,19 @@
 
 ## Agents
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
+| Agent                            | Model  | Purpose                                                              |
+| -------------------------------- | ------ | -------------------------------------------------------------------- |
 | `@google-file-search-specialist` | Sonnet | Google File Search API implementation - stores, uploads, search, RAG |
-| `@document-processor` | Haiku | Document parsing - PDF, DOCX, HTML, Markdown extraction |
+| `@document-processor`            | Haiku  | Document parsing - PDF, DOCX, HTML, Markdown extraction              |
 
 ## Usage
 
 ### Google File Search Specialist
+
 ```
 @google-file-search-specialist Build a RAG system for technical documentation
 ```
+
 - Creates File Search stores
 - Uploads and processes documents
 - Implements semantic search
@@ -20,9 +22,11 @@
 - Integrates with Gemini models
 
 ### Document Processor
+
 ```
 @document-processor Parse and prepare documents from /docs folder
 ```
+
 - Extracts text from PDFs
 - Processes Word documents
 - Cleans HTML content
@@ -38,6 +42,7 @@
 ## Skills Auto-Loading
 
 Agents automatically access relevant skills:
+
 - `google-file-search` - File Search API patterns
 - `document-parsers` - Document parsing utilities
 - `chunking-strategies` - Chunking configuration

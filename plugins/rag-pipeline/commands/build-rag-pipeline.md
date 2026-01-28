@@ -169,10 +169,10 @@ def rag_query(question: str, store_id: str) -> str:
         query=question,
         top_k=5
     )
-    
+
     # Build context from results
     context = "\n\n".join([r.content for r in results.results])
-    
+
     # Generate response with Gemini
     response = client.models.generate_content(
         model="gemini-2.0-flash",
@@ -185,7 +185,7 @@ Question: {question}
 
 Answer:"""
     )
-    
+
     return response.text
 ```
 
@@ -201,6 +201,7 @@ FILE_STORE_ID=your_store_id_here
 ## Security Requirements
 
 **CRITICAL:** Never hardcode API keys.
+
 - ✅ Use environment variables
 - ✅ Create `.env.example` with placeholders
 - ❌ NEVER commit real credentials
@@ -208,6 +209,7 @@ FILE_STORE_ID=your_store_id_here
 ## Post-Build Validation
 
 After building, verify:
+
 1. Documents uploaded successfully
 2. Search returns relevant results
 3. Generation includes proper citations

@@ -26,7 +26,9 @@ This plugin provides a streamlined approach to building RAG systems using Google
 ## Commands
 
 ### `/rag-pipeline:build`
+
 Build a complete Google File Search RAG system with:
+
 - Store creation and configuration
 - Document upload scripts
 - Search API integration
@@ -36,7 +38,9 @@ Build a complete Google File Search RAG system with:
 ## Agents
 
 ### `@google-file-search-specialist`
+
 Expert in Google File Search API implementation:
+
 - Store management and configuration
 - Document upload and processing
 - Search implementation patterns
@@ -44,7 +48,9 @@ Expert in Google File Search API implementation:
 - FastAPI/Next.js endpoints
 
 ### `@document-processor`
+
 Multi-format document processing:
+
 - PDF text extraction
 - Word document parsing
 - HTML content extraction
@@ -54,21 +60,27 @@ Multi-format document processing:
 ## Skills
 
 ### `google-file-search`
+
 Templates for Google File Search implementation:
+
 - Store creation patterns
 - Upload scripts
 - Search queries
 - RAG pipelines
 
 ### `document-parsers`
+
 Document parsing utilities:
+
 - PDF extraction
 - DOCX processing
 - HTML cleaning
 - Text normalization
 
 ### `chunking-strategies`
+
 Chunking configuration for optimal retrieval:
+
 - Size configuration
 - Overlap settings
 - Format-specific strategies
