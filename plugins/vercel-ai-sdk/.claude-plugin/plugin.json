@@ -1,7 +1,7 @@
 {
   "name": "vercel-ai-sdk",
-  "version": "1.0.0",
-  "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
+  "version": "2.0.0",
+  "description": "Modular Vercel AI SDK development plugin with 13 specialized agents, parallel orchestration, and AI SDK v6 support. Features AI Elements (54 components), 107+ providers, Tools Registry, MCP integration, and full-stack app builder.",
   "author": {
     "name": "vanman2024",
     "email": "noreply@ai-dev-marketplace.dev"
@@ -13,15 +13,21 @@
     "vercel",
     "ai",
     "sdk",
+    "ai-elements",
+    "ai-gateway",
     "streaming",
     "tool-calling",
+    "mcp",
     "chat",
+    "rag",
+    "embeddings",
     "openai",
     "anthropic",
     "google",
-    "xai",
     "typescript",
     "javascript",
-    "python"
+    "python",
+    "agents",
+    "orchestration"
   ]
 }
