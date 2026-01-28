@@ -1,13 +1,13 @@
 {
   "name": "claude-agent-sdk",
-  "version": "1.2.0",
-  "description": "Complete Claude Agent SDK plugin for building AI agents",
+  "version": "2.0.0",
+  "description": "Claude Agent SDK plugin with 8 specialized agents and parallel orchestration. Build production AI agent systems with MCP, subagents, sessions, tools, and deployment in one command.",
   "author": {
     "name": "AI Dev Marketplace",
     "email": "dev@example.com"
   },
   "homepage": "https://docs.claude.com/en/api/agent-sdk/overview",
-  "repository": "https://github.com/anthropics/ai-dev-marketplace",
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
   "license": "MIT",
   "keywords": [
     "claude",
@@ -16,12 +16,13 @@
     "ai",
     "typescript",
     "python",
-    "agents",
     "subagents",
-    "tools",
     "mcp",
     "sessions",
+    "tools",
     "skills",
-    "plugins"
+    "plugins",
+    "orchestration",
+    "production"
   ]
 }
