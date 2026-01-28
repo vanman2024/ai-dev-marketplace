@@ -8,6 +8,7 @@ description: Load project design system for UI generation. Use when creating com
 **Purpose:** Automatically load design system constraints before any UI code generation.
 
 **When this skill activates:**
+
 - Creating new components or pages
 - Generating UI elements or forms
 - Discussing styling, colors, typography
@@ -24,12 +25,12 @@ First, check if project has a design system file:
 
 ### Typography: 4 Sizes, 2 Weights ONLY
 
-| Size | Tailwind | Use Case |
-|------|----------|----------|
-| Size 1 | `text-2xl font-semibold` | Large headings |
-| Size 2 | `text-lg font-semibold` | Subheadings |
-| Size 3 | `text-base font-normal` | Body text |
-| Size 4 | `text-sm font-normal` | Small text, labels |
+| Size   | Tailwind                 | Use Case           |
+| ------ | ------------------------ | ------------------ |
+| Size 1 | `text-2xl font-semibold` | Large headings     |
+| Size 2 | `text-lg font-semibold`  | Subheadings        |
+| Size 3 | `text-base font-normal`  | Body text          |
+| Size 4 | `text-sm font-normal`    | Small text, labels |
 
 **❌ FORBIDDEN:** text-xs, text-xl, text-3xl, text-4xl, font-bold, font-light, font-medium
 
@@ -46,18 +47,20 @@ p-5 ❌     | p-6 (24px) | p-8 (32px) | p-10 (40px)
 ### Colors: 60/30/10 Rule
 
 - **60%** `bg-background` - White/dark backgrounds
-- **30%** `text-foreground` - Text and icons  
+- **30%** `text-foreground` - Text and icons
 - **10%** `bg-primary` - CTAs and highlights ONLY
 
 ### Component Library: shadcn/ui Only
 
 All components must use shadcn/ui. Search available components:
+
 - Button, Card, Input, Select, Dialog, Sheet, Tabs
 - Form, Table, Badge, Avatar, Tooltip, Dropdown
 
 ## Validation Checklist
 
 Before generating UI code, verify:
+
 - [ ] Only 4 font sizes used
 - [ ] Only 2 font weights (semibold, normal)
 - [ ] All spacing divisible by 4 or 8

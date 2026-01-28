@@ -9,11 +9,12 @@ description: Load component structure patterns for React/Next.js. Use when creat
 
 ## Discover Existing Patterns
 
-!find src/components -name "*.tsx" -type f 2>/dev/null | head -5 | xargs head -30 2>/dev/null || echo "No existing components found"
+!find src/components -name "\*.tsx" -type f 2>/dev/null | head -5 | xargs head -30 2>/dev/null || echo "No existing components found"
 
 ## Standard Component Structure
 
 ### File Organization
+
 ```
 src/components/
 ├── ui/                 # shadcn/ui primitives
@@ -32,21 +33,21 @@ src/components/
 ### Component Template
 
 ```tsx
-import { cn } from "@/lib/utils"
-import { ComponentProps } from "react"
+import { cn } from '@/lib/utils';
+import { ComponentProps } from 'react';
 
 // 1. Types at top
-interface MyComponentProps extends ComponentProps<"div"> {
-  title: string
-  description?: string
-  variant?: "default" | "outline"
+interface MyComponentProps extends ComponentProps<'div'> {
+  title: string;
+  description?: string;
+  variant?: 'default' | 'outline';
 }
 
 // 2. Component with forwardRef if needed
 export function MyComponent({
   title,
   description,
-  variant = "default",
+  variant = 'default',
   className,
   ...props
 }: MyComponentProps) {
@@ -54,9 +55,9 @@ export function MyComponent({
     <div
       className={cn(
         // Base styles
-        "rounded-lg border p-4",
+        'rounded-lg border p-4',
         // Variant styles
-        variant === "outline" && "border-2",
+        variant === 'outline' && 'border-2',
         // Custom classes last
         className
       )}
@@ -67,7 +68,7 @@ export function MyComponent({
         <p className="text-sm text-muted-foreground">{description}</p>
       )}
     </div>
-  )
+  );
 }
 ```
 
@@ -83,17 +84,17 @@ export function MyComponent({
 
 ```tsx
 // External libraries first
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 // UI components
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
+import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 
 // Local components
-import { FeatureCard } from "@/components/feature/feature-card"
+import { FeatureCard } from '@/components/feature/feature-card';
 
 // Utils and types
-import { cn } from "@/lib/utils"
-import type { User } from "@/types"
+import { cn } from '@/lib/utils';
+import type { User } from '@/types';
 ```

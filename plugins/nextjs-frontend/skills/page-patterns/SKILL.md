@@ -17,30 +17,30 @@ description: Load Next.js App Router page patterns. Use when creating pages, rou
 
 ## Page File Conventions
 
-| File | Purpose |
-|------|---------|
-| `page.tsx` | Route UI |
-| `layout.tsx` | Shared layout (wraps children) |
-| `loading.tsx` | Loading UI (Suspense fallback) |
-| `error.tsx` | Error boundary |
-| `not-found.tsx` | 404 page |
+| File            | Purpose                        |
+| --------------- | ------------------------------ |
+| `page.tsx`      | Route UI                       |
+| `layout.tsx`    | Shared layout (wraps children) |
+| `loading.tsx`   | Loading UI (Suspense fallback) |
+| `error.tsx`     | Error boundary                 |
+| `not-found.tsx` | 404 page                       |
 
 ## Standard Page Template
 
 ```tsx
 // app/[feature]/page.tsx
-import { Metadata } from "next"
+import { Metadata } from 'next';
 
 // 1. Metadata export for SEO
 export const metadata: Metadata = {
-  title: "Page Title | Site Name",
-  description: "Page description for SEO",
-}
+  title: 'Page Title | Site Name',
+  description: 'Page description for SEO',
+};
 
 // 2. Page component (async for data fetching)
 export default async function FeaturePage() {
   // Server-side data fetching
-  const data = await fetchData()
+  const data = await fetchData();
 
   return (
     <div className="container py-8 space-y-6">
@@ -48,12 +48,10 @@ export default async function FeaturePage() {
         <h1 className="text-2xl font-semibold">Page Title</h1>
         <p className="text-muted-foreground">Page description</p>
       </header>
-      
-      <main>
-        {/* Page content */}
-      </main>
+
+      <main>{/* Page content */}</main>
     </div>
-  )
+  );
 }
 ```
 
@@ -62,26 +60,28 @@ export default async function FeaturePage() {
 ```tsx
 // app/posts/[slug]/page.tsx
 interface PageProps {
-  params: Promise<{ slug: string }>
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = await params
-  const post = await getPost(slug)
-  return { title: post.title }
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const post = await getPost(slug);
+  return { title: post.title };
 }
 
 export default async function PostPage({ params }: PageProps) {
-  const { slug } = await params
-  const post = await getPost(slug)
-  
-  return <article>{/* ... */}</article>
+  const { slug } = await params;
+  const post = await getPost(slug);
+
+  return <article>{/* ... */}</article>;
 }
 
 // Generate static params for SSG
 export async function generateStaticParams() {
-  const posts = await getPosts()
-  return posts.map((post) => ({ slug: post.slug }))
+  const posts = await getPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 ```
 
@@ -92,18 +92,16 @@ export async function generateStaticParams() {
 export default function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="flex min-h-screen">
       <aside className="w-64 border-r p-4">
         <Sidebar />
       </aside>
-      <main className="flex-1 p-6">
-        {children}
-      </main>
+      <main className="flex-1 p-6">{children}</main>
     </div>
-  )
+  );
 }
 ```
 
