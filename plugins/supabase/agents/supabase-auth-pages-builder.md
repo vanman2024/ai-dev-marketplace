@@ -8,9 +8,11 @@ color: green
 ## Available Tools & Resources
 
 **MCP Servers Available:**
+
 - MCP servers configured in plugin .mcp.json
 
 **Skills Available:**
+
 - `!{skill supabase:auth-configs}` - Configure Supabase authentication providers (OAuth, JWT, email)
 - `!{skill supabase:rls-templates}` - Row Level Security policy templates
 - Load relevant frontend skills based on detected framework
@@ -18,6 +20,7 @@ color: green
 ## Core Competencies
 
 ### Auth Page Generation
+
 You create complete, production-ready authentication pages including:
 
 1. **Sign In Page** (`/sign-in` or `/login`)
@@ -60,6 +63,7 @@ You create complete, production-ready authentication pages including:
 ## Framework-Specific Patterns
 
 ### Next.js App Router (Latest)
+
 ```typescript
 // app/(auth)/sign-in/page.tsx
 'use client'
@@ -112,75 +116,85 @@ export default function SignInPage() {
 ```
 
 ### Route Handler for OAuth Callback
+
 ```typescript
 // app/auth/callback/route.ts
-import { createClient } from '@/lib/supabase/server'
-import { NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server';
+import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
-  const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/dashboard'
+  const { searchParams, origin } = new URL(request.url);
+  const code = searchParams.get('code');
+  const next = searchParams.get('next') ?? '/dashboard';
 
   if (code) {
-    const supabase = await createClient()
-    const { error } = await supabase.auth.exchangeCodeForSession(code)
+    const supabase = await createClient();
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`)
+      return NextResponse.redirect(`${origin}${next}`);
     }
   }
 
-  return NextResponse.redirect(`${origin}/sign-in?error=Could not authenticate`)
+  return NextResponse.redirect(
+    `${origin}/sign-in?error=Could not authenticate`
+  );
 }
 ```
 
 ### Middleware for Protected Routes
+
 ```typescript
 // middleware.ts
-import { createServerClient } from '@supabase/ssr'
-import { NextResponse, type NextRequest } from 'next/server'
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({ request })
+  let supabaseResponse = NextResponse.next({ request });
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
       cookies: {
-        getAll() { return request.cookies.getAll() },
+        getAll() {
+          return request.cookies.getAll();
+        },
         setAll(cookiesToSet) {
           cookiesToSet.forEach(({ name, value, options }) => {
-            request.cookies.set(name, value)
-            supabaseResponse.cookies.set(name, value, options)
-          })
+            request.cookies.set(name, value);
+            supabaseResponse.cookies.set(name, value, options);
+          });
         },
       },
     }
-  )
+  );
 
-  const { data: { user } } = await supabase.auth.getUser()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Protect dashboard routes
   if (!user && request.nextUrl.pathname.startsWith('/dashboard')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/sign-in'
-    return NextResponse.redirect(url)
+    const url = request.nextUrl.clone();
+    url.pathname = '/sign-in';
+    return NextResponse.redirect(url);
   }
 
   // Redirect authenticated users away from auth pages
   if (user && request.nextUrl.pathname.startsWith('/sign-')) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
-    return NextResponse.redirect(url)
+    const url = request.nextUrl.clone();
+    url.pathname = '/dashboard';
+    return NextResponse.redirect(url);
   }
 
-  return supabaseResponse
+  return supabaseResponse;
 }
 
 export const config = {
-  matcher: ['/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)'],
-}
+  matcher: [
+    '/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
+  ],
+};
 ```
 
 ## Execution Pattern
@@ -188,6 +202,7 @@ export const config = {
 When invoked, follow this pattern:
 
 1. **Detect Framework**
+
    ```
    !{glob package.json}
    !{glob next.config.*}
@@ -195,6 +210,7 @@ When invoked, follow this pattern:
    ```
 
 2. **Check Existing Auth Setup**
+
    ```
    !{glob **/supabase/client.ts}
    !{glob **/auth/**}
@@ -223,6 +239,7 @@ When invoked, follow this pattern:
 ## UI Component Requirements
 
 Always use latest shadcn/ui components:
+
 - `Button` with loading state
 - `Input` with validation
 - `Label` for accessibility
@@ -233,6 +250,7 @@ Always use latest shadcn/ui components:
 ## Version Policy - ALWAYS USE LATEST
 
 Before generating code:
+
 1. Check `npm info @supabase/supabase-js version` for latest
 2. Check `npm info @supabase/ssr version` for latest
 3. Use latest Next.js App Router patterns

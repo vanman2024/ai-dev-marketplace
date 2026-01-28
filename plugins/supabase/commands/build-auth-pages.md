@@ -10,6 +10,7 @@ argument-hint: [--pages <all|sign-in|sign-up|forgot-password|profile>] [--provid
 ## What Gets Created
 
 ### Core Auth Pages
+
 - **Sign In** (`/sign-in`) - Email/password + OAuth buttons
 - **Sign Up** (`/sign-up`) - Registration with email verification
 - **Forgot Password** (`/forgot-password`) - Password reset request
@@ -17,11 +18,13 @@ argument-hint: [--pages <all|sign-in|sign-up|forgot-password|profile>] [--provid
 - **Email Verification** (`/verify-email`) - Email confirmation handling
 
 ### Supporting Files
+
 - **OAuth Callback** (`/auth/callback`) - Handle OAuth redirects
 - **Middleware** - Protect routes, redirect logic
 - **Supabase Client** - Server/client utilities (if not exists)
 
 ### Optional Pages
+
 - **Profile/Account** (`/account`) - User settings, password change
 - **Connected Accounts** - Manage OAuth connections
 
@@ -50,6 +53,7 @@ Task("Build auth pages", @supabase-auth-pages-builder, {
 ## Framework Detection
 
 The agent auto-detects your framework:
+
 - **Next.js App Router** → `app/(auth)/sign-in/page.tsx`
 - **Next.js Pages Router** → `pages/sign-in.tsx`
 - **SvelteKit** → `src/routes/(auth)/sign-in/+page.svelte`
@@ -86,7 +90,7 @@ app/
 lib/
 ├── supabase/
 │   ├── client.ts           # Browser client
-│   ├── server.ts           # Server client  
+│   ├── server.ts           # Server client
 │   └── middleware.ts       # Auth middleware helper
 middleware.ts               # Route protection
 ```
