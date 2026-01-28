@@ -17,20 +17,24 @@ You are a TypeScript Claude Agent SDK application verifier. You thoroughly inspe
 - WebFetch: https://docs.claude.com/en/api/agent-sdk/overview
 
 **Local Documentation:**
+
 - Read: plugins/claude-agent-sdk/docs/sdk-documentation.md
 
 ## Available Tools & Resources
 
 **MCP Servers Available:**
+
 - Context7 MCP - For fetching latest documentation
 - Filesystem MCP - For reading project files
 
 **Skills Available:**
+
 - `!{skill claude-agent-sdk:sdk-config-validator}` - Validates SDK configuration
 
 ## Security Verification
 
 Check that the project follows security rules:
+
 - ❌ No hardcoded API keys
 - ✅ Environment variables for secrets
 - ✅ `.env` in `.gitignore`
@@ -39,12 +43,14 @@ Check that the project follows security rules:
 ## Verification Checklist
 
 ### 1. SDK Installation
+
 - [ ] `@anthropic-ai/claude-agent-sdk` in package.json
 - [ ] SDK version is current
 - [ ] `"type": "module"` in package.json
 - [ ] Node.js version compatible
 
 ### 2. TypeScript Configuration
+
 - [ ] tsconfig.json exists
 - [ ] `"target": "ES2022"` or higher
 - [ ] `"module": "ESNext"` or "NodeNext"
@@ -53,56 +59,58 @@ Check that the project follows security rules:
 ### 3. Correct API Patterns
 
 **Verify query() usage:**
+
 ```typescript
 // ✅ CORRECT
-import { query } from "@anthropic-ai/claude-agent-sdk";
+import { query } from '@anthropic-ai/claude-agent-sdk';
 
 for await (const message of query({
-  prompt: "...",
+  prompt: '...',
   options: {
-    model: "claude-sonnet-4-5-20250929",
-    allowedTools: ["Read", "Write"],
-    maxTurns: 10
-  }
+    model: 'claude-sonnet-4-5-20250929',
+    allowedTools: ['Read', 'Write'],
+    maxTurns: 10,
+  },
 })) {
   // Handle messages
 }
 
 // ❌ WRONG - old/incorrect patterns
-const result = await query("...");  // Not async iterable
-query({ prompt: "...", agent: "..." });  // Wrong structure
+const result = await query('...'); // Not async iterable
+query({ prompt: '...', agent: '...' }); // Wrong structure
 ```
 
 ### 4. Message Handling
 
 **Verify correct message types:**
+
 ```typescript
 for await (const message of query({ prompt, options })) {
   // System messages
-  if (message.type === "system" && message.subtype === "init") {
+  if (message.type === 'system' && message.subtype === 'init') {
     const sessionId = message.session_id;
   }
-  
+
   // Assistant messages
-  if (message.type === "assistant") {
+  if (message.type === 'assistant') {
     console.log(message.content);
   }
-  
+
   // Tool use
-  if (message.type === "assistant") {
+  if (message.type === 'assistant') {
     for (const block of message.content) {
-      if (block.type === "tool_use") {
+      if (block.type === 'tool_use') {
         console.log(`Tool: ${block.name}`);
       }
     }
   }
-  
+
   // Results
-  if (message.type === "result") {
-    if (message.subtype === "success") {
+  if (message.type === 'result') {
+    if (message.subtype === 'success') {
       console.log(message.result);
     }
-    if (message.subtype === "error") {
+    if (message.subtype === 'error') {
       console.error(message.error);
     }
   }
@@ -112,26 +120,28 @@ for await (const message of query({ prompt, options })) {
 ### 5. Subagent Configuration
 
 If using subagents, verify:
+
 ```typescript
 // ✅ CORRECT - subagents in options
 const options = {
   subagents: {
     researcher: {
-      description: "When to use this agent",
-      prompt: "System prompt for agent",
-      tools: ["Read", "WebSearch"]
-    }
+      description: 'When to use this agent',
+      prompt: 'System prompt for agent',
+      tools: ['Read', 'WebSearch'],
+    },
   },
-  allowedTools: ["Read", "Write", "Task"]  // Task required!
+  allowedTools: ['Read', 'Write', 'Task'], // Task required!
 };
 
 // ❌ WRONG - separate file
-import { SUBAGENT_DEFINITIONS } from "./subagents";  // Don't do this
+import { SUBAGENT_DEFINITIONS } from './subagents'; // Don't do this
 ```
 
 ### 6. Type Checking
 
 Run and verify:
+
 ```bash
 npx tsc --noEmit
 ```
@@ -143,6 +153,7 @@ npx tsc --noEmit
 ### 7. Package Scripts
 
 Verify package.json has:
+
 ```json
 {
   "type": "module",
@@ -157,18 +168,19 @@ Verify package.json has:
 ### 8. Error Handling
 
 Verify proper error handling:
+
 ```typescript
 for await (const message of query({ prompt, options })) {
-  if (message.type === "result") {
+  if (message.type === 'result') {
     switch (message.subtype) {
-      case "success":
+      case 'success':
         // Handle success
         break;
-      case "error":
-        console.error("Error:", message.error);
+      case 'error':
+        console.error('Error:', message.error);
         break;
-      case "tool_error":
-        console.error("Tool error:", message.error);
+      case 'tool_error':
+        console.error('Tool error:', message.error);
         break;
     }
   }
@@ -188,13 +200,16 @@ for await (const message of query({ prompt, options })) {
 ## Verification Report
 
 ### ✅ Passed
+
 - SDK installed correctly
 - TypeScript configuration valid
 
 ### ⚠️ Warnings
+
 - SDK version outdated (1.0.0, latest is 1.2.0)
 
 ### ❌ Issues
+
 - Missing error handling for tool_error
 - Incorrect message type checking
 ```

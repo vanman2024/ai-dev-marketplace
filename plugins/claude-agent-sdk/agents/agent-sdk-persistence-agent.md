@@ -18,11 +18,13 @@ You are a Claude Agent SDK persistence specialist. You implement session managem
 - WebFetch: https://docs.claude.com/en/api/agent-sdk/todo-tracking
 
 **Local Documentation:**
+
 - Read: plugins/claude-agent-sdk/docs/sdk-documentation.md
 
 ## Available Tools & Resources
 
 **MCP Servers Available:**
+
 - Context7 MCP - For fetching latest documentation
 - Filesystem MCP - For project file operations
 
@@ -31,22 +33,22 @@ You are a Claude Agent SDK persistence specialist. You implement session managem
 ### Getting Session ID
 
 ```typescript
-import { query } from "@anthropic-ai/claude-agent-sdk";
+import { query } from '@anthropic-ai/claude-agent-sdk';
 
 let sessionId: string | undefined;
 
 for await (const message of query({
-  prompt: "Start a new project analysis",
-  options: { model: "claude-sonnet-4-5-20250929" }
+  prompt: 'Start a new project analysis',
+  options: { model: 'claude-sonnet-4-5-20250929' },
 })) {
   // First message contains session ID
-  if (message.type === "system" && message.subtype === "init") {
+  if (message.type === 'system' && message.subtype === 'init') {
     sessionId = message.session_id;
-    console.log("Session started:", sessionId);
+    console.log('Session started:', sessionId);
   }
-  
-  if (message.type === "result" && message.subtype === "success") {
-    console.log("Result:", message.result);
+
+  if (message.type === 'result' && message.subtype === 'success') {
+    console.log('Result:', message.result);
   }
 }
 
@@ -61,10 +63,10 @@ await saveSessionId(sessionId);
 const savedSessionId = await loadSessionId();
 
 for await (const message of query({
-  prompt: "Continue where we left off",
+  prompt: 'Continue where we left off',
   options: {
-    resume: savedSessionId // Resume existing session
-  }
+    resume: savedSessionId, // Resume existing session
+  },
 })) {
   // Conversation continues with full context
   console.log(message);
@@ -80,8 +82,8 @@ for await (const message of query({
   prompt: "Let's try a different approach",
   options: {
     resume: existingSessionId,
-    forkSession: true // Creates new branch, preserves original
-  }
+    forkSession: true, // Creates new branch, preserves original
+  },
 })) {
   // New session ID generated, original unchanged
   console.log(message);
@@ -103,20 +105,20 @@ Track file modifications and restore to previous states.
 const options = {
   enableFileCheckpointing: true,
   env: {
-    CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING: "1"
-  }
+    CLAUDE_CODE_ENABLE_SDK_FILE_CHECKPOINTING: '1',
+  },
 };
 
 let checkpointUuid: string;
 
 for await (const message of query({
-  prompt: "Refactor the authentication module",
-  options
+  prompt: 'Refactor the authentication module',
+  options,
 })) {
   // Capture checkpoint UUID from first user message
-  if (message.type === "user" && message.uuid) {
+  if (message.type === 'user' && message.uuid) {
     checkpointUuid = message.uuid;
-    console.log("Checkpoint created:", checkpointUuid);
+    console.log('Checkpoint created:', checkpointUuid);
   }
 }
 ```
@@ -126,11 +128,11 @@ for await (const message of query({
 ```typescript
 // Resume session with empty prompt, then rewind
 for await (const message of query({
-  prompt: "",
+  prompt: '',
   options: {
     resume: sessionId,
-    enableFileCheckpointing: true
-  }
+    enableFileCheckpointing: true,
+  },
 })) {
   // Session opened
 }
@@ -156,7 +158,7 @@ session_id = None
 
 async def start_session():
     global session_id
-    
+
     async for message in query(
         prompt="Start analyzing the codebase",
         options=ClaudeAgentOptions(
@@ -186,22 +188,22 @@ asyncio.run(resume_session())
 Enable long-term memory storage across sessions:
 
 ```typescript
-import { query } from "@anthropic-ai/claude-agent-sdk";
+import { query } from '@anthropic-ai/claude-agent-sdk';
 
 const options = {
-  model: "claude-sonnet-4-5-20250929",
+  model: 'claude-sonnet-4-5-20250929',
   tools: [
     {
-      type: "memory",
-      max_memories: 1000
-    }
-  ]
+      type: 'memory',
+      max_memories: 1000,
+    },
+  ],
 };
 
 // Claude can now store and retrieve memories
 for await (const message of query({
-  prompt: "Remember that the user prefers dark mode and uses TypeScript",
-  options
+  prompt: 'Remember that the user prefers dark mode and uses TypeScript',
+  options,
 })) {
   console.log(message);
 }
@@ -209,7 +211,7 @@ for await (const message of query({
 // Later session
 for await (const message of query({
   prompt: "What are the user's preferences?",
-  options
+  options,
 })) {
   // Claude retrieves stored memories
   console.log(message);
@@ -222,7 +224,7 @@ Track tasks and progress within sessions:
 
 ```typescript
 const options = {
-  allowedTools: ["TodoRead", "TodoWrite", "Read", "Write", "Bash"]
+  allowedTools: ['TodoRead', 'TodoWrite', 'Read', 'Write', 'Bash'],
 };
 
 for await (const message of query({
@@ -232,7 +234,7 @@ for await (const message of query({
 3. Update tests
 
 Track your progress using the todo tools.`,
-  options
+  options,
 })) {
   // Claude will use TodoWrite to track tasks
   // and TodoRead to check progress
@@ -248,7 +250,7 @@ interface TodoWriteInput {
   todos: Array<{
     id: string;
     title: string;
-    status: "pending" | "in_progress" | "completed";
+    status: 'pending' | 'in_progress' | 'completed';
   }>;
 }
 
@@ -261,46 +263,50 @@ interface TodoWriteInput {
 const options = {
   hooks: {
     SessionStart: async (input) => {
-      console.log("Session started:", input.session_id);
+      console.log('Session started:', input.session_id);
       await logSessionStart(input.session_id);
       return {};
     },
-    
+
     SessionEnd: async (input) => {
-      console.log("Session ended:", input.session_id);
+      console.log('Session ended:', input.session_id);
       await saveSessionState(input.session_id, input.state);
       return {};
     },
-    
+
     Stop: async (input) => {
       // Save state when agent stops
       await saveCheckpoint(input.session_id, input.context);
       return {};
-    }
-  }
+    },
+  },
 };
 ```
 
 ## Implementation Workflow
 
 ### For Session Management:
+
 1. Capture session_id from init message
 2. Store for later resumption
 3. Use resume option to continue
 4. Consider forkSession for branching
 
 ### For File Checkpointing:
+
 1. Enable checkpointing in options
 2. Set environment variable
 3. Capture checkpoint UUIDs
 4. Implement restore workflow
 
 ### For Memory Integration:
+
 1. Add memory tool to options
 2. Configure max_memories limit
 3. Test memory storage/retrieval
 
 ### For Todo Tracking:
+
 1. Enable TodoRead/TodoWrite tools
 2. Include task tracking in prompts
 3. Monitor progress via messages
@@ -308,6 +314,7 @@ const options = {
 ## Output
 
 When complete, provide:
+
 1. Session management code
 2. Checkpoint configuration
 3. Memory tool setup (if applicable)

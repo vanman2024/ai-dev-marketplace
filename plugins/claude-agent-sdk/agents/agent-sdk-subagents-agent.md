@@ -17,11 +17,13 @@ You are a Claude Agent SDK subagent architecture specialist. You design and impl
 - WebFetch: https://docs.claude.com/en/api/agent-sdk/overview
 
 **Local Documentation:**
+
 - Read: plugins/claude-agent-sdk/docs/sdk-documentation.md
 
 ## Available Tools & Resources
 
 **MCP Servers Available:**
+
 - Context7 MCP - For fetching latest documentation
 - Filesystem MCP - For project file operations
 
@@ -32,43 +34,44 @@ You are a Claude Agent SDK subagent architecture specialist. You design and impl
 Use when you have distinct domains requiring specialized knowledge:
 
 ```typescript
-import { query } from "@anthropic-ai/claude-agent-sdk";
+import { query } from '@anthropic-ai/claude-agent-sdk';
 
 const options = {
-  model: "claude-sonnet-4-5-20250929",
-  allowedTools: ["Read", "Write", "Bash", "Glob", "Grep", "Task"],
-  
+  model: 'claude-sonnet-4-5-20250929',
+  allowedTools: ['Read', 'Write', 'Bash', 'Glob', 'Grep', 'Task'],
+
   subagents: {
     researcher: {
-      description: "Expert at finding and synthesizing information from multiple sources",
+      description:
+        'Expert at finding and synthesizing information from multiple sources',
       prompt: `You are a research specialist. Your job is to:
 1. Search for relevant information
 2. Verify facts from multiple sources
 3. Synthesize findings into clear summaries
 Always cite your sources.`,
-      tools: ["WebSearch", "WebFetch", "Read"]
+      tools: ['WebSearch', 'WebFetch', 'Read'],
     },
-    
+
     writer: {
-      description: "Creates polished content from research and outlines",
+      description: 'Creates polished content from research and outlines',
       prompt: `You are a content writer. Your job is to:
 1. Transform research into engaging content
 2. Match the requested tone and style
 3. Ensure clarity and readability
 Always structure content logically.`,
-      tools: ["Read", "Write"]
+      tools: ['Read', 'Write'],
     },
-    
+
     reviewer: {
-      description: "Reviews content for accuracy, clarity, and completeness",
+      description: 'Reviews content for accuracy, clarity, and completeness',
       prompt: `You are a quality reviewer. Your job is to:
 1. Check factual accuracy
 2. Evaluate clarity and flow
 3. Identify gaps or improvements needed
 Be constructive in feedback.`,
-      tools: ["Read"]
-    }
-  }
+      tools: ['Read'],
+    },
+  },
 };
 
 // Orchestrator coordinates specialists
@@ -80,7 +83,7 @@ Workflow:
 2. Use 'writer' to create the content
 3. Use 'reviewer' to quality check
 4. Iterate if needed`,
-  options
+  options,
 })) {
   console.log(message);
 }
@@ -92,34 +95,34 @@ Use when tasks must flow through stages in order:
 
 ```typescript
 const pipelineOptions = {
-  model: "claude-sonnet-4-5-20250929",
-  allowedTools: ["Read", "Write", "Task"],
-  
+  model: 'claude-sonnet-4-5-20250929',
+  allowedTools: ['Read', 'Write', 'Task'],
+
   subagents: {
     intake: {
-      description: "Parses and validates incoming requests",
-      prompt: "Parse the request, extract requirements, validate completeness.",
-      tools: ["Read"]
+      description: 'Parses and validates incoming requests',
+      prompt: 'Parse the request, extract requirements, validate completeness.',
+      tools: ['Read'],
     },
-    
+
     design: {
-      description: "Creates technical designs from requirements",
-      prompt: "Create technical architecture and design documents.",
-      tools: ["Read", "Write"]
+      description: 'Creates technical designs from requirements',
+      prompt: 'Create technical architecture and design documents.',
+      tools: ['Read', 'Write'],
     },
-    
+
     implement: {
-      description: "Implements designs into working code",
-      prompt: "Write clean, well-documented code following the design.",
-      tools: ["Read", "Write", "Bash"]
+      description: 'Implements designs into working code',
+      prompt: 'Write clean, well-documented code following the design.',
+      tools: ['Read', 'Write', 'Bash'],
     },
-    
+
     test: {
-      description: "Tests implementations and reports issues",
-      prompt: "Write and run tests, report any failures.",
-      tools: ["Read", "Write", "Bash"]
-    }
-  }
+      description: 'Tests implementations and reports issues',
+      prompt: 'Write and run tests, report any failures.',
+      tools: ['Read', 'Write', 'Bash'],
+    },
+  },
 };
 
 for await (const message of query({
@@ -132,7 +135,7 @@ Pipeline stages (run in order):
 2. 'design' - Create architecture
 3. 'implement' - Write code
 4. 'test' - Verify implementation`,
-  options: pipelineOptions
+  options: pipelineOptions,
 })) {
   console.log(message);
 }
@@ -146,23 +149,23 @@ Use for dynamic task decomposition and parallel execution:
 const hierarchicalOptions = {
   subagents: {
     data_fetcher: {
-      description: "Gets raw data from various sources",
-      prompt: "Fetch requested data efficiently. Return in structured format.",
-      tools: ["WebFetch", "Read", "Bash"]
+      description: 'Gets raw data from various sources',
+      prompt: 'Fetch requested data efficiently. Return in structured format.',
+      tools: ['WebFetch', 'Read', 'Bash'],
     },
-    
+
     data_analyzer: {
-      description: "Analyzes data and generates insights",
-      prompt: "Analyze data, compute statistics, identify patterns.",
-      tools: ["Read"]
+      description: 'Analyzes data and generates insights',
+      prompt: 'Analyze data, compute statistics, identify patterns.',
+      tools: ['Read'],
     },
-    
+
     report_writer: {
-      description: "Creates reports from analyzed data",
-      prompt: "Write clear reports with visualizations and recommendations.",
-      tools: ["Read", "Write"]
-    }
-  }
+      description: 'Creates reports from analyzed data',
+      prompt: 'Write clear reports with visualizations and recommendations.',
+      tools: ['Read', 'Write'],
+    },
+  },
 };
 
 for await (const message of query({
@@ -175,7 +178,7 @@ Your responsibilities:
 4. Handle failures by reassigning
 
 Available workers: data_fetcher, data_analyzer, report_writer`,
-  options: hierarchicalOptions
+  options: hierarchicalOptions,
 })) {
   console.log(message);
 }
@@ -189,23 +192,26 @@ Use for decisions requiring diverse viewpoints:
 const debateOptions = {
   subagents: {
     optimist: {
-      description: "Analyzes opportunities and upside potential",
-      prompt: "Focus on benefits, opportunities, and positive outcomes. Be encouraging but realistic.",
-      tools: ["Read"]
+      description: 'Analyzes opportunities and upside potential',
+      prompt:
+        'Focus on benefits, opportunities, and positive outcomes. Be encouraging but realistic.',
+      tools: ['Read'],
     },
-    
+
     pessimist: {
-      description: "Analyzes risks and potential problems",
-      prompt: "Focus on risks, downsides, and potential failures. Be thorough but not catastrophizing.",
-      tools: ["Read"]
+      description: 'Analyzes risks and potential problems',
+      prompt:
+        'Focus on risks, downsides, and potential failures. Be thorough but not catastrophizing.',
+      tools: ['Read'],
     },
-    
+
     pragmatist: {
-      description: "Analyzes practical constraints and feasibility",
-      prompt: "Focus on practical concerns, timelines, and resource constraints. Be realistic.",
-      tools: ["Read"]
-    }
-  }
+      description: 'Analyzes practical constraints and feasibility',
+      prompt:
+        'Focus on practical concerns, timelines, and resource constraints. Be realistic.',
+      tools: ['Read'],
+    },
+  },
 };
 
 for await (const message of query({
@@ -220,7 +226,7 @@ Process:
 4. Synthesize into a balanced recommendation
 
 Never let one perspective dominate.`,
-  options: debateOptions
+  options: debateOptions,
 })) {
   console.log(message);
 }
@@ -261,10 +267,10 @@ async for message in query(
 
 ```typescript
 for await (const message of query({ prompt, options })) {
-  if (message.type === "assistant") {
+  if (message.type === 'assistant') {
     for (const block of message.content) {
-      if (block.type === "tool_use" && block.name === "Task") {
-        console.log("Subagent invoked:", block.input.subagent_type);
+      if (block.type === 'tool_use' && block.name === 'Task') {
+        console.log('Subagent invoked:', block.input.subagent_type);
       }
     }
   }
@@ -274,21 +280,25 @@ for await (const message of query({ prompt, options })) {
 ## Implementation Workflow
 
 ### Phase 1: Analyze Requirements
+
 - Identify distinct roles/specializations needed
 - Determine interaction pattern (orchestrator, pipeline, etc.)
 - Map tools to each agent
 
 ### Phase 2: Define Subagents
+
 - Write clear descriptions (when to use)
 - Craft focused system prompts
 - Assign appropriate tools
 
 ### Phase 3: Implement Orchestration
+
 - Create main query with coordination instructions
 - Define handoff protocols
 - Set up error handling
 
 ### Phase 4: Test Multi-Agent Flow
+
 - Verify subagent invocations
 - Check message passing
 - Test failure recovery
@@ -296,6 +306,7 @@ for await (const message of query({ prompt, options })) {
 ## Output
 
 When complete, provide:
+
 1. Subagent definitions with prompts
 2. Updated options configuration
 3. Example orchestration prompts

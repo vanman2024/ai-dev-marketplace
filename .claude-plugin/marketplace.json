@@ -1,563 +1,563 @@
 {
-    "name": "ai-dev-marketplace",
-    "version": "1.0.0",
-    "description": "AI Development Marketplace - Master repository for tech-specific plugins (SDKs, frameworks, platforms)",
-    "owner": {
-        "name": "AI Development Team",
-        "email": "noreply@ai-dev-marketplace.dev"
+  "name": "ai-dev-marketplace",
+  "version": "1.0.0",
+  "description": "AI Development Marketplace - Master repository for tech-specific plugins (SDKs, frameworks, platforms)",
+  "owner": {
+    "name": "AI Development Team",
+    "email": "noreply@ai-dev-marketplace.dev"
+  },
+  "plugins": [
+    {
+      "name": "claude-agent-sdk",
+      "description": "Claude Agent SDK plugin with 8 specialized agents and parallel orchestration. Build production AI agent systems with MCP, subagents, sessions, tools, and deployment in one command.",
+      "version": "2.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "dev@example.com"
+      },
+      "source": "./plugins/claude-agent-sdk",
+      "category": "development",
+      "keywords": [
+        "claude",
+        "agent",
+        "sdk",
+        "ai",
+        "typescript",
+        "python",
+        "subagents",
+        "mcp",
+        "sessions",
+        "tools",
+        "skills",
+        "plugins",
+        "orchestration",
+        "production"
+      ]
     },
-    "plugins": [
-        {
-            "name": "claude-agent-sdk",
-            "description": "Claude Agent SDK plugin with 8 specialized agents and parallel orchestration. Build production AI agent systems with MCP, subagents, sessions, tools, and deployment in one command.",
-            "version": "2.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "dev@example.com"
-            },
-            "source": "./plugins/claude-agent-sdk",
-            "category": "development",
-            "keywords": [
-                "claude",
-                "agent",
-                "sdk",
-                "ai",
-                "typescript",
-                "python",
-                "subagents",
-                "mcp",
-                "sessions",
-                "tools",
-                "skills",
-                "plugins",
-                "orchestration",
-                "production"
-            ]
-        },
-        {
-            "name": "elevenlabs",
-            "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, and Vercel AI SDK support",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "plugins@ai-dev-marketplace.com"
-            },
-            "source": "./plugins/elevenlabs",
-            "category": "development",
-            "keywords": [
-                "elevenlabs",
-                "voice",
-                "tts",
-                "stt",
-                "speech",
-                "audio",
-                "ai",
-                "vercel-ai-sdk",
-                "voice-cloning",
-                "transcription"
-            ]
-        },
-        {
-            "name": "fastapi-backend",
-            "description": "Production-ready FastAPI backend with async/await, Mem0, and deployment",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Development Marketplace",
-                "email": "marketplace@ai-dev.com"
-            },
-            "source": "./plugins/fastapi-backend",
-            "category": "development",
-            "keywords": [
-                "fastapi",
-                "backend",
-                "python",
-                "async",
-                "api",
-                "mem0",
-                "sqlalchemy",
-                "deployment",
-                "postgresql",
-                "framework"
-            ]
-        },
-        {
-            "name": "mem0",
-            "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
-            "version": "1.1.0",
-            "author": {
-                "name": "vanman2024",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/mem0",
-            "category": "development",
-            "keywords": [
-                "mem0",
-                "memory",
-                "ai-memory",
-                "conversation-memory",
-                "user-memory",
-                "graph-memory",
-                "supabase",
-                "platform",
-                "open-source",
-                "mcp",
-                "openmemory",
-                "model-context-protocol",
-                "python",
-                "javascript",
-                "typescript"
-            ]
-        },
-        {
-            "name": "nextjs-frontend",
-            "description": "Next.js 15 App Router with AI SDK, Supabase, shadcn/ui integration for building modern AI-powered applications",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Development Marketplace",
-                "email": "marketplace@ai-dev.com"
-            },
-            "source": "./plugins/nextjs-frontend",
-            "category": "development",
-            "keywords": [
-                "nextjs",
-                "frontend",
-                "ai",
-                "supabase",
-                "shadcn-ui",
-                "app-router",
-                "typescript",
-                "tailwind"
-            ]
-        },
-        {
-            "name": "openrouter",
-            "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/openrouter",
-            "category": "development",
-            "keywords": [
-                "openrouter",
-                "llm",
-                "model-routing",
-                "ai-sdk",
-                "vercel-ai-sdk",
-                "langchain",
-                "openai-sdk",
-                "pydantic-ai",
-                "mcp",
-                "typescript",
-                "python",
-                "javascript"
-            ]
-        },
-        {
-            "name": "rag-pipeline",
-            "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/rag-pipeline",
-            "category": "development",
-            "keywords": [
-                "rag",
-                "retrieval-augmented-generation",
-                "llamaindex",
-                "langchain",
-                "vector-database",
-                "embeddings",
-                "semantic-search",
-                "pgvector",
-                "pinecone",
-                "chroma",
-                "document-processing",
-                "chunking",
-                "hybrid-search",
-                "llm",
-                "ai"
-            ]
-        },
-        {
-            "name": "supabase",
-            "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
-            "version": "1.0.0",
-            "author": {
-                "name": "vanman2024",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/supabase",
-            "category": "development",
-            "keywords": [
-                "supabase",
-                "postgres",
-                "database",
-                "auth",
-                "authentication",
-                "storage",
-                "realtime",
-                "pgvector",
-                "ai",
-                "vector-search",
-                "rls",
-                "edge-functions",
-                "typescript",
-                "python",
-                "javascript",
-                "framework",
-                "mcp"
-            ]
-        },
-        {
-            "name": "vercel-ai-sdk",
-            "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
-            "version": "1.0.0",
-            "author": {
-                "name": "vanman2024",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/vercel-ai-sdk",
-            "category": "development",
-            "keywords": [
-                "vercel",
-                "ai",
-                "sdk",
-                "streaming",
-                "tool-calling",
-                "chat",
-                "openai",
-                "anthropic",
-                "google",
-                "xai",
-                "typescript",
-                "javascript",
-                "python"
-            ]
-        },
-        {
-            "name": "website-builder",
-            "description": "AI-powered website builder with Astro, MDX, content-image-generation MCP, Supabase CMS, and component integration for marketing sites, blogs, and documentation",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "dev@example.com"
-            },
-            "source": "./plugins/website-builder",
-            "category": "development",
-            "keywords": [
-                "astro",
-                "website-builder",
-                "marketing-sites",
-                "blog",
-                "documentation",
-                "ai-content-generation",
-                "imagen",
-                "supabase-cms",
-                "mdx",
-                "static-site-generator",
-                "react-components",
-                "shadcn",
-                "tailwind-ui",
-                "content-image-generation-mcp",
-                "seo"
-            ]
-        },
-        {
-            "name": "ml-training",
-            "description": "Machine learning training and inference pipeline using cloud GPUs (Modal, Lambda Labs, RunPod) with HuggingFace ecosystem - no local GPU required",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "builder@example.com"
-            },
-            "source": "./plugins/ml-training",
-            "category": "development",
-            "keywords": [
-                "machine-learning",
-                "training",
-                "inference",
-                "cloud-gpu",
-                "modal",
-                "lambda-labs",
-                "runpod",
-                "huggingface",
-                "transformers",
-                "peft",
-                "pytorch",
-                "serverless"
-            ]
-        },
-        {
-            "name": "plugin-docs-loader",
-            "description": "Universal documentation loading system with intelligent link extraction and parallel WebFetch for all plugins",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/plugin-docs-loader",
-            "category": "infrastructure",
-            "keywords": [
-                "documentation",
-                "webfetch",
-                "utilities",
-                "infrastructure",
-                "doc-loader",
-                "link-extraction",
-                "parallel-fetch"
-            ]
-        },
-        {
-            "name": "payments",
-            "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
-            "version": "1.0.0",
-            "author": {
-                "name": "Plugin Builder",
-                "email": "builder@example.com"
-            },
-            "source": "./plugins/payments",
-            "category": "SDK Integration",
-            "keywords": [
-                "payments",
-                "stripe",
-                "subscriptions",
-                "checkout",
-                "webhooks",
-                "billing",
-                "saas",
-                "fastapi",
-                "nextjs",
-                "supabase"
-            ]
-        },
-        {
-            "name": "celery",
-            "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "builder@example.com"
-            },
-            "source": "./plugins/celery",
-            "category": "development",
-            "keywords": [
-                "celery",
-                "task-queue",
-                "distributed-tasks",
-                "async-tasks",
-                "worker-management",
-                "celery-beat",
-                "flower",
-                "rabbitmq",
-                "redis",
-                "django",
-                "flask",
-                "fastapi",
-                "background-tasks",
-                "scheduled-tasks",
-                "task-routing"
-            ]
-        },
-        {
-            "name": "clerk",
-            "description": "Comprehensive Clerk authentication plugin with OAuth (19 providers), organizations, billing, MFA, Next.js integration, and Supabase sync for building secure multi-tenant applications",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/clerk",
-            "category": "development",
-            "keywords": [
-                "clerk",
-                "authentication",
-                "auth",
-                "oauth",
-                "social-login",
-                "organizations",
-                "multi-tenant",
-                "billing",
-                "subscriptions",
-                "mfa",
-                "two-factor",
-                "nextjs",
-                "react",
-                "supabase",
-                "jwt",
-                "session-management",
-                "rbac",
-                "user-management",
-                "webhooks",
-                "api-authentication"
-            ]
-        },
-        {
-            "name": "redis",
-            "description": "Production-ready Redis integration for caching, sessions, rate limiting, pub/sub, and AI embedding cache with multi-framework support",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "builder@example.com"
-            },
-            "source": "./plugins/redis",
-            "category": "development",
-            "keywords": [
-                "redis",
-                "cache",
-                "caching",
-                "session-store",
-                "session-management",
-                "rate-limiting",
-                "pub-sub",
-                "messaging",
-                "ai-cache",
-                "embedding-cache",
-                "vector-cache",
-                "semantic-cache",
-                "fastapi",
-                "nextjs",
-                "express",
-                "django",
-                "flask",
-                "celery",
-                "high-availability",
-                "sentinel",
-                "cluster",
-                "redis-stack",
-                "production-ready"
-            ]
-        },
-        {
-            "name": "resend",
-            "description": "Complete Resend email API integration for transactional emails, React Email templates, contacts, broadcasts, webhooks, and domain management",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/resend",
-            "category": "development",
-            "keywords": [
-                "resend",
-                "email",
-                "transactional-email",
-                "react-email",
-                "email-templates",
-                "smtp",
-                "contacts",
-                "broadcasts",
-                "campaigns",
-                "webhooks",
-                "email-tracking",
-                "domains",
-                "dkim",
-                "spf",
-                "typescript",
-                "python",
-                "nextjs",
-                "fastapi"
-            ]
-        },
-        {
-            "name": "a2a-protocol",
-            "description": "Complete A2A Protocol integration for multi-agent systems",
-            "version": "1.0.0",
-            "author": {
-                "name": "Plugin Developer",
-                "email": "noreply@a2a-protocol.dev"
-            },
-            "source": "./plugins/a2a-protocol",
-            "category": "development",
-            "keywords": [
-                "a2a",
-                "protocol",
-                "agent-communication",
-                "multi-agent",
-                "interoperability",
-                "agent-to-agent",
-                "google",
-                "linux-foundation",
-                "mcp",
-                "sdk",
-                "python",
-                "javascript",
-                "typescript",
-                "java",
-                "csharp",
-                "golang"
-            ]
-        },
-        {
-            "name": "google-adk",
-            "description": "Build AI agents with Google's Agent Development Kit (ADK) - supports Python, TypeScript, Go, and Java",
-            "version": "1.0.0",
-            "author": {
-                "name": "Plugin Developer",
-                "email": "noreply@google-adk.dev"
-            },
-            "source": "./plugins/google-adk",
-            "category": "development",
-            "keywords": [
-                "google",
-                "adk",
-                "ai-agents",
-                "gemini",
-                "vertex-ai",
-                "agent-development"
-            ]
-        },
-        {
-            "name": "mobile",
-            "description": "Mobile development plugin for React Native/Expo apps, responsive web design, PWAs, with Supabase/Clerk integration and app store deployment via EAS Build",
-            "version": "1.0.0",
-            "author": {
-                "name": "Plugin Developer",
-                "email": "noreply@mobile.dev"
-            },
-            "source": "./plugins/mobile",
-            "category": "development",
-            "keywords": [
-                "mobile",
-                "react-native",
-                "expo",
-                "pwa",
-                "responsive",
-                "ios",
-                "android",
-                "eas-build",
-                "supabase",
-                "clerk",
-                "app-store",
-                "push-notifications"
-            ]
-        },
-        {
-            "name": "sveltekit-frontend",
-            "description": "SvelteKit frontend development with Tailwind CSS v4, shadcn-svelte, and Bun server integration. Includes HTML-to-Svelte migration, app shell, routing, and component generators.",
-            "version": "1.0.0",
-            "author": {
-                "name": "AI Dev Marketplace",
-                "email": "noreply@ai-dev-marketplace.dev"
-            },
-            "source": "./plugins/sveltekit-frontend",
-            "category": "development",
-            "keywords": [
-                "svelte",
-                "sveltekit",
-                "frontend",
-                "tailwind",
-                "shadcn-svelte",
-                "design-system",
-                "components",
-                "ui",
-                "bun",
-                "migration",
-                "html-to-svelte"
-            ]
-        }
-    ]
+    {
+      "name": "elevenlabs",
+      "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, and Vercel AI SDK support",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "plugins@ai-dev-marketplace.com"
+      },
+      "source": "./plugins/elevenlabs",
+      "category": "development",
+      "keywords": [
+        "elevenlabs",
+        "voice",
+        "tts",
+        "stt",
+        "speech",
+        "audio",
+        "ai",
+        "vercel-ai-sdk",
+        "voice-cloning",
+        "transcription"
+      ]
+    },
+    {
+      "name": "fastapi-backend",
+      "description": "Production-ready FastAPI backend with async/await, Mem0, and deployment",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Development Marketplace",
+        "email": "marketplace@ai-dev.com"
+      },
+      "source": "./plugins/fastapi-backend",
+      "category": "development",
+      "keywords": [
+        "fastapi",
+        "backend",
+        "python",
+        "async",
+        "api",
+        "mem0",
+        "sqlalchemy",
+        "deployment",
+        "postgresql",
+        "framework"
+      ]
+    },
+    {
+      "name": "mem0",
+      "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
+      "version": "1.1.0",
+      "author": {
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/mem0",
+      "category": "development",
+      "keywords": [
+        "mem0",
+        "memory",
+        "ai-memory",
+        "conversation-memory",
+        "user-memory",
+        "graph-memory",
+        "supabase",
+        "platform",
+        "open-source",
+        "mcp",
+        "openmemory",
+        "model-context-protocol",
+        "python",
+        "javascript",
+        "typescript"
+      ]
+    },
+    {
+      "name": "nextjs-frontend",
+      "description": "Next.js 15 App Router with AI SDK, Supabase, shadcn/ui integration for building modern AI-powered applications",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Development Marketplace",
+        "email": "marketplace@ai-dev.com"
+      },
+      "source": "./plugins/nextjs-frontend",
+      "category": "development",
+      "keywords": [
+        "nextjs",
+        "frontend",
+        "ai",
+        "supabase",
+        "shadcn-ui",
+        "app-router",
+        "typescript",
+        "tailwind"
+      ]
+    },
+    {
+      "name": "openrouter",
+      "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/openrouter",
+      "category": "development",
+      "keywords": [
+        "openrouter",
+        "llm",
+        "model-routing",
+        "ai-sdk",
+        "vercel-ai-sdk",
+        "langchain",
+        "openai-sdk",
+        "pydantic-ai",
+        "mcp",
+        "typescript",
+        "python",
+        "javascript"
+      ]
+    },
+    {
+      "name": "rag-pipeline",
+      "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/rag-pipeline",
+      "category": "development",
+      "keywords": [
+        "rag",
+        "retrieval-augmented-generation",
+        "llamaindex",
+        "langchain",
+        "vector-database",
+        "embeddings",
+        "semantic-search",
+        "pgvector",
+        "pinecone",
+        "chroma",
+        "document-processing",
+        "chunking",
+        "hybrid-search",
+        "llm",
+        "ai"
+      ]
+    },
+    {
+      "name": "supabase",
+      "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
+      "version": "1.0.0",
+      "author": {
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/supabase",
+      "category": "development",
+      "keywords": [
+        "supabase",
+        "postgres",
+        "database",
+        "auth",
+        "authentication",
+        "storage",
+        "realtime",
+        "pgvector",
+        "ai",
+        "vector-search",
+        "rls",
+        "edge-functions",
+        "typescript",
+        "python",
+        "javascript",
+        "framework",
+        "mcp"
+      ]
+    },
+    {
+      "name": "vercel-ai-sdk",
+      "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
+      "version": "1.0.0",
+      "author": {
+        "name": "vanman2024",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/vercel-ai-sdk",
+      "category": "development",
+      "keywords": [
+        "vercel",
+        "ai",
+        "sdk",
+        "streaming",
+        "tool-calling",
+        "chat",
+        "openai",
+        "anthropic",
+        "google",
+        "xai",
+        "typescript",
+        "javascript",
+        "python"
+      ]
+    },
+    {
+      "name": "website-builder",
+      "description": "AI-powered website builder with Astro, MDX, content-image-generation MCP, Supabase CMS, and component integration for marketing sites, blogs, and documentation",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "dev@example.com"
+      },
+      "source": "./plugins/website-builder",
+      "category": "development",
+      "keywords": [
+        "astro",
+        "website-builder",
+        "marketing-sites",
+        "blog",
+        "documentation",
+        "ai-content-generation",
+        "imagen",
+        "supabase-cms",
+        "mdx",
+        "static-site-generator",
+        "react-components",
+        "shadcn",
+        "tailwind-ui",
+        "content-image-generation-mcp",
+        "seo"
+      ]
+    },
+    {
+      "name": "ml-training",
+      "description": "Machine learning training and inference pipeline using cloud GPUs (Modal, Lambda Labs, RunPod) with HuggingFace ecosystem - no local GPU required",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "builder@example.com"
+      },
+      "source": "./plugins/ml-training",
+      "category": "development",
+      "keywords": [
+        "machine-learning",
+        "training",
+        "inference",
+        "cloud-gpu",
+        "modal",
+        "lambda-labs",
+        "runpod",
+        "huggingface",
+        "transformers",
+        "peft",
+        "pytorch",
+        "serverless"
+      ]
+    },
+    {
+      "name": "plugin-docs-loader",
+      "description": "Universal documentation loading system with intelligent link extraction and parallel WebFetch for all plugins",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/plugin-docs-loader",
+      "category": "infrastructure",
+      "keywords": [
+        "documentation",
+        "webfetch",
+        "utilities",
+        "infrastructure",
+        "doc-loader",
+        "link-extraction",
+        "parallel-fetch"
+      ]
+    },
+    {
+      "name": "payments",
+      "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
+      "version": "1.0.0",
+      "author": {
+        "name": "Plugin Builder",
+        "email": "builder@example.com"
+      },
+      "source": "./plugins/payments",
+      "category": "SDK Integration",
+      "keywords": [
+        "payments",
+        "stripe",
+        "subscriptions",
+        "checkout",
+        "webhooks",
+        "billing",
+        "saas",
+        "fastapi",
+        "nextjs",
+        "supabase"
+      ]
+    },
+    {
+      "name": "celery",
+      "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "builder@example.com"
+      },
+      "source": "./plugins/celery",
+      "category": "development",
+      "keywords": [
+        "celery",
+        "task-queue",
+        "distributed-tasks",
+        "async-tasks",
+        "worker-management",
+        "celery-beat",
+        "flower",
+        "rabbitmq",
+        "redis",
+        "django",
+        "flask",
+        "fastapi",
+        "background-tasks",
+        "scheduled-tasks",
+        "task-routing"
+      ]
+    },
+    {
+      "name": "clerk",
+      "description": "Comprehensive Clerk authentication plugin with OAuth (19 providers), organizations, billing, MFA, Next.js integration, and Supabase sync for building secure multi-tenant applications",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/clerk",
+      "category": "development",
+      "keywords": [
+        "clerk",
+        "authentication",
+        "auth",
+        "oauth",
+        "social-login",
+        "organizations",
+        "multi-tenant",
+        "billing",
+        "subscriptions",
+        "mfa",
+        "two-factor",
+        "nextjs",
+        "react",
+        "supabase",
+        "jwt",
+        "session-management",
+        "rbac",
+        "user-management",
+        "webhooks",
+        "api-authentication"
+      ]
+    },
+    {
+      "name": "redis",
+      "description": "Production-ready Redis integration for caching, sessions, rate limiting, pub/sub, and AI embedding cache with multi-framework support",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "builder@example.com"
+      },
+      "source": "./plugins/redis",
+      "category": "development",
+      "keywords": [
+        "redis",
+        "cache",
+        "caching",
+        "session-store",
+        "session-management",
+        "rate-limiting",
+        "pub-sub",
+        "messaging",
+        "ai-cache",
+        "embedding-cache",
+        "vector-cache",
+        "semantic-cache",
+        "fastapi",
+        "nextjs",
+        "express",
+        "django",
+        "flask",
+        "celery",
+        "high-availability",
+        "sentinel",
+        "cluster",
+        "redis-stack",
+        "production-ready"
+      ]
+    },
+    {
+      "name": "resend",
+      "description": "Complete Resend email API integration for transactional emails, React Email templates, contacts, broadcasts, webhooks, and domain management",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/resend",
+      "category": "development",
+      "keywords": [
+        "resend",
+        "email",
+        "transactional-email",
+        "react-email",
+        "email-templates",
+        "smtp",
+        "contacts",
+        "broadcasts",
+        "campaigns",
+        "webhooks",
+        "email-tracking",
+        "domains",
+        "dkim",
+        "spf",
+        "typescript",
+        "python",
+        "nextjs",
+        "fastapi"
+      ]
+    },
+    {
+      "name": "a2a-protocol",
+      "description": "Complete A2A Protocol integration for multi-agent systems",
+      "version": "1.0.0",
+      "author": {
+        "name": "Plugin Developer",
+        "email": "noreply@a2a-protocol.dev"
+      },
+      "source": "./plugins/a2a-protocol",
+      "category": "development",
+      "keywords": [
+        "a2a",
+        "protocol",
+        "agent-communication",
+        "multi-agent",
+        "interoperability",
+        "agent-to-agent",
+        "google",
+        "linux-foundation",
+        "mcp",
+        "sdk",
+        "python",
+        "javascript",
+        "typescript",
+        "java",
+        "csharp",
+        "golang"
+      ]
+    },
+    {
+      "name": "google-adk",
+      "description": "Build AI agents with Google's Agent Development Kit (ADK) - supports Python, TypeScript, Go, and Java",
+      "version": "1.0.0",
+      "author": {
+        "name": "Plugin Developer",
+        "email": "noreply@google-adk.dev"
+      },
+      "source": "./plugins/google-adk",
+      "category": "development",
+      "keywords": [
+        "google",
+        "adk",
+        "ai-agents",
+        "gemini",
+        "vertex-ai",
+        "agent-development"
+      ]
+    },
+    {
+      "name": "mobile",
+      "description": "Mobile development plugin for React Native/Expo apps, responsive web design, PWAs, with Supabase/Clerk integration and app store deployment via EAS Build",
+      "version": "1.0.0",
+      "author": {
+        "name": "Plugin Developer",
+        "email": "noreply@mobile.dev"
+      },
+      "source": "./plugins/mobile",
+      "category": "development",
+      "keywords": [
+        "mobile",
+        "react-native",
+        "expo",
+        "pwa",
+        "responsive",
+        "ios",
+        "android",
+        "eas-build",
+        "supabase",
+        "clerk",
+        "app-store",
+        "push-notifications"
+      ]
+    },
+    {
+      "name": "sveltekit-frontend",
+      "description": "SvelteKit frontend development with Tailwind CSS v4, shadcn-svelte, and Bun server integration. Includes HTML-to-Svelte migration, app shell, routing, and component generators.",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/sveltekit-frontend",
+      "category": "development",
+      "keywords": [
+        "svelte",
+        "sveltekit",
+        "frontend",
+        "tailwind",
+        "shadcn-svelte",
+        "design-system",
+        "components",
+        "ui",
+        "bun",
+        "migration",
+        "html-to-svelte"
+      ]
+    }
+  ]
 }
