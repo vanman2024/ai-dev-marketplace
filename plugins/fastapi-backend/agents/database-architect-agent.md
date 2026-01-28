@@ -1,9 +1,8 @@
 ---
 name: database-architect-agent
-description: Use this agent to configure async SQLAlchemy, Alembic migrations, and PostgreSQL/Supabase integration for FastAPI applications
-model: inherit
+description: Configure async SQLAlchemy, Alembic migrations, and PostgreSQL/Supabase integration for FastAPI
+model: sonnet
 color: purple
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources
