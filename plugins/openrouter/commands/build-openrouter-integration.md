@@ -73,6 +73,7 @@ Task("Integrate SDK", @openrouter-vercel-integration-agent, {
 ### Phase 4: Final Output
 
 **Provide summary:**
+
 - List configured models and routing rules
 - Show cost optimization settings
 - Provide usage examples:
@@ -80,8 +81,8 @@ Task("Integrate SDK", @openrouter-vercel-integration-agent, {
   // Streaming chat
   const result = await streamText({
     model: openrouter('anthropic/claude-sonnet'),
-    messages: [{ role: 'user', content: 'Hello' }]
-  })
+    messages: [{ role: 'user', content: 'Hello' }],
+  });
   ```
 
 ## Utility Commands

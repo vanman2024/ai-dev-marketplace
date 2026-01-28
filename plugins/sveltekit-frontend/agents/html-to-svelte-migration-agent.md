@@ -17,6 +17,7 @@ description: Migrate HTML views to fully-wired SvelteKit pages with stores, rout
 For each HTML view, extract:
 
 1. **API Endpoints Called**
+
    ```javascript
    // Find all fetch() calls
    fetch('/api/roadmap')
@@ -25,6 +26,7 @@ For each HTML view, extract:
    ```
 
 2. **WebSocket Connections**
+
    ```javascript
    // Find WebSocket setup
    const ws = new WebSocket(`ws://${location.host}`);
@@ -32,6 +34,7 @@ For each HTML view, extract:
    ```
 
 3. **DOM Elements & Data Binding**
+
    ```javascript
    // Find what data populates what elements
    document.getElementById('features-grid').innerHTML = ...
@@ -39,6 +42,7 @@ For each HTML view, extract:
    ```
 
 4. **Event Handlers**
+
    ```javascript
    // Find click handlers, form submissions
    button.addEventListener('click', () => startSession(id))
@@ -55,16 +59,16 @@ For each HTML view, extract:
 
 ### Phase 2: Map to SvelteKit Structure
 
-| HTML Pattern | SvelteKit Equivalent |
-|--------------|---------------------|
-| `fetch('/api/...')` | Store method + `onMount` |
-| `ws.onmessage` | WebSocket store subscription |
-| `element.innerHTML = ...` | `{#each}` blocks |
-| `element.textContent = ...` | `{variable}` binding |
-| `addEventListener('click')` | `on:click` directive |
-| Global variables | Svelte stores |
-| URL params | `$page.params` |
-| Query strings | `$page.url.searchParams` |
+| HTML Pattern                | SvelteKit Equivalent         |
+| --------------------------- | ---------------------------- |
+| `fetch('/api/...')`         | Store method + `onMount`     |
+| `ws.onmessage`              | WebSocket store subscription |
+| `element.innerHTML = ...`   | `{#each}` blocks             |
+| `element.textContent = ...` | `{variable}` binding         |
+| `addEventListener('click')` | `on:click` directive         |
+| Global variables            | Svelte stores                |
+| URL params                  | `$page.params`               |
+| Query strings               | `$page.url.searchParams`     |
 
 ### Phase 3: Generate Complete Implementation
 
@@ -94,7 +98,9 @@ For each migrated page, generate:
 
   function renderWorktrees() {
     const grid = document.getElementById('worktrees-grid');
-    grid.innerHTML = worktrees.map(wt => `
+    grid.innerHTML = worktrees
+      .map(
+        (wt) => `
       <div class="worktree-card" data-id="${wt.id}">
         <span class="id">${wt.id}</span>
         <span class="name">${wt.name}</span>
@@ -102,14 +108,16 @@ For each migrated page, generate:
         <button onclick="startSession('${wt.id}')">Start</button>
         <button onclick="stopSession('${wt.id}')">Stop</button>
       </div>
-    `).join('');
+    `
+      )
+      .join('');
   }
 
   async function startSession(id) {
     await fetch('/api/worktree/start', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id, ai_tool: 'claude' })
+      body: JSON.stringify({ id, ai_tool: 'claude' }),
     });
     loadWorktrees();
   }
@@ -146,21 +154,25 @@ function createWorktreesStore() {
   const { subscribe, set, update } = writable<WorktreesState>({
     items: [],
     loading: true,
-    error: null
+    error: null,
   });
 
   return {
     subscribe,
 
     async load() {
-      update(s => ({ ...s, loading: true, error: null }));
+      update((s) => ({ ...s, loading: true, error: null }));
       try {
         const res = await fetch('/api/worktrees');
         if (!res.ok) throw new Error('Failed to load worktrees');
         const data = await res.json();
-        update(s => ({ ...s, items: data.worktrees || data, loading: false }));
+        update((s) => ({
+          ...s,
+          items: data.worktrees || data,
+          loading: false,
+        }));
       } catch (err: any) {
-        update(s => ({ ...s, error: err.message, loading: false }));
+        update((s) => ({ ...s, error: err.message, loading: false }));
       }
     },
 
@@ -169,7 +181,7 @@ function createWorktreesStore() {
         const res = await fetch('/api/worktree/start', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id, ai_tool: aiTool, model })
+          body: JSON.stringify({ id, ai_tool: aiTool, model }),
         });
         if (!res.ok) throw new Error('Failed to start session');
         // Reload to get updated state
@@ -185,7 +197,7 @@ function createWorktreesStore() {
         const res = await fetch('/api/worktree/stop', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ id })
+          body: JSON.stringify({ id }),
         });
         if (!res.ok) throw new Error('Failed to stop session');
         await this.load();
@@ -197,14 +209,14 @@ function createWorktreesStore() {
 
     // Called by WebSocket store on worktree:updated message
     updateWorktree(worktree: Worktree) {
-      update(s => {
-        const idx = s.items.findIndex(w => w.id === worktree.id);
+      update((s) => {
+        const idx = s.items.findIndex((w) => w.id === worktree.id);
         if (idx >= 0) {
           s.items[idx] = worktree;
         }
         return { ...s, items: [...s.items] };
       });
-    }
+    },
   };
 }
 
@@ -356,18 +368,21 @@ function handleMessage(message: any) {
 For EVERY HTML view migration, verify:
 
 ### Data Flow
+
 - [ ] All `fetch()` calls mapped to store methods
 - [ ] All API endpoints identified and connected
 - [ ] All POST/PUT/DELETE actions have store methods
 - [ ] Error handling for all API calls
 
 ### WebSocket
+
 - [ ] WebSocket message types identified
 - [ ] Store update methods for each message type
 - [ ] WebSocket connected in `onMount`
 - [ ] Automatic reconnection handled
 
 ### UI Binding
+
 - [ ] All dynamic content uses Svelte reactivity (`{variable}`)
 - [ ] All lists use `{#each}` with keys
 - [ ] All conditionals use `{#if}`
@@ -375,11 +390,13 @@ For EVERY HTML view migration, verify:
 - [ ] Error states implemented
 
 ### Events
+
 - [ ] All click handlers converted to `on:click`
 - [ ] All form submissions converted to `on:submit`
 - [ ] All event handlers call store methods
 
 ### Styling
+
 - [ ] Uses Tailwind classes (not inline styles)
 - [ ] Uses shadcn-svelte components
 - [ ] Follows design system (4 sizes, 2 weights, 8pt grid)
@@ -389,17 +406,17 @@ For EVERY HTML view migration, verify:
 
 ## File Mapping
 
-| HTML View | SvelteKit Route | Store | Types |
-|-----------|-----------------|-------|-------|
-| `viewer.html` | `/` | `roadmap.ts` | `Feature`, `Infrastructure` |
-| `worktrees-view.html` | `/worktrees` | `worktrees.ts` | `Worktree`, `Session` |
-| `tasks-viewer.html` | `/tasks` | `tasks.ts` | `Task`, `TaskGroup` |
-| `sprint-view.html` | `/sprint` | `sprint.ts` | `SprintItem` |
-| `health-view.html` | `/health` | `health.ts` | `HealthCheck` |
-| `reports-view.html` | `/reports` | `reports.ts` | `Report` |
-| `docs-view.html` | `/docs` | `docs.ts` | `DocItem` |
-| `testing-view.html` | `/testing` | `testing.ts` | `TestResult` |
-| `project-overview.html` | `/overview` | `overview.ts` | `ProjectStats` |
+| HTML View               | SvelteKit Route | Store          | Types                       |
+| ----------------------- | --------------- | -------------- | --------------------------- |
+| `viewer.html`           | `/`             | `roadmap.ts`   | `Feature`, `Infrastructure` |
+| `worktrees-view.html`   | `/worktrees`    | `worktrees.ts` | `Worktree`, `Session`       |
+| `tasks-viewer.html`     | `/tasks`        | `tasks.ts`     | `Task`, `TaskGroup`         |
+| `sprint-view.html`      | `/sprint`       | `sprint.ts`    | `SprintItem`                |
+| `health-view.html`      | `/health`       | `health.ts`    | `HealthCheck`               |
+| `reports-view.html`     | `/reports`      | `reports.ts`   | `Report`                    |
+| `docs-view.html`        | `/docs`         | `docs.ts`      | `DocItem`                   |
+| `testing-view.html`     | `/testing`      | `testing.ts`   | `TestResult`                |
+| `project-overview.html` | `/overview`     | `overview.ts`  | `ProjectStats`              |
 
 ---
 
@@ -408,6 +425,7 @@ For EVERY HTML view migration, verify:
 ### Filters
 
 HTML:
+
 ```javascript
 let statusFilter = 'all';
 select.onchange = (e) => {
@@ -417,6 +435,7 @@ select.onchange = (e) => {
 ```
 
 SvelteKit:
+
 ```svelte
 <script>
   let statusFilter = 'all';
@@ -438,11 +457,13 @@ SvelteKit:
 ### Polling → WebSocket
 
 HTML (polling):
+
 ```javascript
 setInterval(loadData, 5000);
 ```
 
 SvelteKit (WebSocket):
+
 ```svelte
 <script>
   onMount(() => {
@@ -455,12 +476,17 @@ SvelteKit (WebSocket):
 ### Modal State
 
 HTML:
+
 ```javascript
 let modalOpen = false;
-function openModal() { modalOpen = true; showModal(); }
+function openModal() {
+  modalOpen = true;
+  showModal();
+}
 ```
 
 SvelteKit:
+
 ```svelte
 <script>
   let showModal = false;

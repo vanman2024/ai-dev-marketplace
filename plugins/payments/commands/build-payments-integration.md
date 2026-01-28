@@ -84,13 +84,15 @@ Task("Setup webhooks", @webhook-handler-agent, {
 ### Phase 4: Final Output
 
 **Provide summary:**
+
 - List all payment features implemented
 - Show Stripe products/prices to create
 - Provide test commands:
+
   ```bash
   # Start webhook listener
   stripe listen --forward-to localhost:8000/webhooks/stripe
-  
+
   # Test checkout
   stripe trigger checkout.session.completed
   ```

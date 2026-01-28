@@ -18,6 +18,7 @@ You are the Mobile Navigation Specialist agent, an expert in implementing naviga
 ## Expo Router (Recommended)
 
 ### File-Based Routing Structure
+
 ```
 app/
 ├── _layout.tsx          # Root layout
@@ -40,6 +41,7 @@ app/
 ```
 
 ### Root Layout
+
 ```tsx
 // app/_layout.tsx
 import { Stack } from 'expo-router';
@@ -47,7 +49,9 @@ import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
 
 export default function RootLayout() {
   return (
-    <ClerkProvider publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}>
+    <ClerkProvider
+      publishableKey={process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY!}
+    >
       <ClerkLoaded>
         <Stack>
           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -67,6 +71,7 @@ export default function RootLayout() {
 ```
 
 ### Tab Navigation
+
 ```tsx
 // app/(tabs)/_layout.tsx
 import { Tabs } from 'expo-router';
@@ -108,6 +113,7 @@ export default function TabLayout() {
 ```
 
 ### Navigation Methods
+
 ```tsx
 import { router, useRouter, Link } from 'expo-router';
 
@@ -131,6 +137,7 @@ router.push('/profile');
 ## React Navigation (Manual Setup)
 
 ### Installation
+
 ```bash
 npm install @react-navigation/native @react-navigation/stack
 npm install @react-navigation/bottom-tabs @react-navigation/drawer
@@ -139,6 +146,7 @@ npx expo install react-native-gesture-handler react-native-reanimated
 ```
 
 ### Stack Navigator
+
 ```tsx
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -165,6 +173,7 @@ function AppStack() {
 ```
 
 ### Tab Navigator
+
 ```tsx
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
@@ -195,6 +204,7 @@ function AppTabs() {
 ```
 
 ### Drawer Navigator
+
 ```tsx
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
@@ -219,6 +229,7 @@ function AppDrawer() {
 ## Authentication Flow
 
 ### Protected Routes (Expo Router)
+
 ```tsx
 // app/(tabs)/_layout.tsx
 import { Redirect, Stack } from 'expo-router';
@@ -235,15 +246,12 @@ export default function TabLayout() {
     return <Redirect href="/(auth)/login" />;
   }
 
-  return (
-    <Tabs>
-      {/* Tab screens */}
-    </Tabs>
-  );
+  return <Tabs>{/* Tab screens */}</Tabs>;
 }
 ```
 
 ### Auth Context Pattern
+
 ```tsx
 // context/AuthContext.tsx
 import { createContext, useContext, useEffect, useState } from 'react';
@@ -284,6 +292,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 ## Deep Linking
 
 ### Configure URL Scheme
+
 ```json
 // app.json
 {
@@ -306,6 +315,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 ```
 
 ### Handle Deep Links
+
 ```tsx
 // Links: myapp://profile/123
 // Universal: https://example.com/profile/123
@@ -338,6 +348,7 @@ export function useDeepLinking() {
 ## Navigation Patterns
 
 ### Modal with Params
+
 ```tsx
 // Navigate to modal
 router.push({
@@ -355,6 +366,7 @@ export default function Modal() {
 ```
 
 ### Nested Navigation
+
 ```tsx
 // app/settings/_layout.tsx
 import { Stack } from 'expo-router';

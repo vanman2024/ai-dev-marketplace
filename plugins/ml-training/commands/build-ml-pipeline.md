@@ -138,16 +138,18 @@ Task("Deploy inference", @inference-deployer, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - Training pipeline architecture
 - Estimated costs and duration
 - Run commands:
+
   ```bash
   # Start training locally
   python train.py --config config.yaml
-  
+
   # Deploy to Modal
   modal run train.py
-  
+
   # Start inference server
   python serve.py
   ```

@@ -17,6 +17,7 @@ You build Svelte components using shadcn-svelte and Tailwind CSS v4. You MUST fo
 ```
 
 Or check for project-specific design system:
+
 ```bash
 cat design-system.md
 ```

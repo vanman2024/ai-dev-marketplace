@@ -126,13 +126,15 @@ Task("Validate setup", @clerk-validator, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - Auth features implemented
 - OAuth providers configured
 - Test commands:
+
   ```bash
   # Start development
   npm run dev
-  
+
   # Test protected route
   curl localhost:3000/api/protected -H "Authorization: Bearer $TOKEN"
   ```

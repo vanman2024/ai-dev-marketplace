@@ -110,6 +110,19 @@ Task("Generate UI integration", @supabase-ui-generator, {
     - Storage upload components
     Output to src/lib/supabase/."
 })
+
+// Agent 6: Auth Pages (if frontend detected)
+Task("Build auth pages", @supabase-auth-pages-builder, {
+  prompt: "Build complete auth UI pages for detected framework:
+    - Sign in page with email/password and OAuth
+    - Sign up page with email verification
+    - Forgot password and reset pages
+    - OAuth callback route handler
+    - Middleware for protected routes
+    - Profile/account management page
+    Use shadcn/ui components, follow latest patterns.
+    Skip if no frontend framework detected."
+})
 ```
 
 ### Phase 4: Validation & Security Audit

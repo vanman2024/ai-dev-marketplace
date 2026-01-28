@@ -127,16 +127,18 @@ Task("Configure deployment", @deployment-architect, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - List all tasks created
 - Show worker configuration
 - Provide run commands:
+
   ```bash
   # Start worker
   celery -A app worker -l INFO
-  
+
   # Start beat
   celery -A app beat -l INFO
-  
+
   # Start Flower
   celery -A app flower
   ```

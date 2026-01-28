@@ -18,6 +18,7 @@ You are the Mobile Database Specialist agent, an expert in integrating Supabase 
 ## Supabase Setup for React Native
 
 ### Installation
+
 ```bash
 npx expo install @supabase/supabase-js
 npx expo install @react-native-async-storage/async-storage
@@ -25,6 +26,7 @@ npx expo install react-native-url-polyfill
 ```
 
 ### Client Configuration
+
 ```typescript
 // lib/supabase.ts
 import 'react-native-url-polyfill/auto';
@@ -46,6 +48,7 @@ export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
 ```
 
 ### Type Generation
+
 ```bash
 # Generate TypeScript types from database
 npx supabase gen types typescript --project-id your_project_id > types/database.ts
@@ -54,6 +57,7 @@ npx supabase gen types typescript --project-id your_project_id > types/database.
 ## CRUD Operations
 
 ### Fetching Data
+
 ```typescript
 // hooks/useTodos.ts
 import { useEffect, useState } from 'react';
@@ -90,6 +94,7 @@ export function useTodos() {
 ```
 
 ### Create/Update/Delete
+
 ```typescript
 // lib/database.ts
 import { supabase } from './supabase';
@@ -133,6 +138,7 @@ export const todoOperations = {
 ## Real-time Subscriptions
 
 ### Real-time Hook
+
 ```typescript
 // hooks/useRealtimeTodos.ts
 import { useEffect, useState } from 'react';
@@ -203,6 +209,7 @@ export function useRealtimeTodos(userId: string) {
 ## File Storage
 
 ### Image Upload
+
 ```typescript
 // lib/storage.ts
 import * as ImagePicker from 'expo-image-picker';
@@ -252,6 +259,7 @@ export async function pickAndUploadImage(bucket: string, folder: string) {
 ```
 
 ### Avatar Component
+
 ```tsx
 // components/Avatar.tsx
 import { useState } from 'react';
@@ -307,12 +315,14 @@ export function Avatar({ url, userId, onUpload }: AvatarProps) {
 ## Offline Support with React Query
 
 ### Setup
+
 ```bash
 npm install @tanstack/react-query
 npx expo install @react-native-async-storage/async-storage
 ```
 
 ### Query Client with Persistence
+
 ```typescript
 // lib/queryClient.ts
 import { QueryClient } from '@tanstack/react-query';
@@ -337,6 +347,7 @@ export const asyncStoragePersister = createAsyncStoragePersister({
 ```
 
 ### Offline-First Queries
+
 ```typescript
 // hooks/useTodosQuery.ts
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
@@ -363,7 +374,13 @@ export function useCreateTodo() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ title, userId }: { title: string; userId: string }) => {
+    mutationFn: async ({
+      title,
+      userId,
+    }: {
+      title: string;
+      userId: string;
+    }) => {
       const { data, error } = await supabase
         .from('todos')
         .insert({ title, user_id: userId })
@@ -388,7 +405,10 @@ export function useCreateTodo() {
     },
     onError: (err, newTodo, context) => {
       // Rollback on error
-      queryClient.setQueryData(['todos', newTodo.userId], context?.previousTodos);
+      queryClient.setQueryData(
+        ['todos', newTodo.userId],
+        context?.previousTodos
+      );
     },
     onSettled: (data, error, variables) => {
       // Refetch to sync
@@ -401,6 +421,7 @@ export function useCreateTodo() {
 ## Clerk + Supabase Integration
 
 ### Sync JWT with Supabase
+
 ```typescript
 // lib/supabase.ts
 import { useAuth } from '@clerk/clerk-expo';

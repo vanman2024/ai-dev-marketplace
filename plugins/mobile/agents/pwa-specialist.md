@@ -18,6 +18,7 @@ You are the PWA Specialist agent, an expert in transforming web applications int
 ## PWA Requirements Checklist
 
 ### Core Requirements
+
 - [ ] HTTPS (required for service workers)
 - [ ] Web App Manifest (`manifest.json`)
 - [ ] Service Worker registered
@@ -25,6 +26,7 @@ You are the PWA Specialist agent, an expert in transforming web applications int
 - [ ] Responsive design
 
 ### Enhanced Features
+
 - [ ] Offline functionality
 - [ ] Push notifications
 - [ ] Background sync
@@ -33,6 +35,7 @@ You are the PWA Specialist agent, an expert in transforming web applications int
 ## Web App Manifest
 
 ### manifest.json
+
 ```json
 {
   "name": "My Progressive Web App",
@@ -113,6 +116,7 @@ You are the PWA Specialist agent, an expert in transforming web applications int
 ```
 
 ### Link Manifest in HTML
+
 ```html
 <link rel="manifest" href="/manifest.json" />
 <meta name="theme-color" content="#3b82f6" />
@@ -125,11 +129,13 @@ You are the PWA Specialist agent, an expert in transforming web applications int
 ## Service Worker with Workbox
 
 ### Next.js PWA Setup
+
 ```bash
 npm install next-pwa
 ```
 
 ### next.config.js
+
 ```javascript
 const withPWA = require('next-pwa')({
   dest: 'public',
@@ -168,11 +174,16 @@ module.exports = withPWA({
 ```
 
 ### Custom Service Worker
+
 ```javascript
 // public/sw.js
 import { precacheAndRoute } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
-import { CacheFirst, NetworkFirst, StaleWhileRevalidate } from 'workbox-strategies';
+import {
+  CacheFirst,
+  NetworkFirst,
+  StaleWhileRevalidate,
+} from 'workbox-strategies';
 import { ExpirationPlugin } from 'workbox-expiration';
 
 // Precache static assets
@@ -209,8 +220,7 @@ registerRoute(
 // CSS/JS with StaleWhileRevalidate
 registerRoute(
   ({ request }) =>
-    request.destination === 'style' ||
-    request.destination === 'script',
+    request.destination === 'style' || request.destination === 'script',
   new StaleWhileRevalidate({
     cacheName: 'static-resources',
   })
@@ -219,17 +229,18 @@ registerRoute(
 
 ## Caching Strategies
 
-| Strategy | Use Case |
-|----------|----------|
-| CacheFirst | Static assets, images, fonts |
-| NetworkFirst | API calls, dynamic content |
+| Strategy             | Use Case                     |
+| -------------------- | ---------------------------- |
+| CacheFirst           | Static assets, images, fonts |
+| NetworkFirst         | API calls, dynamic content   |
 | StaleWhileRevalidate | CSS/JS, semi-dynamic content |
-| NetworkOnly | Real-time data, payments |
-| CacheOnly | Offline-only content |
+| NetworkOnly          | Real-time data, payments     |
+| CacheOnly            | Offline-only content         |
 
 ## Offline Support
 
 ### Offline Page
+
 ```typescript
 // app/offline/page.tsx
 export default function OfflinePage() {
@@ -251,6 +262,7 @@ export default function OfflinePage() {
 ```
 
 ### Detect Online Status
+
 ```typescript
 // hooks/useOnlineStatus.ts
 import { useState, useEffect } from 'react';
@@ -280,6 +292,7 @@ export function useOnlineStatus() {
 ## Install Prompt
 
 ### Capture and Show Install Prompt
+
 ```typescript
 // hooks/useInstallPrompt.ts
 import { useState, useEffect } from 'react';
@@ -290,7 +303,8 @@ interface BeforeInstallPromptEvent extends Event {
 }
 
 export function useInstallPrompt() {
-  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [installPrompt, setInstallPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
@@ -331,6 +345,7 @@ export function useInstallPrompt() {
 ## Push Notifications
 
 ### Request Permission
+
 ```typescript
 async function requestNotificationPermission() {
   const permission = await Notification.requestPermission();
@@ -354,12 +369,14 @@ async function requestNotificationPermission() {
 ## Testing PWA
 
 ### Lighthouse Audit
+
 1. Open Chrome DevTools
 2. Go to Lighthouse tab
 3. Select "Progressive Web App"
 4. Run audit
 
 ### PWA Checklist
+
 - [ ] Manifest loads correctly
 - [ ] Service worker registers
 - [ ] App is installable

@@ -18,12 +18,14 @@ You are the Mobile Auth Specialist agent, an expert in implementing secure authe
 ## Clerk Setup for Expo
 
 ### Installation
+
 ```bash
 npx expo install @clerk/clerk-expo
 npx expo install expo-secure-store expo-web-browser expo-linking
 ```
 
 ### Token Cache with SecureStore
+
 ```typescript
 // lib/tokenCache.ts
 import * as SecureStore from 'expo-secure-store';
@@ -58,6 +60,7 @@ export const tokenCache = createTokenCache();
 ```
 
 ### Provider Setup
+
 ```tsx
 // app/_layout.tsx
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
@@ -84,6 +87,7 @@ export default function RootLayout() {
 ## Authentication Screens
 
 ### Sign In Screen
+
 ```tsx
 // app/(auth)/sign-in.tsx
 import { useSignIn } from '@clerk/clerk-expo';
@@ -164,6 +168,7 @@ export default function SignInScreen() {
 ```
 
 ### Sign Up Screen
+
 ```tsx
 // app/(auth)/sign-up.tsx
 import { useSignUp } from '@clerk/clerk-expo';
@@ -215,7 +220,9 @@ export default function SignUpScreen() {
   if (pendingVerification) {
     return (
       <View className="flex-1 justify-center p-6 bg-white">
-        <Text className="text-2xl font-bold text-center mb-4">Verify Email</Text>
+        <Text className="text-2xl font-bold text-center mb-4">
+          Verify Email
+        </Text>
         <Text className="text-gray-600 text-center mb-8">
           Enter the code sent to {email}
         </Text>
@@ -228,7 +235,10 @@ export default function SignUpScreen() {
           keyboardType="number-pad"
         />
 
-        <TouchableOpacity className="bg-blue-500 rounded-lg p-4" onPress={onVerify}>
+        <TouchableOpacity
+          className="bg-blue-500 rounded-lg p-4"
+          onPress={onVerify}
+        >
           <Text className="text-white text-center font-semibold">Verify</Text>
         </TouchableOpacity>
       </View>
@@ -237,7 +247,9 @@ export default function SignUpScreen() {
 
   return (
     <View className="flex-1 justify-center p-6 bg-white">
-      <Text className="text-3xl font-bold text-center mb-8">Create Account</Text>
+      <Text className="text-3xl font-bold text-center mb-8">
+        Create Account
+      </Text>
 
       <TextInput
         className="border border-gray-300 rounded-lg p-4 mb-4"
@@ -256,7 +268,10 @@ export default function SignUpScreen() {
         secureTextEntry
       />
 
-      <TouchableOpacity className="bg-blue-500 rounded-lg p-4" onPress={onSignUp}>
+      <TouchableOpacity
+        className="bg-blue-500 rounded-lg p-4"
+        onPress={onSignUp}
+      >
         <Text className="text-white text-center font-semibold">Sign Up</Text>
       </TouchableOpacity>
     </View>
@@ -267,6 +282,7 @@ export default function SignUpScreen() {
 ## OAuth Authentication
 
 ### Google Sign In
+
 ```tsx
 import { useOAuth } from '@clerk/clerk-expo';
 import * as WebBrowser from 'expo-web-browser';
@@ -304,6 +320,7 @@ export function GoogleSignInButton() {
 ```
 
 ### Apple Sign In
+
 ```tsx
 import { useOAuth } from '@clerk/clerk-expo';
 import * as AppleAuthentication from 'expo-apple-authentication';
@@ -341,6 +358,7 @@ export function AppleSignInButton() {
 ## Biometric Authentication
 
 ### Setup Biometrics
+
 ```typescript
 import * as LocalAuthentication from 'expo-local-authentication';
 
@@ -365,10 +383,14 @@ export async function authenticateWithBiometrics() {
 ```
 
 ### Biometric Gate Component
+
 ```tsx
 import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
-import { authenticateWithBiometrics, checkBiometricSupport } from '@/lib/biometrics';
+import {
+  authenticateWithBiometrics,
+  checkBiometricSupport,
+} from '@/lib/biometrics';
 
 export function BiometricGate({ children }: { children: React.ReactNode }) {
   const [authenticated, setAuthenticated] = useState(false);
@@ -417,6 +439,7 @@ export function BiometricGate({ children }: { children: React.ReactNode }) {
 ## Protected Routes
 
 ### Auth Guard
+
 ```tsx
 // app/(tabs)/_layout.tsx
 import { useAuth } from '@clerk/clerk-expo';
@@ -438,6 +461,7 @@ export default function TabLayout() {
 ```
 
 ## Sign Out
+
 ```tsx
 import { useAuth } from '@clerk/clerk-expo';
 import { useRouter } from 'expo-router';

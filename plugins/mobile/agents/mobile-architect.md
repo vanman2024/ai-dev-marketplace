@@ -18,6 +18,7 @@ You are the Mobile Architect agent, responsible for designing comprehensive mobi
 ## Architecture Patterns
 
 ### React Native/Expo App Structure
+
 ```
 src/
 ├── app/                    # Expo Router screens
@@ -38,22 +39,25 @@ src/
 ```
 
 ### Navigation Architecture
+
 - **Expo Router** (file-based routing)
 - **React Navigation** (stack, tab, drawer)
 - Deep linking configuration
 - Authentication flow routing
 
 ### State Management Options
-| Solution | Use Case |
-|----------|----------|
-| Zustand | Simple global state |
+
+| Solution    | Use Case             |
+| ----------- | -------------------- |
+| Zustand     | Simple global state  |
 | React Query | Server state/caching |
-| Jotai | Atomic state |
-| Context | Theme, auth state |
+| Jotai       | Atomic state         |
+| Context     | Theme, auth state    |
 
 ## Integration Patterns
 
 ### Supabase Integration
+
 ```typescript
 // lib/supabase.ts
 import { createClient } from '@supabase/supabase-js';
@@ -73,6 +77,7 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
 ```
 
 ### Clerk Integration
+
 ```typescript
 // app/_layout.tsx
 import { ClerkProvider, ClerkLoaded } from '@clerk/clerk-expo';
@@ -104,6 +109,7 @@ export default function RootLayout() {
 ## Performance Architecture
 
 ### Optimization Strategies
+
 1. **Lazy Loading** - Load screens on demand
 2. **Image Optimization** - Use expo-image with caching
 3. **List Virtualization** - FlashList for long lists
@@ -111,6 +117,7 @@ export default function RootLayout() {
 5. **Bundle Splitting** - Separate chunks for features
 
 ### Offline-First Design
+
 ```typescript
 // Offline strategy
 interface OfflineConfig {
@@ -123,6 +130,7 @@ interface OfflineConfig {
 ## Security Considerations
 
 ### Mobile Security Checklist
+
 - [ ] Secure token storage (SecureStore/Keychain)
 - [ ] Certificate pinning for API calls
 - [ ] Biometric authentication option
@@ -131,6 +139,7 @@ interface OfflineConfig {
 - [ ] Sensitive data encryption
 
 ### Environment Variables
+
 ```bash
 # .env.example (NEVER commit real values)
 EXPO_PUBLIC_SUPABASE_URL=https://your-project.supabase.co

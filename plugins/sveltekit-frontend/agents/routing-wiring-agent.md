@@ -89,17 +89,17 @@ For EVERY route/page, verify these connections:
 
 ## Route → API Mapping
 
-| Route | Store | API Endpoints |
-|-------|-------|---------------|
-| `/` | `roadmap` | `GET /api/roadmap` |
+| Route        | Store       | API Endpoints                                |
+| ------------ | ----------- | -------------------------------------------- |
+| `/`          | `roadmap`   | `GET /api/roadmap`                           |
 | `/worktrees` | `worktrees` | `GET /api/worktrees`, `POST /api/worktree/*` |
-| `/tasks` | `tasks` | `GET /api/tasks` |
-| `/sprint` | `sprint` | `GET /api/sprint` |
-| `/health` | `health` | `GET /api/health` |
-| `/reports` | `reports` | `GET /api/reports/*` |
-| `/docs` | `docs` | `GET /api/docs/*` |
-| `/testing` | `testing` | `GET /api/testing/*` |
-| `/overview` | `overview` | `GET /api/roadmap` (summary) |
+| `/tasks`     | `tasks`     | `GET /api/tasks`                             |
+| `/sprint`    | `sprint`    | `GET /api/sprint`                            |
+| `/health`    | `health`    | `GET /api/health`                            |
+| `/reports`   | `reports`   | `GET /api/reports/*`                         |
+| `/docs`      | `docs`      | `GET /api/docs/*`                            |
+| `/testing`   | `testing`   | `GET /api/testing/*`                         |
+| `/overview`  | `overview`  | `GET /api/roadmap` (summary)                 |
 
 ---
 
@@ -121,7 +121,7 @@ function createStore() {
   const { subscribe, update } = writable<State>({
     items: [],
     loading: true,
-    error: null
+    error: null,
   });
 
   return {
@@ -129,25 +129,25 @@ function createStore() {
 
     // REQUIRED: Initial data load
     async load() {
-      update(s => ({ ...s, loading: true, error: null }));
+      update((s) => ({ ...s, loading: true, error: null }));
       try {
         const res = await fetch('/api/ENDPOINT');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        update(s => ({
+        update((s) => ({
           ...s,
           items: data.items || data,
-          loading: false
+          loading: false,
         }));
       } catch (err: any) {
-        update(s => ({ ...s, error: err.message, loading: false }));
+        update((s) => ({ ...s, error: err.message, loading: false }));
       }
     },
 
     // REQUIRED: WebSocket update handler
     updateItem(item: ItemType) {
-      update(s => {
-        const idx = s.items.findIndex(i => i.id === item.id);
+      update((s) => {
+        const idx = s.items.findIndex((i) => i.id === item.id);
         if (idx >= 0) {
           s.items[idx] = item;
           return { ...s, items: [...s.items] };
@@ -161,11 +161,11 @@ function createStore() {
       const res = await fetch('/api/ENDPOINT', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       if (res.ok) await this.load();
       return res.ok;
-    }
+    },
   };
 }
 
@@ -241,7 +241,7 @@ import { tasks } from './tasks';
 function createWebSocketStore() {
   const { subscribe, update } = writable({
     connected: false,
-    reconnecting: false
+    reconnecting: false,
   });
 
   let ws: WebSocket | null = null;
@@ -250,9 +250,9 @@ function createWebSocketStore() {
     const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
     ws = new WebSocket(`${protocol}//${location.host}`);
 
-    ws.onopen = () => update(s => ({ ...s, connected: true }));
+    ws.onopen = () => update((s) => ({ ...s, connected: true }));
     ws.onclose = () => {
-      update(s => ({ ...s, connected: false }));
+      update((s) => ({ ...s, connected: false }));
       setTimeout(connect, 3000); // Reconnect
     };
 
@@ -313,6 +313,7 @@ export const websocket = createWebSocketStore();
 ### Problem: Page shows but no data
 
 **Check:**
+
 1. Is `onMount` calling `store.load()`?
 2. Is store fetching correct API endpoint?
 3. Is API returning data? (Check Network tab)
@@ -321,6 +322,7 @@ export const websocket = createWebSocketStore();
 ### Problem: Actions don't work
 
 **Check:**
+
 1. Is button calling store method?
 2. Is store method making API call?
 3. Is API returning success?
@@ -329,6 +331,7 @@ export const websocket = createWebSocketStore();
 ### Problem: Real-time updates not showing
 
 **Check:**
+
 1. Is WebSocket connected? (Check console)
 2. Is server sending messages?
 3. Is `routeMessage` handling the message type?
@@ -384,6 +387,7 @@ When wiring a route:
 6. **TEST by loading page** and checking Network tab
 
 **OUTPUT:** For each route, confirm:
+
 - Store file path
 - API endpoints connected
 - WebSocket message types handled

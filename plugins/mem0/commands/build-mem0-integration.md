@@ -83,13 +83,15 @@ Task("Verify memory", @mem0-verifier, {
 ### Phase 4: Final Output
 
 **Provide summary:**
+
 - Memory backend configured (platform/oss/supabase)
 - Memory types implemented
 - Usage examples:
+
   ```python
   # Add memory
   mem0.add("User prefers dark mode", user_id="user123")
-  
+
   # Search memory
   memories = mem0.search("user preferences", user_id="user123")
   ```

@@ -118,16 +118,18 @@ Task("Configure deployment", @app-store-deployer, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - App screens implemented
 - Navigation structure
 - Run commands:
+
   ```bash
   # Start development
   npx expo start
-  
+
   # Build preview
   eas build --platform all --profile preview
-  
+
   # Submit to stores
   eas submit --platform ios
   ```

@@ -14,6 +14,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 ## Critical Rule: NOT Just Visual Copy
 
 **You MUST extract and migrate ALL functionality from HTML prototypes:**
+
 - Every `fetch()` call → Store method
 - Every WebSocket handler → WebSocket store subscription
 - Every DOM manipulation → Svelte reactivity
@@ -36,6 +37,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 **Extract from HTML:**
 
 1. **API Endpoints** - Every `fetch()` call:
+
    ```javascript
    // Look for patterns like:
    fetch('/api/worktrees')
@@ -43,6 +45,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
    ```
 
 2. **WebSocket Messages** - Every `ws.onmessage` handler:
+
    ```javascript
    // Look for patterns like:
    ws.onmessage = (e) => {
@@ -52,6 +55,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
    ```
 
 3. **State Variables** - All data that changes:
+
    ```javascript
    // Look for:
    let worktrees = [];
@@ -60,6 +64,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
    ```
 
 4. **Event Handlers** - All user interactions:
+
    ```javascript
    // Look for:
    button.onclick = () => startSession(id)
@@ -70,9 +75,9 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 5. **Render Functions** - How data maps to DOM:
    ```javascript
    // Look for:
-   grid.innerHTML = items.map(item => `<div>...</div>`).join('')
-   element.textContent = value
-   element.classList.toggle('active', isActive)
+   grid.innerHTML = items.map((item) => `<div>...</div>`).join('');
+   element.textContent = value;
+   element.classList.toggle('active', isActive);
    ```
 
 ### From Architecture Docs
@@ -84,6 +89,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 ```
 
 **Extract from docs:**
+
 - Page list with routes
 - Data models and types
 - API contracts
@@ -95,24 +101,24 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 
 **For EACH page, create:**
 
-| File | Purpose |
-|------|---------|
-| `src/lib/stores/[name].ts` | Store with load(), actions, WebSocket updates |
-| `src/lib/api/types.ts` | TypeScript interfaces (add to existing) |
-| `src/routes/[route]/+page.svelte` | Page component with wiring |
+| File                              | Purpose                                       |
+| --------------------------------- | --------------------------------------------- |
+| `src/lib/stores/[name].ts`        | Store with load(), actions, WebSocket updates |
+| `src/lib/api/types.ts`            | TypeScript interfaces (add to existing)       |
+| `src/routes/[route]/+page.svelte` | Page component with wiring                    |
 
 ### Mapping Table
 
-| HTML Pattern | SvelteKit Equivalent |
-|--------------|---------------------|
-| `let data = []` | `writable<State>({ items: [] })` |
-| `fetch('/api/...')` | `store.load()` method |
-| `fetch(...POST)` | `store.create()` method |
-| `ws.onmessage` | `websocket.routeMessage()` |
-| `element.innerHTML = ...` | `{#each $store.items as item}` |
-| `onclick="..."` | `on:click={() => store.action()}` |
-| `element.classList.add` | `class:active={condition}` |
-| `setInterval(...)` | WebSocket real-time (no polling!) |
+| HTML Pattern              | SvelteKit Equivalent              |
+| ------------------------- | --------------------------------- |
+| `let data = []`           | `writable<State>({ items: [] })`  |
+| `fetch('/api/...')`       | `store.load()` method             |
+| `fetch(...POST)`          | `store.create()` method           |
+| `ws.onmessage`            | `websocket.routeMessage()`        |
+| `element.innerHTML = ...` | `{#each $store.items as item}`    |
+| `onclick="..."`           | `on:click={() => store.action()}` |
+| `element.classList.add`   | `class:active={condition}`        |
+| `setInterval(...)`        | WebSocket real-time (no polling!) |
 
 ---
 
@@ -133,7 +139,7 @@ function createStore() {
   const { subscribe, update } = writable<State>({
     items: [],
     loading: true,
-    error: null
+    error: null,
   });
 
   return {
@@ -142,14 +148,14 @@ function createStore() {
     // === DATA LOADING ===
     // Maps to: fetch('/api/items') in HTML
     async load() {
-      update(s => ({ ...s, loading: true, error: null }));
+      update((s) => ({ ...s, loading: true, error: null }));
       try {
         const res = await fetch('/api/items');
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const data = await res.json();
-        update(s => ({ ...s, items: data.items || data, loading: false }));
+        update((s) => ({ ...s, items: data.items || data, loading: false }));
       } catch (err: any) {
-        update(s => ({ ...s, error: err.message, loading: false }));
+        update((s) => ({ ...s, error: err.message, loading: false }));
       }
     },
 
@@ -159,7 +165,7 @@ function createStore() {
       const res = await fetch('/api/items', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Create failed');
       await this.load();
@@ -169,7 +175,7 @@ function createStore() {
       const res = await fetch(`/api/items/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
       });
       if (!res.ok) throw new Error('Update failed');
       await this.load();
@@ -184,15 +190,15 @@ function createStore() {
     // === WEBSOCKET UPDATES ===
     // Maps to: ws.onmessage handling in HTML
     updateItem(item: ItemType) {
-      update(s => {
-        const idx = s.items.findIndex(i => i.id === item.id);
+      update((s) => {
+        const idx = s.items.findIndex((i) => i.id === item.id);
         if (idx >= 0) {
           s.items[idx] = item;
           return { ...s, items: [...s.items] };
         }
         return s;
       });
-    }
+    },
   };
 }
 
@@ -360,6 +366,7 @@ function routeMessage(msg: any) {
 For EACH migrated page, verify:
 
 ### Data Flow
+
 - [ ] Store exists at `src/lib/stores/[name].ts`
 - [ ] Store has `load()` method that fetches correct API endpoint
 - [ ] Store has action methods for all POST/PUT/DELETE operations
@@ -368,11 +375,13 @@ For EACH migrated page, verify:
 - [ ] Page calls `store.load()` in `onMount`
 
 ### WebSocket
+
 - [ ] WebSocket store handles message types for this data
 - [ ] `routeMessage()` calls store's update method
 - [ ] Page connects WebSocket in `onMount`
 
 ### UI Binding
+
 - [ ] All data displays use `$store` (with $ prefix)
 - [ ] Lists use `{#each}` with `(item.id)` key
 - [ ] Conditionals use `{#if}`
@@ -381,12 +390,14 @@ For EACH migrated page, verify:
 - [ ] Empty state handled
 
 ### Events
+
 - [ ] All buttons have `on:click` handlers
 - [ ] Form submissions use `on:submit|preventDefault`
 - [ ] Handlers call store methods
 - [ ] Error handling in handlers
 
 ### Styling
+
 - [ ] Uses Tailwind classes (no inline styles)
 - [ ] Uses shadcn-svelte components
 - [ ] 4 font sizes only: `text-3xl`, `text-2xl`, `text-base`, `text-sm`

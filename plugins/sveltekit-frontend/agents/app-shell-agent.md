@@ -9,6 +9,7 @@ You are a SvelteKit application shell specialist. Your role is to create the fou
 ## What is the App Shell?
 
 The app shell includes:
+
 1. **+layout.svelte** - Root layout wrapping all routes
 2. **GlobalNav** - Top navigation bar with links and controls
 3. **Sidebar** (optional) - Side navigation for complex apps
@@ -32,6 +33,7 @@ The app shell includes:
 **Extract from HTML:**
 
 1. **Navigation Items** - All nav links:
+
    ```html
    <nav class="global-nav">
      <a href="/">Roadmap</a>
@@ -41,6 +43,7 @@ The app shell includes:
    ```
 
 2. **Project Switcher** - How projects are switched:
+
    ```html
    <select id="project-select">
      <option value="project-1">Project 1</option>
@@ -49,9 +52,10 @@ The app shell includes:
    ```
 
 3. **Theme Toggle** - Dark mode implementation:
+
    ```javascript
-   document.body.classList.toggle('dark-mode')
-   localStorage.setItem('theme', 'dark')
+   document.body.classList.toggle('dark-mode');
+   localStorage.setItem('theme', 'dark');
    ```
 
 4. **Global Layout** - Page structure:
@@ -265,7 +269,9 @@ function createThemeStore() {
       }
 
       // Check system preference
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersDark = window.matchMedia(
+        '(prefers-color-scheme: dark)'
+      ).matches;
       const theme = prefersDark ? 'dark' : 'light';
       set(theme);
       document.documentElement.classList.toggle('dark', prefersDark);
@@ -289,7 +295,7 @@ function createThemeStore() {
       document.documentElement.classList.toggle('dark', theme === 'dark');
       localStorage.setItem('theme', theme);
       set(theme);
-    }
+    },
   };
 }
 
@@ -322,26 +328,26 @@ function createProjectsStore() {
     projects: {},
     activeProjectId: null,
     loading: true,
-    error: null
+    error: null,
   });
 
   return {
     subscribe,
 
     async load() {
-      update(s => ({ ...s, loading: true }));
+      update((s) => ({ ...s, loading: true }));
       try {
         const res = await fetch('/api/projects');
         if (!res.ok) throw new Error('Failed to load projects');
         const data = await res.json();
-        update(s => ({
+        update((s) => ({
           ...s,
           projects: data.projects || {},
           activeProjectId: data.activeProject || null,
-          loading: false
+          loading: false,
         }));
       } catch (err: any) {
-        update(s => ({ ...s, error: err.message, loading: false }));
+        update((s) => ({ ...s, error: err.message, loading: false }));
       }
     },
 
@@ -350,26 +356,25 @@ function createProjectsStore() {
         const res = await fetch('/api/projects/switch', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ projectId })
+          body: JSON.stringify({ projectId }),
         });
         if (!res.ok) throw new Error('Failed to switch project');
-        update(s => ({ ...s, activeProjectId: projectId }));
+        update((s) => ({ ...s, activeProjectId: projectId }));
 
         // Reload page data for new project
         window.location.reload();
       } catch (err: any) {
         console.error('Switch project error:', err);
       }
-    }
+    },
   };
 }
 
 export const projects = createProjectsStore();
 
 // Derived store for active project details
-export const activeProject = derived(
-  projects,
-  $projects => $projects.activeProjectId
+export const activeProject = derived(projects, ($projects) =>
+  $projects.activeProjectId
     ? $projects.projects[$projects.activeProjectId]
     : null
 );
@@ -397,7 +402,7 @@ interface WSState {
 function createWebSocketStore() {
   const { subscribe, update } = writable<WSState>({
     connected: false,
-    reconnecting: false
+    reconnecting: false,
   });
 
   let ws: WebSocket | null = null;
@@ -411,12 +416,12 @@ function createWebSocketStore() {
 
     ws.onopen = () => {
       console.log('[WS] Connected');
-      update(s => ({ ...s, connected: true, reconnecting: false }));
+      update((s) => ({ ...s, connected: true, reconnecting: false }));
     };
 
     ws.onclose = () => {
       console.log('[WS] Disconnected, reconnecting in 3s...');
-      update(s => ({ ...s, connected: false, reconnecting: true }));
+      update((s) => ({ ...s, connected: false, reconnecting: true }));
       reconnectTimer = setTimeout(connect, 3000);
     };
 
@@ -492,7 +497,7 @@ function createWebSocketStore() {
   return {
     subscribe,
     connect,
-    disconnect
+    disconnect,
   };
 }
 
@@ -542,6 +547,7 @@ src/
 ## Common Issues
 
 ### Nav doesn't highlight active route
+
 ```svelte
 <!-- Use $page.url.pathname -->
 <script>
@@ -551,6 +557,7 @@ src/
 ```
 
 ### Theme not persisting
+
 ```typescript
 // Check browser environment
 import { browser } from '$app/environment';
@@ -558,6 +565,7 @@ if (browser) localStorage.setItem('theme', value);
 ```
 
 ### WebSocket not connecting
+
 ```typescript
 // Check browser and use correct protocol
 if (!browser) return;
@@ -565,6 +573,7 @@ const protocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
 ```
 
 ### Page content under nav
+
 ```svelte
 <!-- Add padding-top to main -->
 <main class="pt-16">

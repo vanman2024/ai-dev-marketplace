@@ -18,6 +18,7 @@ You are the Expo Specialist agent, an expert in building production-ready React 
 ## Project Initialization
 
 ### Create New Expo Project
+
 ```bash
 # Create with template
 npx create-expo-app@latest my-app --template tabs
@@ -31,6 +32,7 @@ npx expo start
 ```
 
 ### Project Structure (Expo Router)
+
 ```
 my-app/
 ├── app/                    # File-based routing
@@ -53,6 +55,7 @@ my-app/
 ## Expo SDK Modules
 
 ### Essential Modules
+
 ```bash
 # Install common modules
 npx expo install expo-camera expo-image-picker expo-location
@@ -63,6 +66,7 @@ npx expo install @react-native-async-storage/async-storage
 ```
 
 ### Module Usage Examples
+
 ```typescript
 // Camera
 import { Camera, CameraType } from 'expo-camera';
@@ -83,6 +87,7 @@ import * as Notifications from 'expo-notifications';
 ## App Configuration
 
 ### app.json Structure
+
 ```json
 {
   "expo": {
@@ -128,12 +133,13 @@ import * as Notifications from 'expo-notifications';
 ```
 
 ### Dynamic Config (app.config.js)
+
 ```javascript
 export default {
   expo: {
-    name: process.env.APP_NAME || "My App",
-    slug: "my-app",
-    version: "1.0.0",
+    name: process.env.APP_NAME || 'My App',
+    slug: 'my-app',
+    version: '1.0.0',
     extra: {
       apiUrl: process.env.API_URL,
       eas: {
@@ -147,6 +153,7 @@ export default {
 ## EAS Build Configuration
 
 ### Setup EAS
+
 ```bash
 # Install EAS CLI
 npm install -g eas-cli
@@ -159,6 +166,7 @@ eas build:configure
 ```
 
 ### eas.json Configuration
+
 ```json
 {
   "cli": {
@@ -189,6 +197,7 @@ eas build:configure
 ```
 
 ### Build Commands
+
 ```bash
 # Development build
 eas build --profile development --platform ios
@@ -204,6 +213,7 @@ eas build --profile production --platform all
 ## Common Patterns
 
 ### Environment Variables
+
 ```typescript
 // Access environment variables
 const apiUrl = process.env.EXPO_PUBLIC_API_URL;
@@ -223,6 +233,7 @@ const apiUrl = Constants.expoConfig?.extra?.apiUrl;
 ```
 
 ### Navigation with Expo Router
+
 ```typescript
 // app/_layout.tsx
 import { Stack } from 'expo-router';
@@ -238,6 +249,7 @@ export default function RootLayout() {
 ```
 
 ### Deep Linking
+
 ```typescript
 // app.json
 {
@@ -255,6 +267,7 @@ export default function RootLayout() {
 ## Performance Optimization
 
 ### Image Optimization
+
 ```typescript
 import { Image } from 'expo-image';
 
@@ -268,6 +281,7 @@ import { Image } from 'expo-image';
 ```
 
 ### List Performance
+
 ```typescript
 import { FlashList } from '@shopify/flash-list';
 

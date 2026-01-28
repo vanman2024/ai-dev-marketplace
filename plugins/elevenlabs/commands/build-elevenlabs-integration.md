@@ -106,9 +106,11 @@ Task("Optimize for production", @elevenlabs-production-agent, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - Voice features implemented
 - Voices configured
 - Usage examples:
+
   ```python
   # Generate speech
   audio = client.generate(
@@ -116,7 +118,7 @@ Task("Optimize for production", @elevenlabs-production-agent, {
       voice="Rachel",
       model="eleven_multilingual_v2"
   )
-  
+
   # Stream audio
   for chunk in client.generate_stream(...):
       play(chunk)

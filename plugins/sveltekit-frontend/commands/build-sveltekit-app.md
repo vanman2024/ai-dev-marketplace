@@ -114,19 +114,22 @@ Task("Migrate HTML if needed", @html-to-svelte-migration-agent, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - List all created files
 - Show project structure
 - Provide run commands:
+
   ```bash
   # Development
   bun run dev
-  
+
   # Build
   bun run build
-  
+
   # Preview
   bun run preview
   ```
+
 - Note any manual steps needed
 
 ## Utility Commands

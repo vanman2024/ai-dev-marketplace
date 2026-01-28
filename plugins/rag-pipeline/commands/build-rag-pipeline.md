@@ -128,13 +128,15 @@ Task("Deploy pipeline", @rag-deployment-agent, {
 ### Phase 5: Final Output
 
 **Provide summary:**
+
 - Pipeline architecture
 - Vector DB configuration
 - Usage examples:
+
   ```python
   # Query RAG pipeline
   response = rag.query("What are the key features?")
-  
+
   # Ingest documents
   rag.ingest("./documents/")
   ```
