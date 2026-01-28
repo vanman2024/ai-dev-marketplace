@@ -1,9 +1,8 @@
 ---
 name: supabase-code-reviewer
-description: Use this agent to review SQL code, migrations, and database changes - validates syntax, checks best practices, ensures performance optimization. Invoke before applying migrations or executing complex SQL.
-model: inherit
+description: SQL code and migration review - validates syntax, checks best practices, ensures performance optimization
+model: haiku
 color: yellow
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

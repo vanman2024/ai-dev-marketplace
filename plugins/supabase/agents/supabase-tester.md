@@ -1,9 +1,8 @@
 ---
 name: supabase-tester
-description: Use this agent for end-to-end testing - orchestrates comprehensive testing workflows including database, auth, realtime, AI features using e2e-test-scenarios skill. Invoke for complete validation or pre-deployment testing.
+description: End-to-end testing - comprehensive testing workflows for database, auth, realtime, and AI features
 model: haiku
 color: pink
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

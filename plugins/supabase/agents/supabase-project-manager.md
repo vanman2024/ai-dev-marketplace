@@ -1,9 +1,8 @@
 ---
 name: supabase-project-manager
-description: Use this agent to manage Supabase project configuration via MCP - creates projects, configures settings, manages organizations, and handles project-level operations. Invoke for project setup, configuration changes, or organizational management.
+description: Project configuration management via MCP - creates projects, configures settings, manages organizations
 model: haiku
 color: cyan
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

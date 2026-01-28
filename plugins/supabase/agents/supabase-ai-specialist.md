@@ -1,9 +1,8 @@
 ---
 name: supabase-ai-specialist
-description: Use this agent for AI feature implementation including pgvector vector search, embeddings storage, hybrid search (semantic + keyword), AI model integration with Edge Functions, and RAG system architecture. Invoke when building AI applications, implementing vector search, setting up embeddings, creating RAG systems, or integrating AI models.
-model: inherit
+description: AI feature implementation - pgvector vector search, embeddings storage, hybrid search, Edge Functions integration, and RAG system architecture
+model: sonnet
 color: blue
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

@@ -1,9 +1,8 @@
 ---
 name: supabase-migration-applier
-description: Use this agent to apply database migrations via Supabase MCP server - manages migration versioning, applies schema changes safely, handles rollbacks, and tracks migration history. Invoke when deploying schema changes or managing database evolution.
-model: inherit
+description: Database migration management via MCP - versioning, safe schema changes, rollbacks, and migration history tracking
+model: haiku
 color: orange
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources

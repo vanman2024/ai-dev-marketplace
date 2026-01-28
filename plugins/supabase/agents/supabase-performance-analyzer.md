@@ -1,9 +1,8 @@
 ---
 name: supabase-performance-analyzer
-description: Use this agent for performance analysis - optimizes queries, recommends indexes, analyzes query plans, identifies bottlenecks. Invoke for performance optimization or slow query investigation.
-model: inherit
+description: Performance analysis - query optimization, index recommendations, query plan analysis, bottleneck identification
+model: sonnet
 color: red
-allowed-tools: Read, Write, Bash(*), Grep, Glob, Skill, TodoWrite
 ---
 
 ## Available Tools & Resources
