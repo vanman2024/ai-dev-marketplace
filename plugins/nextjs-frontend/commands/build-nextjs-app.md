@@ -1,11 +1,23 @@
 ---
-description: Build complete Next.js 15 application - runs all specialized agents in parallel for setup, scaffolding, pages, components, integrations, and optimization
+description: Build complete Next.js application - runs all specialized agents in parallel for setup, scaffolding, pages, components, integrations, and optimization
 argument-hint: <project-name> [--from-spec <spec-path>]
 ---
 
 # Build Complete Next.js Application
 
-**Goal:** Create a production-ready Next.js 15 application by orchestrating all specialized agents in parallel.
+**Goal:** Create a production-ready Next.js application by orchestrating all specialized agents in parallel.
+
+## Stack (Always Use Latest Versions)
+
+- **Next.js** - Latest App Router with React Server Components
+- **React** - Latest with Server Components, Actions, use() hook
+- **TypeScript** - Latest with strict mode
+- **Tailwind CSS** - Latest (native CSS, OKLCH colors)
+- **shadcn/ui** - Latest component library
+- **Supabase** - Latest for auth, database, realtime
+- **Vercel AI SDK** - Latest for multi-modal AI, streaming
+
+**IMPORTANT:** Always check for and use the most recent stable versions of all dependencies. Use `npm info <package> version` or check official documentation for current versions.
 
 ## Arguments
 
@@ -17,6 +29,7 @@ argument-hint: <project-name> [--from-spec <spec-path>]
 ### Phase 1: Discovery & Planning
 
 **Actions:**
+
 1. Parse `$ARGUMENTS` for project name and spec path
 2. Check if project exists or needs creation
 3. Discover architecture documentation:
@@ -31,11 +44,11 @@ argument-hint: <project-name> [--from-spec <spec-path>]
 **If no project exists, run setup agent:**
 
 ```
-Task("Initialize Next.js 15 project", @nextjs-setup-agent, {
-  prompt: "Initialize Next.js 15 project named '$PROJECT_NAME' with:
-    - TypeScript strict mode
-    - Tailwind CSS v4
-    - App Router architecture
+Task("Initialize Next.js project", @nextjs-setup-agent, {
+  prompt: "Initialize Next.js project named '$PROJECT_NAME' with:
+    - TypeScript strict mode (latest version)
+    - Tailwind CSS (latest, native CSS)
+    - React App Router architecture
     - shadcn/ui component library
     - Environment variable templates
     Create proper project structure and configuration."
@@ -65,7 +78,7 @@ Task("Build all components", @component-builder-agent, {
     - Discover docs/architecture/**/frontend.md
     - Extract complete component list
     - Create all components concurrently
-    - Use shadcn/ui, TypeScript, Tailwind CSS
+    - Use shadcn/ui, TypeScript, Tailwind CSS v4
     - Follow design system enforcement"
 })
 
@@ -75,7 +88,7 @@ Task("Generate all pages", @page-generator-agent, {
     - Discover docs/architecture/**/frontend.md
     - Extract complete page/route list
     - Create all pages concurrently
-    - Follow App Router conventions
+    - Follow React 19 App Router conventions
     - Import generated components"
 })
 
@@ -88,22 +101,41 @@ Task("Generate API routes", @api-route-generator-agent, {
     - Add TypeScript types"
 })
 
-// Agent 5: Supabase Integration (if needed)
+// Agent 5: Supabase Integration
 Task("Integrate Supabase", @supabase-integration-agent, {
-  prompt: "Integrate Supabase if architecture requires:
-    - Check for database requirements in specs
-    - Setup Supabase client
-    - Create database types
-    - Add auth if needed"
+  prompt: "Integrate Supabase for database and auth:
+    - Setup @supabase/supabase-js v2.x client
+    - Create database types from schema
+    - Add auth with @supabase/ssr
+    - Setup Row Level Security patterns
+    - Create server/client utility files"
 })
 
-// Agent 6: AI SDK Integration (if needed)
+// Agent 6: AI SDK Integration
 Task("Integrate Vercel AI SDK", @ai-sdk-integration-agent, {
-  prompt: "Integrate Vercel AI SDK if architecture requires:
-    - Check for AI/chat requirements in specs
-    - Setup AI providers
+  prompt: "Integrate Vercel AI SDK 4.x:
+    - Setup ai package with providers
     - Create streaming chat components
-    - Add API routes for AI"
+    - Add API routes for AI endpoints
+    - Support multi-modal (text, image, audio)"
+})
+
+// Agent 7: Design Patterns Analysis
+Task("Analyze design patterns", @design-patterns-agent, {
+  prompt: "Analyze architecture for UI patterns:
+    - Review component requirements
+    - Suggest shadcn/ui component matches
+    - Identify custom component needs
+    - Recommend layout patterns"
+})
+
+// Agent 8: UI Component Search
+Task("Search UI components", @ui-search-agent, {
+  prompt: "Search shadcn/ui registry for needed components:
+    - Find matching components for requirements
+    - Check component dependencies
+    - Identify installation commands
+    - Note customization needs"
 })
 ```
 
@@ -116,8 +148,9 @@ Task("Verify design system", @design-enforcer-agent, {
   prompt: "Audit all generated components and pages:
     - Check typography (4 sizes, 2 weights)
     - Verify spacing (8pt grid)
-    - Validate colors (60/30/10 rule)
+    - Validate colors (60/30/10 rule, OKLCH)
     - Ensure shadcn/ui usage
+    - Check Tailwind v4 syntax
     Report any violations"
 })
 ```
@@ -125,6 +158,7 @@ Task("Verify design system", @design-enforcer-agent, {
 ### Phase 5: Final Validation
 
 **Validation Steps:**
+
 1. Run TypeScript check: `npx tsc --noEmit`
 2. Run lint check: `npm run lint`
 3. Verify build: `npm run build`
@@ -132,22 +166,23 @@ Task("Verify design system", @design-enforcer-agent, {
 
 ## Specialized Agents
 
-| Agent | Responsibility |
-|-------|----------------|
-| `@nextjs-setup-agent` | Project init, TypeScript, Tailwind, shadcn |
-| `@app-scaffolding-agent` | Layouts, navigation, sidebars |
-| `@component-builder-agent` | All React components in parallel |
-| `@page-generator-agent` | All pages/routes in parallel |
-| `@api-route-generator-agent` | API route handlers |
-| `@supabase-integration-agent` | Database and auth integration |
-| `@ai-sdk-integration-agent` | AI/chat features |
-| `@design-enforcer-agent` | Design system validation |
-| `@design-patterns-agent` | UI pattern recommendations |
-| `@ui-search-agent` | Component discovery |
+| Agent                         | Responsibility                            |
+| ----------------------------- | ----------------------------------------- |
+| `@nextjs-setup-agent`         | Project init, TypeScript, Tailwind        |
+| `@app-scaffolding-agent`      | Layouts, navigation, sidebars             |
+| `@component-builder-agent`    | All React components in parallel          |
+| `@page-generator-agent`       | All pages/routes in parallel              |
+| `@api-route-generator-agent`  | API route handlers                        |
+| `@supabase-integration-agent` | Database, auth, realtime                  |
+| `@ai-sdk-integration-agent`   | AI SDK, multi-modal                       |
+| `@design-enforcer-agent`      | Design system validation                  |
+| `@design-patterns-agent`      | UI pattern recommendations                |
+| `@ui-search-agent`            | Component discovery                       |
 
 ## Skills Auto-Loaded
 
 These skills provide context during development:
+
 - **design-system**: Project design tokens and constraints
 - **component-patterns**: Existing component patterns in project
 - **page-patterns**: App Router page conventions
@@ -156,7 +191,8 @@ These skills provide context during development:
 ## Output
 
 Upon completion:
-1. ✅ Working Next.js 15 application
+
+1. ✅ Working Next.js application (latest)
 2. ✅ All pages and components from architecture
 3. ✅ API routes configured
 4. ✅ Integrations (Supabase, AI SDK) if needed

@@ -1,11 +1,20 @@
 {
   "name": "nextjs-frontend",
   "version": "2.0.0",
-  "description": "Next.js 15 App Router with AI SDK, Supabase, and shadcn/ui. Single orchestration command builds complete apps by running specialized agents in parallel.",
+  "description": "Next.js App Router with AI SDK, Supabase, and shadcn/ui. Single orchestration command builds complete apps using specialized agents. Always uses latest dependency versions.",
   "author": {
     "name": "AI Development Marketplace",
     "email": "marketplace@ai-dev.com"
   },
   "license": "MIT",
-  "keywords": ["nextjs", "frontend", "ai", "supabase", "shadcn-ui", "app-router", "typescript", "tailwind"]
+  "keywords": [
+    "nextjs",
+    "frontend",
+    "ai",
+    "supabase",
+    "shadcn-ui",
+    "app-router",
+    "typescript",
+    "tailwind"
+  ]
 }
