@@ -31,6 +31,7 @@ Task("Add Supabase", @supabase-integration-agent, {
 ## After Running
 
 1. Add your Supabase credentials to `.env.local`:
+
    ```
    NEXT_PUBLIC_SUPABASE_URL=your_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_anon_key

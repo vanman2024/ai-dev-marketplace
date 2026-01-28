@@ -30,6 +30,7 @@ Task("Add AI SDK", @ai-sdk-integration-agent, {
 ## After Running
 
 1. Add your API key to `.env.local`:
+
    ```
    OPENAI_API_KEY=your_api_key
    # or
@@ -37,8 +38,9 @@ Task("Add AI SDK", @ai-sdk-integration-agent, {
    ```
 
 2. Use in your components:
+
    ```typescript
-   import { useChat } from 'ai/react'
-   
-   const { messages, input, handleSubmit } = useChat()
+   import { useChat } from 'ai/react';
+
+   const { messages, input, handleSubmit } = useChat();
    ```

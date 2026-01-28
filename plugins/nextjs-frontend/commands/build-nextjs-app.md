@@ -1,11 +1,13 @@
 ---
-description: Build complete Next.js application - runs all specialized agents in parallel for setup, scaffolding, pages, components, integrations, and optimization
+description: Build complete Next.js application - initializes project if needed, then runs all specialized agents in parallel for scaffolding, pages, components, integrations, and optimization
 argument-hint: <project-name> [--from-spec <spec-path>]
 ---
 
 # Build Complete Next.js Application
 
 **Goal:** Create a production-ready Next.js application by orchestrating all specialized agents in parallel.
+
+**This command handles everything** - from initialization to full build. If no project exists, it creates one. If a project exists, it enhances it.
 
 ## Stack (Always Use Latest Versions)
 
@@ -166,18 +168,18 @@ Task("Verify design system", @design-enforcer-agent, {
 
 ## Specialized Agents
 
-| Agent                         | Responsibility                            |
-| ----------------------------- | ----------------------------------------- |
-| `@nextjs-setup-agent`         | Project init, TypeScript, Tailwind        |
-| `@app-scaffolding-agent`      | Layouts, navigation, sidebars             |
-| `@component-builder-agent`    | All React components in parallel          |
-| `@page-generator-agent`       | All pages/routes in parallel              |
-| `@api-route-generator-agent`  | API route handlers                        |
-| `@supabase-integration-agent` | Database, auth, realtime                  |
-| `@ai-sdk-integration-agent`   | AI SDK, multi-modal                       |
-| `@design-enforcer-agent`      | Design system validation                  |
-| `@design-patterns-agent`      | UI pattern recommendations                |
-| `@ui-search-agent`            | Component discovery                       |
+| Agent                         | Responsibility                     |
+| ----------------------------- | ---------------------------------- |
+| `@nextjs-setup-agent`         | Project init, TypeScript, Tailwind |
+| `@app-scaffolding-agent`      | Layouts, navigation, sidebars      |
+| `@component-builder-agent`    | All React components in parallel   |
+| `@page-generator-agent`       | All pages/routes in parallel       |
+| `@api-route-generator-agent`  | API route handlers                 |
+| `@supabase-integration-agent` | Database, auth, realtime           |
+| `@ai-sdk-integration-agent`   | AI SDK, multi-modal                |
+| `@design-enforcer-agent`      | Design system validation           |
+| `@design-patterns-agent`      | UI pattern recommendations         |
+| `@ui-search-agent`            | Component discovery                |
 
 ## Skills Auto-Loaded
 
