@@ -1,6 +1,6 @@
 {
   "name": "supabase",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
   "author": {
     "name": "vanman2024",

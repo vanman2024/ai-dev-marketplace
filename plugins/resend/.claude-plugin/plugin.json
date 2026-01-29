@@ -1,6 +1,6 @@
 {
   "name": "resend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Resend email API integration for sending transactional emails, managing contacts, broadcasts, templates, domains, and webhooks",
   "author": {
     "name": "Plugin Developer",
@@ -9,5 +9,15 @@
   "homepage": "https://resend.com",
   "repository": "https://github.com/resend/resend-node",
   "license": "MIT",
-  "keywords": ["email", "resend", "transactional", "api", "smtp", "contacts", "broadcasts", "templates", "webhooks"]
+  "keywords": [
+    "email",
+    "resend",
+    "transactional",
+    "api",
+    "smtp",
+    "contacts",
+    "broadcasts",
+    "templates",
+    "webhooks"
+  ]
 }

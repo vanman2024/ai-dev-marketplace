@@ -1,6 +1,6 @@
 {
   "name": "celery",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
   "author": {
     "name": "AI Dev Marketplace",

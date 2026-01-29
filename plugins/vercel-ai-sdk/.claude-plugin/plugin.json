@@ -1,6 +1,6 @@
 {
   "name": "vercel-ai-sdk",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Modular Vercel AI SDK development plugin with 13 specialized agents, parallel orchestration, and AI SDK v6 support. Features AI Elements (54 components), 107+ providers, Tools Registry, MCP integration, and full-stack app builder.",
   "author": {
     "name": "vanman2024",

@@ -1,6 +1,6 @@
 {
   "name": "google-adk",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Build AI agents with Google's Agent Development Kit (ADK) - supports Python, TypeScript, Go, and Java",
   "author": {
     "name": "Plugin Developer",
@@ -9,5 +9,12 @@
   "homepage": "https://github.com/username/google-adk",
   "repository": "https://github.com/username/google-adk",
   "license": "MIT",
-  "keywords": ["google", "adk", "ai-agents", "gemini", "vertex-ai", "agent-development"]
+  "keywords": [
+    "google",
+    "adk",
+    "ai-agents",
+    "gemini",
+    "vertex-ai",
+    "agent-development"
+  ]
 }

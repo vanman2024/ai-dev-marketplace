@@ -1,6 +1,6 @@
 {
   "name": "a2a-protocol",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Complete A2A Protocol integration for multi-agent systems",
   "author": {
     "name": "Plugin Developer",
@@ -9,5 +9,22 @@
   "homepage": "https://github.com/username/a2a-protocol",
   "repository": "https://github.com/username/a2a-protocol",
   "license": "Apache-2.0",
-  "keywords": ["a2a", "protocol", "agent-communication", "multi-agent", "interoperability", "agent-to-agent", "google", "linux-foundation", "mcp", "sdk", "python", "javascript", "typescript", "java", "csharp", "golang"]
+  "keywords": [
+    "a2a",
+    "protocol",
+    "agent-communication",
+    "multi-agent",
+    "interoperability",
+    "agent-to-agent",
+    "google",
+    "linux-foundation",
+    "mcp",
+    "sdk",
+    "python",
+    "javascript",
+    "typescript",
+    "java",
+    "csharp",
+    "golang"
+  ]
 }

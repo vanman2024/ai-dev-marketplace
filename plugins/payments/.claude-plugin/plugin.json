@@ -1,6 +1,6 @@
 {
   "name": "payments",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
   "author": {
     "name": "AI Dev Marketplace",

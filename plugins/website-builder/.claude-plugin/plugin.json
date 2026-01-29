@@ -1,6 +1,6 @@
 {
   "name": "website-builder",
-  "version": "1.1.0",
+  "version": "2.1.0",
   "description": "AI-powered website builder with SEO, conversion optimization, analytics, engagement, and content specialists. Supports Astro, MDX, Supabase CMS for marketing sites, blogs, and documentation.",
   "author": {
     "name": "AI Dev Marketplace",

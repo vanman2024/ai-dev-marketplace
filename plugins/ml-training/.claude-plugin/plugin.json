@@ -1,6 +1,6 @@
 {
   "name": "ml-training",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Machine learning training and inference pipeline using cloud GPUs (Modal, Lambda Labs, RunPod) with HuggingFace ecosystem - no local GPU required",
   "author": {
     "name": "AI Dev Marketplace",

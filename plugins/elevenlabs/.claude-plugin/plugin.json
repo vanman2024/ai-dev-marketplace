@@ -1,6 +1,6 @@
 {
   "name": "elevenlabs",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, and Vercel AI SDK support",
   "author": {
     "name": "AI Dev Marketplace",

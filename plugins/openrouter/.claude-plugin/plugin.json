@@ -1,6 +1,6 @@
 {
   "name": "openrouter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
   "author": {
     "name": "AI Dev Marketplace",

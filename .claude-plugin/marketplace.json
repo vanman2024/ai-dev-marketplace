@@ -10,7 +10,7 @@
     {
       "name": "claude-agent-sdk",
       "description": "Claude Agent SDK plugin with 8 specialized agents and parallel orchestration. Build production AI agent systems with MCP, subagents, sessions, tools, and deployment in one command.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "dev@example.com"
@@ -37,7 +37,7 @@
     {
       "name": "elevenlabs",
       "description": "Comprehensive ElevenLabs AI audio integration for voice-enabled applications with TTS, STT, voice cloning, and Vercel AI SDK support",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "plugins@ai-dev-marketplace.com"
@@ -60,7 +60,7 @@
     {
       "name": "fastapi-backend",
       "description": "Production-ready FastAPI backend with async/await, Mem0, and deployment",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Development Marketplace",
         "email": "marketplace@ai-dev.com"
@@ -83,7 +83,7 @@
     {
       "name": "mem0",
       "description": "AI memory management with Platform (hosted), Open Source (self-hosted with Supabase), and MCP (OpenMemory) support. Persistent conversation memory, user preferences, and graph relationships for AI applications.",
-      "version": "1.1.0",
+      "version": "2.1.0",
       "author": {
         "name": "vanman2024",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -111,7 +111,7 @@
     {
       "name": "nextjs-frontend",
       "description": "Next.js App Router with AI SDK, Supabase, shadcn/ui. Single orchestration command plus utility commands for building modern AI-powered applications. Always uses latest dependency versions.",
-      "version": "2.0.0",
+      "version": "3.0.0",
       "author": {
         "name": "AI Development Marketplace",
         "email": "marketplace@ai-dev.com"
@@ -132,7 +132,7 @@
     {
       "name": "openrouter",
       "description": "OpenRouter SDK plugin - unified interface for 500+ LLM models with intelligent routing, cost optimization, and framework integrations (Vercel AI SDK, LangChain, OpenAI SDK, PydanticAI)",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -157,7 +157,7 @@
     {
       "name": "rag-pipeline",
       "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
-      "version": "1.0.0",
+      "version": "3.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -185,7 +185,7 @@
     {
       "name": "supabase",
       "description": "Comprehensive Supabase integration for AI applications with database, auth, storage, realtime, and vector search capabilities",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "vanman2024",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -215,7 +215,7 @@
     {
       "name": "vercel-ai-sdk",
       "description": "Modular Vercel AI SDK development plugin with feature bundles and specialized agents. Build AI applications incrementally or all-at-once. Supports TypeScript, JavaScript, and Python.",
-      "version": "1.0.0",
+      "version": "3.0.0",
       "author": {
         "name": "vanman2024",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -241,7 +241,7 @@
     {
       "name": "website-builder",
       "description": "AI-powered website builder with Astro, MDX, content-image-generation MCP, Supabase CMS, and component integration for marketing sites, blogs, and documentation",
-      "version": "1.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "dev@example.com"
@@ -269,7 +269,7 @@
     {
       "name": "ml-training",
       "description": "Machine learning training and inference pipeline using cloud GPUs (Modal, Lambda Labs, RunPod) with HuggingFace ecosystem - no local GPU required",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "builder@example.com"
@@ -294,7 +294,7 @@
     {
       "name": "plugin-docs-loader",
       "description": "Universal documentation loading system with intelligent link extraction and parallel WebFetch for all plugins",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -314,7 +314,7 @@
     {
       "name": "payments",
       "description": "Stripe integration for payments and subscriptions with FastAPI backend, Next.js frontend, and Supabase database",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "Plugin Builder",
         "email": "builder@example.com"
@@ -337,7 +337,7 @@
     {
       "name": "celery",
       "description": "Production-ready Celery distributed task queue with worker management, beat scheduling, monitoring (Flower), and framework integrations (Django, Flask, FastAPI)",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "builder@example.com"
@@ -365,7 +365,7 @@
     {
       "name": "clerk",
       "description": "Comprehensive Clerk authentication plugin with OAuth (19 providers), organizations, billing, MFA, Next.js integration, and Supabase sync for building secure multi-tenant applications",
-      "version": "1.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -398,7 +398,7 @@
     {
       "name": "redis",
       "description": "Production-ready Redis integration for caching, sessions, rate limiting, pub/sub, and AI embedding cache with multi-framework support",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "builder@example.com"
@@ -434,7 +434,7 @@
     {
       "name": "resend",
       "description": "Complete Resend email API integration for transactional emails, React Email templates, contacts, broadcasts, webhooks, and domain management",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"
@@ -465,7 +465,7 @@
     {
       "name": "a2a-protocol",
       "description": "Complete A2A Protocol integration for multi-agent systems",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "Plugin Developer",
         "email": "noreply@a2a-protocol.dev"
@@ -494,7 +494,7 @@
     {
       "name": "google-adk",
       "description": "Build AI agents with Google's Agent Development Kit (ADK) - supports Python, TypeScript, Go, and Java",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "Plugin Developer",
         "email": "noreply@google-adk.dev"
@@ -513,7 +513,7 @@
     {
       "name": "mobile",
       "description": "Mobile development plugin for React Native/Expo apps, responsive web design, PWAs, with Supabase/Clerk integration and app store deployment via EAS Build",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "Plugin Developer",
         "email": "noreply@mobile.dev"
@@ -538,7 +538,7 @@
     {
       "name": "sveltekit-frontend",
       "description": "SvelteKit frontend development with Tailwind CSS v4, shadcn-svelte, and Bun server integration. Includes HTML-to-Svelte migration, app shell, routing, and component generators.",
-      "version": "1.0.0",
+      "version": "2.0.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"

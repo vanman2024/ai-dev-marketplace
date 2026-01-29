@@ -1,6 +1,6 @@
 {
   "name": "sveltekit-frontend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "SvelteKit frontend development with Tailwind CSS v4, shadcn-svelte, and Bun server integration. Includes HTML-to-Svelte migration, app shell, routing, and component generators.",
   "author": {
     "name": "AI Development Marketplace",

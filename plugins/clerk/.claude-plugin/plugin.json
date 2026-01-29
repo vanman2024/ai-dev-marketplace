@@ -1,6 +1,6 @@
 {
   "name": "clerk",
-  "version": "0.1.0",
+  "version": "2.1.0",
   "description": "Complete authentication platform with OAuth, organizations, and billing",
   "author": {
     "name": "AI Dev Marketplace",
@@ -9,5 +9,13 @@
   "homepage": "https://github.com/ai-dev-marketplace/clerk",
   "repository": "https://github.com/ai-dev-marketplace/clerk",
   "license": "MIT",
-  "keywords": ["authentication", "clerk", "oauth", "organizations", "billing", "nextjs", "react"]
+  "keywords": [
+    "authentication",
+    "clerk",
+    "oauth",
+    "organizations",
+    "billing",
+    "nextjs",
+    "react"
+  ]
 }

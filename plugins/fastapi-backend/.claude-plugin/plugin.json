@@ -1,6 +1,6 @@
 {
   "name": "fastapi-backend",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Production-ready FastAPI backend with async/await, Mem0, and deployment",
   "author": {
     "name": "AI Development Marketplace",
