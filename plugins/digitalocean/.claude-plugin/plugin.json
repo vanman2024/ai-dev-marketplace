@@ -1,0 +1,32 @@
+{
+  "name": "digitalocean",
+  "version": "1.0.0",
+  "description": "DigitalOcean cloud deployment plugin for App Platform, Droplets, Kubernetes, Functions, Managed Databases, Spaces storage, and infrastructure management with official MCP server integration",
+  "author": {
+    "name": "AI Dev Marketplace",
+    "email": "noreply@ai-dev-marketplace.dev"
+  },
+  "homepage": "https://github.com/vanman2024/ai-dev-marketplace/tree/master/plugins/digitalocean",
+  "repository": "https://github.com/vanman2024/ai-dev-marketplace",
+  "license": "MIT",
+  "keywords": [
+    "digitalocean",
+    "cloud",
+    "deployment",
+    "app-platform",
+    "droplets",
+    "kubernetes",
+    "functions",
+    "serverless",
+    "managed-databases",
+    "spaces",
+    "object-storage",
+    "doctl",
+    "mcp",
+    "terraform",
+    "infrastructure",
+    "paas",
+    "containers",
+    "docker"
+  ]
+}

@@ -1,0 +1,26 @@
+# Environment
+.env
+.env.*
+!.env.example
+
+# Secrets
+*.pem
+*.key
+secrets/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+
+# doctl
+.doctl/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db

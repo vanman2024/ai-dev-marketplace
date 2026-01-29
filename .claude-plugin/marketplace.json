@@ -558,6 +558,47 @@
         "migration",
         "html-to-svelte"
       ]
+    },
+    {
+      "name": "digitalocean",
+      "description": "DigitalOcean cloud platform integration with App Platform, Droplets, Kubernetes, Managed Databases, Spaces, and official MCP server support for AI-assisted deployments",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/digitalocean",
+      "category": "development",
+      "keywords": [
+        "digitalocean",
+        "cloud",
+        "paas",
+        "iaas",
+        "app-platform",
+        "droplets",
+        "kubernetes",
+        "doks",
+        "managed-databases",
+        "postgresql",
+        "mysql",
+        "redis",
+        "mongodb",
+        "kafka",
+        "spaces",
+        "object-storage",
+        "s3-compatible",
+        "functions",
+        "serverless",
+        "vpc",
+        "networking",
+        "load-balancer",
+        "firewall",
+        "dns",
+        "doctl",
+        "terraform",
+        "mcp",
+        "deployment"
+      ]
     }
   ]
 }
