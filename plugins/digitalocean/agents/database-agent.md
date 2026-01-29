@@ -2,6 +2,7 @@
 name: database-agent
 description: Manages DigitalOcean Managed Databases - PostgreSQL, MySQL, Redis, MongoDB, Kafka, OpenSearch
 specialization: Database provisioning, connection management, backups, replication
+allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
 # Database Agent

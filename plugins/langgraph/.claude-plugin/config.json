@@ -1,0 +1,18 @@
+{
+  "name": "langgraph",
+  "description": "LangGraph stateful graph orchestration for complex LLM workflows with persistence and human-in-the-loop",
+  "version": "1.0.0",
+  "permissions": {
+    "allow": [
+      "Bash(pip:*)",
+      "Bash(python:*)",
+      "Bash(npm:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch"
+    ]
+  }
+}

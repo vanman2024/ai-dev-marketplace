@@ -1,0 +1,37 @@
+# Firewall rules template
+# Apply with: doctl compute firewall create --name my-fw --inbound-rules "$(cat firewall-rules.json)"
+
+{
+  "inbound_rules": [
+    {
+      "protocol": "tcp",
+      "ports": "22",
+      "sources": {
+        "addresses": ["0.0.0.0/0"]
+      }
+    },
+    {
+      "protocol": "tcp",
+      "ports": "80",
+      "sources": {
+        "addresses": ["0.0.0.0/0"]
+      }
+    },
+    {
+      "protocol": "tcp",
+      "ports": "443",
+      "sources": {
+        "addresses": ["0.0.0.0/0"]
+      }
+    }
+  ],
+  "outbound_rules": [
+    {
+      "protocol": "tcp",
+      "ports": "all",
+      "destinations": {
+        "addresses": ["0.0.0.0/0"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+# App Platform Spec Template
+# Docs: https://docs.digitalocean.com/products/app-platform/reference/app-spec/
+
+name: { { APP_NAME } }
+region: nyc
+
+services:
+  - name: web
+    github:
+      repo: { { GITHUB_REPO } }
+      branch: main
+      deploy_on_push: true
+    build_command: npm run build
+    run_command: npm start
+    http_port: 3000
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    envs:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        type: SECRET

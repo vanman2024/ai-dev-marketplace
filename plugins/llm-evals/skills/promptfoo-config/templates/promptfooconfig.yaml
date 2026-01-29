@@ -1,0 +1,27 @@
+# promptfoo Configuration Template
+description: 'LLM Prompt Evaluation'
+
+prompts:
+  - |
+    You are a helpful assistant.
+
+    User: {{question}}
+    Assistant:
+
+providers:
+  - openai:gpt-4o
+  - anthropic:claude-3-5-sonnet-20241022
+
+tests:
+  - vars:
+      question: 'What is 2+2?'
+    assert:
+      - type: contains
+        value: '4'
+  - vars:
+      question: 'What is the capital of France?'
+    assert:
+      - type: contains
+        value: 'Paris'
+      - type: llm-rubric
+        value: 'Answer is accurate and concise'

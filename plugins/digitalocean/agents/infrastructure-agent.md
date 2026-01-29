@@ -2,6 +2,7 @@
 name: infrastructure-agent
 description: Manages DigitalOcean infrastructure - Droplets, VPCs, networking, firewalls, DNS, load balancers
 specialization: IaaS provisioning, networking, security, Terraform integration
+allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
 # Infrastructure Agent

@@ -1,0 +1,19 @@
+{
+  "name": "llm-evals",
+  "description": "LLM testing and evaluation framework with promptfoo, DeepEval, golden datasets, and Supabase-backed eval tracking",
+  "version": "1.0.0",
+  "permissions": {
+    "allow": [
+      "Bash(npx promptfoo:*)",
+      "Bash(pytest:*)",
+      "Bash(npm:*)",
+      "Bash(pip:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch"
+    ]
+  }
+}

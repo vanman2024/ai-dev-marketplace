@@ -2,6 +2,7 @@
 name: app-platform-agent
 description: Orchestrates DigitalOcean App Platform deployments - web apps, APIs, workers, static sites
 specialization: PaaS deployment, container apps, auto-scaling, CI/CD
+allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
 # App Platform Agent

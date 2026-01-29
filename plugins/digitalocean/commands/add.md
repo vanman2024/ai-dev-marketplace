@@ -81,7 +81,7 @@ Requirements:
 - Generate cloud-init (optional)
 ```
 
-**If `$0` = "kubernetes" or `$0` = "k8s":** *(Optional - for larger scale deployments)*
+**If `$0` = "kubernetes" or `$0` = "k8s":** _(Optional - for larger scale deployments)_
 
 ```
 Task(kubernetes-agent) Add KUBERNETES cluster.

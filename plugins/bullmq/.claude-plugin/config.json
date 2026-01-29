@@ -1,0 +1,18 @@
+{
+  "name": "bullmq",
+  "description": "BullMQ TypeScript durable job queue with Redis, retries, rate limiting, and worker management",
+  "version": "1.0.0",
+  "permissions": {
+    "allow": [
+      "Bash(npm:*)",
+      "Bash(npx:*)",
+      "Bash(pnpm:*)",
+      "Read",
+      "Write",
+      "Edit",
+      "Glob",
+      "Grep",
+      "WebFetch"
+    ]
+  }
+}

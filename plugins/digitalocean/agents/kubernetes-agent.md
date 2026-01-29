@@ -2,6 +2,7 @@
 name: kubernetes-agent
 description: Manages DigitalOcean Kubernetes (DOKS) clusters - provisioning, deployments, scaling, Helm charts
 specialization: Kubernetes orchestration, container deployment, microservices, GitOps
+allowed-tools: Bash, Read, Write, Edit, Grep, Glob
 ---
 
 # Kubernetes Agent

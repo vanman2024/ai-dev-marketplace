@@ -599,6 +599,81 @@
         "mcp",
         "deployment"
       ]
+    },
+    {
+      "name": "llm-evals",
+      "description": "LLM testing and evaluation framework with promptfoo, DeepEval, golden datasets, and Supabase-backed eval tracking",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/llm-evals",
+      "category": "development",
+      "keywords": [
+        "llm-testing",
+        "evaluation",
+        "promptfoo",
+        "deepeval",
+        "golden-datasets",
+        "regression-testing",
+        "prompt-testing",
+        "metrics",
+        "faithfulness",
+        "relevance",
+        "ci-cd",
+        "pytest"
+      ]
+    },
+    {
+      "name": "bullmq",
+      "description": "BullMQ TypeScript durable job queue with Redis, retries, rate limiting, and Bull Board dashboard",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/bullmq",
+      "category": "development",
+      "keywords": [
+        "bullmq",
+        "job-queue",
+        "background-jobs",
+        "redis",
+        "durable-execution",
+        "retries",
+        "rate-limiting",
+        "workers",
+        "typescript",
+        "bull-board",
+        "scheduling",
+        "cron"
+      ]
+    },
+    {
+      "name": "langgraph",
+      "description": "LangGraph stateful graph orchestration for complex LLM workflows with persistence and human-in-the-loop",
+      "version": "1.0.0",
+      "author": {
+        "name": "AI Dev Marketplace",
+        "email": "noreply@ai-dev-marketplace.dev"
+      },
+      "source": "./plugins/langgraph",
+      "category": "development",
+      "keywords": [
+        "langgraph",
+        "state-machine",
+        "workflow",
+        "orchestration",
+        "llm",
+        "agents",
+        "persistence",
+        "checkpointing",
+        "human-in-the-loop",
+        "conditional-routing",
+        "langchain",
+        "graph"
+      ]
     }
   ]
 }
