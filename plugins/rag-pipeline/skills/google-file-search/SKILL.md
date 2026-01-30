@@ -1,6 +1,6 @@
 ---
 name: google-file-search
-description: Google File Search API templates, configuration patterns, and usage examples for managed RAG with Gemini. Use when building File Search integrations, implementing RAG with Google AI, chunking documents, configuring grounding citations, or when user mentions Google File Search, Gemini RAG, document indexing, or semantic search.
+description: Google File Search API patterns for managed RAG with Gemini. Covers both TypeScript (@google/genai) and Python (google-genai) SDKs. Use when building File Search integrations, implementing RAG with Google AI, or when user mentions Google File Search, Gemini RAG, document indexing, or semantic search.
 allowed-tools: Bash, Read, Write, Edit, Grep, Glob, WebFetch
 ---
 
@@ -18,277 +18,264 @@ Google File Search provides managed RAG capabilities through:
 - Persistent storage with file search stores
 - Integration with Gemini 2.5 models
 
-This skill provides templates, scripts, and examples for implementing File Search in Python applications using the `google-generativeai` package.
+**Two Official SDKs are available:**
+- **TypeScript/JavaScript:** `@google/genai` npm package
+- **Python:** `google-genai` pip package
 
-## Use When
+## CRITICAL: Use Official SDKs Only
 
-This skill is automatically invoked when:
-- Building RAG systems with Google Gemini
-- Implementing document search and retrieval
-- Configuring chunking strategies
-- Setting up grounding citations
-- Managing file search stores
-- Uploading and indexing documents
-- Filtering search results by metadata
-- Testing semantic search capabilities
+Do NOT use manual REST API calls or deprecated packages. Always use the official SDKs.
 
-## Key Capabilities
+### TypeScript/JavaScript
+```bash
+npm install @google/genai
+```
 
-### 1. Store Management
-- Create persistent file search stores
-- List and retrieve existing stores
-- Delete stores with force option
-- Monitor storage quotas (1GB-1TB by tier)
-
-### 2. Document Upload & Indexing
-- Direct upload and indexing in single operation
-- Separate upload via Files API then import
-- Batch file processing
-- Support for 100+ file types (PDF, DOCX, code, etc.)
-- Maximum file size: 100 MB per document
-
-### 3. Chunking Configuration
-- White space-based chunking strategies
-- Configurable tokens per chunk
-- Overlap token settings for context preservation
-- Custom chunking for domain-specific needs
-
-### 4. Metadata & Filtering
-- Custom key-value metadata during import
-- String and numeric metadata values
-- AIP-160 compliant filter syntax
-- Multi-condition metadata queries
-
-### 5. Grounding & Citations
-- Access to source document references
-- Citation extraction from responses
-- Fact-checking and verification support
-- Transparent sourcing for AI responses
+### Python
+```bash
+pip install google-genai
+```
 
 ## Security: API Key Handling
 
-**CRITICAL:** All templates and examples use placeholder values:
+**CRITICAL:** Never hardcode API keys.
 
-❌ NEVER hardcode actual API keys
-✅ ALWAYS use: `GOOGLE_API_KEY=your_google_api_key_here`
-✅ ALWAYS use: `GOOGLE_GENAI_API_KEY=your_google_genai_api_key_here`
-✅ ALWAYS read from environment variables in code
-✅ ALWAYS add `.env*` to `.gitignore` (except `.env.example`)
+```typescript
+// ✅ CORRECT - TypeScript
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY! });
 
-Obtain API keys from: https://aistudio.google.com/apikey
-
-## Usage Instructions
-
-### Phase 1: Load Required Documentation
-
-Before implementing File Search, fetch the latest documentation:
-
-```markdown
-WebFetch: https://ai.google.dev/gemini-api/docs/file-search
-WebFetch: https://ai.google.dev/gemini-api/docs/embeddings
+// ❌ WRONG
+const ai = new GoogleGenAI({ apiKey: 'sk-abc123...' });
 ```
 
-### Phase 2: Initialize File Search Store
+```python
+# ✅ CORRECT - Python
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-Use the Python setup script to create a new store:
-
-```bash
-python scripts/setup_file_search.py --name "My RAG Store"
+# ❌ WRONG
+client = genai.Client(api_key="sk-abc123...")
 ```
 
-This Python script:
-- Creates a new file search store
-- Saves store ID to environment
-- Validates creation
-- Returns store details
+Get API keys from: https://aistudio.google.com/apikey
 
-### Phase 3: Configure Chunking Strategy
+## TypeScript Implementation
 
-Customize chunking for your document domain:
+### Initialize Client
 
-```bash
-python scripts/configure_chunking.py --max-tokens 200 --overlap 20
+```typescript
+import { GoogleGenAI } from '@google/genai';
+
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY! });
 ```
 
-Generates configuration file with:
-- Maximum tokens per chunk
-- Overlap tokens for context
-- White space chunking strategy
+### Create File Search Store
 
-### Phase 4: Upload and Index Documents
-
-Upload files to the store:
-
-```bash
-python scripts/upload_documents.py --path /path/to/documents
+```typescript
+const store = await ai.fileSearchStores.create({
+  config: { displayName: 'my-knowledge-base' }
+});
+console.log(`Store created: ${store.name}`);
 ```
 
-This script:
-- Validates file types and sizes
-- Uploads and indexes simultaneously
-- Applies chunking configuration
-- Adds optional metadata
-- Tracks upload progress
+### Upload and Index Documents
 
-### Phase 5: Test Semantic Search
+**Use `uploadToFileSearchStore()` which uploads AND indexes in one operation.**
 
-Verify search functionality:
+```typescript
+async function uploadFile(storeName: string, filePath: string, filename: string) {
+  let operation = await ai.fileSearchStores.uploadToFileSearchStore({
+    file: filePath,
+    fileSearchStoreName: storeName,
+    config: { displayName: filename }
+  });
 
-```bash
-python scripts/search_query.py --query "your search query"
+  // Wait for indexing to complete
+  while (!operation.done) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    operation = await ai.operations.get({ operation });
+  }
+  console.log(`Indexed: ${filename}`);
+}
 ```
 
-Tests:
-- Semantic search capabilities
-- Citation extraction
-- Metadata filtering
-- Response grounding
+### Semantic Search
 
-### Phase 6: Validate Setup
+```typescript
+async function search(storeName: string, query: string) {
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: query,
+    config: {
+      tools: [{
+        fileSearch: {
+          fileSearchStoreNames: [storeName]
+        }
+      }]
+    }
+  });
 
-Run comprehensive validation:
+  const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks?.map((c: any) => ({
+    uri: c.retrievedContext?.uri,
+    title: c.retrievedContext?.title
+  })) || [];
 
-```bash
-python scripts/validate_setup.py
+  return { answer: response.text, sources };
+}
 ```
 
-Checks:
-- Store existence and accessibility
-- Indexed document count
-- Chunking configuration
-- API key configuration
-- Storage quota usage
+### Next.js API Route Example
 
-## Available Scripts
+```typescript
+// app/api/rag/route.ts
+import { GoogleGenAI } from '@google/genai';
+import { NextResponse } from 'next/server';
 
-### `scripts/setup_file_search.py`
-Initialize a new file search store with display name.
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY! });
 
-**Usage:**
-```bash
-python scripts/setup_file_search.py --name "Store Name"
+export async function POST(request: Request) {
+  const { query, storeId } = await request.json();
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: query,
+    config: {
+      tools: [{ fileSearch: { fileSearchStoreNames: [storeId] }}],
+      systemInstruction: 'Answer based on the documents. Cite sources.'
+    }
+  });
+
+  const sources = response.candidates?.[0]?.groundingMetadata?.groundingChunks?.map((c: any) => ({
+    uri: c.retrievedContext?.uri,
+    title: c.retrievedContext?.title
+  })) || [];
+
+  return NextResponse.json({ answer: response.text, sources });
+}
 ```
 
-### `scripts/upload_documents.py`
-Upload and index documents to a file search store.
+## Python Implementation
 
-**Usage:**
-```bash
-python scripts/upload_documents.py --path /path/to/documents
-python scripts/upload_documents.py --file /path/to/file.pdf --metadata author="John Doe"
+### Initialize Client
+
+```python
+import os
+from google import genai
+from google.genai import types
+
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 ```
 
-### `scripts/configure_chunking.py`
-Generate chunking configuration file.
+### Create File Search Store
 
-**Usage:**
-```bash
-python scripts/configure_chunking.py --max-tokens 200 --overlap 20
-python scripts/configure_chunking.py --preset small  # 100 tokens, 10 overlap
-python scripts/configure_chunking.py --preset large  # 500 tokens, 50 overlap
+```python
+store = client.file_search_stores.create(
+    config={"display_name": "my-knowledge-base"}
+)
+print(f"Store created: {store.name}")
 ```
 
-### `scripts/search_query.py`
-Test semantic search with sample queries.
+### Upload and Index Documents
 
-**Usage:**
-```bash
-python scripts/search_query.py --query "explain quantum computing"
-python scripts/search_query.py --query "author=Einstein" --metadata-filter
+**Use `upload_to_file_search_store()` which uploads AND indexes in one operation.**
+
+```python
+import time
+from pathlib import Path
+
+def upload_file(store_name: str, file_path: str, filename: str = None):
+    path = Path(file_path)
+
+    operation = client.file_search_stores.upload_to_file_search_store(
+        file=str(path),
+        file_search_store_name=store_name,
+        config={"display_name": filename or path.name}
+    )
+
+    # Wait for indexing to complete
+    while not operation.done:
+        time.sleep(2)
+        operation = client.operations.get(operation)
+
+    print(f"Indexed: {path.name}")
 ```
 
-### `scripts/validate_setup.py`
-Comprehensive validation of File Search configuration.
+### Semantic Search
 
-**Usage:**
-```bash
-python scripts/validate_setup.py
-python scripts/validate_setup.py --verbose
+```python
+def search(store_name: str, query: str, model: str = "gemini-2.5-flash"):
+    file_search = types.FileSearch(file_search_store_names=[store_name])
+    tool = types.Tool(file_search=file_search)
+
+    response = client.models.generate_content(
+        model=model,
+        contents=query,
+        config=types.GenerateContentConfig(tools=[tool])
+    )
+
+    sources = []
+    if response.candidates:
+        gm = getattr(response.candidates[0], 'grounding_metadata', None)
+        if gm and hasattr(gm, 'grounding_chunks'):
+            for chunk in gm.grounding_chunks:
+                rc = getattr(chunk, 'retrieved_context', None)
+                if rc:
+                    sources.append({
+                        "uri": getattr(rc, 'uri', ''),
+                        "title": getattr(rc, 'title', '')
+                    })
+
+    return {"answer": response.text, "sources": sources}
 ```
 
-## Available Templates
+### FastAPI Endpoint Example
 
-### Configuration Templates
+```python
+from fastapi import FastAPI, HTTPException
+from pydantic import BaseModel
+from google import genai
+from google.genai import types
+import os
 
-**`templates/store-config.json`**
-- File search store creation configuration
-- Display name and description
-- Storage tier settings
+app = FastAPI()
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
-**`templates/chunking-config.json`**
-- White space chunking configuration
-- Token limits and overlap settings
-- Strategy presets
+class RAGQuery(BaseModel):
+    query: str
+    store_id: str
 
-**`templates/metadata-schema.json`**
-- Metadata field definitions
-- String and numeric value types
-- Filtering examples
+@app.post("/rag/search")
+async def rag_search(request: RAGQuery):
+    try:
+        file_search = types.FileSearch(file_search_store_names=[request.store_id])
+        tool = types.Tool(file_search=file_search)
 
-**`templates/env.example`**
-- Environment variable template
-- API key placeholders
-- Store ID configuration
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=request.query,
+            config=types.GenerateContentConfig(tools=[tool])
+        )
 
-### Code Templates
+        sources = []
+        if response.candidates:
+            gm = getattr(response.candidates[0], 'grounding_metadata', None)
+            if gm and hasattr(gm, 'grounding_chunks'):
+                for chunk in gm.grounding_chunks:
+                    rc = getattr(chunk, 'retrieved_context', None)
+                    if rc:
+                        sources.append({
+                            "uri": getattr(rc, 'uri', ''),
+                            "title": getattr(rc, 'title', '')
+                        })
 
-**`templates/python-setup.py`**
-Complete Python implementation template:
-- Store creation and management
-- Document upload with chunking
-- Search with metadata filtering
-- Citation extraction
-- Error handling
-
-**`templates/typescript-setup.ts`**
-Complete TypeScript implementation template:
-- Store initialization
-- File upload and indexing
-- Semantic search queries
-- Grounding metadata parsing
-- Type-safe interfaces
-
-## Available Examples
-
-### `examples/basic-setup.md`
-Simple File Search implementation for getting started:
-- Create first store
-- Upload single document
-- Perform basic search
-- Extract citations
-
-### `examples/advanced-chunking.md`
-Custom chunking strategies for different document types:
-- Technical documentation (larger chunks)
-- Legal documents (precise boundaries)
-- Code repositories (function-level chunks)
-- Scientific papers (section-based chunks)
-
-### `examples/metadata-filtering.md`
-Using metadata for targeted search:
-- Add custom metadata during upload
-- Filter by author, date, category
-- Multi-condition metadata queries
-- Combining metadata with semantic search
-
-### `examples/grounding-citations.md`
-Extract and display source citations:
-- Parse grounding metadata
-- Extract document references
-- Display citation information
-- Build source attribution UI
-
-### `examples/multi-store.md`
-Manage multiple file search stores:
-- Separate stores by domain
-- Cross-store search patterns
-- Store migration strategies
-- Quota management across stores
+        return {"answer": response.text, "sources": sources}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+```
 
 ## Supported Models
 
+- **gemini-2.5-flash**: Fast model for quick responses (RECOMMENDED)
 - **gemini-2.5-pro**: Production model for complex reasoning
-- **gemini-2.5-flash**: Fast model for quick responses
 
 ## Supported File Types
 
@@ -311,16 +298,73 @@ Over 100 MIME types supported.
 - Tier 2: 100 GB
 - Tier 3: 1 TB
 
-Storage calculation: Input size × ~3 (includes embeddings)
+## Chunking Configuration
 
-## Pricing Considerations
+### TypeScript
+```typescript
+await ai.fileSearchStores.uploadToFileSearchStore({
+  file: filePath,
+  fileSearchStoreName: storeName,
+  config: {
+    displayName: filename,
+    chunkingConfig: {
+      whiteSpaceConfig: {
+        maxTokensPerChunk: 200,
+        maxOverlapTokens: 20
+      }
+    }
+  }
+});
+```
 
-- **Indexing:** $0.15 per 1M tokens (one-time per document)
-- **Storage:** Free
-- **Query embeddings:** Free
-- **Retrieved tokens:** Standard context pricing
+### Python
+```python
+client.file_search_stores.upload_to_file_search_store(
+    file=file_path,
+    file_search_store_name=store_name,
+    config={
+        "display_name": filename,
+        "chunking_config": {
+            "white_space_config": {
+                "max_tokens_per_chunk": 200,
+                "max_overlap_tokens": 20
+            }
+        }
+    }
+)
+```
 
-**Optimization tip:** Index documents once, query multiple times for cost efficiency.
+## Metadata Filtering
+
+### Adding Metadata (TypeScript)
+```typescript
+config: {
+  displayName: filename,
+  customMetadata: [
+    { key: 'author', stringValue: 'John Doe' },
+    { key: 'year', numericValue: 2024 }
+  ]
+}
+```
+
+### Adding Metadata (Python)
+```python
+config={
+    "display_name": filename,
+    "custom_metadata": [
+        {"key": "author", "string_value": "John Doe"},
+        {"key": "year", "numeric_value": 2024}
+    ]
+}
+```
+
+### Filtering Queries (Python)
+```python
+file_search = types.FileSearch(
+    file_search_store_names=[store_name]
+)
+file_search.metadata_filter = 'author="John Doe" AND year >= 2024'
+```
 
 ## Best Practices
 
@@ -334,73 +378,16 @@ Storage calculation: Input size × ~3 (includes embeddings)
    - Add author, date, category during upload
    - Use consistent naming conventions
    - Plan filtering needs upfront
-   - Leverage numeric values for date ranges
 
 3. **Store Organization**
    - Separate stores by domain/project
    - Keep stores under 20 GB for optimal retrieval
    - Name stores descriptively
-   - Monitor quota usage
 
 4. **Citation Handling**
    - Always extract grounding metadata
    - Display sources to users
    - Enable fact-checking workflows
-   - Track citation coverage
-
-5. **Error Handling**
-   - Validate file types before upload
-   - Check file size limits
-   - Handle quota exceeded errors
-   - Retry failed uploads with backoff
-
-## Integration Patterns
-
-### With FastAPI Backend
-```python
-from google import genai
-from fastapi import FastAPI, HTTPException
-
-app = FastAPI()
-client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
-
-@app.post("/search")
-async def search(query: str, store_id: str):
-    response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=query,
-        config={
-            "tools": [{"file_search": {"store_id": store_id}}]
-        }
-    )
-    return {
-        "answer": response.text,
-        "citations": response.candidates[0].grounding_metadata
-    }
-```
-
-### With Next.js Frontend
-```typescript
-// app/api/search/route.ts
-import { GoogleGenAI } from '@google/generative-ai';
-
-export async function POST(request: Request) {
-  const { query, storeId } = await request.json();
-
-  const genai = new GoogleGenAI(process.env.GOOGLE_API_KEY!);
-  const model = genai.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: query }] }],
-    tools: [{ fileSearch: { storeId } }]
-  });
-
-  return Response.json({
-    answer: result.response.text(),
-    citations: result.response.candidates[0].groundingMetadata
-  });
-}
-```
 
 ## Troubleshooting
 
@@ -408,42 +395,33 @@ export async function POST(request: Request) {
 - Check file size (max 100 MB)
 - Verify file type is supported
 - Ensure API key has correct permissions
-- Check storage quota availability
 
 **Issue: Poor search results**
 - Adjust chunking configuration
 - Add relevant metadata for filtering
 - Try different chunk sizes
-- Verify documents indexed successfully
 
 **Issue: Missing citations**
-- Enable grounding in API request
 - Check response for grounding_metadata
 - Ensure store has indexed documents
 - Verify model supports grounding
 
-**Issue: Quota exceeded**
-- Check current storage usage
-- Delete unused stores
-- Upgrade to higher tier
-- Archive old documents
+## Available Templates
 
-## Related Skills
-
-- **embedding-specialist**: For custom embedding strategies
-- **vector-db-engineer**: For alternative vector storage
-- **langchain-specialist**: For LangChain integration
-- **llamaindex-specialist**: For LlamaIndex integration
+- `templates/typescript-client.ts` - Complete TypeScript client
+- `templates/python-client.py` - Complete Python client
+- `templates/store-config.json` - Store configuration
+- `templates/chunking-config.json` - Chunking settings
+- `templates/env.example` - Environment variables
 
 ## References
 
 - **Official Docs**: https://ai.google.dev/gemini-api/docs/file-search
-- **Embeddings Guide**: https://ai.google.dev/gemini-api/docs/embeddings
 - **API Keys**: https://aistudio.google.com/apikey
 - **Filter Syntax**: https://google.aip.dev/160
 
 ## Version
 
-**Skill Version:** 1.0.0
-**Last Updated:** 2025-11-11
-**Compatible With:** Gemini 2.5 Pro/Flash, Google GenAI SDK
+**Skill Version:** 2.0.0
+**Last Updated:** 2026-01-30
+**Compatible With:** Gemini 2.5 Pro/Flash, @google/genai (TS), google-genai (Python)

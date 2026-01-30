@@ -156,8 +156,8 @@
     },
     {
       "name": "rag-pipeline",
-      "description": "Complete RAG pipeline toolkit with LlamaIndex, LangChain, and vector database support",
-      "version": "3.0.0",
+      "description": "Google File Search RAG with TypeScript (@google/genai) and Python (google-genai) SDK support",
+      "version": "3.2.0",
       "author": {
         "name": "AI Dev Marketplace",
         "email": "noreply@ai-dev-marketplace.dev"

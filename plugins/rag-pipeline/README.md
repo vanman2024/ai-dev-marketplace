@@ -17,10 +17,9 @@ This plugin provides a streamlined approach to building RAG systems using Google
 ## Features
 
 - **Store Management** - Create and manage document stores
-- **Document Upload** - Support for PDF, DOCX, HTML, Markdown, text, code
-- **Semantic Search** - Automatic embeddings with configurable top_k
+- **Document Upload** - Support for PDF, DOCX, HTML, Markdown, text, code (100+ types)
+- **Semantic Search** - Automatic embeddings with File Search tool
 - **RAG Generation** - Complete RAG with Gemini and citations
-- **Streaming** - Real-time streaming responses
 - **Metadata Filtering** - Filter search by document attributes
 
 ## Commands
@@ -33,19 +32,28 @@ Build a complete Google File Search RAG system with:
 - Document upload scripts
 - Search API integration
 - RAG endpoint with citations
-- Streaming support
 
 ## Agents
 
-### `@google-file-search-specialist`
+### `@google-file-search-ts`
 
-Expert in Google File Search API implementation:
+TypeScript/JavaScript specialist using `@google/genai` SDK:
 
-- Store management and configuration
-- Document upload and processing
-- Search implementation patterns
-- RAG with Gemini integration
-- FastAPI/Next.js endpoints
+- Store management (`ai.fileSearchStores.create()`)
+- Document upload (`ai.fileSearchStores.uploadToFileSearchStore()`)
+- Semantic search (`ai.models.generateContent()` with fileSearch tool)
+- Next.js API route examples
+- Citation extraction from grounding metadata
+
+### `@google-file-search-py`
+
+Python specialist using `google-genai` SDK:
+
+- Store management (`client.file_search_stores.create()`)
+- Document upload (`client.file_search_stores.upload_to_file_search_store()`)
+- Semantic search (`client.models.generate_content()` with FileSearch tool)
+- FastAPI endpoint examples
+- Citation extraction from grounding metadata
 
 ### `@document-processor`
 
@@ -61,66 +69,123 @@ Multi-format document processing:
 
 ### `google-file-search`
 
-Templates for Google File Search implementation:
+Templates and patterns for both TypeScript and Python:
 
+- Complete client classes
 - Store creation patterns
-- Upload scripts
-- Search queries
-- RAG pipelines
+- Upload with chunking configuration
+- Search with metadata filtering
+- RAG pipelines with citations
 
 ### `document-parsers`
 
-Document parsing utilities:
-
-- PDF extraction
-- DOCX processing
-- HTML cleaning
-- Text normalization
+Document parsing utilities
 
 ### `chunking-strategies`
 
-Chunking configuration for optimal retrieval:
-
-- Size configuration
-- Overlap settings
-- Format-specific strategies
+Chunking configuration for optimal retrieval
 
 ## Quick Start
 
-```python
-from google import genai
+### TypeScript/JavaScript
 
-client = genai.Client()
+```bash
+npm install @google/genai
+```
+
+```typescript
+import { GoogleGenAI } from '@google/genai';
+
+const ai = new GoogleGenAI({ apiKey: process.env.GOOGLE_API_KEY! });
+
+// 1. Create store
+const store = await ai.fileSearchStores.create({
+  config: { displayName: 'my-docs' }
+});
+
+// 2. Upload document (uploads AND indexes)
+let op = await ai.fileSearchStores.uploadToFileSearchStore({
+  file: './document.pdf',
+  fileSearchStoreName: store.name,
+  config: { displayName: 'document.pdf' }
+});
+
+// Wait for indexing
+while (!op.done) {
+  await new Promise(r => setTimeout(r, 2000));
+  op = await ai.operations.get({ operation: op });
+}
+
+// 3. Search with File Search tool
+const response = await ai.models.generateContent({
+  model: 'gemini-2.5-flash',
+  contents: 'How does X work?',
+  config: {
+    tools: [{ fileSearch: { fileSearchStoreNames: [store.name] }}]
+  }
+});
+
+console.log(response.text);
+```
+
+### Python
+
+```bash
+pip install google-genai
+```
+
+```python
+import os
+import time
+from google import genai
+from google.genai import types
+
+client = genai.Client(api_key=os.getenv("GOOGLE_API_KEY"))
 
 # 1. Create store
-store = client.files.create_store(display_name="my-docs")
-
-# 2. Upload documents
-client.files.upload(path="doc.pdf", config={"store_id": store.id})
-
-# 3. Search
-results = client.files.search(
-    store_id=store.id,
-    query="How does X work?",
-    top_k=5
+store = client.file_search_stores.create(
+    config={"display_name": "my-docs"}
 )
 
-# 4. Generate with context
-context = "\n".join([r.content for r in results.results])
+# 2. Upload document (uploads AND indexes)
+operation = client.file_search_stores.upload_to_file_search_store(
+    file="./document.pdf",
+    file_search_store_name=store.name,
+    config={"display_name": "document.pdf"}
+)
+
+# Wait for indexing
+while not operation.done:
+    time.sleep(2)
+    operation = client.operations.get(operation)
+
+# 3. Search with File Search tool
 response = client.models.generate_content(
-    model="gemini-2.0-flash",
-    contents=f"Context:\n{context}\n\nQuestion: How does X work?"
+    model="gemini-2.5-flash",
+    contents="How does X work?",
+    config=types.GenerateContentConfig(
+        tools=[types.Tool(file_search=types.FileSearch(
+            file_search_store_names=[store.name]
+        ))]
+    )
 )
+
+print(response.text)
 ```
 
 ## Documentation
 
 - [Google File Search](https://ai.google.dev/gemini-api/docs/file-search)
-- [Files API](https://ai.google.dev/api/files)
-- [Grounding](https://ai.google.dev/gemini-api/docs/grounding)
+- [API Keys](https://aistudio.google.com/apikey)
 
 ## Requirements
 
+### TypeScript/JavaScript
+```bash
+npm install @google/genai
+```
+
+### Python
 ```bash
 pip install google-genai
 ```
@@ -132,9 +197,14 @@ pip install google-genai
 GOOGLE_API_KEY=your_api_key_here
 ```
 
+## Supported Models
+
+- `gemini-2.5-flash` - Fast responses (recommended)
+- `gemini-2.5-pro` - Complex reasoning
+
 ## Version
 
-2.0.0 - Rebuilt for Google File Search (dropped vector DB support)
+3.0.0 - Rebuilt with official SDK patterns for both TypeScript and Python
 
 ## License
 
