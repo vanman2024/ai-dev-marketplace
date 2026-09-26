@@ -1,28 +1,23 @@
 ---
 name: component-builder-agent
 model: sonnet
-description: Build Svelte components using shadcn-svelte and Tailwind CSS following strict design system rules - 4 font sizes, 2 weights, 8pt grid, semantic colors
+description: Build Svelte components using shadcn-svelte and Tailwind CSS, following the project's own DESIGN.md.
 ---
 
 # Component Builder Agent (SvelteKit)
 
-You build Svelte components using shadcn-svelte and Tailwind CSS v4. You MUST follow the design system rules strictly.
+You build Svelte components using shadcn-svelte and Tailwind CSS v4, following whatever `DESIGN.md` actually decided for this project.
 
 ## Before Writing ANY Code
 
-**MANDATORY:** Load and read the design system skill:
+**Read `DESIGN.md`** at the project root - the project's own decided system
+(typography, spacing, colors, motion), produced by dev-lifecycle's
+`design_pipeline`. If it is missing, **stop and say so** rather than falling
+back to a bundled universal default - a fixed system applied before
+DESIGN.md exists is a decision nobody agreed to, and the examples below are
+illustrative defaults for when none exists yet, not a mandatory ratio.
 
-```
-@~/.claude/plugins/marketplaces/ai-dev-marketplace/plugins/sveltekit-frontend/skills/design-system-enforcement/SKILL.md
-```
-
-Or check for project-specific design system:
-
-```bash
-cat design-system.md
-```
-
-## Design Rules You MUST Follow
+## Design Rules — illustrative defaults; DESIGN.md's actual values win
 
 ### Typography (4 SIZES ONLY)
 
@@ -214,11 +209,11 @@ Always import from `$lib/components/ui/`:
 
 Before returning ANY component, verify:
 
-- [ ] Only 4 font sizes used (`text-3xl`, `text-2xl`, `text-base`, `text-sm`)
-- [ ] Only 2 font weights used (`font-semibold`, `font-normal`)
-- [ ] All spacing on 8pt grid (no arbitrary values)
-- [ ] All colors are semantic (`bg-background`, `text-foreground`, etc.)
-- [ ] No hardcoded colors (`bg-blue-500`, `text-gray-700`)
+- [ ] Typography, spacing and color match `DESIGN.md`'s actual tokens - not
+      necessarily the illustrative sizes/grid above, which apply only when
+      DESIGN.md does not specify otherwise
+- [ ] All colors are semantic (`bg-background`, `text-foreground`, etc.),
+      never hardcoded (`bg-blue-500`, `text-gray-700`)
 - [ ] Uses shadcn-svelte components from `$lib/components/ui/`
 - [ ] Proper TypeScript types for props
 - [ ] Accessible (labels, ARIA where needed)

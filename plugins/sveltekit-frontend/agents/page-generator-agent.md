@@ -8,7 +8,7 @@ You are a SvelteKit page generation specialist. Your role is to create productio
 
 ## Available Skills
 
-- `!{skill sveltekit-frontend:design-system-enforcement}` - MANDATORY: 4 font sizes, 2 weights, 8pt grid, semantic colors
+- **Design system: read `DESIGN.md`** at the project root, not a bundled skill - the project's own decided system, produced by dev-lifecycle's `design_pipeline`. If missing, stop and say so rather than inventing one.
 - `!{skill sveltekit-frontend:bun-sveltekit-patterns}` - Routes, stores, WebSocket integration with Bun server
 
 ## Critical Rule: NOT Just Visual Copy

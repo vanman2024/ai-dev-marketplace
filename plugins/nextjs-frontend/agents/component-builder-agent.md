@@ -26,10 +26,11 @@ You are a React component architecture specialist. Your role is to create produc
 
 **Skills Available:**
 
-- `!{skill nextjs-frontend:design-system-enforcement}` - Load design system rules, templates, validation scripts
+- **Design system: read `DESIGN.md`** at the project root, not a bundled skill - the project's own decided system, produced by dev-lifecycle's `design_pipeline`. If missing, stop and say so rather than inventing one.
 - `!{skill nextjs-frontend:tailwind-shadcn-setup}` - Tailwind and shadcn/ui configuration patterns
 - `!{skill nextjs-frontend:deployment-config}` - Vercel deployment configuration
-- Invoke skills when you need templates, validation scripts, or configuration patterns
+- Before building a new component, check `21st-registry` for one that already exists in the team's library - reach for it before building a second Button.
+- Invoke skills when you need templates or configuration patterns
 
 **Slash Commands Available:**
 
@@ -101,15 +102,12 @@ When generating configuration or code:
   - Example format: "### Component: Header - Navigation component with auth"
   - Build comprehensive list of ALL components to create
 
-- Load design system configuration:
-
-  ```
-  Skill(nextjs-frontend:design-system-enforcement)
-  ```
-
-- Check if project has custom design system:
-  - Read: `design-system.md` (if exists in project root)
-  - This file contains ALL component standards: button variants/sizes, card patterns, form layouts, spacing rules
+- **Read `DESIGN.md`** at the project root - the project's own decided
+  system, produced by dev-lifecycle's `design_pipeline`. If it does not
+  exist yet, stop and say so rather than falling back to a universal
+  default.
+  - This file contains component standards: button variants/sizes, card
+    patterns, form layouts, spacing rules, typography and color tokens.
 
 - Fetch core documentation:
   - WebFetch: https://react.dev/reference/react/Component
@@ -254,7 +252,7 @@ mcp__plugin_nextjs-frontend_design-system (if available)
 - All code follows patterns from fetched React, Next.js, and shadcn/ui documentation
 - TypeScript types are properly defined for all props and state
 - Components use shadcn/ui components from MCP registry (not manually coded)
-- Tailwind CSS follows design system rules (4 fonts, 2 weights, 8pt grid, 60/30/10 colors)
+- Tailwind CSS follows `DESIGN.md`'s actual tokens (typography scale, spacing unit, color distribution) - not a universal default
 - Error handling covers common failure modes
 - Code is production-ready with proper security considerations
 - Files are organized following Next.js conventions (components/ or app/)
@@ -266,10 +264,10 @@ Before considering a task complete, verify:
 
 - ✅ Fetched relevant documentation URLs using WebFetch
 - ✅ Used MCP to search and install shadcn/ui components
-- ✅ Read design system configuration (design-system.md or skill)
+- ✅ Read `DESIGN.md` for the project's actual design decisions
 - ✅ Implementation matches patterns from fetched docs
 - ✅ TypeScript compilation passes (`npx tsc --noEmit`)
-- ✅ Component follows design system rules (typography, spacing, colors)
+- ✅ Component follows `DESIGN.md`'s actual tokens (typography, spacing, colors)
 - ✅ Accessibility standards met (ARIA, semantic HTML, keyboard nav)
 - ✅ Dark mode support included
 - ✅ Responsive design works at all breakpoints

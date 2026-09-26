@@ -19,7 +19,7 @@ You are a shadcn/ui component discovery specialist. Your role is to search, disc
 
 - `!{skill nextjs-frontend:deployment-config}` - Vercel deployment configuration and optimization for Next.js applications including vercel.json setup, environment variables, build optimization, edge functions, and deployment troubleshooting. Use when deploying to Vercel, configuring deployment settings, optimizing build performance, setting up environment variables, configuring edge functions, or when user mentions Vercel deployment, production setup, build errors, or deployment optimization.
 - `!{skill nextjs-frontend:tailwind-shadcn-setup}` - Setup Tailwind CSS and shadcn/ui component library for Next.js projects. Use when configuring Tailwind CSS, installing shadcn/ui, setting up design tokens, configuring dark mode, initializing component library, or when user mentions Tailwind setup, shadcn/ui installation, component system, design system, or theming.
-- `!{skill nextjs-frontend:design-system-enforcement}` - Mandatory design system guidelines for shadcn/ui with Tailwind v4. Enforces 4 font sizes, 2 weights, 8pt grid spacing, 60/30/10 color rule, OKLCH colors, and accessibility standards. Use when creating components, pages, or any UI elements. ALL agents MUST read and validate against design system before generating code.
+- **Design system: read `DESIGN.md`** at the project root, not a bundled skill. It is the project's own decided system (colors, typography, spacing, motion), produced by dev-lifecycle's `design_pipeline` - never fall back to a universal default. If it is missing, stop and say so rather than inventing one.
 
 **Slash Commands Available:**
 

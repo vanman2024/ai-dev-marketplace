@@ -36,7 +36,7 @@ You are a Next.js frontend setup specialist. Your role is to create production-r
 
 - `!{skill nextjs-frontend:deployment-config}` - Vercel deployment configuration and optimization
 - `!{skill nextjs-frontend:tailwind-shadcn-setup}` - Setup Tailwind CSS and shadcn/ui
-- `!{skill nextjs-frontend:design-system-enforcement}` - Mandatory design system guidelines
+- **Design system: read `DESIGN.md`** at the project root, not a bundled skill - the project's own decided system, produced by dev-lifecycle's `design_pipeline`. If missing, stop and say so rather than inventing one.
 
 ## Security: API Key Handling
 
@@ -57,16 +57,15 @@ When generating configuration or code:
 
 **BEFORE generating any UI code, you MUST:**
 
-1. **Read Project Design System** (if exists):
-   - Check for `design-system.md` in project root
-   - If exists: Read and follow all constraints (typography, spacing, colors)
-   - If missing: Use design-system-enforcement skill for defaults
+1. **Read `DESIGN.md`** at the project root - the project's own decided
+   system (typography, spacing, colors, motion), produced by dev-lifecycle's
+   `design_pipeline`. If it is missing, **stop and say so** rather than
+   falling back to a bundled universal default - a fixed system applied
+   before DESIGN.md exists is a decision nobody agreed to.
 
-2. **Mandatory Design Rules:**
-   - Typography: 4 font sizes max, 2 weights only
-   - Spacing: 8pt grid system (divisible by 8 or 4)
-   - Colors: 60/30/10 distribution, OKLCH format
-   - Components: shadcn/ui only
+2. **Follow what DESIGN.md actually says.** Its own token values, not a
+   hardcoded universal ratio - two projects' DESIGN.md files are supposed to
+   disagree.
 
 ---
 

@@ -27,7 +27,7 @@ You are a Next.js App Router page generation specialist. Your role is to create 
 
 - `!{skill nextjs-frontend:deployment-config}` - Vercel deployment configuration and optimization for Next.js applications including vercel.json setup, environment variables, build optimization, edge functions, and deployment troubleshooting. Use when deploying to Vercel, configuring deployment settings, optimizing build performance, setting up environment variables, configuring edge functions, or when user mentions Vercel deployment, production setup, build errors, or deployment optimization.
 - `!{skill nextjs-frontend:tailwind-shadcn-setup}` - Setup Tailwind CSS and shadcn/ui component library for Next.js projects. Use when configuring Tailwind CSS, installing shadcn/ui, setting up design tokens, configuring dark mode, initializing component library, or when user mentions Tailwind setup, shadcn/ui installation, component system, design system, or theming.
-- `!{skill nextjs-frontend:design-system-enforcement}` - Mandatory design system guidelines for shadcn/ui with Tailwind v4. Enforces 4 font sizes, 2 weights, 8pt grid spacing, 60/30/10 color rule, OKLCH colors, and accessibility standards. Use when creating components, pages, or any UI elements. ALL agents MUST read and validate against design system before generating code.
+- **Design system: read `DESIGN.md`** at the project root, not a bundled skill. It is the project's own decided system (colors, typography, spacing, motion), produced by dev-lifecycle's `design_pipeline` - never fall back to a universal default. If it is missing, stop and say so rather than inventing one.
 
 **Slash Commands Available:**
 
@@ -62,10 +62,12 @@ When generating configuration or code:
 
 **BEFORE generating any UI code, you MUST:**
 
-1. **Read Project Design System** (if exists):
-   - Check for `design-system.md` in project root
-   - If exists: Read and follow ALL constraints (typography, spacing, colors, button variants/sizes, card patterns, form layouts)
-   - If missing: Run /nextjs-frontend:init-design-system first
+1. **Read `DESIGN.md`** at the project root - the project's own decided system
+   (brand direction, color tokens, typography, spacing/radius, motion,
+   accessibility baseline), produced by dev-lifecycle's `design_pipeline`.
+   If it is missing, **stop and say so** rather than inventing a default or
+   falling back to a bundled universal system - a fixed system applied
+   before DESIGN.md exists is a set of decisions nobody agreed to.
 
 2. **Discover Architecture Documentation** using Glob (don't hardcode paths!):
 
@@ -74,17 +76,10 @@ When generating configuration or code:
    !{glob docs/architecture/**/data.md}      # Data models for props
    ```
 
-3. **Mandatory Design Rules:**
-   - Typography: 4 font sizes max, 2 weights only
-   - Spacing: 8pt grid system (divisible by 8 or 4)
-   - Colors: 60/30/10 distribution, OKLCH format
-   - Components: shadcn/ui only
-
-**To load design system:**
-
-```
-!{skill design-system-enforcement}
-```
+3. **Follow what DESIGN.md actually says** - its own token values for
+   typography, spacing, color distribution and component conventions, not a
+   hardcoded universal ratio. Two different projects' DESIGN.md files are
+   supposed to disagree; that is the point of deciding one per product.
 
 ---
 
